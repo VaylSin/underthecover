@@ -1,0 +1,122 @@
+// This is an empty scss file for your custom styles - Please add your super duper awesome mega design styles here
+body {
+	font-family: "Plus Jakarta Sans", sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "SUSE", sans-serif;
+}
+.custom-logo-link {
+	img {
+		max-height: 4rem;
+		width: auto;
+	}
+}
+.fullscreen-slider {
+	min-height: 100vh;
+	width: 100vw;
+	overflow: hidden;
+	position: relative;
+}
+.fullscreen-slider .carousel-item img {
+	object-fit: cover;
+	width: 100vw;
+	height: 100vh;
+}
+#wrapper-navbar {
+	// position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 10;
+	background: transparent !important;
+}
+.menu_container {
+	li {
+		margin: 0 0.5rem;
+		a {
+			// color: #fff !important;
+			color: $black-main;
+			font-weight: 600;
+			font-size: 0.8rem;
+			text-transform: uppercase;
+			text-decoration: none;
+			transition: color 0.2s ease;
+			&:hover {
+				color: $velvet;
+			}
+		}
+	}
+}
+.carousel-caption {
+	h2 {
+		color: $white;
+		text-transform: uppercase;
+		font-size: 3rem;
+	}
+	p {
+		color: $white;
+		font-size: 1.5rem;
+	}
+	a {
+		color: $black-main;
+		font-size: 1rem;
+		text-transform: uppercase;
+		text-decoration: none;
+		transition: color 0.5s ease;
+	}
+	.product_item .card-img-top {
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
+		width: 100%;
+		height: auto;
+		min-height: 250px;
+		max-height: 400px;
+		background: #f8f8f8;
+		transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.product_item.card,
+	.product_item .card {
+		border: none;
+		border-radius: 0;
+	}
+
+	.product_item .card-title {
+		font-size: 1rem; // ou moins selon ton besoin
+		font-weight: 600;
+	}
+
+	.product_item .price {
+		font-size: 0.9rem; // ou moins selon ton besoin
+		font-weight: 500;
+	}
+	.product_item:hover .card-img-top {
+		transform: scale(1.06);
+	}
+}
+// Supprime tous les border-radius des cards, boutons et containers
+.card,
+.card-img-top,
+.card-body,
+.card-footer,
+.btn,
+.container,
+.carousel,
+.carousel-inner,
+.carousel-item,
+.carousel-caption,
+input,
+textarea,
+select {
+	border-radius: 0 !important;
+}
+.best_sellers {
+	.card {
+		border: none !important;
+	}
+}
