@@ -324,3 +324,32 @@ if ( ! function_exists( 'understrap_default_navbar_type' ) ) {
 	}
 }
 add_filter( 'theme_mod_understrap_navbar_type', 'understrap_default_navbar_type', 20 );
+
+/**
+ * Affiche les étoiles de notation pour un produit
+ *
+ * @param float $rating Note moyenne du produit (sur 5)
+ * @param int $count Nombre d'avis
+ * @return string HTML des étoiles
+ */
+function silklane_get_star_rating_html($rating, $count = 0) {
+    $html = '<div class="star-rating-custom">';
+
+    // Affiche 5 étoiles
+    for ($i = 1; $i <= 5; $i++) {
+        if ($rating >= $i) {
+            // Étoile pleine
+            $html .= '<span class="star star-full"><i class="bi bi-star-fill"></i></span>';
+        } elseif ($rating >= $i - 0.5) {
+            // Demi-étoile
+            $html .= '<span class="star star-half"><i class="bi bi-star-half"></i></span>';
+        } else {
+            // Étoile vide
+            $html .= '<span class="star star-empty"><i class="bi bi-star"></i></span>';
+        }
+    }
+
+    $html .= '</div>';
+
+    return $html;
+}

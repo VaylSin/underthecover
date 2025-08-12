@@ -56,7 +56,7 @@ get_header();
 </section>
 <div class="spacer-10"></div>
 <section class="best_sellers container-xxl">
-	<h3 class="text-center mb-5">Nos Best Sellers</h3>
+	<h3 class="text-center mb-4">Nos Best Sellers</h3>
     <div class="row g-4">
         <?php
         // Query pour les 3 meilleures ventes
@@ -102,6 +102,12 @@ get_header();
 
                                 <?php if (isset($product) && is_object($product)) : ?>
                                     <p class="price mb-0"><?php echo $product->get_price_html(); ?></p>
+
+                                    <!-- Ajout des étoiles et du nombre d'avis -->
+                                    <div class="product-rating d-flex align-items-center gap-2">
+                                        <?php echo silklane_get_star_rating_html($product->get_average_rating(), $product->get_rating_count()); ?>
+                                        <span class="rating-count small text-muted">(<?php echo $product->get_rating_count(); ?>)</span>
+                                    </div>
                                 <?php endif; ?>
                             </div>
                         </a>
@@ -124,7 +130,36 @@ get_header();
         </a>
     </div>
 </section>
+<div class="spacer-10"></div>
 
+<section class="parallax-banner selection_moment container-fluid" style="background-image: url('<?php echo esc_url(get_field('infographie')['url'] ?? ''); ?>');">
+    <div class="overlay"></div>
+    <div class="container-xxl position-relative d-flex align-items-center" >
+        <div class="row w-100 ms-5 align-items-center">
+            <div class="col-md-4 text-start text-white parallax-content">
+                <?php if($titre = get_field('titre')): ?>
+                    <h2 class="mb-4 text-uppercase"><?php echo esc_html($titre); ?></h2>
+                <?php endif; ?>
+
+                <?php if($texte = get_field('contenu_texte')): ?>
+                    <div class="mb-4"><?php echo wp_kses_post($texte); ?></div>
+                <?php endif; ?>
+
+                <?php
+                $lien_produit = get_field('lien_produit');
+                $texte_bouton = get_field('texte_bouton') ?: 'Découvrir';
+
+                if($lien_produit):
+                    $url = is_array($lien_produit) ? get_permalink($lien_produit[0]) : get_permalink($lien_produit);
+                ?>
+                    <a href="<?php echo esc_url($url); ?>" class="btn w-100 btn-bloom py-2 px-4 text-uppercase">
+                        <?php echo esc_html($texte_bouton); ?>
+                    </a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</section>
 <?php
 get_footer();
 ?>
