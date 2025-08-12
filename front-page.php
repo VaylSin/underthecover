@@ -54,8 +54,9 @@ get_header();
 </div>
 <?php endif; ?>
 </section>
-<section class="best_sellers container py-5">
-    <h2 class="text-uppercase font-weight-bold"	>Nos Best-Sellers</h2>
+<div class="spacer-10"></div>
+<section class="best_sellers container-xxl">
+	<h3 class="text-center mb-5">Nos Best Sellers</h3>
     <div class="row g-4">
         <?php
         // Query pour les 3 meilleures ventes
@@ -72,23 +73,37 @@ get_header();
                 global $product;
                 ?>
                 <div class="col-12 col-md-4">
-                    <div class="card  product_item">
+                    <div class="card product_item">
                         <a href="<?php the_permalink(); ?>" class="text-decoration-none text-dark">
-                            <?php the_post_thumbnail('large', [
-																	'class' => 'card-img-top object-fit-cover',
-																	'style' => 'aspect-ratio:1/1;object-fit:cover;width:100%;'
-															]); ?>
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <h3 class="card-title h6 mb-0"><?php the_title(); ?></h3>
-																<?php if (isset($product) && is_object($product)) : ?>
-																		<p class="price mb-0 fw-bold h6"><?php echo $product->get_price_html(); ?></p>
-																<?php endif; ?>
+                            <div class="img-container overflow-hidden position-relative">
+                                <?php the_post_thumbnail('large', [
+                                    'class' => 'card-img-top object-fit-cover',
+                                    'style' => 'aspect-ratio:1/1;object-fit:cover;width:100%;'
+                                ]); ?>
+
+                                <!-- Bouton qui apparaîtra au survol -->
+                                <div class="btn-overlay">
+                                    <button class="btn btn-bloom py-2 px-4 text-uppercase font-weight-bold">Voir le produit</button>
+                                </div>
                             </div>
-														<div class=" text-center">
-																<a href="<?php the_permalink(); ?>" class="text-decoration-none">
-																	<button class="btn btn-bloom py-2 px-4 w-100 text-uppercase font-weight-bold">Voir le produit</button>
-																</a>
-														</div>
+
+                            <div class="card-body d-flex flex-column align-items-center gap-3">
+                                <h3 class="card-title h5 mb-0"><?php the_title(); ?></h3>
+
+                                <!-- Description courte -->
+                                <?php if (isset($product) && is_object($product) && method_exists($product, 'get_short_description')) : ?>
+                                    <p class="card-text mb-0 text-center small">
+                                        <?php
+                                        $short_description = $product->get_short_description();
+                                        echo wp_trim_words($short_description, 15, '...');
+                                        ?>
+                                    </p>
+                                <?php endif; ?>
+
+                                <?php if (isset($product) && is_object($product)) : ?>
+                                    <p class="price mb-0"><?php echo $product->get_price_html(); ?></p>
+                                <?php endif; ?>
+                            </div>
                         </a>
                     </div>
                 </div>
@@ -97,6 +112,16 @@ get_header();
             wp_reset_postdata();
         endif;
         ?>
+    </div>
+
+    <!-- Lien "Voir tous les produits" -->
+    <div class="text-center mt-5">
+        <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="view-all-link">
+            tous les produits
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+            </svg>
+        </a>
     </div>
 </section>
 

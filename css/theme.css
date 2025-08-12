@@ -677,7 +677,7 @@ progress {
 }
 @media (min-width: 1400px) {
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
-    max-width: 1320px;
+    max-width: 1600px;
   }
 }
 .row {
@@ -12601,7 +12601,7 @@ body.understrap-no-sidebar .wp-block-cover.alignfull .wp-block-cover__inner-cont
   body.understrap-no-sidebar .alignfull .wp-block-cover__inner-container,
   body.understrap-no-sidebar .wp-block-cover.alignwide .wp-block-cover__inner-container,
   body.understrap-no-sidebar .wp-block-cover.alignfull .wp-block-cover__inner-container {
-    max-width: 1320px;
+    max-width: 1600px;
   }
 }
 body.understrap-no-sidebar .alignwide,
@@ -15760,20 +15760,6 @@ h6,
   width: auto;
 }
 
-.fullscreen-slider {
-  min-height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  position: relative;
-}
-
-.fullscreen-slider .carousel-item img {
-  -o-object-fit: cover;
-  object-fit: cover;
-  width: 100vw;
-  height: 100vh;
-}
-
 #wrapper-navbar {
   top: 0;
   left: 0;
@@ -15797,6 +15783,19 @@ h6,
   color: #bc3365;
 }
 
+.fullscreen-slider {
+  min-height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+}
+.fullscreen-slider .carousel-item img {
+  -o-object-fit: cover;
+  object-fit: cover;
+  width: 100vw;
+  height: 100vh;
+}
+
 .carousel-caption h2, .carousel-caption .h2 {
   color: #fff;
   text-transform: uppercase;
@@ -15813,32 +15812,59 @@ h6,
   text-decoration: none;
   transition: color 0.5s ease;
 }
-.carousel-caption .product_item .card-img-top {
+
+.product_item.card,
+.product_item .card {
+  border: none;
+}
+.product_item .img-container {
+  overflow: hidden;
   aspect-ratio: 1/1;
+  position: relative;
+}
+.product_item .img-container .btn-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding-bottom: 1rem;
+}
+.product_item .img-container .btn-overlay .btn, .product_item .img-container .btn-overlay .wpcf7 input[type=submit], .wpcf7 .product_item .img-container .btn-overlay input[type=submit], .product_item .img-container .btn-overlay .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-notices-wrapper .woocommerce-message .product_item .img-container .btn-overlay a.button, .product_item .img-container .btn-overlay .woocommerce-info a.button, .woocommerce-info .product_item .img-container .btn-overlay a.button {
+  width: 95%;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  text-align: center;
+}
+.product_item .card-img-top {
+  width: 100%;
+  height: 100%;
   -o-object-fit: cover;
   object-fit: cover;
-  width: 100%;
-  height: auto;
-  min-height: 250px; /* ou la taille que tu veux pour le carré */
-  max-height: 400px;
   background: #f8f8f8;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.carousel-caption .product_item.card,
-.carousel-caption .product_item .card {
-  border: none;
-  border-radius: 0;
+.product_item:hover .card-img-top {
+  transform: scale(1.06);
 }
-.carousel-caption .product_item .card-title {
-  font-size: 1rem;
+.product_item:hover .btn-overlay {
+  opacity: 1;
+}
+.product_item:hover .btn-overlay .btn, .product_item:hover .btn-overlay .wpcf7 input[type=submit], .wpcf7 .product_item:hover .btn-overlay input[type=submit], .product_item:hover .btn-overlay .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-notices-wrapper .woocommerce-message .product_item:hover .btn-overlay a.button, .product_item:hover .btn-overlay .woocommerce-info a.button, .woocommerce-info .product_item:hover .btn-overlay a.button {
+  transform: translateY(0);
+}
+.product_item h3, .product_item .h3 {
   font-weight: 600;
 }
-.carousel-caption .product_item .price {
-  font-size: 0.9rem;
-  font-weight: 500;
-}
-.carousel-caption .product_item:hover .card-img-top {
-  transform: scale(1.06);
+
+.best_sellers .card {
+  border: none !important;
 }
 
 .card,
@@ -15860,8 +15886,382 @@ select {
   border-radius: 0 !important;
 }
 
-.best_sellers .card {
-  border: none !important;
+.view-all-link {
+  display: inline-flex;
+  align-items: center;
+  background-color: #272727;
+  color: #fff;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #272727;
+  transition: all 0.2s ease;
+}
+.view-all-link svg {
+  margin-left: 0.5rem;
+  transition: transform 0.2s ease;
+}
+.view-all-link:hover {
+  background-color: #fbd2da;
+  color: #272727;
+  border-color: #fbd2da;
+}
+.view-all-link:hover svg {
+  transform: translateX(4px);
+}
+
+.spacer-0 {
+  margin-bottom: 0rem;
+}
+
+.spacer-t-0 {
+  margin-top: 0rem;
+}
+
+.spacer-b-0 {
+  margin-bottom: 0rem;
+}
+
+.spacer-l-0 {
+  margin-left: 0rem;
+}
+
+.spacer-r-0 {
+  margin-right: 0rem;
+}
+
+.p-spacer-0 {
+  padding: 0rem;
+}
+
+.p-spacer-t-0 {
+  padding-top: 0rem;
+}
+
+.p-spacer-b-0 {
+  padding-bottom: 0rem;
+}
+
+.spacer-1 {
+  margin-bottom: 0.5rem;
+}
+
+.spacer-t-1 {
+  margin-top: 0.5rem;
+}
+
+.spacer-b-1 {
+  margin-bottom: 0.5rem;
+}
+
+.spacer-l-1 {
+  margin-left: 0.5rem;
+}
+
+.spacer-r-1 {
+  margin-right: 0.5rem;
+}
+
+.p-spacer-1 {
+  padding: 0.5rem;
+}
+
+.p-spacer-t-1 {
+  padding-top: 0.5rem;
+}
+
+.p-spacer-b-1 {
+  padding-bottom: 0.5rem;
+}
+
+.spacer-2 {
+  margin-bottom: 1rem;
+}
+
+.spacer-t-2 {
+  margin-top: 1rem;
+}
+
+.spacer-b-2 {
+  margin-bottom: 1rem;
+}
+
+.spacer-l-2 {
+  margin-left: 1rem;
+}
+
+.spacer-r-2 {
+  margin-right: 1rem;
+}
+
+.p-spacer-2 {
+  padding: 1rem;
+}
+
+.p-spacer-t-2 {
+  padding-top: 1rem;
+}
+
+.p-spacer-b-2 {
+  padding-bottom: 1rem;
+}
+
+.spacer-3 {
+  margin-bottom: 1.5rem;
+}
+
+.spacer-t-3 {
+  margin-top: 1.5rem;
+}
+
+.spacer-b-3 {
+  margin-bottom: 1.5rem;
+}
+
+.spacer-l-3 {
+  margin-left: 1.5rem;
+}
+
+.spacer-r-3 {
+  margin-right: 1.5rem;
+}
+
+.p-spacer-3 {
+  padding: 1.5rem;
+}
+
+.p-spacer-t-3 {
+  padding-top: 1.5rem;
+}
+
+.p-spacer-b-3 {
+  padding-bottom: 1.5rem;
+}
+
+.spacer-4 {
+  margin-bottom: 2rem;
+}
+
+.spacer-t-4 {
+  margin-top: 2rem;
+}
+
+.spacer-b-4 {
+  margin-bottom: 2rem;
+}
+
+.spacer-l-4 {
+  margin-left: 2rem;
+}
+
+.spacer-r-4 {
+  margin-right: 2rem;
+}
+
+.p-spacer-4 {
+  padding: 2rem;
+}
+
+.p-spacer-t-4 {
+  padding-top: 2rem;
+}
+
+.p-spacer-b-4 {
+  padding-bottom: 2rem;
+}
+
+.spacer-5 {
+  margin-bottom: 2.5rem;
+}
+
+.spacer-t-5 {
+  margin-top: 2.5rem;
+}
+
+.spacer-b-5 {
+  margin-bottom: 2.5rem;
+}
+
+.spacer-l-5 {
+  margin-left: 2.5rem;
+}
+
+.spacer-r-5 {
+  margin-right: 2.5rem;
+}
+
+.p-spacer-5 {
+  padding: 2.5rem;
+}
+
+.p-spacer-t-5 {
+  padding-top: 2.5rem;
+}
+
+.p-spacer-b-5 {
+  padding-bottom: 2.5rem;
+}
+
+.spacer-6 {
+  margin-bottom: 3rem;
+}
+
+.spacer-t-6 {
+  margin-top: 3rem;
+}
+
+.spacer-b-6 {
+  margin-bottom: 3rem;
+}
+
+.spacer-l-6 {
+  margin-left: 3rem;
+}
+
+.spacer-r-6 {
+  margin-right: 3rem;
+}
+
+.p-spacer-6 {
+  padding: 3rem;
+}
+
+.p-spacer-t-6 {
+  padding-top: 3rem;
+}
+
+.p-spacer-b-6 {
+  padding-bottom: 3rem;
+}
+
+.spacer-7 {
+  margin-bottom: 3.5rem;
+}
+
+.spacer-t-7 {
+  margin-top: 3.5rem;
+}
+
+.spacer-b-7 {
+  margin-bottom: 3.5rem;
+}
+
+.spacer-l-7 {
+  margin-left: 3.5rem;
+}
+
+.spacer-r-7 {
+  margin-right: 3.5rem;
+}
+
+.p-spacer-7 {
+  padding: 3.5rem;
+}
+
+.p-spacer-t-7 {
+  padding-top: 3.5rem;
+}
+
+.p-spacer-b-7 {
+  padding-bottom: 3.5rem;
+}
+
+.spacer-8 {
+  margin-bottom: 4rem;
+}
+
+.spacer-t-8 {
+  margin-top: 4rem;
+}
+
+.spacer-b-8 {
+  margin-bottom: 4rem;
+}
+
+.spacer-l-8 {
+  margin-left: 4rem;
+}
+
+.spacer-r-8 {
+  margin-right: 4rem;
+}
+
+.p-spacer-8 {
+  padding: 4rem;
+}
+
+.p-spacer-t-8 {
+  padding-top: 4rem;
+}
+
+.p-spacer-b-8 {
+  padding-bottom: 4rem;
+}
+
+.spacer-9 {
+  margin-bottom: 4.5rem;
+}
+
+.spacer-t-9 {
+  margin-top: 4.5rem;
+}
+
+.spacer-b-9 {
+  margin-bottom: 4.5rem;
+}
+
+.spacer-l-9 {
+  margin-left: 4.5rem;
+}
+
+.spacer-r-9 {
+  margin-right: 4.5rem;
+}
+
+.p-spacer-9 {
+  padding: 4.5rem;
+}
+
+.p-spacer-t-9 {
+  padding-top: 4.5rem;
+}
+
+.p-spacer-b-9 {
+  padding-bottom: 4.5rem;
+}
+
+.spacer-10 {
+  margin-bottom: 5rem;
+}
+
+.spacer-t-10 {
+  margin-top: 5rem;
+}
+
+.spacer-b-10 {
+  margin-bottom: 5rem;
+}
+
+.spacer-l-10 {
+  margin-left: 5rem;
+}
+
+.spacer-r-10 {
+  margin-right: 5rem;
+}
+
+.p-spacer-10 {
+  padding: 5rem;
+}
+
+.p-spacer-t-10 {
+  padding-top: 5rem;
+}
+
+.p-spacer-b-10 {
+  padding-bottom: 5rem;
 }
 
 /*# sourceMappingURL=theme.css.map */

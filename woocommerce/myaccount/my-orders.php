@@ -24,8 +24,8 @@ $customer_orders = get_posts(
 		'woocommerce_my_account_my_orders_query',
 		array(
 			'numberposts' => $order_count,
-			'meta_key'    => '_customer_user', // phpcs:ignore WordPress.DB.SlowDBQuery
-			'meta_value'  => get_current_user_id(), // phpcs:ignore WordPress.DB.SlowDBQuery
+			'meta_key'    => '_customer_user',
+			'meta_value'  => get_current_user_id(),
 			'post_type'   => wc_get_order_types( 'view-orders' ),
 			'post_status' => array_keys( wc_get_order_statuses() ),
 		)
@@ -36,7 +36,7 @@ if ( $customer_orders ) : ?>
 
 	<h2><?php echo apply_filters( 'woocommerce_my_account_my_orders_title', esc_html__( 'Recent orders', 'woocommerce' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></h2>
 
-	<table class="shop_table shop_table_responsive my_account_orders table-hover table-striped">
+	<table class="shop_table shop_table_responsive my_account_orders">
 
 		<thead>
 			<tr>
@@ -81,7 +81,7 @@ if ( $customer_orders ) : ?>
 
 								if ( ! empty( $actions ) ) {
 									foreach ( $actions as $key => $action ) { // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-										echo '<a href="' . esc_url( $action['url'] ) . '" class=""btn btn-outline-primary ' . sanitize_html_class( $key ) . '">' . esc_html( $action['name'] ) . '</a>';
+										echo '<a href="' . esc_url( $action['url'] ) . '" class="button ' . sanitize_html_class( $key ) . '">' . esc_html( $action['name'] ) . '</a>';
 									}
 								}
 								?>
@@ -92,5 +92,4 @@ if ( $customer_orders ) : ?>
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	<?php
-	endif;
+<?php endif; ?>

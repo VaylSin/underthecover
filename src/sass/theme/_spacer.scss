@@ -1,0 +1,41 @@
+// Mixin pour les spacers
+@mixin generate-spacers($max: 10, $unit: 0.5rem) {
+	@for $i from 0 through $max {
+		.spacer-#{$i} {
+			margin-bottom: $i * $unit;
+		}
+
+		// Variantes pour les marges dans différentes directions
+		.spacer-t-#{$i} {
+			margin-top: $i * $unit;
+		}
+
+		.spacer-b-#{$i} {
+			margin-bottom: $i * $unit;
+		}
+
+		.spacer-l-#{$i} {
+			margin-left: $i * $unit;
+		}
+
+		.spacer-r-#{$i} {
+			margin-right: $i * $unit;
+		}
+
+		// Variante pour le padding
+		.p-spacer-#{$i} {
+			padding: $i * $unit;
+		}
+
+		.p-spacer-t-#{$i} {
+			padding-top: $i * $unit;
+		}
+
+		.p-spacer-b-#{$i} {
+			padding-bottom: $i * $unit;
+		}
+	}
+}
+
+// Utilisation de la mixin pour générer les classes
+@include generate-spacers();
