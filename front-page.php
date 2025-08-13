@@ -3,67 +3,71 @@ get_header();
 ?>
 <section class="slider_container">
 <?php if( have_rows('slider') ) : ?>
-	<!-- data-bs-interval="5000"-->
-<div id="main-slider" class="carousel slide carousel-fade fullscreen-slider" data-bs-ride="carousel" >
+<div id="main-slider" class="carousel slide carousel-fade fullscreen-slider" data-bs-ride="carousel">
   <div class="carousel-inner">
     <?php $i = 0; while( have_rows('slider') ) : the_row();
       $image = get_sub_field('image');
-	  $titre_slide = get_sub_field('titre_du_slide');
+      $titre_slide = get_sub_field('titre_du_slide');
       $phrase = get_sub_field('phrase_daccroche');
       $lien = get_sub_field('lien_fiche_produit');
       $texte_bouton = get_sub_field('texte_bouton_lien');
+      if (is_array($lien) || is_object($lien)) {
+        $url = get_permalink(is_array($lien) ? $lien[0] : $lien);
+      } else {
+        $url = $lien;
+      }
     ?>
-    <div class="carousel-item<?php if($i == 0) echo ' active'; ?>">
+    <div class="carousel-item<?php if($i == 0) echo ' active'; ?>" style="position:relative;">
       <?php if($image): ?>
-        <img src="<?php echo esc_url($image['url']); ?>" class="d-block w-100 object-fit-cover" alt="<?php echo esc_attr($image['alt']); ?>">
-	<div class="slider-overlay"></div>
-
+        <img src="<?php echo esc_url($image['url']); ?>" class="d-block w-100 object-fit-cover" alt="<?php echo esc_attr($image['alt']); ?>" draggable="false">
+        <div class="slider-overlay"></div>
       <?php endif; ?>
-
-      <div class="container-xxl h-100 ">
+      <div class="container-xxl h-100">
         <div class="row h-100 align-items-center">
-          <div class="col-md-6 offset-md-2 text-start text-white">
-			  <?php if($phrase): ?>
-				<h5 class="fw-bold text-uppercase"><?php echo esc_html($phrase); ?></h5>
-				<?php endif; ?>
-				<?php if($titre_slide): ?>
-				  <h2 class="fw-light text-uppercase"><?php echo esc_html($titre_slide); ?></h2>
-				<?php endif; ?>
-            <?php
-            // Si c'est un champ URL, $lien est déjà une string
-            // Si c'est un Post Object, il faut récupérer le permalien
-            // Si le champ est un Post Object (tableau ou objet)
-            if ($lien && $texte_bouton) {
-                if (is_array($lien) || is_object($lien)) {
-                    $url = get_permalink(is_array($lien) ? $lien[0] : $lien);
-                } else {
-                    $url = $lien;
-                }
-                ?>
-                <a href="<?php echo esc_url($url); ?>" class="btn view-all-link px-4 py-2 text-uppercase">
-                    <?php echo esc_html($texte_bouton); ?>
-                </a>
-            <?php } ?>
+          <div class="col-md-4 offset-md-2 text-start text-white">
+            <?php if($phrase): ?>
+              <h5 class="fw-bold text-uppercase"><?php echo esc_html($phrase); ?></h5>
+            <?php endif; ?>
+            <?php if($titre_slide): ?>
+              <h2 class="fw-light text-uppercase"><?php echo esc_html($titre_slide); ?></h2>
+            <?php endif; ?>
+            <?php if($lien && $texte_bouton): ?>
+              <a href="<?php echo esc_url($url); ?>" class="btn view-all-link px-4 py-2 text-uppercase mt-3">
+                <?php echo esc_html($texte_bouton); ?>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                </svg>
+              </a>
+            <?php endif; ?>
           </div>
         </div>
       </div>
     </div>
     <?php $i++; endwhile; ?>
   </div>
+
+  <!-- Flèches Bootstrap -->
   <button class="carousel-control-prev" type="button" data-bs-target="#main-slider" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Précédent</span>
   </button>
   <button class="carousel-control-next" type="button" data-bs-target="#main-slider" data-bs-slide="next">
-    <span class="carousel-control-next-icon"></span>
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Suivant</span>
   </button>
+
+  <!-- Dots personnalisés -->
+  <div class="slider-dots d-flex justify-content-center align-items-center gap-3 position-absolute w-100" style="bottom: 32px; left:0; z-index:10;">
+    <?php for($j=0; $j<$i; $j++): ?>
+      <div class="slider-dot<?php echo $j === 0 ? ' active' : ''; ?>"></div>
+    <?php endfor; ?>
+  </div>
 </div>
 <?php endif; ?>
 </section>
 <div class="spacer-10"></div>
 <section class="best_sellers container-xxl">
-	<h3 class="text-center mb-4">Nos Best Sellers</h3>
+    <h3 class="text-center mb-4">Nos Best Sellers</h3>
     <div class="row g-4">
         <?php
         // Query pour les 3 meilleures ventes
@@ -155,6 +159,9 @@ get_header();
                 <?php endif; ?>
 				<a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="btn view-all-link py-2 px-4 text-uppercase">
 					Aller à la boutique
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+					</svg>
 				</a>
             </div>
         </div>
@@ -164,13 +171,10 @@ get_header();
 <section class="boutique_categories py-5">
     <div class="container-xxl">
         <h3 class="text-center mb-5">Nos produits par catégorie</h3>
-
-        <!-- Nouveau carousel avec structure correcte -->
         <div id="categories-carousel" class="carousel slide categories-carousel" data-bs-ride="false" data-bs-interval="false">
             <div class="carousel-inner">
                 <div class="carousel-row">
                     <?php
-                    // Récupérer toutes les catégories de produits
                     $product_categories = get_terms(array(
                         'taxonomy'   => 'product_cat',
                         'hide_empty' => true
@@ -200,8 +204,6 @@ get_header();
                     ?>
                 </div>
             </div>
-
-            <!-- Contrôles du carousel -->
             <div class="carousel-controls">
                 <button class="carousel-control-prev" type="button" data-bs-target="#categories-carousel" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -220,31 +222,32 @@ get_header();
     <div class="container-xxl d-flex justify-content-center align-items-center" style="min-height: 500px;">
         <div class="text-center col-md-8 mx-auto text-white">
             <?php if($texte_accroche = get_field('phrase_daccroche_bloc_charte')): ?>
-                <h3 class="mb-4 text-uppercase fw-bold"><?php echo $texte_accroche; ?></h3>
+                <h2 class="mb-4 text-uppercase fw-bold"><?php echo $texte_accroche; ?></h2>
             <?php endif;
-			if($texte = get_field('contenu_texte_charte')): ?>
-                <div class="mb-4 fw-lighter fs-5"><?php echo wp_kses_post($texte); ?></div>
+            if($texte = get_field('contenu_texte_charte')): ?>
+                <?php echo wp_kses_post($texte); ?>
             <?php endif;
             $lien = get_field('lien_page_charte');
             $texte_bouton = get_field('texte_cta_charte');
             if($lien && $texte_bouton):
-                if ($lien && $texte_bouton) {
-					if (is_array($lien) || is_object($lien)) {
-						$url = get_permalink(is_array($lien) ? $lien[0] : $lien);
-					} else {
-						$url = $lien;
-					}
-					?>
-					<a href="<?php echo esc_url($url); ?>" class="btn view-all-link px-4 py-2 text-uppercase">
-						<?php echo esc_html($texte_bouton); ?>
-					</a>
-				<?php } ?>
+
+                if (is_array($lien) || is_object($lien)) {
+                    $url = get_permalink(is_array($lien) ? $lien[0] : $lien);
+                } else {
+                    $url = $lien;
+                }?>
+                <a href="<?php echo esc_url($url); ?>" class="btn view-all-link px-4 py-2 text-uppercase mt-3">
+                    <?php echo esc_html($texte_bouton); ?>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                    </svg>
+                </a>
             <?php endif; ?>
         </div>
     </div>
 </section>
 <div class="spacer-10"></div>
-<section class="best_advice container-xl py-5">
+<section class="best_advice col-md-8 mx-auto py-5">
     <div class="row align-items-center">
         <?php
         $args = array(
@@ -274,6 +277,9 @@ get_header();
                     'order'   => 'DESC',
                 ));
                 ?>
+				<div class="col-12">
+					<h2 class="text-center mb-4">Le mieux noté</h2>
+				</div>
                 <div class="col-md-6">
                     <div class="product-image-container" >
                         <?php echo get_the_post_thumbnail(get_the_ID(), 'large', ['style' => 'width:100%; height:100%; object-fit:cover;']); ?>
@@ -289,8 +295,8 @@ get_header();
                                 <?php
                                 $note = number_format((float)$product->get_average_rating(), 2, ',', ' ');
                                 $nb_avis = $product->get_rating_count();
-                                echo "<h3>Note de {$note}</h3>
-								<p>Par {$nb_avis} client, merci à vous !</p>" . ($nb_avis > 1 ? "s" : "");
+                                echo "<h3>Note de {$note} / 5</h3>
+								<p>par {$nb_avis} client" . ($nb_avis > 1 ? "s" : "") . "</p>";
                                 ?>
                             </div>
                         </div>
@@ -314,7 +320,12 @@ get_header();
                         <?php else : ?>
                             <p class="text-muted">Aucun avis pour ce produit.</p>
                         <?php endif; ?>
-                        <a href="<?php the_permalink(); ?>" class="btn view-all-link mt-4 px-4 py-2 text-uppercase">Voir le produit</a>
+                        <a href="<?php the_permalink(); ?>" class="btn view-all-link mt-4 px-4 py-2 text-uppercase">
+                            Voir le produit
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                            </svg>
+                        </a>
                     </div>
                 </div>
                 <?php
@@ -326,6 +337,7 @@ get_header();
         ?>
     </div>
 </section>
+<div class="spacer-10"></div>
 <?php
 get_footer();
 ?>

@@ -25,8 +25,25 @@ h6 {
 	top: 0;
 	left: 0;
 	width: 100%;
-	z-index: 10;
-	background: transparent !important;
+	z-index: 100;
+	background: transparent;
+	transition: background 0.3s;
+	box-shadow: none;
+
+	&:hover {
+		background: #fff;
+		transition: background 0.3s;
+	}
+}
+
+// Gestion de la barre admin WordPress
+body.admin-bar #wrapper-navbar {
+	top: 32px;
+}
+@media (max-width: 782px) {
+	body.admin-bar #wrapper-navbar {
+		top: 46px;
+	}
 }
 
 .menu_container {
@@ -81,9 +98,9 @@ h6 {
 	top: 0;
 	left: 0;
 	height: 100%;
-	pointer-events: none;
 
-	.col-md-6 {
+	// Tous les enfants sont interactifs
+	[class^="col-"] {
 		pointer-events: auto;
 		h2 {
 			margin-block: 2rem;
@@ -290,7 +307,8 @@ select {
 	}
 
 	// Contenu texte aligné à droite
-	.parallax-content {
+	.parallax-content,
+	.charte_rse {
 		position: relative;
 		color: white;
 		padding: 5rem 0;
@@ -507,10 +525,20 @@ select {
 	top: 0;
 	left: 0;
 	z-index: 3;
-	pointer-events: none; // Pour éviter de bloquer les flèches
-	// Sauf pour le texte :
-	.col-md-5 {
+	// Retire pointer-events: none ici !
+
+	// Tous les enfants sont interactifs
+	[class^="col-"] {
 		pointer-events: auto;
+		h2 {
+			margin-block: 2rem;
+			letter-spacing: 1px;
+			font-size: 3rem;
+		}
+		a {
+			font-size: 1.2rem;
+			letter-spacing: 1px;
+		}
 	}
 }
 
@@ -522,6 +550,23 @@ select {
 	background-attachment: fixed;
 	min-height: 500px;
 	position: relative;
+
+	.text-center,
+	.col-md-8 {
+		color: white;
+
+		h3 {
+			font-weight: 700;
+			font-size: 2.2rem;
+		}
+		p,
+		div,
+		.fw-lighter,
+		.fs-5 {
+			font-size: 1rem;
+			line-height: 1.8rem;
+		}
+	}
 }
 
 // Nouvelle classe pour les images de produit
@@ -539,5 +584,116 @@ select {
 		height: 100%;
 		object-fit: cover;
 		display: block;
+	}
+}
+
+// Pagination du slider
+.slider-dots {
+	position: absolute;
+	left: 0;
+	bottom: 32px;
+	width: 100%;
+	z-index: 10;
+	display: flex;
+	justify-content: center;
+	gap: 1.5rem;
+}
+
+.slider-dot {
+	width: 7rem;
+	height: 5px;
+	background: #fff;
+	opacity: 0.5;
+	border-radius: 0px;
+	cursor: pointer;
+	transition: opacity 0.2s;
+	&.active {
+		opacity: 1;
+		background: $velvet;
+	}
+}
+
+.slider_container .view-all-link {
+	background: transparent;
+	border: 1px solid #fff;
+	color: #fff;
+	font-size: 1rem;
+	text-transform: uppercase;
+	padding: 0.75rem 1.5rem;
+	display: inline-flex;
+	align-items: center;
+	transition: background 0.2s, color 0.2s, border 0.2s;
+
+	svg {
+		margin-left: 0.5rem;
+		transition: transform 0.2s;
+	}
+
+	&:hover {
+		background: $black-main;
+		color: #fff;
+		border-color: $black-main;
+
+		svg {
+			transform: translateX(4px);
+			color: #fff;
+		}
+	}
+}
+
+// Pour le carousel des catégories
+.boutique_categories {
+	.carousel-controls {
+		pointer-events: none; // OK pour les flèches
+		z-index: 10;
+	}
+	.carousel-control-prev,
+	.carousel-control-next {
+		pointer-events: auto; // Les flèches restent cliquables
+		z-index: 11;
+	}
+	.category-link,
+	.category-item,
+	.category-image,
+	.category-overlay {
+		pointer-events: auto; // S'assure que le texte et le bouton sont cliquables
+	}
+}
+
+// Footer
+.footer {
+	background: $black-main;
+	color: #fff;
+	padding-bottom: 0; // retire le padding bas
+
+	a {
+		transition: color 0.2s;
+
+		&:hover {
+			color: $velvet !important;
+		}
+	}
+	p {
+		line-height: 1.7rem;
+	}
+	.btn-bloom {
+		background: $velvet;
+		color: #fff;
+		border: none;
+		transition: background 0.2s;
+
+		&:hover {
+			background: darken($velvet, 10%);
+		}
+	}
+
+	.input-group .form-control {
+		border-radius: 0;
+	}
+
+	.form-control:focus {
+		border-color: $velvet;
+		box-shadow: 0 0 0 0.2rem rgba($velvet, 0.25);
+		outline: none;
 	}
 }

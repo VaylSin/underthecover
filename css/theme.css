@@ -15764,10 +15764,25 @@ h6,
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 10;
-  background: transparent !important;
+  z-index: 100;
+  background: transparent;
+  transition: background 0.3s;
+  box-shadow: none;
+}
+#wrapper-navbar:hover {
+  background: #fff;
+  transition: background 0.3s;
 }
 
+body.admin-bar #wrapper-navbar {
+  top: 32px;
+}
+
+@media (max-width: 782px) {
+  body.admin-bar #wrapper-navbar {
+    top: 46px;
+  }
+}
 .menu_container li {
   margin: 0 0.5rem;
 }
@@ -15813,17 +15828,16 @@ h6,
   top: 0;
   left: 0;
   height: 100%;
-  pointer-events: none;
 }
-.carousel-item > .container-xxl .col-md-6 {
+.carousel-item > .container-xxl [class^=col-] {
   pointer-events: auto;
 }
-.carousel-item > .container-xxl .col-md-6 h2, .carousel-item > .container-xxl .col-md-6 .h2 {
+.carousel-item > .container-xxl [class^=col-] h2, .carousel-item > .container-xxl [class^=col-] .h2 {
   margin-block: 2rem;
   letter-spacing: 1px;
   font-size: 3rem;
 }
-.carousel-item > .container-xxl .col-md-6 a {
+.carousel-item > .container-xxl [class^=col-] a {
   font-size: 1.2rem;
   letter-spacing: 1px;
 }
@@ -15987,16 +16001,20 @@ select {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
 }
-.parallax-banner .parallax-content {
+.parallax-banner .parallax-content,
+.parallax-banner .charte_rse {
   position: relative;
   color: white;
   padding: 5rem 0;
 }
-.parallax-banner .parallax-content h2, .parallax-banner .parallax-content .h2 {
+.parallax-banner .parallax-content h2, .parallax-banner .parallax-content .h2,
+.parallax-banner .charte_rse h2,
+.parallax-banner .charte_rse .h2 {
   font-weight: 700;
   font-size: 2.5rem;
 }
-.parallax-banner .parallax-content p {
+.parallax-banner .parallax-content p,
+.parallax-banner .charte_rse p {
   font-size: 0.9rem;
   line-height: 1.8rem;
 }
@@ -16171,10 +16189,18 @@ select {
   top: 0;
   left: 0;
   z-index: 3;
-  pointer-events: none;
 }
-.carousel-item > .container-xxl .col-md-5 {
+.carousel-item > .container-xxl [class^=col-] {
   pointer-events: auto;
+}
+.carousel-item > .container-xxl [class^=col-] h2, .carousel-item > .container-xxl [class^=col-] .h2 {
+  margin-block: 2rem;
+  letter-spacing: 1px;
+  font-size: 3rem;
+}
+.carousel-item > .container-xxl [class^=col-] a {
+  font-size: 1.2rem;
+  letter-spacing: 1px;
 }
 
 .charte_rse {
@@ -16184,6 +16210,27 @@ select {
   background-attachment: fixed;
   min-height: 500px;
   position: relative;
+}
+.charte_rse .text-center,
+.charte_rse .col-md-8 {
+  color: white;
+}
+.charte_rse .text-center h3, .charte_rse .text-center .h3,
+.charte_rse .col-md-8 h3,
+.charte_rse .col-md-8 .h3 {
+  font-weight: 700;
+  font-size: 2.2rem;
+}
+.charte_rse .text-center p,
+.charte_rse .text-center div,
+.charte_rse .text-center .fw-lighter,
+.charte_rse .text-center .fs-5,
+.charte_rse .col-md-8 p,
+.charte_rse .col-md-8 div,
+.charte_rse .col-md-8 .fw-lighter,
+.charte_rse .col-md-8 .fs-5 {
+  font-size: 1rem;
+  line-height: 1.8rem;
 }
 
 .product-image-container {
@@ -16201,6 +16248,172 @@ select {
   -o-object-fit: cover;
   object-fit: cover;
   display: block;
+}
+
+.slider-dots {
+  position: absolute;
+  left: 0;
+  bottom: 32px;
+  width: 100%;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.slider-dot {
+  width: 7rem;
+  height: 5px;
+  background: #fff;
+  opacity: 0.5;
+  border-radius: 0px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.slider-dot.active {
+  opacity: 1;
+  background: #bc3365;
+}
+
+.slider_container .view-all-link {
+  background: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+  font-size: 1rem;
+  text-transform: uppercase;
+  padding: 0.75rem 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.slider_container .view-all-link svg {
+  margin-left: 0.5rem;
+  transition: transform 0.2s;
+}
+.slider_container .view-all-link:hover {
+  background: #272727;
+  color: #fff;
+  border-color: #272727;
+}
+.slider_container .view-all-link:hover svg {
+  transform: translateX(4px);
+  color: #fff;
+}
+
+.boutique_categories .carousel-controls {
+  pointer-events: none;
+  z-index: 10;
+}
+.boutique_categories .carousel-control-prev,
+.boutique_categories .carousel-control-next {
+  pointer-events: auto;
+  z-index: 11;
+}
+.boutique_categories .category-link,
+.boutique_categories .category-item,
+.boutique_categories .category-image,
+.boutique_categories .category-overlay {
+  pointer-events: auto;
+}
+
+.footer {
+  background: #272727;
+  color: #fff;
+  padding-bottom: 0;
+}
+.footer a {
+  transition: color 0.2s;
+}
+.footer a:hover {
+  color: #bc3365 !important;
+}
+.footer p {
+  line-height: 1.7rem;
+}
+.footer .btn-bloom {
+  background: #bc3365;
+  color: #fff;
+  border: none;
+  transition: background 0.2s;
+}
+.footer .btn-bloom:hover {
+  background: #94284f;
+}
+.footer .input-group .form-control, .footer .input-group .wpcf7 input[type=text], .wpcf7 .footer .input-group input[type=text],
+.footer .input-group .wpcf7 input[type=search],
+.wpcf7 .footer .input-group input[type=search],
+.footer .input-group .wpcf7 input[type=url],
+.wpcf7 .footer .input-group input[type=url],
+.footer .input-group .wpcf7 input[type=tel],
+.wpcf7 .footer .input-group input[type=tel],
+.footer .input-group .wpcf7 input[type=number],
+.wpcf7 .footer .input-group input[type=number],
+.footer .input-group .wpcf7 input[type=range],
+.wpcf7 .footer .input-group input[type=range],
+.footer .input-group .wpcf7 input[type=date],
+.wpcf7 .footer .input-group input[type=date],
+.footer .input-group .wpcf7 input[type=month],
+.wpcf7 .footer .input-group input[type=month],
+.footer .input-group .wpcf7 input[type=week],
+.wpcf7 .footer .input-group input[type=week],
+.footer .input-group .wpcf7 input[type=time],
+.wpcf7 .footer .input-group input[type=time],
+.footer .input-group .wpcf7 input[type=datetime],
+.wpcf7 .footer .input-group input[type=datetime],
+.footer .input-group .wpcf7 input[type=datetime-local],
+.wpcf7 .footer .input-group input[type=datetime-local],
+.footer .input-group .wpcf7 input[type=color],
+.wpcf7 .footer .input-group input[type=color],
+.footer .input-group .wpcf7 input[type=email],
+.wpcf7 .footer .input-group input[type=email],
+.footer .input-group .wpcf7 input[type=file],
+.wpcf7 .footer .input-group input[type=file],
+.footer .input-group .wpcf7 input[type=submit],
+.wpcf7 .footer .input-group input[type=submit],
+.footer .input-group .wpcf7 select,
+.wpcf7 .footer .input-group select,
+.footer .input-group .wpcf7 textarea,
+.wpcf7 .footer .input-group textarea, .footer .input-group .wpcf7 .wpcf7-validation-errors, .wpcf7 .footer .input-group .wpcf7-validation-errors {
+  border-radius: 0;
+}
+.footer .form-control:focus, .footer .wpcf7 input[type=text]:focus, .wpcf7 .footer input[type=text]:focus,
+.footer .wpcf7 input[type=search]:focus,
+.wpcf7 .footer input[type=search]:focus,
+.footer .wpcf7 input[type=url]:focus,
+.wpcf7 .footer input[type=url]:focus,
+.footer .wpcf7 input[type=tel]:focus,
+.wpcf7 .footer input[type=tel]:focus,
+.footer .wpcf7 input[type=number]:focus,
+.wpcf7 .footer input[type=number]:focus,
+.footer .wpcf7 input[type=range]:focus,
+.wpcf7 .footer input[type=range]:focus,
+.footer .wpcf7 input[type=date]:focus,
+.wpcf7 .footer input[type=date]:focus,
+.footer .wpcf7 input[type=month]:focus,
+.wpcf7 .footer input[type=month]:focus,
+.footer .wpcf7 input[type=week]:focus,
+.wpcf7 .footer input[type=week]:focus,
+.footer .wpcf7 input[type=time]:focus,
+.wpcf7 .footer input[type=time]:focus,
+.footer .wpcf7 input[type=datetime]:focus,
+.wpcf7 .footer input[type=datetime]:focus,
+.footer .wpcf7 input[type=datetime-local]:focus,
+.wpcf7 .footer input[type=datetime-local]:focus,
+.footer .wpcf7 input[type=color]:focus,
+.wpcf7 .footer input[type=color]:focus,
+.footer .wpcf7 input[type=email]:focus,
+.wpcf7 .footer input[type=email]:focus,
+.footer .wpcf7 input[type=file]:focus,
+.wpcf7 .footer input[type=file]:focus,
+.footer .wpcf7 input[type=submit]:focus,
+.wpcf7 .footer input[type=submit]:focus,
+.footer .wpcf7 select:focus,
+.wpcf7 .footer select:focus,
+.footer .wpcf7 textarea:focus,
+.wpcf7 .footer textarea:focus, .footer .wpcf7 .wpcf7-validation-errors:focus, .wpcf7 .footer .wpcf7-validation-errors:focus {
+  border-color: #bc3365;
+  box-shadow: 0 0 0 0.2rem rgba(188, 51, 101, 0.25);
+  outline: none;
 }
 
 .spacer-0 {

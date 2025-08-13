@@ -65,4 +65,27 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 		});
 	}
+
+	const slider = document.getElementById("main-slider");
+	if (!slider) return;
+
+	const dots = slider.querySelectorAll(".slider-dot");
+	const carousel = new bootstrap.Carousel(slider);
+
+	dots.forEach((dot, idx) => {
+		dot.addEventListener("click", function () {
+			carousel.to(idx);
+			// Met à jour la classe active sur les dots
+			dots.forEach((d) => d.classList.remove("active"));
+			dot.classList.add("active");
+		});
+	});
+
+	// Synchronise les dots quand le slide change (flèches, auto, swipe)
+	slider.addEventListener("slid.bs.carousel", function (e) {
+		const activeIdx = e.to;
+		dots.forEach((dot, idx) => {
+			dot.classList.toggle("active", idx === activeIdx);
+		});
+	});
 });
