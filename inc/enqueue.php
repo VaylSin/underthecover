@@ -60,6 +60,23 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 		if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );
 		}
+
+		// Enqueue AOS CSS
+		wp_enqueue_style(
+			'aos-css',
+			get_template_directory_uri() . '/node_modules/aos/dist/aos.css',
+			array(),
+			'3.0.0' // adapte la version si besoin
+		);
+
+		// Enqueue AOS JS
+		wp_enqueue_script(
+			'aos-js',
+			get_template_directory_uri() . '/node_modules/aos/dist/aos.js',
+			array(),
+			'3.0.0', // adapte la version si besoin
+			true
+		);
 	}
 } // End of if function_exists( 'understrap_scripts' ).
 

@@ -23,7 +23,7 @@ get_header();
 				<div class="slider-overlay"></div>
 			<?php endif; ?>
 			<div class="container-xxl h-100">
-				<div class="row h-100 align-items-center">
+				<div class="row h-100 align-items-center"  >
 					<div class="col-md-4 offset-md-2 text-start text-white">
 						<?php if($phrase): ?>
 							<h5 class="fw-bold text-uppercase"><?php echo esc_html($phrase); ?></h5>
@@ -66,9 +66,9 @@ get_header();
 <?php endif; ?>
 </section>
 <div class="spacer-10"></div>
-<section class="best_sellers container-xxl">
-    <h3 class="text-center mb-4">Nos Best Sellers</h3>
-    <div class="row g-4">
+<section class="best_sellers container-xxl" data-aos="fade-up" data-aos-duration="1000">
+    <h3 class="text-center mb-4" >Nos Best Sellers</h3>
+    <div class="row g-4" >
         <?php
         // Query pour les 3 meilleures ventes
         $args = array(
@@ -132,8 +132,8 @@ get_header();
     </div>
 
     <!-- Lien "Voir tous les produits" -->
-    <div class="text-center mt-5">
-        <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="view-all-link">
+    <div class="text-center mt-5" >
+        <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="view-all-link"  >
             tous les produits
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
@@ -146,7 +146,7 @@ get_header();
     <div class="overlay"></div>
     <div class="container-xxl position-relative d-flex align-items-center" >
         <div class="row w-100 ms-3 align-items-center">
-            <div class="col-md-5 text-start text-white parallax-content">
+            <div class="col-md-5 text-start text-white parallax-content" data-aos="fade-left" data-aos-duration="2000" data-aos-ease="ease-in-out">
                 <?php if($pre_titre = get_field('pre_titre')): ?>
                     <p class="text-uppercase fw-lighter"><?php echo esc_html($pre_titre); ?></p>
                 <?php endif; ?>
@@ -220,7 +220,7 @@ get_header();
 <div class="spacer-10"></div>
 <section class="charte_rse container-fluid" style="background-image: url('<?php echo esc_url(get_field('image_rse')['url'] ?? ''); ?>');">
     <div class="container-xxl d-flex justify-content-center align-items-center" style="min-height: 500px;">
-        <div class="text-center col-md-8 mx-auto text-white">
+        <div class="text-center col-md-8 mx-auto text-white" data-aos="zoom-in" data-aos-duration="1000" data-aos-ease="ease-in-out">
             <?php if($texte_accroche = get_field('phrase_daccroche_bloc_charte')): ?>
                 <h2 class="mb-4 text-uppercase fw-bold"><?php echo $texte_accroche; ?></h2>
             <?php endif;
@@ -285,7 +285,7 @@ get_header();
                         <?php echo get_the_post_thumbnail(get_the_ID(), 'large', ['style' => 'width:100%; height:100%; object-fit:cover;']); ?>
                     </div>
                 </div>
-                <div class="col-md-6 d-flex flex-column justify-content-center align-items-center">
+                <div class="col-md-6 d-flex flex-column justify-content-center align-items-center" data-aos="fade-left" data-aos-duration="2000">
                     <div class="w-100 px-4">
                         <h3 class="mb-3 text-uppercase fw-bold"><?php the_title(); ?></h3>
                         <div class="mb-3">

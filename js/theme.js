@@ -6131,6 +6131,7 @@
   })();
 
   document.addEventListener("DOMContentLoaded", function () {
+    AOS.init();
     const categoriesCarousel = document.querySelector("#categories-carousel");
     if (categoriesCarousel) {
       const carouselRow = categoriesCarousel.querySelector(".carousel-row");
