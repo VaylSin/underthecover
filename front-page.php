@@ -3,65 +3,65 @@ get_header();
 ?>
 <section class="slider_container">
 <?php if( have_rows('slider') ) : ?>
-<div id="main-slider" class="carousel slide carousel-fade fullscreen-slider" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <?php $i = 0; while( have_rows('slider') ) : the_row();
-      $image = get_sub_field('image');
-      $titre_slide = get_sub_field('titre_du_slide');
-      $phrase = get_sub_field('phrase_daccroche');
-      $lien = get_sub_field('lien_fiche_produit');
-      $texte_bouton = get_sub_field('texte_bouton_lien');
-      if (is_array($lien) || is_object($lien)) {
-        $url = get_permalink(is_array($lien) ? $lien[0] : $lien);
-      } else {
-        $url = $lien;
-      }
-    ?>
-    <div class="carousel-item<?php if($i == 0) echo ' active'; ?>" style="position:relative;">
-      <?php if($image): ?>
-        <img src="<?php echo esc_url($image['url']); ?>" class="d-block w-100 object-fit-cover" alt="<?php echo esc_attr($image['alt']); ?>" draggable="false">
-        <div class="slider-overlay"></div>
-      <?php endif; ?>
-      <div class="container-xxl h-100">
-        <div class="row h-100 align-items-center">
-          <div class="col-md-4 offset-md-2 text-start text-white">
-            <?php if($phrase): ?>
-              <h5 class="fw-bold text-uppercase"><?php echo esc_html($phrase); ?></h5>
-            <?php endif; ?>
-            <?php if($titre_slide): ?>
-              <h2 class="fw-light text-uppercase"><?php echo esc_html($titre_slide); ?></h2>
-            <?php endif; ?>
-            <?php if($lien && $texte_bouton): ?>
-              <a href="<?php echo esc_url($url); ?>" class="btn view-all-link px-4 py-2 text-uppercase mt-3">
-                <?php echo esc_html($texte_bouton); ?>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                </svg>
-              </a>
-            <?php endif; ?>
-          </div>
-        </div>
-      </div>
-    </div>
-    <?php $i++; endwhile; ?>
-  </div>
+<div id="main-slider" class="carousel slide carousel-fade fullscreen-slider" data-bs-ride="carousel" data-bs-interval="5000">
+	<div class="carousel-inner">
+		<?php $i = 0; while( have_rows('slider') ) : the_row();
+			$image = get_sub_field('image');
+			$titre_slide = get_sub_field('titre_du_slide');
+			$phrase = get_sub_field('phrase_daccroche');
+			$lien = get_sub_field('lien_fiche_produit');
+			$texte_bouton = get_sub_field('texte_bouton_lien');
+			if (is_array($lien) || is_object($lien)) {
+				$url = get_permalink(is_array($lien) ? $lien[0] : $lien);
+			} else {
+				$url = $lien;
+			}
+		?>
+		<div class="carousel-item<?php if($i == 0) echo ' active'; ?>" style="position:relative;">
+			<?php if($image): ?>
+				<img src="<?php echo esc_url($image['url']); ?>" class="d-block w-100 object-fit-cover" alt="<?php echo esc_attr($image['alt']); ?>" draggable="false">
+				<div class="slider-overlay"></div>
+			<?php endif; ?>
+			<div class="container-xxl h-100">
+				<div class="row h-100 align-items-center">
+					<div class="col-md-4 offset-md-2 text-start text-white">
+						<?php if($phrase): ?>
+							<h5 class="fw-bold text-uppercase"><?php echo esc_html($phrase); ?></h5>
+						<?php endif; ?>
+						<?php if($titre_slide): ?>
+							<h2 class="fw-light text-uppercase"><?php echo esc_html($titre_slide); ?></h2>
+						<?php endif; ?>
+						<?php if($lien && $texte_bouton): ?>
+							<a href="<?php echo esc_url($url); ?>" class="btn view-all-link px-4 py-2 text-uppercase mt-3">
+								<?php echo esc_html($texte_bouton); ?>
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
+									<path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+								</svg>
+							</a>
+						<?php endif; ?>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php $i++; endwhile; ?>
+	</div>
 
-  <!-- Flèches Bootstrap -->
-  <button class="carousel-control-prev" type="button" data-bs-target="#main-slider" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Précédent</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#main-slider" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Suivant</span>
-  </button>
+	<!-- Flèches Bootstrap -->
+	<button class="carousel-control-prev" type="button" data-bs-target="#main-slider" data-bs-slide="prev">
+		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Précédent</span>
+	</button>
+	<button class="carousel-control-next" type="button" data-bs-target="#main-slider" data-bs-slide="next">
+		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Suivant</span>
+	</button>
 
-  <!-- Dots personnalisés -->
-  <div class="slider-dots d-flex justify-content-center align-items-center gap-3 position-absolute w-100" style="bottom: 32px; left:0; z-index:10;">
-    <?php for($j=0; $j<$i; $j++): ?>
-      <div class="slider-dot<?php echo $j === 0 ? ' active' : ''; ?>"></div>
-    <?php endfor; ?>
-  </div>
+	<!-- Dots personnalisés -->
+	<div class="slider-dots d-flex justify-content-center align-items-center gap-3 position-absolute w-100" style="bottom: 32px; left:0; z-index:10;">
+		<?php for($j=0; $j<$i; $j++): ?>
+			<div class="slider-dot<?php echo $j === 0 ? ' active' : ''; ?>"></div>
+		<?php endfor; ?>
+	</div>
 </div>
 <?php endif; ?>
 </section>

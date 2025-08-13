@@ -36,52 +36,80 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
             <?php esc_html_e( 'Skip to content', 'understrap' ); ?>
         </a>
         <div class="container-fluid py-3 px-5">
-            <div class="row align-items-center">
+            <div class="row align-items-center h-100" style="min-height: 4rem;">
                 <!-- Colonne gauche : Menu principal -->
-                <div class="col-4 text-start ">
-                    <?php
-                    wp_nav_menu( array(
-                        'theme_location' => 'left-menu',
-                        'menu_class'     => 'nav menu_container',
-                        'container'      => false,
-                    ) );
-
-                    // Ajout dynamique des catégories sous "Produits"
-                    $menu_locations = get_nav_menu_locations();
-                    if (isset($menu_locations['left-menu'])) {
-                        $menu_id = $menu_locations['left-menu'];
-                        $menu_items = wp_get_nav_menu_items($menu_id);
-                        if ($menu_items) {
-                            foreach ($menu_items as $item) {
-                                if ($item->title === 'Produits') {
-                                    // Récupère toutes les catégories produits
+                <div class="col-4 text-start d-flex align-items-center h-100">
+                    <div class="nav menu_container align-items-center h-100">
+                        <div class="nav-item dropdown position-static">
+                            <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>"
+                               class="nav-link text-uppercase px-3 fw-semibold"
+                               id="produitsDropdown"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                Boutique
+                            </a>
+                            <div class="dropdown-menu mega-menu" aria-labelledby="produitsDropdown">
+                                <div class="row gx-5">
+                                    <?php
                                     $product_categories = get_terms([
                                         'taxonomy' => 'product_cat',
                                         'hide_empty' => false
                                     ]);
-                                    echo '<ul class="dropdown-menu">';
-                                    foreach ($product_categories as $cat) {
-                                        echo '<li>
-                                            <a class="dropdown-item" href="' . esc_url(get_term_link($cat)) . '">' . esc_html($cat->name) . '</a>
-                                        </li>';
-                                    }
-                                    echo '</ul>';
-                                }
-                            }
-                        }
-                    }
-                    ?>
+                                    $col_count = max(1, min(4, count($product_categories)));
+                                    foreach ($product_categories as $cat):
+                                        $products = get_posts([
+                                            'post_type' => 'product',
+                                            'posts_per_page' => -1,
+                                            'tax_query' => [
+                                                [
+                                                    'taxonomy' => 'product_cat',
+                                                    'field'    => 'term_id',
+                                                    'terms'    => $cat->term_id,
+                                                ]
+                                            ]
+                                        ]);
+                                    ?>
+                                    <div class="col-12 col-md-<?php echo intval(12/$col_count); ?>">
+                                        <h6 class="fw-bold mb-2 text-uppercase">
+                                            <a href="<?php echo esc_url(get_term_link($cat)); ?>" class="text-dark text-decoration-none">
+                                                <?php echo esc_html($cat->name); ?>
+                                            </a>
+                                        </h6>
+                                        <ul class="list-unstyled">
+                                            <?php foreach ($products as $prod): ?>
+                                                <li>
+                                                    <a href="<?php echo get_permalink($prod->ID); ?>" class="dropdown-item px-0 py-1 text-lowercase">
+                                                        <?php echo esc_html(get_the_title($prod->ID)); ?>
+                                                    </a>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        // Affiche les autres éléments du menu principal
+                        wp_nav_menu( array(
+                            'theme_location' => 'left-menu',
+                            'menu_class'     => 'nav',
+                            'container'      => false,
+                            'fallback_cb'    => false,
+                        ) );
+                        ?>
+                    </div>
                 </div>
                 <!-- Colonne centrale : Logo -->
-                <div class="col-4 text-center">
+                <div class="col-4 text-center d-flex align-items-center justify-content-center h-100">
                     <?php the_custom_logo(); ?>
                 </div>
-                <!-- Colonne droite : Autre menu -->
-                <div class="col-4 text-end ">
+                <!-- Colonne droite : Menu droit -->
+                <div class="col-4 text-end d-flex align-items-center justify-content-end h-100">
                     <?php
                     wp_nav_menu( array(
                         'theme_location' => 'right-menu',
-                        'menu_class'     => 'nav justify-content-end menu_container',
+                        'menu_class'     => 'nav justify-content-end align-items-center menu_container',
                         'container'      => false,
                     ) );
                     ?>
