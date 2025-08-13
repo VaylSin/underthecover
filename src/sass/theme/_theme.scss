@@ -62,25 +62,38 @@ h6 {
 	}
 }
 
-// Contenu du slider
-.carousel-caption {
-	h2 {
-		color: $white;
-		text-transform: uppercase;
-		font-size: 3rem;
-	}
+// Overlay du slider (juste sur l'image)
+.slider-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.3); // Ajuste l’opacité selon ton besoin
+	z-index: 2;
+	pointer-events: none;
+}
 
-	p {
-		color: $white;
-		font-size: 1.5rem;
-	}
+// Bloc texte au-dessus de l'overlay
+.carousel-item > .container-xxl {
+	z-index: 3;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	pointer-events: none;
 
-	a {
-		color: $black-main;
-		font-size: 1rem;
-		text-transform: uppercase;
-		text-decoration: none;
-		transition: color 0.5s ease;
+	.col-md-6 {
+		pointer-events: auto;
+		h2 {
+			margin-block: 2rem;
+			letter-spacing: 1px;
+			font-size: 3rem;
+		}
+		a {
+			font-size: 1.2rem;
+			letter-spacing: 1px;
+		}
 	}
 }
 
@@ -105,7 +118,7 @@ h6 {
 			display: flex;
 			justify-content: center;
 			align-items: flex-end; // Aligne en bas
-			background-color: rgba(0, 0, 0, 0.3);
+			background-color: rgba($velvet, 0.5);
 			opacity: 0;
 			transition: opacity 0.3s ease;
 			padding-bottom: 1rem; // Espace en bas réduit
@@ -115,6 +128,15 @@ h6 {
 				transform: translateY(100%); // Initialement caché en dessous
 				transition: transform 0.3s ease;
 				text-align: center; // Centre le texte dans le bouton
+				color: #fff;
+				background-color: transparent;
+				border-color: #fff;
+				border-width: 1px;
+				transition: all 0.3s ease;
+				&:hover {
+					background-color: $black-main;
+					border-color: $black-main;
+				}
 			}
 		}
 	}
@@ -175,6 +197,7 @@ select {
 
 // Bouton "Voir tous les produits"
 .view-all-link {
+	// Styles par défaut
 	display: inline-flex;
 	align-items: center;
 	background-color: $black-main;
@@ -199,6 +222,22 @@ select {
 
 		svg {
 			transform: translateX(4px);
+		}
+	}
+}
+
+// Exception pour le bouton dans .selection_moment et .charte_rse
+.selection_moment,
+.charte_rse {
+	.view-all-link {
+		background: transparent !important;
+		border: 1px solid #fff !important;
+		color: #fff !important;
+
+		&:hover {
+			background: $bloom !important;
+			color: $black-main !important;
+			border-color: $bloom !important;
 		}
 	}
 }
@@ -232,7 +271,7 @@ select {
 .parallax-banner {
 	position: relative;
 	padding: 0;
-	background-attachment: fixed;
+	// background-attachment: fixed;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -247,14 +286,14 @@ select {
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background-color: rgba(0, 0, 0, 0.5);
+		background-color: rgba(0, 0, 0, 0.3);
 	}
 
 	// Contenu texte aligné à droite
 	.parallax-content {
 		position: relative;
 		color: white;
-		padding: 3rem 0;
+		padding: 5rem 0;
 
 		h2 {
 			font-weight: 700;
@@ -262,17 +301,18 @@ select {
 		}
 
 		p {
-			font-size: 1.1rem;
+			font-size: 0.9rem;
+			line-height: 1.8rem;
 		}
 
-		.btn {
-			border: 2px solid white;
+		// .btn {
+		// 	border: 2px solid white;
 
-			&:hover {
-				background-color: white;
-				color: $black-main;
-			}
-		}
+		// 	&:hover {
+		// 		background-color: white;
+		// 		color: $black-main;
+		// 	}
+		// }
 	}
 
 	// Désactive l'effet parallax sur mobile
@@ -283,5 +323,221 @@ select {
 			text-align: center;
 			padding: 3rem 1rem;
 		}
+	}
+}
+
+// Carousel des catégories - Style corrigé
+.boutique_categories {
+	position: relative;
+	padding: 2rem 0;
+
+	.categories-carousel {
+		position: relative;
+		margin: 0 0; // Pas de marge latérale ici
+	}
+
+	.carousel-inner {
+		overflow: hidden;
+		position: relative;
+	}
+
+	.carousel-row {
+		display: flex;
+		transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.category-item {
+		flex: 0 0 calc(33.333% - 20px);
+		min-width: calc(33.333% - 20px);
+		padding: 0 10px;
+		box-sizing: border-box;
+	}
+
+	.category-link {
+		display: block;
+		text-decoration: none;
+		color: white;
+	}
+
+	.category-image {
+		width: 100%;
+		aspect-ratio: 1/1;
+		background-size: cover;
+		background-position: center;
+		position: relative;
+		min-height: 250px;
+	}
+
+	.category-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba($velvet, 0.5); // Overlay bien visible
+		opacity: 0;
+		transition: opacity 0.3s;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.category-name {
+			color: white;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			transform: translateY(20px);
+			transition: transform 0.3s;
+			text-align: center;
+		}
+	}
+
+	.category-image:hover .category-overlay {
+		opacity: 1;
+		.category-name {
+			transform: translateY(0);
+		}
+	}
+
+	// Flèches vraiment à l’extérieur
+	.carousel-controls {
+		position: absolute;
+		left: -70px;
+		right: -70px;
+		top: 50%;
+		transform: translateY(-50%);
+		width: auto;
+		height: auto;
+		pointer-events: none;
+		z-index: 100;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.carousel-control-prev,
+	.carousel-control-next {
+		pointer-events: auto;
+		width: 56px;
+		height: 56px;
+		background: none;
+		border: none;
+		border-radius: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 1;
+		z-index: 101;
+		position: relative;
+		transition: opacity 0.2s;
+		box-shadow: none;
+
+		&:hover {
+			opacity: 1;
+			background: none;
+		}
+		&.disabled {
+			opacity: 0.3;
+		}
+	}
+
+	.carousel-control-prev {
+		left: 0;
+	}
+	.carousel-control-next {
+		right: 0;
+	}
+
+	// Icônes flèches noires, sans fond
+	.carousel-control-prev-icon,
+	.carousel-control-next-icon {
+		filter: none !important;
+		background-color: transparent !important;
+		background-size: 60% 60%;
+		background-position: center;
+		background-repeat: no-repeat;
+		width: 2rem;
+		height: 2rem;
+		// Pour forcer la couleur noire sur SVG Bootstrap
+		mask-image: none;
+		-webkit-mask-image: none;
+	}
+
+	.carousel-control-prev-icon {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='black' viewBox='0 0 16 16'%3E%3Cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
+	}
+	.carousel-control-next-icon {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='black' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+	}
+
+	@media (max-width: 991px) {
+		.carousel-controls {
+			left: -30px;
+			right: -30px;
+		}
+		.category-item {
+			flex: 0 0 calc(50% - 20px);
+			min-width: calc(50% - 20px);
+		}
+	}
+	@media (max-width: 576px) {
+		.carousel-controls {
+			left: 0;
+			right: 0;
+		}
+		.category-item {
+			flex: 0 0 100%;
+			min-width: 100%;
+		}
+	}
+}
+
+// Pour .container-xxl, sois plus spécifique
+.boutique_categories > .container-xxl {
+	overflow: visible;
+}
+
+// Le reste du site garde overflow: auto par défaut
+.container-xxl:not(.boutique_categories > .container-xxl) {
+	overflow: auto;
+}
+
+.carousel-item > .container-xxl {
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 3;
+	pointer-events: none; // Pour éviter de bloquer les flèches
+	// Sauf pour le texte :
+	.col-md-5 {
+		pointer-events: auto;
+	}
+}
+
+// Charte RSE
+.charte_rse {
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	min-height: 500px;
+	position: relative;
+}
+
+// Nouvelle classe pour les images de produit
+.product-image-container {
+	aspect-ratio: 1/1;
+	width: 100%;
+	background: #f8f8f8;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
 	}
 }
