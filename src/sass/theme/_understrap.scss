@@ -34,7 +34,7 @@ body {
 
 .screen-reader-text {
 	@if variable-exists("bootstrap4") {
-		@include sr-only();
+		@extend .visually-hidden;
 	} @else {
 		@include visually-hidden();
 	}
@@ -88,7 +88,6 @@ body {
 			}
 
 			// Customize the `:focus` state to imitate native WebKit styles.
-			@include form-control-focus($ignore-warning: true);
 		} @else {
 			// replicates relevant parts of .form-select
 			padding: $form-select-padding-y
@@ -150,16 +149,6 @@ article img,
 #secondary img {
 	max-width: 100%;
 	height: auto;
-}
-
-// Skip to content link
-a.skip-link {
-	@if variable-exists("bootstrap4") {
-		@include sr-only();
-		@include sr-only-focusable();
-	} @else {
-		@include visually-hidden-focusable();
-	}
 }
 
 // Dropdown translation

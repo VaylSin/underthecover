@@ -1,6 +1,6 @@
 /*!
- * Understrap v1.2.4 (https://understrap.com)
- * Copyright 2013-2024 The Understrap Authors (https://github.com/understrap/understrap/graphs/contributors)
+ * Understrap v1.2.4 (https://skdigit.com)
+ * Copyright 2013-2025 Skdigit
  * Licensed under GPL-3.0 (https://www.gnu.org/licenses/gpl-3.0.html)
  */
 (function (global, factory) {
@@ -6153,6 +6153,77 @@
       }, false);
     }
   })();
+
+  document.addEventListener("DOMContentLoaded", function () {
+    AOS.init();
+    var categoriesCarousel = document.querySelector("#categories-carousel");
+    if (categoriesCarousel) {
+      // Fonction pour mettre à jour la position du carousel
+      var updateCarousel = function updateCarousel() {
+        var itemWidth = items[0].offsetWidth;
+        carouselRow.style.transform = "translateX(" + -currentPosition * itemWidth + "px)";
+
+        // Mettre à jour l'état des boutons
+        var prevButton = categoriesCarousel.querySelector(".carousel-control-prev");
+        var nextButton = categoriesCarousel.querySelector(".carousel-control-next");
+        prevButton.classList.toggle("disabled", currentPosition <= 0);
+        nextButton.classList.toggle("disabled", currentPosition >= totalItems - itemsPerView);
+      }; // Initialisation
+      var carouselRow = categoriesCarousel.querySelector(".carousel-row");
+      var items = categoriesCarousel.querySelectorAll(".category-item");
+      var totalItems = items.length;
+      var itemsPerView = window.innerWidth > 768 ? 3 : 1;
+      var currentPosition = 0;
+      updateCarousel();
+
+      // Gérer les événements des boutons
+      categoriesCarousel.querySelector(".carousel-control-prev").addEventListener("click", function (e) {
+        e.preventDefault();
+        if (currentPosition > 0) {
+          currentPosition--;
+          updateCarousel();
+        }
+      });
+      categoriesCarousel.querySelector(".carousel-control-next").addEventListener("click", function (e) {
+        e.preventDefault();
+        if (currentPosition < totalItems - itemsPerView) {
+          currentPosition++;
+          updateCarousel();
+        }
+      });
+
+      // Adapter au redimensionnement
+      window.addEventListener("resize", function () {
+        var newItemsPerView = window.innerWidth > 768 ? 3 : 1;
+        if (newItemsPerView !== itemsPerView) {
+          currentPosition = Math.min(currentPosition, totalItems - newItemsPerView);
+          updateCarousel();
+        }
+      });
+    }
+    var slider = document.getElementById("main-slider");
+    if (!slider) return;
+    var dots = slider.querySelectorAll(".slider-dot");
+    var carousel = new bootstrap.Carousel(slider);
+    dots.forEach(function (dot, idx) {
+      dot.addEventListener("click", function () {
+        carousel.to(idx);
+        // Met à jour la classe active sur les dots
+        dots.forEach(function (d) {
+          return d.classList.remove("active");
+        });
+        dot.classList.add("active");
+      });
+    });
+
+    // Synchronise les dots quand le slide change (flèches, auto, swipe)
+    slider.addEventListener("slid.bs.carousel", function (e) {
+      var activeIdx = e.to;
+      dots.forEach(function (dot, idx) {
+        dot.classList.toggle("active", idx === activeIdx);
+      });
+    });
+  });
 
   exports.Alert = Alert;
   exports.Button = Button;

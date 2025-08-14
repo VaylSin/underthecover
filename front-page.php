@@ -9,6 +9,7 @@ get_header();
 			$image = get_sub_field('image');
 			$titre_slide = get_sub_field('titre_du_slide');
 			$phrase = get_sub_field('phrase_daccroche');
+			$description_produit = get_sub_field('description_produit');
 			$lien = get_sub_field('lien_fiche_produit');
 			$texte_bouton = get_sub_field('texte_bouton_lien');
 			if (is_array($lien) || is_object($lien)) {
@@ -29,10 +30,13 @@ get_header();
 							<h5 class="fw-bold text-uppercase"><?php echo esc_html($phrase); ?></h5>
 						<?php endif; ?>
 						<?php if($titre_slide): ?>
-							<h2 class="fw-light text-uppercase"><?php echo esc_html($titre_slide); ?></h2>
+							<h2 class="maj_title fw-bold text-uppercase"><?php echo esc_html($titre_slide); ?></h2>
+						<?php endif; ?>
+						<?php if($description_produit): ?>
+							<p class="mb-4"><?php echo esc_html($description_produit); ?></p>
 						<?php endif; ?>
 						<?php if($lien && $texte_bouton): ?>
-							<a href="<?php echo esc_url($url); ?>" class="btn view-all-link px-4 py-2 text-uppercase mt-3">
+							<a href="<?php echo esc_url($url); ?>" class="btn view-all-link fw-bold px-4 py-2 text-uppercase mt-3">
 								<?php echo esc_html($texte_bouton); ?>
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
 									<path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
@@ -66,14 +70,14 @@ get_header();
 <?php endif; ?>
 </section>
 <div class="spacer-10"></div>
-<section class="best_sellers container-xxl" data-aos="fade-up" data-aos-duration="1000">
-    <h3 class="text-center mb-4" >Nos Best Sellers</h3>
+<section class="best_sellers container-xxl" >
+    <h3 class="maj_title mb-4" >Nos Best Sellers</h3>
     <div class="row g-4" >
         <?php
         // Query pour les 3 meilleures ventes
         $args = array(
             'post_type'      => 'product',
-            'posts_per_page' => 3,
+            'posts_per_page' => 4,
             'meta_key'       => 'total_sales',
             'orderby'        => 'meta_value_num',
             'order'          => 'DESC',
@@ -83,7 +87,7 @@ get_header();
             while ($best_sellers->have_posts()) : $best_sellers->the_post();
                 global $product;
                 ?>
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-3">
                     <div class="card product_item">
                         <a href="<?php the_permalink(); ?>" class="text-decoration-none text-dark">
                             <div class="img-container overflow-hidden position-relative">
@@ -170,7 +174,7 @@ get_header();
 <div class="spacer-10"></div>
 <section class="boutique_categories py-5">
     <div class="container-xxl">
-        <h3 class="text-center mb-5">Nos produits par catégorie</h3>
+        <h3 class="maj_title mb-4">Nos produits par catégorie</h3>
         <div id="categories-carousel" class="carousel slide categories-carousel" data-bs-ride="false" data-bs-interval="false">
             <div class="carousel-inner">
                 <div class="carousel-row">
@@ -220,23 +224,23 @@ get_header();
 <div class="spacer-10"></div>
 <section class="charte_rse container-fluid" style="background-image: url('<?php echo esc_url(get_field('image_rse')['url'] ?? ''); ?>');">
     <div class="container-xxl d-flex justify-content-center align-items-center" style="min-height: 500px;">
-        <div class="text-center col-md-8 mx-auto text-white" data-aos="zoom-in" data-aos-duration="1000" data-aos-ease="ease-in-out">
+        <div class="text-center col-md-8 mx-auto text-white" >
             <?php if($texte_accroche = get_field('phrase_daccroche_bloc_charte')): ?>
-                <h2 class="mb-4 text-uppercase fw-bold"><?php echo $texte_accroche; ?></h2>
+                <h2 class="mb-4 text-uppercase fw-bold" data-aos="zoom-in" data-aos-duration="1000" data-aos-ease="ease-in-out"><?php echo $texte_accroche; ?></h2>
             <?php endif;
-            if($texte = get_field('contenu_texte_charte')): ?>
-                <?php echo wp_kses_post($texte); ?>
-            <?php endif;
-            $lien = get_field('lien_page_charte');
-            $texte_bouton = get_field('texte_cta_charte');
-            if($lien && $texte_bouton):
+				if($texte = get_field('contenu_texte_charte')): ?>
+					<span data-aos="zoom-in" data-aos-duration="1000" data-aos-ease="ease-in-out" data-aos-delay="1000"><?php echo wp_kses_post($texte); ?></span>
+				<?php endif;
+				$lien = get_field('lien_page_charte');
+				$texte_bouton = get_field('texte_cta_charte');
+				if($lien && $texte_bouton):
 
-                if (is_array($lien) || is_object($lien)) {
-                    $url = get_permalink(is_array($lien) ? $lien[0] : $lien);
-                } else {
-                    $url = $lien;
-                }?>
-                <a href="<?php echo esc_url($url); ?>" class="btn view-all-link px-4 py-2 text-uppercase mt-3">
+					if (is_array($lien) || is_object($lien)) {
+						$url = get_permalink(is_array($lien) ? $lien[0] : $lien);
+					} else {
+						$url = $lien;
+					}?>
+                <a href="<?php echo esc_url($url); ?>" class="btn view-all-link px-4 py-2 text-uppercase mt-3" data-aos="zoom-in" data-aos-duration="1000" data-aos-ease="ease-in-out" data-aos-delay="2000">
                     <?php echo esc_html($texte_bouton); ?>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
@@ -278,7 +282,7 @@ get_header();
                 ));
                 ?>
 				<div class="col-12">
-					<h2 class="text-center mb-4">Le mieux noté</h2>
+					<h3 class="maj_title mb-4">Le mieux noté</h3>
 				</div>
                 <div class="col-md-6">
                     <div class="product-image-container" >

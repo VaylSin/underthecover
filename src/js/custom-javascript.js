@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		const carouselRow = categoriesCarousel.querySelector(".carousel-row");
 		const items = categoriesCarousel.querySelectorAll(".category-item");
 		const totalItems = items.length;
-		const itemsPerView = window.innerWidth > 768 ? 3 : 1;
+		const itemsPerView = window.innerWidth > 768 ? 4 : 1;
 		let currentPosition = 0;
 
 		// Fonction pour mettre à jour la position du carousel
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		// Adapter au redimensionnement
 		window.addEventListener("resize", function () {
-			const newItemsPerView = window.innerWidth > 768 ? 3 : 1;
+			const newItemsPerView = window.innerWidth > 768 ? 4 : 1;
 			if (newItemsPerView !== itemsPerView) {
 				currentPosition = Math.min(
 					currentPosition,

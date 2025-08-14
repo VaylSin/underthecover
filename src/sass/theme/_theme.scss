@@ -12,6 +12,27 @@ h6 {
 	font-family: "SUSE", sans-serif;
 }
 
+.maj_title {
+	font-size: 2.5rem !important;
+	text-transform: uppercase;
+	font-weight: 600;
+
+	&::after {
+		content: "";
+		display: block;
+		width: 5rem;
+		height: 0;
+		border-bottom: 1px solid $black-main;
+		margin: 1rem 0 0 0;
+	}
+}
+h2 {
+	&.maj_title {
+		&::after {
+			border-color: #fff;
+		}
+	}
+}
 // Logo
 .custom-logo-link {
 	img {
@@ -28,13 +49,20 @@ h6 {
 	left: 0;
 	width: 100%;
 	z-index: 100;
-	background: rgba($color: #fff, $alpha: 0.3);
+	background: transparent;
 	transition: background 0.3s;
 	box-shadow: none;
 
 	&:hover {
 		background: #fff;
 		transition: background 0.3s;
+		.menu_container {
+			li {
+				a {
+					color: $black-main;
+				}
+			}
+		}
 	}
 }
 
@@ -56,7 +84,7 @@ body.admin-bar #wrapper-navbar {
 		margin: 0 0.5rem;
 
 		a {
-			color: $black-main;
+			color: #fff; // Couleur du texte
 			font-weight: 600; // ou 500 pour semi-bold
 			font-size: 1rem; // augmente la taille
 			text-transform: uppercase;
@@ -70,7 +98,7 @@ body.admin-bar #wrapper-navbar {
 	}
 
 	.nav-link {
-		color: $black-main;
+		color: #fff !important;
 		transition: color 0.2s, background 0.2s;
 		background: transparent;
 
@@ -101,15 +129,15 @@ body.admin-bar #wrapper-navbar {
 
 // Slider plein écran
 .fullscreen-slider {
-	min-height: 100vh;
-	width: 100vw;
+	min-height: 80vh; // Hauteur minimale du slider
+	width: 100%;
 	overflow: hidden;
 	position: relative;
 
 	.carousel-item img {
 		object-fit: cover;
-		width: 100vw;
-		height: 100vh;
+		width: 100%;
+		height: 80vh; // Hauteur minimale du slider
 	}
 }
 
@@ -137,9 +165,15 @@ body.admin-bar #wrapper-navbar {
 	[class^="col-"] {
 		pointer-events: auto;
 		h2 {
-			margin-block: 2rem;
+			margin: 0.5rem 0 2rem 0;
 			letter-spacing: 1px;
-			font-size: 3rem;
+			font-size: 2.5rem;
+		}
+		h5 {
+			font-size: 0.75rem;
+			letter-spacing: 0.2em;
+			line-height: 1.25;
+			margin-bottom: 0;
 		}
 		a {
 			font-size: 1.2rem;
@@ -215,6 +249,7 @@ body.admin-bar #wrapper-navbar {
 	}
 	h3 {
 		font-weight: 600;
+		text-transform: uppercase;
 	}
 	// .price {
 	// 	font-size: 0.9rem;
@@ -260,6 +295,7 @@ select {
 	padding: 0.75rem 1.5rem;
 	border: 2px solid $black-main;
 	transition: all 0.2s ease;
+	font-weight: bold;
 
 	svg {
 		margin-left: 0.5rem;
@@ -399,8 +435,10 @@ select {
 	}
 
 	.category-item {
-		flex: 0 0 calc(33.333% - 20px);
-		min-width: calc(33.333% - 20px);
+		flex: 0 0 calc(25% - 20px);
+		min-width: calc(25% - 20px);
+		// flex: 0 0 calc(33.333% - 20px);
+		// min-width: calc(33.333% - 20px);
 		padding: 0 10px;
 		box-sizing: border-box;
 	}
@@ -570,7 +608,7 @@ select {
 			font-size: 3rem;
 		}
 		a {
-			font-size: 1.2rem;
+			font-size: 1rem;
 			letter-spacing: 1px;
 		}
 	}
@@ -818,4 +856,21 @@ select {
 	border: none !important;
 	border-radius: 0 !important;
 	box-shadow: none !important;
+}
+
+#wrapper-navbar:hover .menu_container .nav-link,
+#wrapper-navbar:hover .menu_container a.nav-link {
+	color: $black-main !important;
+}
+.logo_svg {
+	height: 5rem;
+}
+
+.logo_svg .cls-1 {
+	fill: #fff;
+	transition: fill 0.3s;
+}
+
+#wrapper-navbar:hover .logo_svg .cls-1 {
+	fill: $black-main;
 }
