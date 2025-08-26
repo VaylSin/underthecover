@@ -4,74 +4,74 @@ get_header();
 <section class="slider_container">
 <?php if( have_rows('slider') ) : ?>
 <div id="main-slider" class="carousel slide carousel-fade fullscreen-slider" data-bs-ride="carousel" data-bs-interval="5000">
-	<div class="carousel-inner">
-		<?php $i = 0; while( have_rows('slider') ) : the_row();
-			$image = get_sub_field('image');
-			$titre_slide = get_sub_field('titre_du_slide');
-			$phrase = get_sub_field('phrase_daccroche');
-			$description_produit = get_sub_field('description_produit');
-			$lien = get_sub_field('lien_fiche_produit');
-			$texte_bouton = get_sub_field('texte_bouton_lien');
-			if (is_array($lien) || is_object($lien)) {
-				$url = get_permalink(is_array($lien) ? $lien[0] : $lien);
-			} else {
-				$url = $lien;
-			}
-		?>
-		<div class="carousel-item<?php if($i == 0) echo ' active'; ?>" style="position:relative;">
-			<?php if($image): ?>
-				<img src="<?php echo esc_url($image['url']); ?>" class="d-block w-100 object-fit-cover" alt="<?php echo esc_attr($image['alt']); ?>" draggable="false">
-				<div class="slider-overlay"></div>
-			<?php endif; ?>
-			<div class="container-xxl h-100">
-				<div class="row h-100 align-items-center"  >
-					<div class="col-md-4 offset-md-2 text-start text-white">
-						<?php if($phrase): ?>
-							<h5 class="fw-bold text-uppercase"><?php echo esc_html($phrase); ?></h5>
-						<?php endif; ?>
-						<?php if($titre_slide): ?>
-							<h2 class="maj_title fw-bold text-uppercase"><?php echo esc_html($titre_slide); ?></h2>
-						<?php endif; ?>
-						<?php if($description_produit): ?>
-							<p class="mb-4"><?php echo esc_html($description_produit); ?></p>
-						<?php endif; ?>
-						<?php if($lien && $texte_bouton): ?>
-							<a href="<?php echo esc_url($url); ?>" class="btn view-all-link fw-bold px-4 py-2 text-uppercase mt-3">
-								<?php echo esc_html($texte_bouton); ?>
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
-									<path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-								</svg>
-							</a>
-						<?php endif; ?>
-					</div>
-				</div>
-			</div>
-		</div>
-		<?php $i++; endwhile; ?>
-	</div>
+    <div class="carousel-inner">
+        <?php $i = 0; while( have_rows('slider') ) : the_row();
+            $image = get_sub_field('image');
+            $titre_slide = get_sub_field('titre_du_slide');
+            $phrase = get_sub_field('phrase_daccroche');
+            $description_produit = get_sub_field('description_produit');
+            $lien = get_sub_field('lien_fiche_produit');
+            $texte_bouton = get_sub_field('texte_bouton_lien');
+            if (is_array($lien) || is_object($lien)) {
+                $url = get_permalink(is_array($lien) ? $lien[0] : $lien);
+            } else {
+                $url = $lien;
+            }
+        ?>
+        <div class="carousel-item<?php if($i == 0) echo ' active'; ?>" style="position:relative;">
+            <?php if($image): ?>
+                <img src="<?php echo esc_url($image['url']); ?>" class="d-block w-100 object-fit-cover" alt="<?php echo esc_attr($image['alt']); ?>" draggable="false">
+                <div class="slider-overlay"></div>
+            <?php endif; ?>
+            <div class="container-xxl h-100">
+                <div class="row h-100 align-items-center"  >
+                    <div class="col-md-4 offset-md-2 text-start text-white">
+                        <?php if($phrase): ?>
+                            <h5 class="fw-bold text-uppercase"><?php echo esc_html($phrase); ?></h5>
+                        <?php endif; ?>
+                        <?php if($titre_slide): ?>
+                            <h2 class="maj_title fw-bold text-uppercase"><?php echo esc_html($titre_slide); ?></h2>
+                        <?php endif; ?>
+                        <?php if($description_produit): ?>
+                            <p class="mb-4"><?php echo esc_html($description_produit); ?></p>
+                        <?php endif; ?>
+                        <?php if($lien && $texte_bouton): ?>
+                            <a href="<?php echo esc_url($url); ?>" class="btn view-all-link fw-bold px-4 py-2 text-uppercase mt-3">
+                                <?php echo esc_html($texte_bouton); ?>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                                </svg>
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php $i++; endwhile; ?>
+    </div>
 
-	<!-- Flèches Bootstrap -->
-	<button class="carousel-control-prev" type="button" data-bs-target="#main-slider" data-bs-slide="prev">
-		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-		<span class="visually-hidden">Précédent</span>
-	</button>
-	<button class="carousel-control-next" type="button" data-bs-target="#main-slider" data-bs-slide="next">
-		<span class="carousel-control-next-icon" aria-hidden="true"></span>
-		<span class="visually-hidden">Suivant</span>
-	</button>
+    <!-- Flèches Bootstrap -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#main-slider" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Précédent</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#main-slider" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Suivant</span>
+    </button>
 
-	<!-- Dots personnalisés -->
-	<div class="slider-dots d-flex justify-content-center align-items-center gap-3 position-absolute w-100" style="bottom: 32px; left:0; z-index:10;">
-		<?php for($j=0; $j<$i; $j++): ?>
-			<div class="slider-dot<?php echo $j === 0 ? ' active' : ''; ?>"></div>
-		<?php endfor; ?>
-	</div>
+    <!-- Dots personnalisés -->
+    <div class="slider-dots d-flex justify-content-center align-items-center gap-3 position-absolute w-100" style="bottom: 32px; left:0; z-index:10;">
+        <?php for($j=0; $j<$i; $j++): ?>
+            <div class="slider-dot<?php echo $j === 0 ? ' active' : ''; ?>"></div>
+        <?php endfor; ?>
+    </div>
 </div>
 <?php endif; ?>
 </section>
 <div class="spacer-10"></div>
 <section class="best_sellers container-xxl" >
-    <h3 class="maj_title mb-4" >Nos Best Sellers</h3>
+    <h3 class="maj_title mb-4 logo_before"><span class="logo_h3_content">Nos Best Sellers</span></h3>
     <div class="row g-4" >
         <?php
         // Query pour les 3 meilleures ventes
@@ -96,33 +96,46 @@ get_header();
                                     'style' => 'aspect-ratio:1/1;object-fit:cover;width:100%;'
                                 ]); ?>
 
-                                <!-- Bouton qui apparaîtra au survol -->
                                 <div class="btn-overlay">
-                                    <button class="btn py-2 px-4 text-uppercase font-weight-bolder">Voir le produit</button>
+                                    <span class="logo-bg-overlay">
+                                        <img src="<?php echo get_template_directory_uri(); ?>/images/utc-logomark-blanc.svg" alt="Logo UTC" />
+                                    </span>
+                                    <button class="btn py-2 px-4 text-uppercase font-weight-bolder">
+                                        Voir le produit
+                                    </button>
                                 </div>
                             </div>
 
-                            <div class="card-body d-flex flex-column align-items-center gap-3">
-                                <h3 class="card-title h5 mb-0"><?php the_title(); ?></h3>
+                            <div class="card-body card_infos d-flex flex-column gap-2 ">
+                                <h3 class="card-title h6 mb-0"><?php the_title(); ?></h3>
 
                                 <!-- Description courte -->
-                                <?php if (isset($product) && is_object($product) && method_exists($product, 'get_short_description')) : ?>
+                                <!-- <?php if (isset($product) && is_object($product) && method_exists($product, 'get_short_description')) : ?>
                                     <p class="card-text mb-0 text-center small">
                                         <?php
                                         $short_description = $product->get_short_description();
                                         echo wp_trim_words($short_description, 15, '...');
                                         ?>
                                     </p>
-                                <?php endif; ?>
+                                <?php endif; ?> -->
 
                                 <?php if (isset($product) && is_object($product)) : ?>
-                                    <p class="price mb-0"><?php echo $product->get_price_html(); ?></p>
+                                    <div class="d-flex align-items-center justify-content-between w-100">
+										<p class="price mb-0"><?php echo $product->get_price_html(); ?></p>
 
-                                    <!-- Ajout des étoiles et du nombre d'avis -->
-                                    <div class="product-rating d-flex align-items-center gap-2">
-                                        <?php echo silklane_get_star_rating_html($product->get_average_rating(), $product->get_rating_count()); ?>
-                                        <span class="rating-count small text-muted">(<?php echo $product->get_rating_count(); ?>)</span>
-                                    </div>
+										<!-- Ajout des étoiles et du nombre d'avis -->
+										<div class="product-rating ">
+											<?php echo silklane_get_star_rating_html($product->get_average_rating(), $product->get_rating_count()); ?>
+											<span class="rating-count small text-muted">(<?php echo $product->get_rating_count(); ?>)</span>
+										</div>
+									</div>
+                                    <!-- Bouton Ajouter au panier -->
+                                    <form method="post" class="add-to-cart-form mt-2">
+                                        <input type="hidden" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>">
+                                        <button type="submit" class="view-all-link d-flex justify-content-center align-items-center w-100">
+                                            ajouter au panier
+                                        </button>
+                                    </form>
                                 <?php endif; ?>
                             </div>
                         </a>
@@ -161,12 +174,12 @@ get_header();
                 <?php if($texte = get_field('contenu_texte')): ?>
                     <div class="mb-4 fw-lighter"><?php echo wp_kses_post($texte); ?></div>
                 <?php endif; ?>
-				<a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="btn view-all-link py-2 px-4 text-uppercase">
-					Aller à la boutique
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
-						<path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-					</svg>
-				</a>
+                <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="btn view-all-link py-2 px-4 text-uppercase">
+                    Aller à la boutique
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                    </svg>
+                </a>
             </div>
         </div>
     </div>
@@ -174,7 +187,7 @@ get_header();
 <div class="spacer-10"></div>
 <section class="boutique_categories py-5">
     <div class="container-xxl">
-        <h3 class="maj_title mb-4">Nos produits par catégorie</h3>
+        <h3 class="maj_title mb-4 logo_before"><span class="logo_h3_content">Nos produits par catégorie</span></h3>
         <div id="categories-carousel" class="carousel slide categories-carousel" data-bs-ride="false" data-bs-interval="false">
             <div class="carousel-inner">
                 <div class="carousel-row">
@@ -228,18 +241,18 @@ get_header();
             <?php if($texte_accroche = get_field('phrase_daccroche_bloc_charte')): ?>
                 <h2 class="mb-4 text-uppercase fw-bold" data-aos="zoom-in" data-aos-duration="1000" data-aos-ease="ease-in-out"><?php echo $texte_accroche; ?></h2>
             <?php endif;
-				if($texte = get_field('contenu_texte_charte')): ?>
-					<span data-aos="zoom-in" data-aos-duration="1000" data-aos-ease="ease-in-out" data-aos-delay="1000"><?php echo wp_kses_post($texte); ?></span>
-				<?php endif;
-				$lien = get_field('lien_page_charte');
-				$texte_bouton = get_field('texte_cta_charte');
-				if($lien && $texte_bouton):
+                if($texte = get_field('contenu_texte_charte')): ?>
+                    <span data-aos="zoom-in" data-aos-duration="1000" data-aos-ease="ease-in-out" data-aos-delay="1000"><?php echo wp_kses_post($texte); ?></span>
+                <?php endif;
+                $lien = get_field('lien_page_charte');
+                $texte_bouton = get_field('texte_cta_charte');
+                if($lien && $texte_bouton):
 
-					if (is_array($lien) || is_object($lien)) {
-						$url = get_permalink(is_array($lien) ? $lien[0] : $lien);
-					} else {
-						$url = $lien;
-					}?>
+                    if (is_array($lien) || is_object($lien)) {
+                        $url = get_permalink(is_array($lien) ? $lien[0] : $lien);
+                    } else {
+                        $url = $lien;
+                    }?>
                 <a href="<?php echo esc_url($url); ?>" class="btn view-all-link px-4 py-2 text-uppercase mt-3" data-aos="zoom-in" data-aos-duration="1000" data-aos-ease="ease-in-out" data-aos-delay="2000">
                     <?php echo esc_html($texte_bouton); ?>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
@@ -281,9 +294,9 @@ get_header();
                     'order'   => 'DESC',
                 ));
                 ?>
-				<div class="col-12">
-					<h3 class="maj_title mb-4">Le mieux noté</h3>
-				</div>
+                <div class="col-12">
+                    <h3 class="maj_title mb-4 logo_before"><span class="logo_h3_content">Le mieux noté</span></h3>
+                </div>
                 <div class="col-md-6">
                     <div class="product-image-container" >
                         <?php echo get_the_post_thumbnail(get_the_ID(), 'large', ['style' => 'width:100%; height:100%; object-fit:cover;']); ?>
@@ -291,7 +304,7 @@ get_header();
                 </div>
                 <div class="col-md-6 d-flex flex-column justify-content-center align-items-center" data-aos="fade-left" data-aos-duration="2000">
                     <div class="w-100 px-4">
-                        <h3 class="mb-3 text-uppercase fw-bold"><?php the_title(); ?></h3>
+                        <h3 class="mb-3 text-uppercase logo_before fw-bold"><span class="logo_h3_content"><?php the_title(); ?></span></h3>
                         <div class="mb-3">
                             <?php echo silklane_get_star_rating_html($product->get_average_rating(), $product->get_rating_count()); ?>
                             <span class="rating-count small text-muted">(<?php echo $product->get_rating_count(); ?> avis)</span>
@@ -300,7 +313,7 @@ get_header();
                                 $note = number_format((float)$product->get_average_rating(), 2, ',', ' ');
                                 $nb_avis = $product->get_rating_count();
                                 echo "<h3>Note de {$note} / 5</h3>
-								<p>par {$nb_avis} client" . ($nb_avis > 1 ? "s" : "") . "</p>";
+                                <p>par {$nb_avis} client" . ($nb_avis > 1 ? "s" : "") . "</p>";
                                 ?>
                             </div>
                         </div>

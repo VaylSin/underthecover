@@ -1,4 +1,6 @@
+// =======================
 // Typographie
+// =======================
 body {
 	font-family: "Plus Jakarta Sans", sans-serif;
 }
@@ -12,19 +14,20 @@ h6 {
 	font-family: "SUSE", sans-serif;
 }
 
+// Titre principal avec trait sous le texte
 .maj_title {
 	font-size: 2.5rem !important;
 	text-transform: uppercase;
 	font-weight: 600;
 
-	&::after {
-		content: "";
-		display: block;
-		width: 5rem;
-		height: 0;
-		border-bottom: 1px solid $black-main;
-		margin: 1rem 0 0 0;
-	}
+	// &::after {
+	// 	content: "";
+	// 	display: block;
+	// 	width: 5rem;
+	// 	height: 0;
+	// 	border-bottom: 1px solid $black-main;
+	// 	margin: 1rem 0 0 0;
+	// }
 }
 h2 {
 	&.maj_title {
@@ -33,26 +36,34 @@ h2 {
 		}
 	}
 }
+
+// =======================
 // Logo
-.custom-logo-link {
-	img {
-		max-height: 4rem;
-		width: auto;
-		position: relative;
-		z-index: 9999;
-	}
+// =======================
+.logo_svg {
+	max-height: 4rem;
+	width: auto;
+	position: relative;
 }
 
-// Menu principal
+// =======================
+// Menu principal (header)
+// =======================
 #wrapper-navbar {
+	position: relative;
 	top: 0;
 	left: 0;
 	width: 100%;
 	z-index: 100;
-	background: transparent;
+	background: #fff;
 	transition: background 0.3s;
-	box-shadow: none;
-
+	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
+	.bi {
+		font-size: 1.5rem;
+		color: $black-main;
+		font-weight: bold;
+	}
+	// Au survol du header, le fond reste blanc et les liens du menu deviennent noirs
 	&:hover {
 		background: #fff;
 		transition: background 0.3s;
@@ -66,27 +77,15 @@ h2 {
 	}
 }
 
-// Gestion de la barre admin WordPress
-body.admin-bar #wrapper-navbar {
-	top: 32px;
-}
-@media (max-width: 782px) {
-	body.admin-bar #wrapper-navbar {
-		top: 46px;
-	}
-}
-
+// =======================
+// Menu container
+// =======================
 .menu_container {
 	display: flex;
 	align-items: stretch;
 
 	li {
-		margin: 0 0.5rem;
-
 		a {
-			color: #fff; // Couleur du texte
-			font-weight: 600; // ou 500 pour semi-bold
-			font-size: 1rem; // augmente la taille
 			text-transform: uppercase;
 			text-decoration: none;
 			transition: color 0.2s ease;
@@ -97,39 +96,27 @@ body.admin-bar #wrapper-navbar {
 		}
 	}
 
-	.nav-link {
-		color: #fff !important;
-		transition: color 0.2s, background 0.2s;
-		background: transparent;
-
-		&:hover,
-		&.active,
-		&:focus {
-			color: $velvet;
-			background: #fff;
-		}
-	}
-
-	min-height: 4rem; // ou la hauteur de ton menu principal
+	min-height: 4rem; // Hauteur du menu principal
 	.nav-item {
 		height: 100%;
 		display: flex;
 		align-items: stretch;
 
-		.nav-link {
+		a {
 			height: 100%;
 			display: flex;
 			align-items: center;
-			// Optionnel : padding-top/padding-bottom pour augmenter la zone
 			padding-top: 0.75rem;
 			padding-bottom: 0.75rem;
 		}
 	}
 }
 
+// =======================
 // Slider plein écran
+// =======================
 .fullscreen-slider {
-	min-height: 80vh; // Hauteur minimale du slider
+	min-height: 80vh;
 	width: 100%;
 	overflow: hidden;
 	position: relative;
@@ -137,7 +124,7 @@ body.admin-bar #wrapper-navbar {
 	.carousel-item img {
 		object-fit: cover;
 		width: 100%;
-		height: 80vh; // Hauteur minimale du slider
+		height: 80vh;
 	}
 }
 
@@ -148,7 +135,7 @@ body.admin-bar #wrapper-navbar {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(0, 0, 0, 0.3); // Ajuste l’opacité selon ton besoin
+	background: rgba(0, 0, 0, 0.3);
 	z-index: 2;
 	pointer-events: none;
 }
@@ -161,7 +148,6 @@ body.admin-bar #wrapper-navbar {
 	left: 0;
 	height: 100%;
 
-	// Tous les enfants sont interactifs
 	[class^="col-"] {
 		pointer-events: auto;
 		h2 {
@@ -182,46 +168,81 @@ body.admin-bar #wrapper-navbar {
 	}
 }
 
+// =======================
 // Cards produits
+// =======================
 .product_item {
 	&.card,
 	.card {
 		border: none;
 	}
-
+	.card_infos {
+		padding-inline: 0;
+	}
 	.img-container {
 		overflow: hidden;
 		aspect-ratio: 1 / 1;
 		position: relative;
 
+		// Overlay du bouton sur les images produit
 		.btn-overlay {
 			position: absolute;
-			top: 0; // Commence depuis le haut
+			top: 0;
 			left: 0;
-			width: 100%; // Largeur complète
-			height: 100%; // Hauteur complète
+			width: 100%;
+			height: 100%;
 			display: flex;
 			justify-content: center;
-			align-items: flex-end; // Aligne en bas
-			background-color: rgba($velvet, 0.5);
+			align-items: center;
 			opacity: 0;
-			transition: opacity 0.3s ease;
-			padding-bottom: 1rem; // Espace en bas réduit
+			background: rgba($velvet, 0.5);
+			transition: opacity 0.3s;
+			z-index: 2;
+			overflow: hidden;
+		}
 
-			.btn {
-				width: 95%; // Le bouton prend 95% de la largeur
-				transform: translateY(100%); // Initialement caché en dessous
-				transition: transform 0.3s ease;
-				text-align: center; // Centre le texte dans le bouton
+		// Logo SVG en fond, caché par défaut
+		.logo-bg-overlay {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 100%;
+			height: 100%;
+			transform: translate(-50%, -50%);
+			opacity: 0;
+			z-index: 1;
+			pointer-events: none;
+			transition: opacity 0.3s;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+				filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+			}
+		}
+
+		.btn {
+			position: relative;
+			z-index: 2;
+			width: 95%;
+			transform: translateY(100%);
+			transition: transform 0.3s ease;
+			text-align: center;
+			color: #fff;
+			background-color: transparent;
+			border-color: #fff;
+			border-width: 1px;
+			font-weight: bold;
+			font-size: 1rem;
+			letter-spacing: 1px;
+			&:hover {
+				background-color: $black-main;
+				border-color: $black-main;
 				color: #fff;
-				background-color: transparent;
-				border-color: #fff;
-				border-width: 1px;
-				transition: all 0.3s ease;
-				&:hover {
-					background-color: $black-main;
-					border-color: $black-main;
-				}
 			}
 		}
 	}
@@ -243,7 +264,7 @@ body.admin-bar #wrapper-navbar {
 			opacity: 1;
 
 			.btn {
-				transform: translateY(0); // Glisse vers le haut
+				transform: translateY(0);
 			}
 		}
 	}
@@ -251,20 +272,20 @@ body.admin-bar #wrapper-navbar {
 		font-weight: 600;
 		text-transform: uppercase;
 	}
-	// .price {
-	// 	font-size: 0.9rem;
-	// 	font-weight: 500;
-	// }
 }
 
+// =======================
 // Best-sellers
+// =======================
 .best_sellers {
 	.card {
 		border: none !important;
 	}
 }
 
+// =======================
 // Suppression des border-radius
+// =======================
 .card,
 .card-img-top,
 .card-body,
@@ -281,9 +302,10 @@ select {
 	border-radius: 0 !important;
 }
 
+// =======================
 // Bouton "Voir tous les produits"
+// =======================
 .view-all-link {
-	// Styles par défaut
 	display: inline-flex;
 	align-items: center;
 	background-color: $black-main;
@@ -329,16 +351,18 @@ select {
 	}
 }
 
+// =======================
 // Style pour les étoiles
+// =======================
 .product-rating {
-	margin-top: 0.5rem;
+	// margin-top: 0.5rem;
 
 	.star-rating-custom {
 		display: inline-flex;
 		align-items: center;
 
 		.star {
-			color: $velvet; // Remplace #ffc107 par $bloom
+			color: $velvet;
 			font-size: 1rem;
 			margin-right: 0.1rem;
 		}
@@ -354,11 +378,12 @@ select {
 	}
 }
 
+// =======================
 // Section parallax avec background fixe
+// =======================
 .parallax-banner {
 	position: relative;
 	padding: 0;
-	// background-attachment: fixed;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -366,7 +391,6 @@ select {
 	display: flex;
 	align-items: center;
 
-	// Overlay semi-transparent pour assurer la lisibilité du texte
 	.overlay {
 		position: absolute;
 		top: 0;
@@ -376,7 +400,6 @@ select {
 		background-color: rgba(0, 0, 0, 0.3);
 	}
 
-	// Contenu texte aligné à droite
 	.parallax-content,
 	.charte_rse {
 		position: relative;
@@ -392,18 +415,8 @@ select {
 			font-size: 0.9rem;
 			line-height: 1.8rem;
 		}
-
-		// .btn {
-		// 	border: 2px solid white;
-
-		// 	&:hover {
-		// 		background-color: white;
-		// 		color: $black-main;
-		// 	}
-		// }
 	}
 
-	// Désactive l'effet parallax sur mobile
 	@media (max-width: 767.98px) {
 		background-attachment: scroll;
 
@@ -414,14 +427,16 @@ select {
 	}
 }
 
+// =======================
 // Carousel des catégories - Style corrigé
+// =======================
 .boutique_categories {
 	position: relative;
 	padding: 2rem 0;
 
 	.categories-carousel {
 		position: relative;
-		margin: 0 0; // Pas de marge latérale ici
+		margin: 0 0;
 	}
 
 	.carousel-inner {
@@ -437,8 +452,6 @@ select {
 	.category-item {
 		flex: 0 0 calc(25% - 20px);
 		min-width: calc(25% - 20px);
-		// flex: 0 0 calc(33.333% - 20px);
-		// min-width: calc(33.333% - 20px);
 		padding: 0 10px;
 		box-sizing: border-box;
 	}
@@ -464,7 +477,7 @@ select {
 		left: 0;
 		width: 100%;
 		height: 100%;
-		background-color: rgba($velvet, 0.5); // Overlay bien visible
+		background-color: rgba($velvet, 0.5);
 		opacity: 0;
 		transition: opacity 0.3s;
 		display: flex;
@@ -488,7 +501,6 @@ select {
 		}
 	}
 
-	// Flèches vraiment à l’extérieur
 	.carousel-controls {
 		position: absolute;
 		left: -70px;
@@ -537,7 +549,6 @@ select {
 		right: 0;
 	}
 
-	// Icônes flèches noires, sans fond
 	.carousel-control-prev-icon,
 	.carousel-control-next-icon {
 		filter: none !important;
@@ -547,7 +558,6 @@ select {
 		background-repeat: no-repeat;
 		width: 2rem;
 		height: 2rem;
-		// Pour forcer la couleur noire sur SVG Bootstrap
 		mask-image: none;
 		-webkit-mask-image: none;
 	}
@@ -597,13 +607,11 @@ select {
 	top: 0;
 	left: 0;
 	z-index: 3;
-	// Retire pointer-events: none ici !
 
-	// Tous les enfants sont interactifs
 	[class^="col-"] {
 		pointer-events: auto;
 		h2 {
-			margin-block: 2rem;
+			margin-block-end: 2rem;
 			letter-spacing: 1px;
 			font-size: 3rem;
 		}
@@ -614,7 +622,9 @@ select {
 	}
 }
 
+// =======================
 // Charte RSE
+// =======================
 .charte_rse {
 	background-size: cover;
 	background-position: center;
@@ -641,7 +651,9 @@ select {
 	}
 }
 
+// =======================
 // Nouvelle classe pour les images de produit
+// =======================
 .product-image-container {
 	aspect-ratio: 1/1;
 	width: 100%;
@@ -659,7 +671,9 @@ select {
 	}
 }
 
+// =======================
 // Pagination du slider
+// =======================
 .slider-dots {
 	position: absolute;
 	left: 0;
@@ -685,6 +699,9 @@ select {
 	}
 }
 
+// =======================
+// Bouton "Voir tous les produits" dans le slider
+// =======================
 .slider_container .view-all-link {
 	background: transparent;
 	border: 1px solid #fff;
@@ -713,30 +730,34 @@ select {
 	}
 }
 
+// =======================
 // Pour le carousel des catégories
+// =======================
 .boutique_categories {
 	.carousel-controls {
-		pointer-events: none; // OK pour les flèches
+		pointer-events: none;
 		z-index: 10;
 	}
 	.carousel-control-prev,
 	.carousel-control-next {
-		pointer-events: auto; // Les flèches restent cliquables
+		pointer-events: auto;
 		z-index: 11;
 	}
 	.category-link,
 	.category-item,
 	.category-image,
 	.category-overlay {
-		pointer-events: auto; // S'assure que le texte et le bouton sont cliquables
+		pointer-events: auto;
 	}
 }
 
+// =======================
 // Footer
+// =======================
 .footer {
 	background: $black-main;
 	color: #fff;
-	padding-bottom: 0; // retire le padding bas
+	padding-bottom: 0;
 
 	a {
 		transition: color 0.2s;
@@ -770,107 +791,349 @@ select {
 	}
 }
 
-// Mega menu
-.mega-menu {
-	position: absolute;
-	top: 4rem;
-	left: 0;
-	right: 0;
-	width: 100vw;
-	min-height: 300px;
-	background: #fff;
-	display: none;
-	z-index: 999;
-	padding: 2rem 0;
-	opacity: 0;
-	transform: translateY(20px);
-	transition: opacity 0.3s, transform 0.3s;
+// =======================
+// Responsive
+// =======================
+@media (max-width: 991px) {
+	.logo_svg {
+		height: 1.6rem;
+	}
+	.menu_container .nav {
+		gap: 0.7rem;
+	}
+}
+.promo-banner {
+	font-size: 0.85rem;
+}
+// =======================
+// Liens du menu dans le header
+// =======================
+#wrapper-navbar a {
+	color: #222 !important;
+	font-size: 0.85rem !important;
+	font-weight: 600 !important;
+	text-transform: uppercase !important;
+	text-decoration: none !important;
+	padding: 0.3rem 0.8rem !important;
+	display: flex !important;
+	align-items: center !important;
+	background: transparent !important;
 }
 
-.menu_container .nav-item.position-static:hover .mega-menu,
-.menu_container .nav-item.position-static:focus-within .mega-menu {
-	display: block;
-	opacity: 1;
-	transform: translateY(0);
+#wrapper-navbar a:hover,
+#wrapper-navbar a:focus {
+	color: $velvet !important;
+	text-decoration: none !important;
 }
 
-.mega-menu .container-fluid {
-	max-width: 100vw;
-	padding-left: 2rem;
-	padding-right: 2rem;
-}
-
-.mega-menu .row {
-	margin: 0;
-}
-
-.mega-menu [class^="col-"] {
-	padding: 0 1.5rem;
-}
-
-.mega-menu h6 {
-	color: $black-main;
-	font-size: 1rem;
-	margin-bottom: 0.5rem;
-}
-
-.mega-menu a.dropdown-item {
-	color: $black-main;
-	font-size: 0.95rem;
-	padding-left: 0;
-	padding-right: 0;
+/* Taille uniforme pour toutes les icônes du menu droit */
+#wrapper-navbar .menu-item-67 > a i,
+#wrapper-navbar .menu-item-66 > a i,
+#wrapper-navbar .search-toggle i {
+	font-size: 1.3rem !important;
+	color: #222 !important;
 	transition: color 0.2s;
-	&:hover {
+}
+
+// =======================
+// Social Sticky Icons
+// =======================
+.social-sticky {
+	position: fixed;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 9999;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding-left: 0.5rem;
+}
+
+.social-icon {
+	z-index: 99999;
+	opacity: 0.75;
+	width: 2.3rem;
+	height: 2.3rem;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: $black-main;
+	font-size: 1.25rem;
+	background: none;
+	transition: color 0.2s;
+
+	i {
+		transition: color 0.1s, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	&:hover,
+	&:focus {
 		color: $velvet;
 		background: none;
+		text-decoration: none;
+
+		i {
+			opacity: 1;
+			font-size: 1.5rem;
+			color: $velvet;
+			transform: rotate(360deg);
+		}
 	}
 }
 
-.mega-menu .dropdown-item.text-lowercase {
-	text-transform: lowercase;
-}
+// =======================
+// Offcanvas recherche
+// =======================
+.search-offcanvas {
+	position: fixed;
+	top: 0;
+	right: -100vw; // caché hors écran
+	width: 100vw; // ou 80vw si tu veux moins large
+	max-width: 500px;
+	height: 100vh;
+	background: #fff;
+	box-shadow: -2px 0 16px rgba(0, 0, 0, 0.08);
+	z-index: 99999;
+	transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	padding: 2rem 2rem 1rem 2rem;
 
-@media (max-width: 991px) {
-	.mega-menu {
-		position: static;
-		width: 100%;
-		min-height: auto;
-		box-shadow: none;
-		padding: 1rem;
+	&.active {
+		right: 0;
 	}
-	.mega-menu .col-3 {
-		width: 100%;
-		padding: 0;
+
+	.close-search {
+		background: none;
+		border: none;
+		font-size: 2rem;
+		color: $black-main;
+		cursor: pointer;
 		margin-bottom: 2rem;
+		align-self: flex-end;
 	}
-	.mega-menu .row {
-		flex-direction: column;
+
+	.search-form-container {
+		width: 100%;
+		margin-top: 2rem;
 	}
 }
 
-// Suppression des styles indésirables dans le mega-menu
-.mega-menu,
-.mega-menu *,
-.mega-menu *:before,
-.mega-menu *:after {
-	border: none !important;
-	border-radius: 0 !important;
-	box-shadow: none !important;
+// Pour la loupe dans le menu droit
+.search-toggle {
+	color: #222;
+	font-size: 1.3rem;
+	background: none;
+	border: none;
+	cursor: pointer;
+	transition: color 0.2s;
+
+	&:hover,
+	&:focus {
+		color: $velvet;
+		text-decoration: none;
+	}
 }
 
-#wrapper-navbar:hover .menu_container .nav-link,
-#wrapper-navbar:hover .menu_container a.nav-link {
-	color: $black-main !important;
-}
-.logo_svg {
-	height: 5rem;
+.search-dropdown {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 100%; // juste sous le header
+	width: 100%;
+	background: #fff;
+	z-index: 99; // inférieur au header
+	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s,
+		visibility 0.4s;
+	transform: translateY(-20px); // commence caché juste sous le header
+	opacity: 0;
+	visibility: hidden;
+	padding: 1rem 1.5rem 1rem 1.5rem;
+	align-items: flex-end;
+
+	&.active {
+		transform: translateY(0);
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.close-search {
+		background: none;
+		border: none;
+		font-size: 2rem;
+		color: $black-main;
+		cursor: pointer;
+		margin-bottom: 1rem;
+		align-self: flex-end;
+	}
+
+	.search-form-container {
+		width: 100%;
+	}
 }
 
-.logo_svg .cls-1 {
-	fill: #fff;
-	transition: fill 0.3s;
+/* =======================
+   Sélecteur de langue dans le header
+   ======================= */
+.header-lang-select {
+	margin-right: 1rem;
+
+	select {
+		border: none;
+		background: #f8f8f8;
+		color: #222;
+		font-size: 0.95rem;
+		font-weight: 600;
+		padding: 0.3rem 0.8rem;
+		border-radius: 1.2rem;
+		outline: none;
+		cursor: pointer;
+		transition: background 0.2s, color 0.2s;
+
+		&:hover,
+		&:focus {
+			background: $velvet;
+			color: #fff;
+		}
+	}
 }
 
-#wrapper-navbar:hover .logo_svg .cls-1 {
-	fill: $black-main;
+/* =======================
+   Bootstrap icons pour Panier et Mon compte
+   ======================= */
+#wrapper-navbar .menu-item-67 > a,
+#wrapper-navbar .menu-item-66 > a {
+	font-size: 1.3rem;
+	color: #222 !important;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: none !important;
+	padding: 0.3rem 0.8rem !important;
+}
+
+#wrapper-navbar .menu-item-67 > a i,
+#wrapper-navbar .menu-item-66 > a i {
+	font-size: 1.3rem;
+	color: #222 !important;
+	transition: color 0.2s;
+}
+
+#wrapper-navbar .menu-item-67 > a:hover i,
+#wrapper-navbar .menu-item-66 > a:hover i {
+	color: $velvet !important;
+	/* PAS de rotation ici */
+}
+
+/* =======================
+   Social Sticky Icons : rotation au hover
+   ======================= */
+.social-sticky .social-icon i {
+	transition: color 0.2s, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.social-sticky .social-icon:hover i,
+.social-sticky .social-icon:focus i {
+	color: $velvet !important;
+	transform: rotate(360deg);
+}
+
+/* =======================
+   Ajout du logo UTC dans le titre
+   ======================= */
+h3.logo_before {
+	position: relative;
+	// PAS de display: flex ici !
+}
+
+h3.logo_before .logo_h3_content {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+}
+
+h3.logo_before .logo_h3_content::before {
+	content: "";
+	display: inline-block;
+	width: 2rem;
+	height: 3.5rem;
+	background: url("../images/utc-logomark.svg") no-repeat center center;
+	background-size: cover;
+	vertical-align: middle;
+	flex-shrink: 0;
+}
+
+// .maj_title::after {
+// 	content: "";
+// 	display: block;
+// 	width: 5rem;
+// 	height: 0;
+// 	border-bottom: 1px solid $black-main;
+// 	margin: 1rem 0 0 0;
+// }
+
+.btn-overlay {
+	position: relative;
+	overflow: hidden;
+}
+
+.logo-bg-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 100%;
+	height: 100%;
+	transform: translate(-50%, -50%);
+	opacity: 0;
+	z-index: 1;
+	pointer-events: none;
+	transition: opacity 0.3s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+	}
+}
+
+.btn-overlay:hover .logo-bg-overlay,
+.btn-overlay:focus .logo-bg-overlay {
+	opacity: 0.28; // Opacité légère en surbrillance
+}
+.btn-overlay button {
+	position: relative;
+	z-index: 2;
+}
+
+// Effet au hover sur la carte produit
+.product_item:hover .btn-overlay {
+	opacity: 1;
+
+	.btn {
+		transform: translateY(0);
+	}
+	.logo-bg-overlay {
+		opacity: 0.18; // Affiche le logo en surbrillance
+	}
+}
+
+.product_item .btn-overlay .btn {
+	background-color: transparent;
+	color: #fff;
+	border: 1px solid #fff;
+	transition: color 0.2s, border-color 0.2s;
+}
+
+.product_item .btn-overlay .btn:hover,
+.product_item .btn-overlay .btn:focus {
+	background-color: transparent !important;
+	color: #fff !important;
+	border-color: #fff !important; // Bordure blanche au hover
 }

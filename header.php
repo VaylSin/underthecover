@@ -26,84 +26,24 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 <body <?php body_class(); ?>>
 
 <div class="site" id="page">
-
+<div class="social-sticky">
+    <a href="https://facebook.com" target="_blank" class="social-icon"><i class="bi bi-facebook"></i></a>
+    <a href="https://instagram.com" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
+    <a href="https://linkedin.com" target="_blank" class="social-icon"><i class="bi bi-linkedin"></i></a>
+    <a href="https://twitter.com" target="_blank" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+</div>
     <!-- ******************* The Navbar Area ******************* -->
-    <header id="wrapper-navbar"
-        class="w-100 position-absolute top-0 start-0"
-        style="z-index:100;">
-        <?php do_action( 'wp_body_open' ); ?>
-        <a class="skip-link <?php echo understrap_get_screen_reader_class( true ); ?>" href="#content">
-            <?php esc_html_e( 'Skip to content', 'understrap' ); ?>
-        </a>
-        <div class="container-fluid py-3 px-5">
-            <div class="row align-items-center h-100" style="min-height: 4rem;">
-                <!-- Colonne gauche : Menu principal -->
-                <div class="col-4 text-start d-flex align-items-center h-100">
-                    <div class="nav menu_container align-items-center h-100">
-                        <div class="nav-item dropdown position-static">
-                            <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>"
-                               class="nav-link text-uppercase px-3 fw-semibold"
-                               id="produitsDropdown"
-                               data-bs-toggle="dropdown"
-                               aria-expanded="false">
-                                Boutique
-                            </a>
-                            <div class="dropdown-menu mega-menu" aria-labelledby="produitsDropdown">
-                                <div class="row gx-5">
-                                    <?php
-                                    $product_categories = get_terms([
-                                        'taxonomy' => 'product_cat',
-                                        'hide_empty' => false
-                                    ]);
-                                    $col_count = max(1, min(4, count($product_categories)));
-                                    foreach ($product_categories as $cat):
-                                        $products = get_posts([
-                                            'post_type' => 'product',
-                                            'posts_per_page' => -1,
-                                            'tax_query' => [
-                                                [
-                                                    'taxonomy' => 'product_cat',
-                                                    'field'    => 'term_id',
-                                                    'terms'    => $cat->term_id,
-                                                ]
-                                            ]
-                                        ]);
-                                    ?>
-                                    <div class="col-12 col-md-<?php echo intval(12/$col_count); ?>">
-                                        <h6 class="fw-bold mb-2 text-uppercase">
-                                            <a href="<?php echo esc_url(get_term_link($cat)); ?>" class="text-dark text-decoration-none">
-                                                <?php echo esc_html($cat->name); ?>
-                                            </a>
-                                        </h6>
-                                        <ul class="list-unstyled">
-                                            <?php foreach ($products as $prod): ?>
-                                                <li>
-                                                    <a href="<?php echo get_permalink($prod->ID); ?>" class="dropdown-item px-0 py-1 text-lowercase">
-                                                        <?php echo esc_html(get_the_title($prod->ID)); ?>
-                                                    </a>
-                                                </li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </div>
-                        <?php
-                        // Affiche les autres éléments du menu principal
-                        wp_nav_menu( array(
-                            'theme_location' => 'left-menu',
-                            'menu_class'     => 'nav',
-                            'container'      => false,
-                            'fallback_cb'    => false,
-                        ) );
-                        ?>
-                    </div>
-                </div>
-                <!-- Colonne centrale : Logo -->
-                <div class="col-4 text-center d-flex align-items-center justify-content-center h-100 custom-logo-switch">
-
-					<svg class="logo_svg" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1148.43 389.27">
+	 <?php if ( get_field('texte_banderolle', 'option') ) : ?>
+    <div class="promo-banner text-center bg-velvet text-white text-center py-2">
+        <?php echo esc_html( get_field('texte_banderolle', 'option') ); ?>
+    </div>
+<?php endif; ?>
+    <header id="wrapper-navbar" class="bg-white w-100" style="z-index:100;">
+        <div class="container-fluid h-100">
+            <div class="row align-items-center justify-content-between" style="min-height: 3.2rem;">
+                <!-- Logo à gauche -->
+                <div class="col-4 d-flex align-items-center justify-content-start h-100">
+                    <svg class="logo_svg" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1148.43 389.27">
 
 						<g id="LOGO">
 							<path class="cls-1" d="M148.23,329.46c-1.29,0-2.32-.38-3.07-1.13-.76-.76-1.13-1.74-1.13-2.97v-50.71c0-1.29.38-2.32,1.13-3.07.75-.76,1.78-1.13,3.07-1.13,1.22,0,2.21.38,2.97,1.13.76.75,1.13,1.78,1.13,3.07v50.71c0,1.22-.38,2.21-1.13,2.97s-1.74,1.13-2.97,1.13ZM194.62,329.46c-1.22,0-2.23-.39-3.02-1.19-.79-.79-1.19-1.76-1.19-2.91v-28.05c0-4.46-.85-8.13-2.54-11-1.69-2.88-3.99-5.03-6.9-6.47-2.91-1.44-6.2-2.16-9.87-2.16s-6.71.68-9.55,2.05c-2.84,1.37-5.09,3.24-6.74,5.61-1.66,2.37-2.48,5.07-2.48,8.09h-5.93c.14-4.53,1.37-8.58,3.67-12.14,2.3-3.56,5.36-6.37,9.17-8.42,3.81-2.05,8.05-3.07,12.73-3.07,5.11,0,9.67,1.06,13.7,3.18,4.03,2.12,7.21,5.23,9.55,9.33,2.34,4.1,3.51,9.1,3.51,15v28.05c0,1.15-.4,2.12-1.19,2.91-.79.79-1.76,1.19-2.91,1.19Z"/>
@@ -113,7 +53,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 							<path class="cls-1" d="M490.76,279.83c-1.08,0-1.98-.34-2.7-1.02-.72-.68-1.08-1.53-1.08-2.54,0-1.08.36-1.96,1.08-2.64.72-.68,1.62-1.02,2.7-1.02h27.51c1.08,0,1.98.34,2.7,1.02.72.68,1.08,1.56,1.08,2.64,0,1.01-.36,1.85-1.08,2.54-.72.68-1.62,1.02-2.7,1.02h-27.51ZM517.62,329.46c-3.81,0-7.21-.9-10.19-2.7-2.99-1.8-5.34-4.26-7.07-7.39-1.73-3.13-2.59-6.71-2.59-10.73v-52.76c0-1.22.38-2.23,1.13-3.02.76-.79,1.74-1.19,2.97-1.19s2.23.4,3.02,1.19c.79.79,1.19,1.8,1.19,3.02v52.76c0,3.67,1.08,6.67,3.24,9.01,2.16,2.34,4.93,3.51,8.31,3.51h2.91c1.15,0,2.09.4,2.8,1.19.72.79,1.08,1.8,1.08,3.02s-.43,2.21-1.29,2.97c-.86.76-1.94,1.13-3.24,1.13h-2.27Z"/>
 							<path class="cls-1" d="M552.9,305.4c-1.29,0-2.32-.39-3.07-1.19-.76-.79-1.13-1.8-1.13-3.02v-51.78c0-1.29.38-2.32,1.13-3.07.75-.76,1.78-1.13,3.07-1.13,1.22,0,2.21.38,2.97,1.13.76.75,1.13,1.78,1.13,3.07v51.78c0,1.22-.38,2.23-1.13,3.02-.76.79-1.74,1.19-2.97,1.19ZM552.9,329.46c-1.29,0-2.32-.38-3.07-1.13-.76-.76-1.13-1.74-1.13-2.97v-50.71c0-1.29.38-2.32,1.13-3.07.75-.76,1.78-1.13,3.07-1.13,1.22,0,2.21.38,2.97,1.13.76.75,1.13,1.78,1.13,3.07v50.71c0,1.22-.38,2.21-1.13,2.97s-1.74,1.13-2.97,1.13ZM599.29,329.46c-1.22,0-2.23-.39-3.02-1.19-.79-.79-1.19-1.76-1.19-2.91v-28.05c0-4.46-.85-8.13-2.54-11-1.69-2.88-3.99-5.03-6.9-6.47-2.91-1.44-6.2-2.16-9.87-2.16s-6.71.68-9.55,2.05c-2.84,1.37-5.09,3.24-6.74,5.61-1.66,2.37-2.48,5.07-2.48,8.09h-5.93c.14-4.53,1.37-8.58,3.67-12.14,2.3-3.56,5.36-6.37,9.17-8.42,3.81-2.05,8.05-3.07,12.73-3.07,5.11,0,9.67,1.06,13.7,3.18,4.03,2.12,7.21,5.23,9.55,9.33,2.34,4.1,3.51,9.1,3.51,15v28.05c0,1.15-.4,2.12-1.19,2.91-.79.79-1.76,1.19-2.91,1.19Z"/>
 							<path class="cls-1" d="M659.27,330c-5.83,0-10.99-1.28-15.48-3.83-4.5-2.55-8.02-6.1-10.57-10.63-2.55-4.53-3.83-9.71-3.83-15.54s1.2-11.09,3.61-15.59c2.41-4.49,5.73-8.04,9.98-10.63,4.24-2.59,9.13-3.88,14.67-3.88s10.23,1.24,14.29,3.72c4.06,2.48,7.21,5.92,9.44,10.3,2.23,4.39,3.34,9.39,3.34,15,0,1.15-.36,2.07-1.08,2.75-.72.68-1.66,1.02-2.8,1.02h-45.85v-6.9h46.71l-4.64,3.34c.07-4.17-.68-7.91-2.27-11.22-1.58-3.31-3.83-5.9-6.74-7.77-2.91-1.87-6.38-2.8-10.41-2.8s-7.7.97-10.79,2.91c-3.09,1.94-5.49,4.62-7.17,8.04-1.69,3.42-2.54,7.32-2.54,11.71s.95,8.27,2.86,11.65c1.9,3.38,4.51,6.04,7.82,7.98,3.31,1.94,7.12,2.91,11.44,2.91,2.59,0,5.2-.45,7.82-1.35,2.62-.9,4.73-2.03,6.31-3.4.79-.65,1.69-.99,2.7-1.03,1.01-.04,1.87.23,2.59.81.93.86,1.42,1.8,1.46,2.81.04,1.01-.38,1.87-1.24,2.59-2.37,2.01-5.39,3.69-9.06,5.02-3.67,1.33-7.19,2-10.57,2Z"/>
-							<path class="cls-1" d="M778.26,330c-5.68,0-10.73-1.31-15.16-3.94-4.42-2.62-7.91-6.2-10.46-10.73-2.55-4.53-3.83-9.64-3.83-15.32s1.22-10.9,3.67-15.43c2.44-4.53,5.79-8.11,10.03-10.73,4.24-2.62,9.13-3.94,14.67-3.94,4.39,0,8.43.86,12.14,2.59,3.7,1.73,6.96,4.32,9.76,7.77.79.86,1.08,1.78.86,2.75s-.83,1.82-1.83,2.54c-.79.58-1.67.77-2.64.59-.97-.18-1.82-.7-2.54-1.56-4.17-4.75-9.42-7.12-15.75-7.12-4.03,0-7.57.97-10.63,2.91-3.06,1.94-5.43,4.6-7.12,7.98-1.69,3.38-2.54,7.27-2.54,11.65s.9,8.16,2.7,11.54c1.8,3.38,4.32,6.04,7.55,7.98,3.24,1.94,6.94,2.91,11.11,2.91,2.8,0,5.38-.38,7.71-1.13,2.34-.76,4.4-1.92,6.2-3.51.86-.72,1.76-1.11,2.7-1.19.93-.07,1.8.22,2.59.86.86.79,1.35,1.69,1.46,2.7.11,1.01-.23,1.87-1.02,2.59-5.25,4.82-11.8,7.23-19.63,7.23Z"/>
+							<path class="cls-1" d="M778.26,330c-5.68,0-10.73-1.31-15.16-3.94-4.42-2.62-7.91-6.2-10.46-10.73-2.55-4.53-3.83-9.64-3.83-15.32s1.22-10.9,3.67-15.43c2.44-4.53,5.79-8.11,10.03-10.73,4.24-2.62,9.13-3.94,14.67-3.94,4.39,0,8.43.86,12.14 2.59,3.7,1.73,6.96,4.32,9.76,7.77.79.86,1.08,1.78.86,2.75s-.83,1.82-1.83,2.54c-.79.58-1.67.77-2.64.59-.97-.18-1.82-.7-2.54-1.56-4.17-4.75-9.42-7.12-15.75-7.12-4.03,0-7.57.97-10.63,2.91-3.06,1.94-5.43,4.6-7.12,7.98-1.69,3.38-2.54,7.27-2.54,11.65s.9,8.16,2.7,11.54c1.8,3.38,4.32,6.04,7.55,7.98,3.24,1.94,6.94,2.91,11.11,2.91,2.8,0,5.38-.38,7.71-1.13,2.34-.76,4.4-1.92,6.2-3.51.86-.72,1.76-1.11,2.7-1.19.93-.07,1.8.22,2.59.86.86.79,1.35,1.69,1.46,2.7.11,1.01-.23,1.87-1.02,2.59-5.25,4.82-11.8,7.23-19.63,7.23Z"/>
 							<path class="cls-1" d="M927.68,329.46c-1.73,0-3.02-.93-3.88-2.81l-23.95-50.81c-.43-.93-.47-1.87-.11-2.81.36-.93,1.08-1.65,2.16-2.16,1.01-.5,1.98-.58,2.91-.22.93.36,1.65,1.01,2.16,1.94l22.98,49.73h-4.42l22.66-49.73c.43-1.01,1.17-1.67,2.21-2,1.04-.32,2.07-.27,3.07.16,1.01.5,1.69,1.24,2.05,2.21.36.97.32,1.89-.11,2.75l-23.63,50.92c-.86,1.87-2.23,2.81-4.1,2.81Z"/>
 							<path class="cls-1" d="M1002.55,330c-5.83,0-10.99-1.28-15.48-3.83-4.5-2.55-8.02-6.1-10.57-10.63-2.55-4.53-3.83-9.71-3.83-15.54s1.2-11.09,3.61-15.59c2.41-4.49,5.73-8.04,9.98-10.63,4.24-2.59,9.13-3.88,14.67-3.88s10.23,1.24,14.29,3.72c4.06,2.48,7.21,5.92,9.44,10.3,2.23,4.39,3.34,9.39,3.34,15,0,1.15-.36,2.07-1.08,2.75-.72.68-1.66,1.02-2.8,1.02h-45.85v-6.9h46.71l-4.64,3.34c.07-4.17-.68-7.91-2.27-11.22-1.58-3.31-3.83-5.9-6.74-7.77-2.91-1.87-6.38-2.8-10.41-2.8s-7.7.97-10.79,2.91c-3.09,1.94-5.49,4.62-7.17,8.04-1.69,3.42-2.54,7.32-2.54,11.71s.95,8.27,2.86,11.65c1.9,3.38,4.51,6.04,7.82,7.98,3.31,1.94,7.12,2.91,11.44,2.91,2.59,0,5.2-.45,7.82-1.35,2.62-.9,4.73-2.03,6.31-3.4.79-.65,1.69-.99,2.7-1.03,1.01-.04,1.87.23,2.59.81.93.86,1.42,1.8,1.46,2.81.04,1.01-.38,1.87-1.24,2.59-2.37,2.01-5.39,3.69-9.06,5.02-3.67,1.33-7.19,2-10.57,2Z"/>
 							<path class="cls-1" d="M1056.93,329.46c-1.29,0-2.3-.36-3.02-1.08-.72-.72-1.08-1.73-1.08-3.02v-50.81c0-1.29.36-2.3,1.08-3.02s1.73-1.08,3.02-1.08,2.3.36,3.02,1.08c.72.72,1.08,1.73,1.08,3.02v50.81c0,1.29-.36,2.3-1.08,3.02s-1.73,1.08-3.02,1.08ZM1056.28,293.1c.22-4.46,1.38-8.45,3.51-11.98,2.12-3.52,4.89-6.29,8.31-8.31,3.42-2.01,7.21-3.02,11.38-3.02,3.31,0,5.86.47,7.66,1.4,1.8.94,2.48,2.3,2.05,4.1-.29,1.08-.77,1.8-1.46,2.16-.68.36-1.51.5-2.48.43-.97-.07-2.07-.14-3.29-.22-4.03-.36-7.61.05-10.73,1.24-3.13,1.19-5.61,3-7.44,5.45-1.83,2.45-2.75,5.36-2.75,8.74h-4.75Z"/>
@@ -129,16 +69,55 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 						</g>
 						</svg>
                 </div>
-                <!-- Colonne droite : Menu droit -->
-                <div class="col-4 text-end d-flex align-items-center justify-content-end h-100">
-                    <?php
-                    wp_nav_menu( array(
-                        'theme_location' => 'right-menu',
-                        'menu_class'     => 'nav justify-content-end align-items-center menu_container',
-                        'container'      => false,
-                    ) );
-                    ?>
+                <!-- Menu principal centré -->
+                <div class="col-4 d-flex align-items-center justify-content-center h-100">
+                    <nav class="menu_container">
+                        <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>"
+                           class="nav-link  d-flex align-items-center text-uppercase px-3 fw-semibold">
+                            Boutique
+                        </a>
+                        <?php
+                        wp_nav_menu( array(
+                            'theme_location' => 'left-menu',
+                            'menu_class'     => 'nav justify-content-center align-items-center',
+                            'container'      => false,
+                            'fallback_cb'    => false,
+                        ) );
+                        ?>
+                    </nav>
+                </div>
+                <!-- Menu droit collé à droite -->
+                <div class="col-4 d-flex align-items-center justify-content-end h-100">
+                    <nav class="menu_container">
+						<select class="border-0" name="lang" id="lang-select" aria-label="Choisir la langue">
+							<option value="fr">FR</option>
+							<option value="en">EN</option>
+							<option value="es">ES</option>
+							<!-- Ajoute d'autres langues si besoin -->
+						</select>
+                        <a href="#" class="search-toggle" id="searchToggle" aria-label="Rechercher">
+                            <i class="bi bi-search"></i>
+                        </a>
+                        <?php
+                        wp_nav_menu( array(
+                            'theme_location' => 'right-menu',
+                            'menu_class'     => 'nav justify-content-end align-items-center',
+                            'container'      => false,
+                        ) );
+                        ?>
+                    </nav>
                 </div>
             </div>
         </div>
+		<!-- Barre de recherche cachée sous le header -->
+		<div id="searchDropdown" class="search-dropdown d-flex align-items-center">
+		  <button type="button" class="close-search" id="closeSearch" aria-label="Fermer">
+			&times;
+		  </button>
+		  <div class="search-form-container">
+			<?php the_widget('WC_Widget_Product_Search'); ?>
+		  </div>
+		</div>
     </header><!-- #wrapper-navbar -->
+
+

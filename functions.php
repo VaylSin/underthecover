@@ -43,3 +43,14 @@ if ( class_exists( 'Jetpack' ) ) {
 foreach ( $understrap_includes as $file ) {
 	require_once get_theme_file_path( $understrap_inc_dir . $file );
 }
+class Walker_Nav_Menu_HTML extends Walker_Nav_Menu {
+    function start_el(&$output, $item, $depth = 0, $args = [], $id = 0) {
+        $output .= sprintf(
+            '<li id="menu-item-%s" class="%s"><a href="%s">%s</a></li>',
+            esc_attr($item->ID),
+            esc_attr(implode(' ', $item->classes)),
+            esc_url($item->url),
+            $item->title // Affiche le HTML du titre
+        );
+    }
+}
