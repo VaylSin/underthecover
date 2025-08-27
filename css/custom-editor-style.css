@@ -783,7 +783,7 @@ progress {
 }
 @media (min-width: 1400px) {
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
-    max-width: 1600px;
+    max-width: 1356px;
   }
 }
 .row {
@@ -6752,7 +6752,7 @@ body.understrap-no-sidebar .wp-block-cover.alignfull .wp-block-cover__inner-cont
   body.understrap-no-sidebar .alignfull .wp-block-cover__inner-container,
   body.understrap-no-sidebar .wp-block-cover.alignwide .wp-block-cover__inner-container,
   body.understrap-no-sidebar .wp-block-cover.alignfull .wp-block-cover__inner-container {
-    max-width: 1600px;
+    max-width: 1356px;
   }
 }
 body.understrap-no-sidebar .alignwide,
@@ -6811,7 +6811,7 @@ body.understrap-no-sidebar .wp-block-cover.alignwide {
 }
 @media (min-width: 1400px) {
   html :where(.wp-block) {
-    max-width: 1600px;
+    max-width: 1356px;
   }
 }
 

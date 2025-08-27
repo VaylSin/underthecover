@@ -6233,6 +6233,10 @@
         btn.classList.add("view-all-link");
       }
     }
+    const track = document.querySelector(".bandeau-track");
+    if (track) {
+      track.innerHTML += track.innerHTML; // Duplique le contenu pour effet infini
+    }
   });
 
   exports.Alert = Alert;

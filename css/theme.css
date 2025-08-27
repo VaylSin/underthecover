@@ -677,7 +677,7 @@ progress {
 }
 @media (min-width: 1400px) {
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
-    max-width: 1600px;
+    max-width: 1356px;
   }
 }
 .row {
@@ -12383,7 +12383,7 @@ body.understrap-no-sidebar .wp-block-cover.alignfull .wp-block-cover__inner-cont
   body.understrap-no-sidebar .alignfull .wp-block-cover__inner-container,
   body.understrap-no-sidebar .wp-block-cover.alignwide .wp-block-cover__inner-container,
   body.understrap-no-sidebar .wp-block-cover.alignfull .wp-block-cover__inner-container {
-    max-width: 1600px;
+    max-width: 1356px;
   }
 }
 body.understrap-no-sidebar .alignwide,
@@ -15499,6 +15499,10 @@ figure.woocommerce-product-gallery__wrapper {
   content: "\f2e0";
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   font-family: "Plus Jakarta Sans", sans-serif;
 }
@@ -15522,8 +15526,7 @@ h6,
   text-transform: uppercase;
   font-weight: 600;
 }
-
-h2.maj_title::after, .maj_title.h2::after {
+.maj_title.h2::after {
   border-color: #fff;
 }
 
@@ -15531,6 +15534,7 @@ h2.maj_title::after, .maj_title.h2::after {
   max-height: 4rem;
   width: auto;
   position: relative;
+  vertical-align: middle;
 }
 
 #wrapper-navbar {
@@ -15583,7 +15587,7 @@ h2.maj_title::after, .maj_title.h2::after {
 }
 
 .fullscreen-slider {
-  min-height: 80vh;
+  min-height: 75vh;
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -15592,7 +15596,7 @@ h2.maj_title::after, .maj_title.h2::after {
   -o-object-fit: cover;
   object-fit: cover;
   width: 100%;
-  height: 80vh;
+  height: 75vh;
 }
 
 .slider-overlay {
@@ -15659,7 +15663,7 @@ h2.maj_title::after, .maj_title.h2::after {
   z-index: 2;
   overflow: hidden;
 }
-.product_item .img-container .logo-bg-overlay {
+.product_item .img-container .btn-overlay .logo-bg-overlay {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -15674,14 +15678,14 @@ h2.maj_title::after, .maj_title.h2::after {
   align-items: center;
   justify-content: center;
 }
-.product_item .img-container .logo-bg-overlay img {
+.product_item .img-container .btn-overlay .logo-bg-overlay img {
   width: 100%;
   height: 100%;
   -o-object-fit: contain;
   object-fit: contain;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
 }
-.product_item .img-container .btn, .product_item .img-container .wpcf7 input[type=submit], .wpcf7 .product_item .img-container input[type=submit], .product_item .img-container .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-notices-wrapper .woocommerce-message .product_item .img-container a.button, .product_item .img-container .woocommerce-info a.button, .woocommerce-info .product_item .img-container a.button {
+.product_item .img-container .btn-overlay button {
   position: relative;
   z-index: 2;
   width: 95%;
@@ -15690,16 +15694,15 @@ h2.maj_title::after, .maj_title.h2::after {
   text-align: center;
   color: #fff;
   background-color: transparent;
-  border-color: #fff;
-  border-width: 1px;
+  border: 1px solid #fff;
   font-weight: bold;
   font-size: 1rem;
   letter-spacing: 1px;
 }
-.product_item .img-container .btn:hover, .product_item .img-container .wpcf7 input[type=submit]:hover, .wpcf7 .product_item .img-container input[type=submit]:hover, .product_item .img-container .woocommerce-notices-wrapper .woocommerce-message a.button:hover, .woocommerce-notices-wrapper .woocommerce-message .product_item .img-container a.button:hover, .product_item .img-container .woocommerce-info a.button:hover, .woocommerce-info .product_item .img-container a.button:hover {
-  background-color: #272727;
-  border-color: #272727;
-  color: #fff;
+.product_item .img-container .btn-overlay button:hover, .product_item .img-container .btn-overlay button:focus {
+  background-color: transparent !important;
+  color: #fff !important;
+  border-color: #fff !important;
 }
 .product_item .card-img-top {
   width: 100%;
@@ -15715,8 +15718,11 @@ h2.maj_title::after, .maj_title.h2::after {
 .product_item:hover .btn-overlay {
   opacity: 1;
 }
-.product_item:hover .btn-overlay .btn, .product_item:hover .btn-overlay .wpcf7 input[type=submit], .wpcf7 .product_item:hover .btn-overlay input[type=submit], .product_item:hover .btn-overlay .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-notices-wrapper .woocommerce-message .product_item:hover .btn-overlay a.button, .product_item:hover .btn-overlay .woocommerce-info a.button, .woocommerce-info .product_item:hover .btn-overlay a.button {
+.product_item:hover .btn-overlay button {
   transform: translateY(0);
+}
+.product_item:hover .btn-overlay .logo-bg-overlay {
+  opacity: 0.18;
 }
 .product_item h3, .product_item .h3 {
   font-weight: 600;
@@ -15771,6 +15777,16 @@ select {
 }
 .view-all-link:hover svg {
   transform: translateX(4px);
+}
+.view-all-link .bi-bag-heart {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.view-all-link:hover .bi-bag-heart, .view-all-link:focus .bi-bag-heart {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .selection_moment .view-all-link,
@@ -15997,6 +16013,12 @@ select {
 
 .boutique_categories > .container-xxl {
   overflow: visible;
+}
+
+.container-1600 {
+  max-width: 1600px;
+  margin: auto;
+  padding: 0 1.5rem;
 }
 
 .container-xxl:not(.boutique_categories > .container-xxl) {
@@ -16443,7 +16465,6 @@ select {
 #wrapper-navbar .menu-item-67 > a:hover i,
 #wrapper-navbar .menu-item-66 > a:hover i {
   color: #bc3365 !important;
-  /* PAS de rotation ici */
 }
 
 /* =======================
@@ -16471,12 +16492,11 @@ h3.logo_before .logo_h3_content, .logo_before.h3 .logo_h3_content {
   align-items: center;
   gap: 0.7rem;
 }
-
 h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::before {
   content: "";
   display: inline-block;
   width: 2rem;
-  height: 3.5rem;
+  height: 4rem;
   background: url("../images/utc-logomark.svg") no-repeat center center;
   background-size: cover;
   vertical-align: middle;
@@ -16487,8 +16507,7 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   position: relative;
   overflow: hidden;
 }
-
-.logo-bg-overlay {
+.btn-overlay .logo-bg-overlay {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -16503,19 +16522,16 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   align-items: center;
   justify-content: center;
 }
-.logo-bg-overlay img {
+.btn-overlay .logo-bg-overlay img {
   width: 100%;
   height: 100%;
   -o-object-fit: contain;
   object-fit: contain;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
 }
-
-.btn-overlay:hover .logo-bg-overlay,
-.btn-overlay:focus .logo-bg-overlay {
+.btn-overlay:hover .logo-bg-overlay, .btn-overlay:focus .logo-bg-overlay {
   opacity: 0.28;
 }
-
 .btn-overlay button {
   position: relative;
   z-index: 2;
@@ -16524,7 +16540,7 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
 .product_item:hover .btn-overlay {
   opacity: 1;
 }
-.product_item:hover .btn-overlay .btn, .product_item:hover .btn-overlay .wpcf7 input[type=submit], .wpcf7 .product_item:hover .btn-overlay input[type=submit], .product_item:hover .btn-overlay .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-notices-wrapper .woocommerce-message .product_item:hover .btn-overlay a.button, .product_item:hover .btn-overlay .woocommerce-info a.button, .woocommerce-info .product_item:hover .btn-overlay a.button {
+.product_item:hover .btn-overlay button {
   transform: translateY(0);
 }
 .product_item:hover .btn-overlay .logo-bg-overlay {
@@ -16537,18 +16553,89 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   border: 1px solid #fff;
   transition: color 0.2s, border-color 0.2s;
 }
-
-.product_item .btn-overlay .btn:hover, .product_item .btn-overlay .wpcf7 input[type=submit]:hover, .wpcf7 .product_item .btn-overlay input[type=submit]:hover, .product_item .btn-overlay .woocommerce-notices-wrapper .woocommerce-message a.button:hover, .woocommerce-notices-wrapper .woocommerce-message .product_item .btn-overlay a.button:hover, .product_item .btn-overlay .woocommerce-info a.button:hover, .woocommerce-info .product_item .btn-overlay a.button:hover,
-.product_item .btn-overlay .btn:focus,
-.product_item .btn-overlay .wpcf7 input[type=submit]:focus,
-.wpcf7 .product_item .btn-overlay input[type=submit]:focus,
-.product_item .btn-overlay .woocommerce-notices-wrapper .woocommerce-message a.button:focus,
-.woocommerce-notices-wrapper .woocommerce-message .product_item .btn-overlay a.button:focus,
-.product_item .btn-overlay .woocommerce-info a.button:focus,
-.woocommerce-info .product_item .btn-overlay a.button:focus {
+.product_item .btn-overlay .btn:hover, .product_item .btn-overlay .wpcf7 input[type=submit]:hover, .wpcf7 .product_item .btn-overlay input[type=submit]:hover, .product_item .btn-overlay .woocommerce-notices-wrapper .woocommerce-message a.button:hover, .woocommerce-notices-wrapper .woocommerce-message .product_item .btn-overlay a.button:hover, .product_item .btn-overlay .woocommerce-info a.button:hover, .woocommerce-info .product_item .btn-overlay a.button:hover, .product_item .btn-overlay .btn:focus, .product_item .btn-overlay .wpcf7 input[type=submit]:focus, .wpcf7 .product_item .btn-overlay input[type=submit]:focus, .product_item .btn-overlay .woocommerce-notices-wrapper .woocommerce-message a.button:focus, .woocommerce-notices-wrapper .woocommerce-message .product_item .btn-overlay a.button:focus, .product_item .btn-overlay .woocommerce-info a.button:focus, .woocommerce-info .product_item .btn-overlay a.button:focus {
   background-color: transparent !important;
   color: #fff !important;
   border-color: #fff !important;
+}
+
+.bandeau-carousel {
+  overflow: hidden;
+  width: 100%;
+  padding: 0.7rem 0;
+}
+
+.bandeau-track {
+  display: flex;
+  gap: 2.5rem;
+  animation: bandeau-scroll 30s linear infinite;
+}
+
+.bandeau-item {
+  white-space: nowrap;
+  font-size: 1.5rem;
+  color: #bc3365;
+  font-weight: 700;
+}
+
+.bandeau-icon img {
+  width: 3.375rem;
+  height: auto;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@keyframes bandeau-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@media (min-width: 992px) and (max-width: 1599px) {
+  .px-lg-5rem {
+    padding-left: 5rem !important;
+    padding-right: 5rem !important;
+  }
+}
+/* =======================
+   Sous-menu boutique
+   ======================= */
+#submenu-boutique {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100vw;
+  background: #fff;
+  z-index: 999;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  padding: 2rem 0;
+}
+#submenu-boutique .category-title {
+  color: #bc3365;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+#submenu-boutique .product-link {
+  color: #272727;
+  text-transform: lowercase;
+  font-size: 1rem;
+  text-decoration: none;
+  display: block;
+  padding: 0.2rem 0;
+  transition: color 0.2s;
+}
+#submenu-boutique .product-link:hover {
+  color: #bc3365;
+}
+
+.menu-item-boutique:hover + #submenu-boutique,
+.menu-item-boutique:focus + #submenu-boutique {
+  display: block;
 }
 
 .spacer-0 {

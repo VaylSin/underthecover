@@ -57,13 +57,13 @@ defined( 'ABSPATH' ) || exit;
                 </ul>
             </div>
             <!-- Colonne 4 : Réseaux sociaux + Newsletter -->
-            <div class="col-12 col-md-3 d-flex flex-column justify-content-between h-100">
+            <div class="col-12 col-md-3 d-flex flex-column justify-content-between ">
                 <div class="mb-4">
                     <h5 class="mb-3 text-uppercase">Suivez-nous</h5>
                     <div class="d-flex gap-3 align-items-center">
                         <a href="https://facebook.com" target="_blank" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
                         <a href="https://instagram.com" target="_blank" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
-                        <a href="https://linkedin.com" target="_blank" class="text-white fs-4"><i class="bi bi-linkedin"></i></a>
+                        <a href="https://tiktok.com" target="_blank" class="text-white fs-4"><i class="bi bi-tiktok"></i></a>
                     </div>
                 </div>
                 <div class="mt-auto">

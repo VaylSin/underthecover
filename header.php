@@ -25,25 +25,25 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 
 <body <?php body_class(); ?>>
 
+<!-- HEADER SILKLANE -->
 <div class="site" id="page">
-<div class="social-sticky">
-    <a href="https://facebook.com" target="_blank" class="social-icon"><i class="bi bi-facebook"></i></a>
-    <a href="https://instagram.com" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
-    <a href="https://linkedin.com" target="_blank" class="social-icon"><i class="bi bi-linkedin"></i></a>
-    <a href="https://twitter.com" target="_blank" class="social-icon"><i class="bi bi-twitter-x"></i></a>
-</div>
-    <!-- ******************* The Navbar Area ******************* -->
-	 <?php if ( get_field('texte_banderolle', 'option') ) : ?>
-    <div class="promo-banner text-center bg-velvet text-white text-center py-2">
-        <?php echo esc_html( get_field('texte_banderolle', 'option') ); ?>
+    <div class="social-sticky">
+        <a href="https://facebook.com" target="_blank" class="social-icon"><i class="bi bi-facebook"></i></a>
+        <a href="https://instagram.com" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
+        <a href="https://tiktok.com" target="_blank" class="social-icon"><i class="bi bi-tiktok"></i></a>
     </div>
-<?php endif; ?>
+    <?php if ( get_field('texte_banderolle', 'option') ) : ?>
+        <div class="promo-banner text-center bg-velvet text-white py-2">
+            <?php echo esc_html( get_field('texte_banderolle', 'option') ); ?>
+        </div>
+    <?php endif; ?>
     <header id="wrapper-navbar" class="bg-white w-100" style="z-index:100;">
-        <div class="container-fluid h-100">
+        <div class="container-1600 h-100">
             <div class="row align-items-center justify-content-between" style="min-height: 3.2rem;">
                 <!-- Logo à gauche -->
-                <div class="col-4 d-flex align-items-center justify-content-start h-100">
-                    <svg class="logo_svg" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1148.43 389.27">
+                <div class="col-2 d-flex align-items-center justify-content-start h-100">
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
+                        <svg class="logo_svg" width="220" height="auto" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1148.43 389.27">
 
 						<g id="LOGO">
 							<path class="cls-1" d="M148.23,329.46c-1.29,0-2.32-.38-3.07-1.13-.76-.76-1.13-1.74-1.13-2.97v-50.71c0-1.29.38-2.32,1.13-3.07.75-.76,1.78-1.13,3.07-1.13,1.22,0,2.21.38,2.97,1.13.76.75,1.13,1.78,1.13,3.07v50.71c0,1.22-.38,2.21-1.13,2.97s-1.74,1.13-2.97,1.13ZM194.62,329.46c-1.22,0-2.23-.39-3.02-1.19-.79-.79-1.19-1.76-1.19-2.91v-28.05c0-4.46-.85-8.13-2.54-11-1.69-2.88-3.99-5.03-6.9-6.47-2.91-1.44-6.2-2.16-9.87-2.16s-6.71.68-9.55,2.05c-2.84,1.37-5.09,3.24-6.74,5.61-1.66,2.37-2.48,5.07-2.48,8.09h-5.93c.14-4.53,1.37-8.58,3.67-12.14,2.3-3.56,5.36-6.37,9.17-8.42,3.81-2.05,8.05-3.07,12.73-3.07,5.11,0,9.67,1.06,13.7,3.18,4.03,2.12,7.21,5.23,9.55,9.33,2.34,4.1,3.51,9.1,3.51,15v28.05c0,1.15-.4,2.12-1.19,2.91-.79.79-1.76,1.19-2.91,1.19Z"/>
@@ -68,18 +68,20 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 							</g>
 						</g>
 						</svg>
+						<span class="visually-hidden">Retour à l'accueil</span>
+					</a>
                 </div>
                 <!-- Menu principal centré -->
-                <div class="col-4 d-flex align-items-center justify-content-center h-100">
-                    <nav class="menu_container">
+                <div class="col-6 d-flex align-items-center justify-content-center h-100">
+                    <nav class="menu_container gap-3">
                         <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>"
-                           class="nav-link  d-flex align-items-center text-uppercase px-3 fw-semibold">
+                           class="nav-link menu-item-boutique d-flex align-items-center text-uppercase px-3 fw-semibold">
                             Boutique
                         </a>
                         <?php
                         wp_nav_menu( array(
                             'theme_location' => 'left-menu',
-                            'menu_class'     => 'nav justify-content-center align-items-center',
+                            'menu_class'     => 'nav justify-content-center gap-3 align-items-center',
                             'container'      => false,
                             'fallback_cb'    => false,
                         ) );
@@ -89,14 +91,13 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                 <!-- Menu droit collé à droite -->
                 <div class="col-4 d-flex align-items-center justify-content-end h-100">
                     <nav class="menu_container">
-						<select class="border-0" name="lang" id="lang-select" aria-label="Choisir la langue">
-							<option value="fr">FR</option>
-							<option value="en">EN</option>
-							<option value="es">ES</option>
-							<!-- Ajoute d'autres langues si besoin -->
-						</select>
+                        <select class="border-0" name="lang" id="lang-select" aria-label="Choisir la langue">
+                            <option value="fr">FR</option>
+                            <option value="en">EN</option>
+                            <option value="es">ES</option>
+                        </select>
                         <a href="#" class="search-toggle" id="searchToggle" aria-label="Rechercher">
-                            <i class="bi bi-search"></i>
+                            <i class="bi bi-search-heart"></i>
                         </a>
                         <?php
                         wp_nav_menu( array(
@@ -109,15 +110,45 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                 </div>
             </div>
         </div>
-		<!-- Barre de recherche cachée sous le header -->
-		<div id="searchDropdown" class="search-dropdown d-flex align-items-center">
-		  <button type="button" class="close-search" id="closeSearch" aria-label="Fermer">
-			&times;
-		  </button>
-		  <div class="search-form-container">
-			<?php the_widget('WC_Widget_Product_Search'); ?>
-		  </div>
-		</div>
+        <!-- Barre de recherche cachée sous le header -->
+        <div id="searchDropdown" class="search-dropdown d-flex align-items-center">
+            <button type="button" class="close-search" id="closeSearch" aria-label="Fermer">
+                &times;
+            </button>
+            <div class="search-form-container">
+                <?php the_widget('WC_Widget_Product_Search'); ?>
+            </div>
+        </div>
     </header><!-- #wrapper-navbar -->
+
+    <div id="submenu-boutique" class="submenu-boutique">
+        <div class="container-fluid">
+            <div class="row">
+                <?php
+                $product_categories = get_terms([
+                    'taxonomy' => 'product_cat',
+                    'hide_empty' => true
+                ]);
+                foreach ($product_categories as $category) :
+                    $products = wc_get_products(['category' => [$category->slug], 'limit' => -1]);
+                ?>
+                <div class="col-12 col-md-3 mb-4">
+                    <div class="category-title text-uppercase">
+                        <?php echo esc_html($category->name); ?>
+                    </div>
+                    <ul class="list-unstyled mt-2">
+                        <?php foreach ($products as $product) : ?>
+                            <li>
+                                <a href="<?php echo get_permalink($product->get_id()); ?>" class="product-link">
+                                    <?php echo strtolower(esc_html($product->get_name())); ?>
+                            </a>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
 
 

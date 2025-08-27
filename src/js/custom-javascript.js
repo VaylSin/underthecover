@@ -126,4 +126,30 @@ document.addEventListener("DOMContentLoaded", function () {
 			btn.classList.add("view-all-link");
 		}
 	}
+
+	const track = document.querySelector(".bandeau-track");
+	if (track) {
+		track.innerHTML += track.innerHTML; // Duplique le contenu pour effet infini
+	}
+
+	const boutiqueLink = document.querySelector(".menu-item-boutique");
+	const submenu = document.getElementById("submenu-boutique");
+	if (boutiqueLink && submenu) {
+		boutiqueLink.addEventListener(
+			"mouseenter",
+			() => (submenu.style.display = "block")
+		);
+		boutiqueLink.addEventListener(
+			"mouseleave",
+			() => (submenu.style.display = "none")
+		);
+		submenu.addEventListener(
+			"mouseenter",
+			() => (submenu.style.display = "block")
+		);
+		submenu.addEventListener(
+			"mouseleave",
+			() => (submenu.style.display = "none")
+		);
+	}
 });

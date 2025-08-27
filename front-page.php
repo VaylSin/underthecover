@@ -23,7 +23,7 @@ get_header();
                 <img src="<?php echo esc_url($image['url']); ?>" class="d-block w-100 object-fit-cover" alt="<?php echo esc_attr($image['alt']); ?>" draggable="false">
                 <div class="slider-overlay"></div>
             <?php endif; ?>
-            <div class="container-xxl h-100">
+            <div class="container-xxl px-lg-5rem h-100">
                 <div class="row h-100 align-items-center"  >
                     <div class="col-md-4 offset-md-2 text-start text-white">
                         <?php if($phrase): ?>
@@ -69,8 +69,29 @@ get_header();
 </div>
 <?php endif; ?>
 </section>
+<section class="bandeau_deroulant container-fluid py-4 px-0">
+    <?php if (have_rows('elements_du_bandeau_')): ?>
+        <div class="bandeau-carousel">
+            <div class="bandeau-track">
+                <?php while (have_rows('elements_du_bandeau_')): the_row();
+                    $texte = get_sub_field('texte');
+                    $icone = get_sub_field('icone'); // SVG ou image
+                ?>
+                    <div class="bandeau-item d-flex align-items-center gap-2">
+                        <?php if ($icone): ?>
+                            <span class="bandeau-icon">
+                                <img src="<?php echo $icone; ?>" alt=""/>
+                            </span>
+                        <?php endif; ?>
+                        <span class="bandeau-text"><?php echo esc_html($texte); ?></span>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+</section>
 <div class="spacer-10"></div>
-<section class="best_sellers container-xxl" >
+<section class="best_sellers container-xxl px-lg-5rem" >
     <h3 class="maj_title mb-4 logo_before"><span class="logo_h3_content">Nos Best Sellers</span></h3>
     <div class="row g-4" >
         <?php
@@ -133,7 +154,7 @@ get_header();
                                     <form method="post" class="add-to-cart-form mt-2">
                                         <input type="hidden" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>">
                                         <button type="submit" class="view-all-link d-flex justify-content-center align-items-center w-100">
-                                            ajouter au panier
+                                            ajouter au panier&nbsp;&nbsp;<i class="bi bi-bag-heart"></i>
                                         </button>
                                     </form>
                                 <?php endif; ?>
@@ -161,7 +182,7 @@ get_header();
 <div class="spacer-10"></div>
 <section class="parallax-banner selection_moment container-fluid" style="background-image: url('<?php echo esc_url(get_field('infographie')['url'] ?? ''); ?>');">
     <div class="overlay"></div>
-    <div class="container-xxl position-relative d-flex align-items-center" >
+    <div class="container-xxl px-lg-5remrem position-relative d-flex align-items-center" >
         <div class="row w-100 ms-3 align-items-center">
             <div class="col-md-5 text-start text-white parallax-content" data-aos="fade-left" data-aos-duration="2000" data-aos-ease="ease-in-out">
                 <?php if($pre_titre = get_field('pre_titre')): ?>
@@ -186,7 +207,7 @@ get_header();
 </section>
 <div class="spacer-10"></div>
 <section class="boutique_categories py-5">
-    <div class="container-xxl">
+    <div class="container-xxl px-lg-5rem">
         <h3 class="maj_title mb-4 logo_before"><span class="logo_h3_content">Nos produits par catégorie</span></h3>
         <div id="categories-carousel" class="carousel slide categories-carousel" data-bs-ride="false" data-bs-interval="false">
             <div class="carousel-inner">
@@ -236,7 +257,7 @@ get_header();
 </section>
 <div class="spacer-10"></div>
 <section class="charte_rse container-fluid" style="background-image: url('<?php echo esc_url(get_field('image_rse')['url'] ?? ''); ?>');">
-    <div class="container-xxl d-flex justify-content-center align-items-center" style="min-height: 500px;">
+    <div class="container-xxl px-lg-5rem d-flex justify-content-center align-items-center" style="min-height: 500px;">
         <div class="text-center col-md-8 mx-auto text-white" >
             <?php if($texte_accroche = get_field('phrase_daccroche_bloc_charte')): ?>
                 <h2 class="mb-4 text-uppercase fw-bold" data-aos="zoom-in" data-aos-duration="1000" data-aos-ease="ease-in-out"><?php echo $texte_accroche; ?></h2>
