@@ -77,6 +77,13 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 			'3.0.0', // adapte la version si besoin
 			true
 		);
+		 wp_enqueue_script(
+			'submenu-boutique',
+			get_template_directory_uri() . '/js/submenu-boutique.js',
+			array('jquery'), // dépendance à jQuery si besoin, sinon array()
+			null,
+			true // charge dans le footer
+		);
 	}
 } // End of if function_exists( 'understrap_scripts' ).
 

@@ -15587,7 +15587,7 @@ h6,
 }
 
 .fullscreen-slider {
-  min-height: 75vh;
+  min-height: 70vh;
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -15596,7 +15596,7 @@ h6,
   -o-object-fit: cover;
   object-fit: cover;
   width: 100%;
-  height: 75vh;
+  height: 70vh;
 }
 
 .slider-overlay {
@@ -16275,7 +16275,6 @@ select {
   color: #222 !important;
   font-size: 0.85rem !important;
   font-weight: 600 !important;
-  text-transform: uppercase !important;
   text-decoration: none !important;
   padding: 0.3rem 0.8rem !important;
   display: flex !important;
@@ -16599,43 +16598,241 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
     padding-right: 5rem !important;
   }
 }
-/* =======================
-   Sous-menu boutique
-   ======================= */
+/* -------------------------
+   Sous-menu Boutique (robuste)
+   Utilise transform + opacity (pas de max-height), override display inline si présent.
+   Nécessite : .boutique-container placé IMMEDIATEMENT AVANT #submenu-boutique
+   ------------------------- */
+#page,
+.site,
+header,
+#wrapper-navbar,
+.container-1600 {
+  overflow: visible !important;
+}
+
+#wrapper-navbar {
+  position: relative;
+  z-index: 100;
+}
+
+.boutique-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* état fermé */
 #submenu-boutique {
-  display: none;
   position: absolute;
-  top: 100%;
+  top: calc(100% - 2px); /* -2px pour chevauchement et éviter micro-gap */
   left: 0;
   width: 100vw;
+  box-sizing: border-box;
   background: #fff;
-  z-index: 999;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-  padding: 2rem 0;
+  z-index: 9999;
+  overflow: visible;
+  /* fermé */
+  display: block; /* kept so display exists; visibility/opacity control visibility */
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  /* transitions */
+  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 200ms ease, visibility 0s linear 200ms;
+  will-change: transform, opacity;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
+
+/* centrer et limiter le contenu */
+#submenu-boutique .submenu-inner {
+  width: 100%;
+}
+
+#submenu-boutique .container-fluid, #submenu-boutique .container-sm, #submenu-boutique .container-md, #submenu-boutique .container-lg, #submenu-boutique .container-xl, #submenu-boutique .container-xxl {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  box-sizing: border-box;
+}
+
+/* OUVERTURE : adjacent sibling + (require .boutique-container juste avant #submenu-boutique) */
+/* On override explicitement display/visibility/opacity pour contrer inline display:none */
+.boutique-container:hover + #submenu-boutique,
+.boutique-container:focus-within + #submenu-boutique,
+#submenu-boutique:hover {
+  display: block !important; /* override inline display:none */
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  pointer-events: auto !important;
+  transition-delay: 0s !important;
+}
+
+/* titres de catégories en velvet */
 #submenu-boutique .category-title {
-  color: #bc3365;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-}
-#submenu-boutique .product-link {
-  color: #272727;
-  text-transform: lowercase;
-  font-size: 1rem;
-  text-decoration: none;
-  display: block;
-  padding: 0.2rem 0;
-  transition: color 0.2s;
-}
-#submenu-boutique .product-link:hover {
   color: #bc3365;
 }
 
-.menu-item-boutique:hover + #submenu-boutique,
-.menu-item-boutique:focus + #submenu-boutique {
+/* produits en minuscules */
+#submenu-boutique .product-link {
+  letter-spacing: -0.02em; /* resserré */
+  font-weight: 600; /* optionnel : accentue le titre */
   display: block;
+}
+
+/* état initial des items de liste : cachés et légèrement décalés vers la gauche */
+#submenu-boutique ul li {
+  opacity: 0;
+  transform: translateX(-14px); /* départ à gauche */
+  transition: opacity 480ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 480ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+/* Stagger plus marqué : delay plus lent (0.06s * index) */
+#submenu-boutique ul li:nth-child(1) {
+  transition-delay: 0.1s;
+}
+
+#submenu-boutique ul li:nth-child(2) {
+  transition-delay: 0.2s;
+}
+
+#submenu-boutique ul li:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+#submenu-boutique ul li:nth-child(4) {
+  transition-delay: 0.4s;
+}
+
+#submenu-boutique ul li:nth-child(5) {
+  transition-delay: 0.5s;
+}
+
+#submenu-boutique ul li:nth-child(6) {
+  transition-delay: 0.6s;
+}
+
+#submenu-boutique ul li:nth-child(7) {
+  transition-delay: 0.7s;
+}
+
+#submenu-boutique ul li:nth-child(8) {
+  transition-delay: 0.8s;
+}
+
+#submenu-boutique ul li:nth-child(9) {
+  transition-delay: 0.9s;
+}
+
+#submenu-boutique ul li:nth-child(10) {
+  transition-delay: 1s;
+}
+
+#submenu-boutique ul li:nth-child(11) {
+  transition-delay: 1.1s;
+}
+
+#submenu-boutique ul li:nth-child(12) {
+  transition-delay: 1.2s;
+}
+
+#submenu-boutique ul li:nth-child(13) {
+  transition-delay: 1.3s;
+}
+
+#submenu-boutique ul li:nth-child(14) {
+  transition-delay: 1.4s;
+}
+
+#submenu-boutique ul li:nth-child(15) {
+  transition-delay: 1.5s;
+}
+
+#submenu-boutique ul li:nth-child(16) {
+  transition-delay: 1.6s;
+}
+
+#submenu-boutique ul li:nth-child(17) {
+  transition-delay: 1.7s;
+}
+
+#submenu-boutique ul li:nth-child(18) {
+  transition-delay: 1.8s;
+}
+
+#submenu-boutique ul li:nth-child(19) {
+  transition-delay: 1.9s;
+}
+
+#submenu-boutique ul li:nth-child(20) {
+  transition-delay: 2s;
+}
+
+#submenu-boutique ul li:nth-child(21) {
+  transition-delay: 2.1s;
+}
+
+#submenu-boutique ul li:nth-child(22) {
+  transition-delay: 2.2s;
+}
+
+#submenu-boutique ul li:nth-child(23) {
+  transition-delay: 2.3s;
+}
+
+#submenu-boutique ul li:nth-child(24) {
+  transition-delay: 2.4s;
+}
+
+#submenu-boutique ul li:nth-child(25) {
+  transition-delay: 2.5s;
+}
+
+#submenu-boutique ul li:nth-child(26) {
+  transition-delay: 2.6s;
+}
+
+#submenu-boutique ul li:nth-child(27) {
+  transition-delay: 2.7s;
+}
+
+#submenu-boutique ul li:nth-child(28) {
+  transition-delay: 2.8s;
+}
+
+#submenu-boutique ul li:nth-child(29) {
+  transition-delay: 2.9s;
+}
+
+#submenu-boutique ul li:nth-child(30) {
+  transition-delay: 3s;
+}
+
+/* ouverture : révélation progressive (fade + slide) */
+.boutique-container:hover + #submenu-boutique ul li,
+.boutique-container:focus-within + #submenu-boutique ul li,
+#submenu-boutique:hover ul li {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* réduction si prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  #submenu-boutique ul li,
+  #submenu-boutique {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+.insta_flux {
+  padding-block: 5rem;
+  background-color: #fbd2da;
+}
+.insta_flux .container-xxl {
+  overflow-x: hidden;
 }
 
 .spacer-0 {

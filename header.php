@@ -25,9 +25,8 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 
 <body <?php body_class(); ?>>
 
-<!-- HEADER SILKLANE -->
 <div class="site" id="page">
-    <div class="social-sticky">
+	    <div class="social-sticky">
         <a href="https://facebook.com" target="_blank" class="social-icon"><i class="bi bi-facebook"></i></a>
         <a href="https://instagram.com" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
         <a href="https://tiktok.com" target="_blank" class="social-icon"><i class="bi bi-tiktok"></i></a>
@@ -37,6 +36,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
             <?php echo esc_html( get_field('texte_banderolle', 'option') ); ?>
         </div>
     <?php endif; ?>
+
     <header id="wrapper-navbar" class="bg-white w-100" style="z-index:100;">
         <div class="container-1600 h-100">
             <div class="row align-items-center justify-content-between" style="min-height: 3.2rem;">
@@ -71,34 +71,76 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 						<span class="visually-hidden">Retour à l'accueil</span>
 					</a>
                 </div>
+
                 <!-- Menu principal centré -->
                 <div class="col-6 d-flex align-items-center justify-content-center h-100">
-                    <nav class="menu_container gap-3">
-                        <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>"
-                           class="nav-link menu-item-boutique d-flex align-items-center text-uppercase px-3 fw-semibold">
-                            Boutique
-                        </a>
-                        <?php
-                        wp_nav_menu( array(
-                            'theme_location' => 'left-menu',
-                            'menu_class'     => 'nav justify-content-center gap-3 align-items-center',
-                            'container'      => false,
-                            'fallback_cb'    => false,
-                        ) );
-                        ?>
-                    </nav>
+                    <div class="boutique-container"> <!-- wrapper du trigger -->
+                        <nav class="menu_container gap-3">
+                            <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>"
+                               class="nav-link menu-item-boutique d-flex align-items-center text-uppercase px-3 fw-semibold"
+                               aria-haspopup="true" aria-expanded="false">
+                                Boutique
+                            </a>
+
+                            <?php
+                            wp_nav_menu( array(
+                                'theme_location' => 'left-menu',
+                                'menu_class'     => 'nav justify-content-center gap-3 align-items-center',
+                                'container'      => false,
+                                'fallback_cb'    => false,
+                            ) );
+                            ?>
+                        </nav>
+                    </div> <!-- .boutique-container -->
+
+                    <!-- SOUS-MENU : sibling IMMEDIATEMENT APRES .boutique-container -->
+                    <div id="submenu-boutique" class="submenu-boutique" aria-label="Sous-menu boutique">
+                        <div class="submenu-inner">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <?php
+                                    $product_categories = get_terms([
+                                        'taxonomy' => 'product_cat',
+                                        'hide_empty' => true
+                                    ]);
+                                    foreach ($product_categories as $category) :
+                                        $products = wc_get_products(['category' => [$category->slug], 'limit' => -1]);
+                                    ?>
+                                    <div class="col-12 col-md-3 mb-4">
+                                        <div class="category-title text-uppercase">
+											<?php echo ucfirst(esc_html($category->name)); ?>
+                                        </div>
+                                        <ul class="list-unstyled mt-2">
+                                            <?php foreach ($products as $product) : ?>
+                                                <li>
+                                                    <a href="<?php echo esc_url( get_permalink($product->get_id()) ); ?>" class="product-link">
+                                                        <?php echo ucfirst(esc_html($product->get_name())); ?>
+                                                    </a>
+                                                </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+
                 <!-- Menu droit collé à droite -->
                 <div class="col-4 d-flex align-items-center justify-content-end h-100">
-                    <nav class="menu_container">
+                    <nav class="menu_container d-flex align-items-center gap-3">
                         <select class="border-0" name="lang" id="lang-select" aria-label="Choisir la langue">
                             <option value="fr">FR</option>
                             <option value="en">EN</option>
                             <option value="es">ES</option>
                         </select>
+
                         <a href="#" class="search-toggle" id="searchToggle" aria-label="Rechercher">
                             <i class="bi bi-search-heart"></i>
                         </a>
+
                         <?php
                         wp_nav_menu( array(
                             'theme_location' => 'right-menu',
@@ -110,6 +152,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                 </div>
             </div>
         </div>
+
         <!-- Barre de recherche cachée sous le header -->
         <div id="searchDropdown" class="search-dropdown d-flex align-items-center">
             <button type="button" class="close-search" id="closeSearch" aria-label="Fermer">
@@ -119,36 +162,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                 <?php the_widget('WC_Widget_Product_Search'); ?>
             </div>
         </div>
-    </header><!-- #wrapper-navbar -->
 
-    <div id="submenu-boutique" class="submenu-boutique">
-        <div class="container-fluid">
-            <div class="row">
-                <?php
-                $product_categories = get_terms([
-                    'taxonomy' => 'product_cat',
-                    'hide_empty' => true
-                ]);
-                foreach ($product_categories as $category) :
-                    $products = wc_get_products(['category' => [$category->slug], 'limit' => -1]);
-                ?>
-                <div class="col-12 col-md-3 mb-4">
-                    <div class="category-title text-uppercase">
-                        <?php echo esc_html($category->name); ?>
-                    </div>
-                    <ul class="list-unstyled mt-2">
-                        <?php foreach ($products as $product) : ?>
-                            <li>
-                                <a href="<?php echo get_permalink($product->get_id()); ?>" class="product-link">
-                                    <?php echo strtolower(esc_html($product->get_name())); ?>
-                            </a>
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </div>
+    </header><!-- #wrapper-navbar -->
 
 

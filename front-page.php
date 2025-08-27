@@ -376,6 +376,65 @@ get_header();
     </div>
 </section>
 <div class="spacer-10"></div>
+<section class="insta_flux">
+    <div class="container-xxl px-lg-5rem">
+        <h3 class="maj_title mb-4 logo_before"><span class="logo_h3_content"><?php echo esc_html(get_field('titre_instagram')); ?></span></h3>
+
+        <?php if ( have_rows('publication') ) : ?>
+            <div class="row g-2 insta-grid">
+                <?php
+                $aos_count = 0; // compteur pour data-aos-delay
+                while ( have_rows('publication') ) : the_row();
+                    $aos_count++;
+
+                    $image = get_sub_field('image_publication');
+                    $link = get_sub_field('lien_publication');
+
+                    // normaliser l'URL du lien
+                    $link_url = '';
+                    if ( is_array($link) || is_object($link) ) {
+                        $link_url = get_permalink( is_array($link) ? $link[0] : $link );
+                    } elseif ( ! empty($link) ) {
+                        $link_url = $link;
+                    }
+
+                    $image_url = '';
+                    $image_alt = '';
+                    if ( $image ) {
+                        if ( is_array($image) ) {
+                            $image_url = $image['url'] ?? '';
+                            $image_alt = $image['alt'] ?? '';
+                        } else {
+                            $image_url = $image;
+                        }
+                    }
+                ?>
+                    <div class="col-6 col-sm-4 col-md-3">
+                        <?php if ( $link_url ) : ?>
+                            <a href="<?php echo esc_url( $link_url ); ?>"
+                               class="d-block insta-item">
+                                <?php if ( $image_url ) : ?>
+                                    <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>" class="img-fluid w-100">
+                                <?php endif; ?>
+                            </a>
+                        <?php else : ?>
+                            <div class="d-block insta-item">
+                                <?php if ( $image_url ) : ?>
+                                    <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>" class="img-fluid w-100">
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+
+                <?php
+
+                    $aos_count = $aos_count * 80; // délai en ms, ajuste si nécessaire
+			endwhile; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</section>
+<!-- <div class="spacer-10"></div> -->
 <?php
 get_footer();
 ?>
