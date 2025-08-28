@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		const carouselRow = categoriesCarousel.querySelector(".carousel-row");
 		const items = categoriesCarousel.querySelectorAll(".category-item");
 		const totalItems = items.length;
-		const itemsPerView = window.innerWidth > 768 ? 4 : 1;
+		let itemsPerView = window.innerWidth > 768 ? 4 : 1;
 		let currentPosition = 0;
 
 		// Fonction pour mettre à jour la position du carousel
@@ -60,10 +60,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		window.addEventListener("resize", function () {
 			const newItemsPerView = window.innerWidth > 768 ? 4 : 1;
 			if (newItemsPerView !== itemsPerView) {
-				currentPosition = Math.min(
-					currentPosition,
-					totalItems - newItemsPerView
-				);
+				itemsPerView = newItemsPerView;
+				currentPosition = Math.min(currentPosition, totalItems - itemsPerView);
 				updateCarousel();
 			}
 		});
@@ -71,27 +69,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	// ----- Slider principal -----
 	const slider = document.getElementById("main-slider");
-	if (!slider) return;
+	if (slider) {
+		const dots = slider.querySelectorAll(".slider-dot");
+		const carousel = new bootstrap.Carousel(slider);
 
-	const dots = slider.querySelectorAll(".slider-dot");
-	const carousel = new bootstrap.Carousel(slider);
-
-	dots.forEach((dot, idx) => {
-		dot.addEventListener("click", function () {
-			carousel.to(idx);
-			// Met à jour la classe active sur les dots
-			dots.forEach((d) => d.classList.remove("active"));
-			dot.classList.add("active");
-		});
-	});
-
-	// Synchronise les dots quand le slide change (flèches, auto, swipe)
-	slider.addEventListener("slid.bs.carousel", function (e) {
-		const activeIdx = e.to;
 		dots.forEach((dot, idx) => {
-			dot.classList.toggle("active", idx === activeIdx);
+			dot.addEventListener("click", function () {
+				carousel.to(idx);
+				// Met à jour la classe active sur les dots
+				dots.forEach((d) => d.classList.remove("active"));
+				dot.classList.add("active");
+			});
 		});
-	});
+
+		// Synchronise les dots quand le slide change (flèches, auto, swipe)
+		slider.addEventListener("slid.bs.carousel", function (e) {
+			const activeIdx = e.to;
+			dots.forEach((dot, idx) => {
+				dot.classList.toggle("active", idx === activeIdx);
+			});
+		});
+	}
 
 	// ----- Barre de recherche header -----
 	var toggle = document.getElementById("searchToggle");
@@ -127,8 +125,106 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	}
 
-	const track = document.querySelector(".bandeau-track");
-	if (track) {
-		track.innerHTML += track.innerHTML; // Duplique le contenu pour effet infini
+	// ----- Bandeau défilant : stabilisation & durée dynamique -----
+	(function () {
+		const track = document.querySelector(".bandeau-track");
+		if (!track) return;
+
+		function initBandeau() {
+			// Dupliquer le contenu une seule fois (si non dupliqué)
+			if (!track.dataset.duplicated) {
+				track.innerHTML = track.innerHTML + track.innerHTML;
+				track.dataset.duplicated = "1";
+			}
+
+			// largeur du contenu original (après duplication, /2)
+			const totalWidth = track.scrollWidth;
+			const originalWidth = totalWidth / 2 || totalWidth;
+
+			// vitesse souhaitée en pixels / seconde (ajuste si besoin)
+			const speedPxPerSec = 80; // 80 px/s par défaut
+			const durationSeconds = Math.max(
+				8,
+				Math.round(originalWidth / speedPxPerSec)
+			);
+
+			// appliquer la variable CSS utilisée par la règle SCSS
+			track.style.setProperty("--bandeau-duration", durationSeconds + "s");
+
+			// restart animation proprement pour appliquer la nouvelle durée
+			track.style.animation = "none";
+			// force reflow
+			/* eslint-disable no-unused-expressions */
+			void track.offsetWidth;
+			/* eslint-enable no-unused-expressions */
+			track.style.animation = "";
+			// ensure GPU compositing
+			track.style.transform = "translate3d(0,0,0)";
+			track.style.willChange = "transform";
+		}
+
+		// debounce simple pour resize
+		let bandeauResizeTimer = null;
+		window.addEventListener("resize", function () {
+			clearTimeout(bandeauResizeTimer);
+			bandeauResizeTimer = setTimeout(initBandeau, 150);
+		});
+
+		// init au chargement (après fonts)
+		window.addEventListener("load", function () {
+			setTimeout(initBandeau, 80);
+		});
+
+		// si DOMReady déjà atteint, init rapidement
+		initBandeau();
+	})();
+
+	// ----- Sous-menu Boutique (logique existante) -----
+	var trigger = document.querySelector(".menu-item-boutique");
+	if (!trigger) return;
+	var boutiqueWrap = trigger.closest(".boutique-container");
+	var submenu = document.getElementById("submenu-boutique");
+	if (!boutiqueWrap || !submenu) return;
+
+	var closeTimer = null;
+	function open() {
+		clearTimeout(closeTimer);
+		boutiqueWrap.classList.add("open");
+		trigger.setAttribute("aria-expanded", "true");
 	}
+	function close() {
+		clearTimeout(closeTimer);
+		closeTimer = setTimeout(function () {
+			boutiqueWrap.classList.remove("open");
+			trigger.setAttribute("aria-expanded", "false");
+		}, 120);
+	}
+
+	// desktop / keyboard
+	trigger.addEventListener("mouseenter", open);
+	trigger.addEventListener("focus", open);
+	trigger.addEventListener("mouseleave", close);
+	trigger.addEventListener("blur", close);
+
+	// keep open when hovering submenu
+	submenu.addEventListener("mouseenter", open);
+	submenu.addEventListener("mouseleave", close);
+
+	// mobile tap : toggle (préserve comportement lien si large écran)
+	trigger.addEventListener("click", function (e) {
+		if (window.innerWidth < 992) {
+			e.preventDefault();
+			if (boutiqueWrap.classList.contains("open")) close();
+			else open();
+		}
+	});
+
+	// close on ESC or click outside
+	document.addEventListener("keyup", function (e) {
+		if (e.key === "Escape") close();
+	});
+	document.addEventListener("click", function (e) {
+		if (!boutiqueWrap.contains(e.target) && !submenu.contains(e.target))
+			close();
+	});
 });

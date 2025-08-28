@@ -25,7 +25,7 @@ get_header();
             <?php endif; ?>
             <div class="container-xxl px-lg-5rem h-100">
                 <div class="row h-100 align-items-center"  >
-                    <div class="col-md-4 offset-md-2 text-start text-white">
+                    <div class="col-md-4 offest-md-1 offset-lg-2 text-start text-white">
                         <?php if($phrase): ?>
                             <h5 class="fw-bold text-uppercase"><?php echo esc_html($phrase); ?></h5>
                         <?php endif; ?>
@@ -383,9 +383,8 @@ get_header();
         <?php if ( have_rows('publication') ) : ?>
             <div class="row g-2 insta-grid">
                 <?php
-                $aos_count = 0; // compteur pour data-aos-delay
                 while ( have_rows('publication') ) : the_row();
-                    $aos_count++;
+
 
                     $image = get_sub_field('image_publication');
                     $link = get_sub_field('lien_publication');
@@ -428,7 +427,6 @@ get_header();
 
                 <?php
 
-                    $aos_count = $aos_count * 80; // délai en ms, ajuste si nécessaire
 			endwhile; ?>
             </div>
         <?php endif; ?>

@@ -1,9 +1,27 @@
-// =======================
-// Typographie
-// =======================
+// ==========================================================================
+// Variables et mixins
+// ==========================================================================
+
+// Mixin pour les transitions
+@mixin transition($properties: all, $duration: 0.3s, $easing: ease) {
+	transition: $properties $duration $easing;
+}
+
+// Mixin pour les états hover/focus
+@mixin hover-focus {
+	&:hover,
+	&:focus {
+		@content;
+	}
+}
+
+// ==========================================================================
+// Styles de base et typographie
+// ==========================================================================
 html {
 	overflow-x: hidden;
 }
+
 body {
 	font-family: "Plus Jakarta Sans", sans-serif;
 }
@@ -17,39 +35,21 @@ h6 {
 	font-family: "SUSE", sans-serif;
 }
 
-// Titre principal avec trait sous le texte
-.maj_title {
-	font-size: 2.5rem !important;
-	text-transform: uppercase;
-	font-weight: 600;
-	// &::after {
-	// 	content: "";
-	// 	display: block;
-	// 	width: 5rem;
-	// 	height: 0;
-	// 	border-bottom: 1px solid $black-main;
-	// 	margin: 1rem 0 0 0;
-	// }
-	&.h2 {
-		&::after {
-			border-color: #fff;
-		}
+// ==========================================================================
+// Composant: Logo
+// ==========================================================================
+.logo-container {
+	.logo_svg {
+		max-height: 4rem;
+		width: auto;
+		position: relative;
+		vertical-align: middle;
 	}
 }
 
-// =======================
-// Logo
-// =======================
-.logo_svg {
-	max-height: 4rem;
-	width: auto;
-	position: relative;
-	vertical-align: middle;
-}
-
-// =======================
-// Menu principal (header)
-// =======================
+// ==========================================================================
+// Composant: Header et navigation
+// ==========================================================================
 #wrapper-navbar {
 	position: relative;
 	top: 0;
@@ -57,7 +57,7 @@ h6 {
 	width: 100%;
 	z-index: 100;
 	background: #fff;
-	transition: background 0.3s;
+	@include transition(background);
 	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
 
 	.bi {
@@ -66,9 +66,9 @@ h6 {
 		font-weight: bold;
 	}
 
-	&:hover {
+	@include hover-focus {
 		background: #fff;
-		transition: background 0.3s;
+
 		.menu_container {
 			li {
 				a {
@@ -77,11 +77,49 @@ h6 {
 			}
 		}
 	}
+
+	// Liens du header
+	a {
+		color: #222 !important;
+		font-size: 0.85rem !important;
+		font-weight: 600 !important;
+		text-decoration: none !important;
+		padding: 0.3rem 0.8rem !important;
+		display: flex !important;
+		align-items: center !important;
+		background: transparent !important;
+
+		@include hover-focus {
+			color: $velvet !important;
+			text-decoration: none !important;
+		}
+	}
+
+	// Sélecteur de langue
+	.header-lang-select {
+		margin-right: 1rem;
+
+		select {
+			border: none;
+			background: #f8f8f8;
+			color: #222;
+			font-size: 0.95rem;
+			font-weight: 600;
+			padding: 0.3rem 0.8rem;
+			border-radius: 1.2rem;
+			outline: none;
+			cursor: pointer;
+			@include transition(background color);
+
+			@include hover-focus {
+				background: $velvet;
+				color: #fff;
+			}
+		}
+	}
 }
 
-// =======================
 // Menu container
-// =======================
 .menu_container {
 	display: flex;
 	align-items: stretch;
@@ -91,11 +129,7 @@ h6 {
 		a {
 			text-transform: uppercase;
 			text-decoration: none;
-			transition: color 0.2s ease;
-
-			&:hover {
-				color: $velvet;
-			}
+			@include transition(color);
 		}
 	}
 
@@ -110,13 +144,17 @@ h6 {
 			align-items: center;
 			padding-top: 0.75rem;
 			padding-bottom: 0.75rem;
+
+			@include hover-focus {
+				color: $velvet;
+			}
 		}
 	}
 }
 
-// =======================
-// Slider plein écran
-// =======================
+// ==========================================================================
+// Composant: Slider plein écran
+// ==========================================================================
 .fullscreen-slider {
 	min-height: 70vh;
 	width: 100%;
@@ -129,10 +167,107 @@ h6 {
 			width: 100%;
 			height: 70vh;
 		}
+
+		> .container-xxl {
+			z-index: 3;
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+
+			[class^="col-"] {
+				pointer-events: auto;
+				opacity: 0;
+				transform: translateX(30px);
+				@include transition(
+					opacity transform,
+					1.5s,
+					cubic-bezier(0.2, 0.8, 0.2, 1)
+				);
+
+				h2 {
+					margin: 0.5rem 0 2rem 0;
+					letter-spacing: 1px;
+					font-size: 2.5rem;
+				}
+
+				h5 {
+					font-size: 0.75rem;
+					letter-spacing: 0.2em;
+					line-height: 1.25;
+					margin-bottom: 0;
+				}
+
+				a {
+					font-size: 1.2rem;
+					letter-spacing: 1px;
+				}
+			}
+		}
+
+		&.active {
+			.container-xxl [class^="col-"] {
+				opacity: 1;
+				transform: translateX(0);
+
+				@for $i from 1 through 4 {
+					&:nth-child(#{$i}) {
+						transition-delay: #{120ms * $i};
+					}
+				}
+			}
+		}
+	}
+
+	/* Fade + stagger pour le bloc texte (colonnes) de chaque slide */
+	$slide-content-duration: 1500ms;
+	$stagger-step: 0.06s; // délai entre chaque colonne (ajuste à 0.04..0.12 selon effet désiré)
+
+	/* état fermé (pas de delay pour la disparition) */
+	.carousel-item > .container-xxl [class^="col-"] {
+		opacity: 0;
+		transform: translateY(50px);
+		pointer-events: none;
+		will-change: opacity, transform;
+		transition: opacity $slide-content-duration cubic-bezier(0.2, 0.8, 0.2, 1),
+			transform $slide-content-duration cubic-bezier(0.2, 0.8, 0.2, 1);
+		transition-delay: 0s;
+	}
+
+	/* Montrer avec un léger délai (stagger) quand le slide devient actif */
+	@for $i from 1 through 10 {
+		.carousel-item.active > .container-xxl [class^="col-"]:nth-child(#{$i}),
+		.carousel-item.carousel-item-start
+			> .container-xxl
+			[class^="col-"]:nth-child(#{$i}),
+		.carousel-item.carousel-item-end
+			> .container-xxl
+			[class^="col-"]:nth-child(#{$i}),
+		.carousel-item.carousel-item-next
+			> .container-xxl
+			[class^="col-"]:nth-child(#{$i}),
+		.carousel-item.carousel-item-prev
+			> .container-xxl
+			[class^="col-"]:nth-child(#{$i}) {
+			opacity: 1;
+			transform: translateY(0);
+			pointer-events: auto;
+			transition-delay: #{($stagger-step * $i)};
+		}
+	}
+
+	/* reduced-motion */
+	@media (prefers-reduced-motion: reduce) {
+		.carousel-item > .container-xxl [class^="col-"] {
+			transition: none !important;
+			transform: none !important;
+			opacity: 1 !important;
+			pointer-events: auto !important;
+		}
 	}
 }
 
-// Overlay du slider (juste sur l'image)
+// Overlay du slider
 .slider-overlay {
 	position: absolute;
 	top: 0;
@@ -144,111 +279,50 @@ h6 {
 	pointer-events: none;
 }
 
-// Bloc texte au-dessus de l'overlay
-.carousel-item > .container-xxl {
-	z-index: 3;
+// Pagination du slider
+.slider-dots {
 	position: absolute;
-	top: 0;
 	left: 0;
-	height: 100%;
+	bottom: 32px;
+	width: 100%;
+	z-index: 10;
+	display: flex;
+	justify-content: center;
+	gap: 1.5rem;
 
-	[class^="col-"] {
-		pointer-events: auto;
+	.slider-dot {
+		width: 7rem;
+		height: 5px;
+		background: #fff;
+		opacity: 0.5;
+		border-radius: 0px;
+		cursor: pointer;
+		@include transition(opacity);
 
-		h2 {
-			margin: 0.5rem 0 2rem 0;
-			letter-spacing: 1px;
-			font-size: 2.5rem;
-		}
-		h5 {
-			font-size: 0.75rem;
-			letter-spacing: 0.2em;
-			line-height: 1.25;
-			margin-bottom: 0;
-		}
-		a {
-			font-size: 1.2rem;
-			letter-spacing: 1px;
+		&.active {
+			opacity: 1;
+			background: $velvet;
 		}
 	}
 }
 
-// =======================
-// Cards produits
-// =======================
+// ==========================================================================
+// Composant: Cartes produits
+// ==========================================================================
 .product_item {
 	&.card,
 	.card {
 		border: none;
 	}
+
 	.card_infos {
 		padding-inline: 0;
 	}
+
 	.img-container {
 		overflow: hidden;
 		aspect-ratio: 1 / 1;
 		position: relative;
-
-		.btn-overlay {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			opacity: 0;
-			background: rgba($velvet, 0.5);
-			transition: opacity 0.3s;
-			z-index: 2;
-			overflow: hidden;
-
-			.logo-bg-overlay {
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				width: 100%;
-				height: 100%;
-				transform: translate(-50%, -50%);
-				opacity: 0;
-				z-index: 1;
-				pointer-events: none;
-				transition: opacity 0.3s;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-
-				img {
-					width: 100%;
-					height: 100%;
-					object-fit: contain;
-					filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
-				}
-			}
-
-			button {
-				position: relative;
-				z-index: 2;
-				width: 95%;
-				transform: translateY(100%);
-				transition: transform 0.3s ease;
-				text-align: center;
-				color: #fff;
-				background-color: transparent;
-				border: 1px solid #fff;
-				font-weight: bold;
-				font-size: 1rem;
-				letter-spacing: 1px;
-
-				&:hover,
-				&:focus {
-					background-color: transparent !important;
-					color: #fff !important;
-					border-color: #fff !important;
-				}
-			}
-		}
 	}
 
 	.card-img-top {
@@ -256,10 +330,15 @@ h6 {
 		height: 100%;
 		object-fit: cover;
 		background: #f8f8f8;
-		transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		@include transition(transform, 0.3s, cubic-bezier(0.4, 0, 0.2, 1));
 	}
 
-	&:hover {
+	h3 {
+		font-weight: 600;
+		text-transform: uppercase;
+	}
+
+	@include hover-focus {
 		.card-img-top {
 			transform: scale(1.06);
 		}
@@ -270,110 +349,269 @@ h6 {
 			button {
 				transform: translateY(0);
 			}
+
 			.logo-bg-overlay {
 				opacity: 0.18;
 			}
 		}
 	}
-	h3 {
-		font-weight: 600;
-		text-transform: uppercase;
+
+	/* Restauration : effet "glissé depuis le bas" pour l'icône dans les boutons (ajouter au panier) */
+	.btn,
+	button {
+		i,
+		.bi {
+			display: inline-block;
+			transform: translateY(10px);
+			opacity: 0;
+			transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+				opacity 0.22s ease;
+			will-change: transform, opacity;
+		}
+	}
+
+	/* overlay button (structure existante : .btn-overlay > button) */
+	.btn-overlay {
+		button {
+			i,
+			.bi {
+				transform: translateY(14px);
+				opacity: 0;
+			}
+		}
+	}
+
+	/* état visible : au survol, focus-within, ou quand le bouton est survolé */
+	&:hover .btn i,
+	&:focus-within .btn i,
+	.btn:hover i,
+	.btn:focus i,
+	&:hover .btn-overlay button i,
+	&:focus-within .btn-overlay button i {
+		transform: translateY(0);
+		opacity: 1;
+	}
+
+	/* cas spécifique : si tu veux que l'icône apparaisse uniquement quand l'overlay est visible */
+	.btn-overlay {
+		opacity: 0;
+		pointer-events: none;
+	} /* leave overlay logic to existing rules */
+	&:hover .btn-overlay {
+		opacity: 1;
+		pointer-events: auto;
+	}
+
+	/* respect reduced-motion */
+	@media (prefers-reduced-motion: reduce) {
+		.btn i,
+		.btn-overlay button i {
+			transition: none !important;
+			transform: none !important;
+			opacity: 1 !important;
+		}
 	}
 }
 
-// =======================
-// Best-sellers
-// =======================
+// Overlay des boutons produits
+.btn-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	background: rgba($velvet, 0.5);
+	@include transition(opacity);
+	z-index: 2;
+	overflow: hidden;
+
+	.logo-bg-overlay {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 100%;
+		height: 100%;
+		transform: translate(-50%, -50%);
+		opacity: 0;
+		z-index: 1;
+		pointer-events: none;
+		@include transition(opacity);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+			filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+		}
+	}
+
+	button {
+		position: relative;
+		z-index: 2;
+		width: 95%;
+		transform: translateY(100%);
+		@include transition(transform, 0.3s, ease);
+		text-align: center;
+		color: #fff;
+		background-color: transparent;
+		border: 1px solid #fff;
+		font-weight: bold;
+		font-size: 1rem;
+		letter-spacing: 1px;
+
+		@include hover-focus {
+			background-color: transparent !important;
+			color: #fff !important;
+			border-color: #fff !important;
+		}
+	}
+}
+
+// Container d'image produit
+.product-image-container {
+	aspect-ratio: 1/1;
+	width: 100%;
+	background: #f8f8f8;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+}
+
+// ==========================================================================
+// Composant: Best Sellers
+// ==========================================================================
 .best_sellers {
 	.card {
 		border: none !important;
 	}
-}
 
-// =======================
-// Suppression des border-radius
-// =======================
-.card,
-.card-img-top,
-.card-body,
-.card-footer,
-.btn,
-.container,
-.carousel,
-.carousel-inner,
-.carousel-item,
-.carousel-caption,
-input,
-textarea,
-select {
-	border-radius: 0 !important;
-}
+	// Structure de grille
+	.row {
+		align-items: stretch;
 
-// =======================
-// Bouton "Voir tous les produits"
-// =======================
-.view-all-link {
-	display: inline-flex;
-	align-items: center;
-	background-color: $black-main;
-	color: #fff;
-	font-size: 0.9rem;
-	text-transform: uppercase;
-	text-decoration: none;
-	letter-spacing: 0.5px;
-	padding: 0.75rem 1.5rem;
-	border: 2px solid $black-main;
-	transition: all 0.2s ease;
-	font-weight: bold;
+		> [class*="col-"] {
+			display: flex;
+			flex-direction: column;
+			min-height: 0;
+		}
 
-	svg {
-		margin-left: 0.5rem;
-		transition: transform 0.2s ease;
-	}
-
-	&:hover {
-		background-color: $bloom;
-		color: $black-main;
-		border-color: $bloom;
-
-		svg {
-			transform: translateX(4px);
+		> [class*="col-"] > .card,
+		> [class*="col-"] > .product_item.card {
+			display: flex !important;
+			flex-direction: column;
+			flex: 1 1 auto !important;
+			height: 100% !important;
+			min-height: 0;
 		}
 	}
 
-	.bi-bag-heart {
-		display: inline-block;
+	// Corps de carte
+	.card .card-body {
+		flex: 1 1 auto;
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
+	}
+
+	// Titre produit avec limite de 2 lignes
+	.card-body h3,
+	.product_item h3,
+	.product-title {
+		margin: 0 0 0.5rem;
+		font-weight: 600;
+		line-height: 1.05;
+		letter-spacing: -0.01em;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		min-height: calc(1.05em * 2);
+		max-height: calc(1.05em * 2);
+	}
+
+	// Fallback pour navigateurs sans support de line-clamp
+	@supports not (-webkit-line-clamp: 2) {
+		.card-body h3,
+		.product_item h3,
+		.product-title {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			min-height: 2.1em;
+		}
+	}
+
+	// Fix pour l'overlay
+	.img-container {
+		position: relative !important;
+		display: block !important;
+		overflow: hidden !important;
+		aspect-ratio: 1 / 1;
+		width: 100%;
+		min-height: 0;
+	}
+
+	.card-img-top,
+	img {
+		display: block !important;
+		width: 100% !important;
+		height: auto !important;
+		object-fit: cover !important;
+	}
+
+	.btn-overlay {
+		position: absolute !important;
+		inset: 0;
+		display: flex !important;
+		align-items: center !important;
+		justify-content: center !important;
 		opacity: 0;
+		background: rgba($velvet, 0.5);
+		@include transition(opacity, 0.28s, ease);
+		z-index: 5;
+		pointer-events: none;
+	}
+
+	.btn-overlay button {
 		transform: translateY(100%);
-		transition: opacity 0.3s, transform 0.3s;
+		@include transition(transform, 0.32s, ease);
+		pointer-events: auto;
+		z-index: 6;
 	}
 
-	&:hover .bi-bag-heart,
-	&:focus .bi-bag-heart {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
+	.product_item {
+		@include hover-focus {
+			.btn-overlay {
+				opacity: 1;
+				pointer-events: auto;
+			}
 
-// Exception pour le bouton dans .selection_moment et .charte_rse
-.selection_moment,
-.charte_rse {
-	.view-all-link {
-		background: transparent !important;
-		border: 1px solid #fff !important;
-		color: #fff !important;
-
-		&:hover {
-			background: $bloom !important;
-			color: $black-main !important;
-			border-color: $bloom !important;
+			.btn-overlay button {
+				transform: translateY(0);
+			}
 		}
 	}
 }
 
-// =======================
-// Style pour les étoiles
-// =======================
+// ==========================================================================
+// Composant: Évaluation produits (étoiles)
+// ==========================================================================
 .product-rating {
 	.star-rating-custom {
 		display: inline-flex;
@@ -396,9 +634,98 @@ select {
 	}
 }
 
-// =======================
-// Section parallax avec background fixe
-// =======================
+// ==========================================================================
+// Composant: Bouton "Voir tous les produits"
+// ==========================================================================
+.view-all-link {
+	display: inline-flex;
+	align-items: center;
+	background-color: $black-main;
+	color: #fff;
+	font-size: 0.9rem;
+	text-transform: uppercase;
+	text-decoration: none;
+	letter-spacing: 0.5px;
+	padding: 0.75rem 1.5rem;
+	border: 2px solid $black-main;
+	@include transition(all);
+	font-weight: bold;
+
+	svg {
+		margin-left: 0.5rem;
+		@include transition(transform);
+	}
+
+	.bi-bag-heart {
+		display: inline-block;
+		opacity: 0;
+		transform: translateY(100%);
+		@include transition(opacity transform);
+	}
+
+	@include hover-focus {
+		background-color: $bloom;
+		color: $black-main;
+		border-color: $bloom;
+
+		svg {
+			transform: translateX(4px);
+		}
+
+		.bi-bag-heart {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+}
+
+// Variantes du bouton
+.selection_moment,
+.charte_rse {
+	.view-all-link {
+		background: transparent !important;
+		border: 1px solid #fff !important;
+		color: #fff !important;
+
+		@include hover-focus {
+			background: $bloom !important;
+			color: $black-main !important;
+			border-color: $bloom !important;
+		}
+	}
+}
+
+// Bouton dans le slider
+.slider_container .view-all-link {
+	background: transparent;
+	border: 1px solid #fff;
+	color: #fff;
+	font-size: 1rem;
+	text-transform: uppercase;
+	padding: 0.75rem 1.5rem;
+	display: inline-flex;
+	align-items: center;
+
+	svg {
+		margin-left: 0.5rem;
+		@include transition(transform);
+	}
+
+	@include hover-focus {
+		background: $black-main;
+		color: #fff;
+		border-color: $black-main;
+
+		svg {
+			transform: translateX(4px);
+			color: #fff;
+		}
+	}
+}
+
+// ==========================================================================
+// Composant: Bannière Parallax
+// ==========================================================================
 .parallax-banner {
 	position: relative;
 	padding: 0;
@@ -434,23 +761,18 @@ select {
 			line-height: 1.8rem;
 		}
 	}
-
-	@media (max-width: 767.98px) {
-		background-attachment: scroll;
-
-		.parallax-content {
-			text-align: center;
-			padding: 3rem 1rem;
-		}
-	}
 }
 
-// =======================
-// Carousel des catégories - Style corrigé
-// =======================
+// ==========================================================================
+// Composant: Carousel des catégories
+// ==========================================================================
 .boutique_categories {
 	position: relative;
 	padding: 2rem 0;
+
+	> .container-xxl {
+		overflow: visible;
+	}
 
 	.categories-carousel {
 		position: relative;
@@ -464,7 +786,7 @@ select {
 
 	.carousel-row {
 		display: flex;
-		transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+		@include transition(transform, 0.5s, cubic-bezier(0.4, 0, 0.2, 1));
 	}
 
 	.category-item {
@@ -497,7 +819,7 @@ select {
 		height: 100%;
 		background-color: rgba($velvet, 0.5);
 		opacity: 0;
-		transition: opacity 0.3s;
+		@include transition(opacity);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -507,15 +829,20 @@ select {
 			text-transform: uppercase;
 			letter-spacing: 1px;
 			transform: translateY(20px);
-			transition: transform 0.3s;
+			@include transition(transform);
 			text-align: center;
 		}
 	}
 
-	.category-image:hover .category-overlay {
-		opacity: 1;
-		.category-name {
-			transform: translateY(0);
+	.category-image {
+		@include hover-focus {
+			.category-overlay {
+				opacity: 1;
+
+				.category-name {
+					transform: translateY(0);
+				}
+			}
 		}
 	}
 
@@ -548,23 +875,17 @@ select {
 		opacity: 1;
 		z-index: 101;
 		position: relative;
-		transition: opacity 0.2s;
+		@include transition(opacity);
 		box-shadow: none;
 
-		&:hover {
+		@include hover-focus {
 			opacity: 1;
 			background: none;
 		}
+
 		&.disabled {
 			opacity: 0.3;
 		}
-	}
-
-	.carousel-control-prev {
-		left: 0;
-	}
-	.carousel-control-next {
-		right: 0;
 	}
 
 	.carousel-control-prev-icon,
@@ -583,71 +904,15 @@ select {
 	.carousel-control-prev-icon {
 		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='black' viewBox='0 0 16 16'%3E%3Cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
 	}
+
 	.carousel-control-next-icon {
 		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='black' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
 	}
-
-	@media (max-width: 991px) {
-		.carousel-controls {
-			left: -30px;
-			right: -30px;
-		}
-		.category-item {
-			flex: 0 0 calc(50% - 20px);
-			min-width: calc(50% - 20px);
-		}
-	}
-	@media (max-width: 576px) {
-		.carousel-controls {
-			left: 0;
-			right: 0;
-		}
-		.category-item {
-			flex: 0 0 100%;
-			min-width: 100%;
-		}
-	}
 }
 
-// Pour .container-xxl, sois plus spécifique
-.boutique_categories > .container-xxl {
-	overflow: visible;
-}
-.container-1600 {
-	max-width: 1600px;
-	margin: auto;
-	padding: 0 1.5rem;
-}
-
-// Le reste du site garde overflow: auto par défaut
-.container-xxl:not(.boutique_categories > .container-xxl) {
-	overflow: auto;
-}
-
-.carousel-item > .container-xxl {
-	height: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 3;
-
-	[class^="col-"] {
-		pointer-events: auto;
-		h2 {
-			margin-block-end: 2rem;
-			letter-spacing: 1px;
-			font-size: 3rem;
-		}
-		a {
-			font-size: 1rem;
-			letter-spacing: 1px;
-		}
-	}
-}
-
-// =======================
-// Charte RSE
-// =======================
+// ==========================================================================
+// Composant: Charte RSE
+// ==========================================================================
 .charte_rse {
 	background-size: cover;
 	background-position: center;
@@ -664,6 +929,7 @@ select {
 			font-weight: 700;
 			font-size: 2.2rem;
 		}
+
 		p,
 		div,
 		.fw-lighter,
@@ -674,131 +940,33 @@ select {
 	}
 }
 
-// =======================
-// Nouvelle classe pour les images de produit
-// =======================
-.product-image-container {
-	aspect-ratio: 1/1;
-	width: 100%;
-	background: #f8f8f8;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	overflow: hidden;
-
-	img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		display: block;
-	}
-}
-
-// =======================
-// Pagination du slider
-// =======================
-.slider-dots {
-	position: absolute;
-	left: 0;
-	bottom: 32px;
-	width: 100%;
-	z-index: 10;
-	display: flex;
-	justify-content: center;
-	gap: 1.5rem;
-}
-
-.slider-dot {
-	width: 7rem;
-	height: 5px;
-	background: #fff;
-	opacity: 0.5;
-	border-radius: 0px;
-	cursor: pointer;
-	transition: opacity 0.2s;
-	&.active {
-		opacity: 1;
-		background: $velvet;
-	}
-}
-
-// =======================
-// Bouton "Voir tous les produits" dans le slider
-// =======================
-.slider_container .view-all-link {
-	background: transparent;
-	border: 1px solid #fff;
-	color: #fff;
-	font-size: 1rem;
-	text-transform: uppercase;
-	padding: 0.75rem 1.5rem;
-	display: inline-flex;
-	align-items: center;
-	transition: background 0.2s, color 0.2s, border 0.2s;
-
-	svg {
-		margin-left: 0.5rem;
-		transition: transform 0.2s;
-	}
-
-	&:hover {
-		background: $black-main;
-		color: #fff;
-		border-color: $black-main;
-
-		svg {
-			transform: translateX(4px);
-			color: #fff;
-		}
-	}
-}
-
-// =======================
-// Pour le carousel des catégories
-// =======================
-.boutique_categories {
-	.carousel-controls {
-		pointer-events: none;
-		z-index: 10;
-	}
-	.carousel-control-prev,
-	.carousel-control-next {
-		pointer-events: auto;
-		z-index: 11;
-	}
-	.category-link,
-	.category-item,
-	.category-image,
-	.category-overlay {
-		pointer-events: auto;
-	}
-}
-
-// =======================
-// Footer
-// =======================
+// ==========================================================================
+// Composant: Footer
+// ==========================================================================
 .footer {
 	background: $black-main;
 	color: #fff;
 	padding-bottom: 0;
 
 	a {
-		transition: color 0.2s;
+		@include transition(color);
 
-		&:hover {
+		@include hover-focus {
 			color: $velvet !important;
 		}
 	}
+
 	p {
 		line-height: 1.7rem;
 	}
+
 	.btn-bloom {
 		background: $velvet;
 		color: #fff;
 		border: none;
-		transition: background 0.2s;
+		@include transition(background);
 
-		&:hover {
+		@include hover-focus {
 			background: darken($velvet, 10%);
 		}
 	}
@@ -814,53 +982,9 @@ select {
 	}
 }
 
-// =======================
-// Responsive
-// =======================
-@media (max-width: 991px) {
-	.logo_svg {
-		height: 1.6rem;
-	}
-	.menu_container .nav {
-		gap: 0.7rem;
-	}
-}
-.promo-banner {
-	font-size: 0.85rem;
-}
-
-// =======================
-// Liens du menu dans le header
-// =======================
-#wrapper-navbar a {
-	color: #222 !important;
-	font-size: 0.85rem !important;
-	font-weight: 600 !important;
-	text-decoration: none !important;
-	padding: 0.3rem 0.8rem !important;
-	display: flex !important;
-	align-items: center !important;
-	background: transparent !important;
-}
-
-#wrapper-navbar a:hover,
-#wrapper-navbar a:focus {
-	color: $velvet !important;
-	text-decoration: none !important;
-}
-
-/* Taille uniforme pour toutes les icônes du menu droit */
-#wrapper-navbar .menu-item-67 > a i,
-#wrapper-navbar .menu-item-66 > a i,
-#wrapper-navbar .search-toggle i {
-	font-size: 1.3rem !important;
-	color: #222 !important;
-	transition: color 0.2s;
-}
-
-// =======================
-// Social Sticky Icons
-// =======================
+// ==========================================================================
+// Composant: Icônes sociales fixes
+// ==========================================================================
 .social-sticky {
 	position: fixed;
 	left: 0;
@@ -871,44 +995,70 @@ select {
 	flex-direction: column;
 	gap: 0.5rem;
 	padding-left: 0.5rem;
-}
 
-.social-icon {
-	z-index: 99999;
-	opacity: 0.75;
-	width: 2.3rem;
-	height: 2.3rem;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: $black-main;
-	font-size: 1.25rem;
-	background: none;
-	transition: color 0.2s;
-
-	i {
-		transition: color 0.1s, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-	}
-
-	&:hover,
-	&:focus {
-		color: $velvet;
+	.social-icon {
+		z-index: 99999;
+		opacity: 0.75;
+		width: 2.3rem;
+		height: 2.3rem;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: $black-main;
+		font-size: 1.25rem;
 		background: none;
-		text-decoration: none;
+		@include transition(color);
 
 		i {
-			opacity: 1;
-			font-size: 1.5rem;
+			@include transition(color transform, 0.5s, cubic-bezier(0.4, 0, 0.2, 1));
+		}
+
+		@include hover-focus {
 			color: $velvet;
-			transform: rotate(360deg);
+			background: none;
+			text-decoration: none;
+
+			i {
+				opacity: 1;
+				font-size: 1.5rem;
+				color: $velvet;
+				transform: rotate(360deg);
+			}
 		}
 	}
 }
 
-// =======================
-// Offcanvas recherche
-// =======================
+/* Stabilise la rotation 360° des icônes sociales */
+.social-sticky {
+	.social-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
+		i {
+			display: inline-block; /* nécessaire pour transform */
+			transform: none;
+			transform-origin: center center;
+			backface-visibility: hidden;
+			-webkit-backface-visibility: hidden;
+			will-change: transform, opacity;
+			transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.3s ease;
+		}
+
+		&:hover i,
+		&:focus i {
+			transform: rotate(360deg);
+			/* conserve ton effet de taille si voulu */
+			/* font-size: 1.5rem; */
+			color: $velvet !important;
+		}
+	}
+}
+
+// ==========================================================================
+// Composant: Recherche Offcanvas
+// ==========================================================================
 .search-offcanvas {
 	position: fixed;
 	top: 0;
@@ -919,7 +1069,7 @@ select {
 	background: #fff;
 	box-shadow: -2px 0 16px rgba(0, 0, 0, 0.08);
 	z-index: 99999;
-	transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	@include transition(right, 0.4s, cubic-bezier(0.4, 0, 0.2, 1));
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
@@ -945,17 +1095,15 @@ select {
 	}
 }
 
-// Pour la loupe dans le menu droit
 .search-toggle {
 	color: #222;
 	font-size: 1.3rem;
 	background: none;
 	border: none;
 	cursor: pointer;
-	transition: color 0.2s;
+	@include transition(color);
 
-	&:hover,
-	&:focus {
+	@include hover-focus {
 		color: $velvet;
 		text-decoration: none;
 	}
@@ -969,8 +1117,11 @@ select {
 	width: 100%;
 	background: #fff;
 	z-index: 99;
-	transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s,
-		visibility 0.4s;
+	@include transition(
+		transform opacity visibility,
+		0.4s,
+		cubic-bezier(0.4, 0, 0.2, 1)
+	);
 	transform: translateY(-20px);
 	opacity: 0;
 	visibility: hidden;
@@ -998,221 +1149,62 @@ select {
 	}
 }
 
-/* =======================
-   Sélecteur de langue dans le header
-   ======================= */
-.header-lang-select {
-	margin-right: 1rem;
-
-	select {
-		border: none;
-		background: #f8f8f8;
-		color: #222;
-		font-size: 0.95rem;
-		font-weight: 600;
-		padding: 0.3rem 0.8rem;
-		border-radius: 1.2rem;
-		outline: none;
-		cursor: pointer;
-		transition: background 0.2s, color 0.2s;
-
-		&:hover,
-		&:focus {
-			background: $velvet;
-			color: #fff;
-		}
-	}
-}
-
-/* =======================
-   Bootstrap icons pour Panier et Mon compte
-   ======================= */
-#wrapper-navbar .menu-item-67 > a,
-#wrapper-navbar .menu-item-66 > a {
-	font-size: 1.3rem;
-	color: #222 !important;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	text-transform: none !important;
-	padding: 0.3rem 0.8rem !important;
-}
-
-#wrapper-navbar .menu-item-67 > a i,
-#wrapper-navbar .menu-item-66 > a i {
-	font-size: 1.3rem;
-	color: #222 !important;
-	transition: color 0.2s;
-}
-
-#wrapper-navbar .menu-item-67 > a:hover i,
-#wrapper-navbar .menu-item-66 > a:hover i {
-	color: $velvet !important;
-}
-
-/* =======================
-   Social Sticky Icons : rotation au hover
-   ======================= */
-.social-sticky .social-icon i {
-	transition: color 0.2s, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.social-sticky .social-icon:hover i,
-.social-sticky .social-icon:focus i {
-	color: $velvet !important;
-	transform: rotate(360deg);
-}
-
-/* =======================
-   Ajout du logo UTC dans le titre
-   ======================= */
-h3.logo_before {
-	position: relative;
-}
-
-h3.logo_before .logo_h3_content {
-	display: flex;
-	align-items: center;
-	gap: 0.7rem;
-
-	&::before {
-		content: "";
-		display: inline-block;
-		width: 2rem;
-		height: 4rem;
-		background: url("../images/utc-logomark.svg") no-repeat center center;
-		background-size: cover;
-		vertical-align: middle;
-		flex-shrink: 0;
-	}
-}
-
-// .maj_title::after {
-// 	content: "";
-// 	display: block;
-// 	width: 5rem;
-// 	height: 0;
-// 	border-bottom: 1px solid $black-main;
-// 	margin: 1rem 0 0 0;
-// }
-
-// =======================
-// Overlay bouton produit
-// =======================
-.btn-overlay {
-	position: relative;
-	overflow: hidden;
-
-	.logo-bg-overlay {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 100%;
-		height: 100%;
-		transform: translate(-50%, -50%);
-		opacity: 0;
-		z-index: 1;
-		pointer-events: none;
-		transition: opacity 0.3s;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		img {
-			width: 100%;
-			height: 100%;
-			object-fit: contain;
-			filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
-		}
-	}
-
-	&:hover .logo-bg-overlay,
-	&:focus .logo-bg-overlay {
-		opacity: 0.28;
-	}
-
-	button {
-		position: relative;
-		z-index: 2;
-	}
-}
-
-.product_item:hover .btn-overlay {
-	opacity: 1;
-
-	button {
-		transform: translateY(0);
-	}
-	.logo-bg-overlay {
-		opacity: 0.18;
-	}
-}
-
-.product_item .btn-overlay .btn {
-	background-color: transparent;
-	color: #fff;
-	border: 1px solid #fff;
-	transition: color 0.2s, border-color 0.2s;
-
-	&:hover,
-	&:focus {
-		background-color: transparent !important;
-		color: #fff !important;
-		border-color: #fff !important;
-	}
-}
-
-// =======================
-// Bandeau défilant
-// =======================
+// ==========================================================================
+// Composant: Bandeau défilant
+// ==========================================================================
 .bandeau-carousel {
 	overflow: hidden;
 	width: 100%;
-	// background: $velvet;
 	padding: 0.7rem 0;
-}
-
-.bandeau-track {
-	display: flex;
-	gap: 2.5rem;
-	animation: bandeau-scroll 30s linear infinite;
-}
-
-.bandeau-item {
 	white-space: nowrap;
-	font-size: 1.5rem;
-	color: $velvet;
-	font-weight: 700;
-}
+	-webkit-font-smoothing: antialiased;
+	contain: paint layout; /* limite les repaints */
 
-.bandeau-icon img {
-	width: 3.375rem;
-	height: auto;
-	display: inline-block;
-	vertical-align: middle;
+	.bandeau-track {
+		display: inline-flex;
+		gap: 2.5rem;
+		align-items: center;
+		/* durée contrôlée via variable CSS (définie par JS) */
+		animation: bandeau-scroll var(--bandeau-duration, 30s) linear infinite;
+		will-change: transform;
+		transform: translate3d(0, 0, 0);
+		backface-visibility: hidden;
+		-webkit-backface-visibility: hidden;
+	}
+
+	.bandeau-item {
+		display: inline-flex;
+		white-space: nowrap;
+		font-size: 1.5rem;
+		color: $velvet;
+		font-weight: 700;
+		line-height: 1;
+	}
+
+	.bandeau-icon img {
+		width: 3.375rem;
+		height: auto;
+		display: inline-block;
+		vertical-align: middle;
+	}
 }
 
 @keyframes bandeau-scroll {
 	0% {
-		transform: translateX(0);
+		transform: translate3d(0, 0, 0);
 	}
 	100% {
-		transform: translateX(-50%);
-	}
-}
-@media (min-width: 992px) and (max-width: 1599px) {
-	.px-lg-5rem {
-		padding-left: 5rem !important;
-		padding-right: 5rem !important;
+		transform: translate3d(
+			-50%,
+			0,
+			0
+		); /* on assume track dupliqué (translate de la moitié) */
 	}
 }
 
-/* -------------------------
-   Sous-menu Boutique (robuste)
-   Utilise transform + opacity (pas de max-height), override display inline si présent.
-   Nécessite : .boutique-container placé IMMEDIATEMENT AVANT #submenu-boutique
-   ------------------------- */
-
+// ==========================================================================
+// Composant: Sous-menu Boutique
+// ==========================================================================
 #page,
 .site,
 header,
@@ -1220,117 +1212,255 @@ header,
 .container-1600 {
 	overflow: visible !important;
 }
-#wrapper-navbar {
-	position: relative;
-	z-index: 100;
-}
 
 .boutique-container {
 	position: relative;
 	display: inline-block;
 }
 
-/* état fermé */
 #submenu-boutique {
 	position: absolute;
-	top: calc(100% - 2px); /* -2px pour chevauchement et éviter micro-gap */
+	top: calc(100% - 2px);
 	left: 0;
 	width: 100vw;
 	box-sizing: border-box;
 	background: #fff;
 	z-index: 9999;
 	overflow: visible;
-
-	/* fermé */
-	display: block; /* kept so display exists; visibility/opacity control visibility */
+	display: block;
 	visibility: hidden;
 	opacity: 0;
 	transform: translateY(-10px);
 	pointer-events: none;
-
-	/* transitions */
-	transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 200ms ease,
-		visibility 0s linear 200ms;
-	will-change: transform, opacity;
+	@include transition(
+		transform opacity visibility,
+		0.26s,
+		cubic-bezier(0.2, 0.8, 0.2, 1)
+	);
 	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+
+	.submenu-inner {
+		width: 100%;
+	}
+
+	.container-fluid {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 1rem 2rem;
+		box-sizing: border-box;
+	}
+
+	.category-title {
+		color: $velvet;
+	}
+
+	.product-link {
+		letter-spacing: -0.02em;
+		font-weight: 600;
+		display: block;
+	}
+
+	/* SUBMENU : affichage UNIQUEMENT quand .boutique-container a .open (ou en hover direct du submenu) */
+	display: block;
+	visibility: hidden;
+	opacity: 0;
+	transform: translateY(-12px);
+	pointer-events: none;
+	will-change: opacity, transform;
+	transition: opacity 0.36s cubic-bezier(0.2, 0.8, 0.2, 1),
+		transform 0.36s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.36s;
 }
 
-/* centrer et limiter le contenu */
-#submenu-boutique .submenu-inner {
-	width: 100%;
-}
-#submenu-boutique .container-fluid {
-	max-width: 1200px;
-	margin: 0 auto;
-	padding: 1rem 2rem;
-	box-sizing: border-box;
-}
-
-/* OUVERTURE : adjacent sibling + (require .boutique-container juste avant #submenu-boutique) */
-/* On override explicitement display/visibility/opacity pour contrer inline display:none */
-.boutique-container:hover + #submenu-boutique,
+/* montrer quand boutique-container possède .open (ou focus-within) — cible le cas sibling */
+.boutique-container.open + #submenu-boutique,
 .boutique-container:focus-within + #submenu-boutique,
 #submenu-boutique:hover {
-	display: block !important; /* override inline display:none */
 	visibility: visible !important;
 	opacity: 1 !important;
 	transform: translateY(0) !important;
 	pointer-events: auto !important;
 	transition-delay: 0s !important;
+	transition-duration: 0.36s !important;
 }
 
-/* titres de catégories en velvet */
-#submenu-boutique .category-title {
-	color: $velvet;
-}
-
-/* produits en minuscules */
-#submenu-boutique .product-link {
-	letter-spacing: -0.02em; /* resserré */
-	font-weight: 600; /* optionnel : accentue le titre */
-	display: block;
-}
-
-/* état initial des items de liste : cachés et légèrement décalés vers la gauche */
+/* stagger des items */
 #submenu-boutique ul li {
 	opacity: 0;
-	transform: translateX(-14px); /* départ à gauche */
-	transition: opacity 480ms cubic-bezier(0.2, 0.8, 0.2, 1),
-		transform 480ms cubic-bezier(0.2, 0.8, 0.2, 1);
+	transform: translateX(-12px);
+	transition: opacity 0.42s ease, transform 0.42s ease;
 	will-change: opacity, transform;
 }
 
-/* Stagger plus marqué : delay plus lent (0.06s * index) */
+/* delays générés en SCSS */
 @for $i from 1 through 30 {
-	#submenu-boutique ul li:nth-child(#{$i}) {
-		transition-delay: #{0.1 * $i}s;
-	}
-}
-
-/* ouverture : révélation progressive (fade + slide) */
-.boutique-container:hover + #submenu-boutique,
-.boutique-container:focus-within + #submenu-boutique,
-#submenu-boutique:hover {
-	ul li {
+	.boutique-container.open + #submenu-boutique ul li:nth-child(#{$i}),
+	#submenu-boutique:hover ul li:nth-child(#{$i}) {
+		transition-delay: #{0.05 * $i}s;
 		opacity: 1;
 		transform: translateX(0);
 	}
 }
 
-/* réduction si prefers-reduced-motion */
+/* reduced-motion */
 @media (prefers-reduced-motion: reduce) {
+	#submenu-boutique,
+	#submenu-boutique ul li {
+		transition: none !important;
+		transform: none !important;
+		opacity: 1 !important;
+		pointer-events: auto !important;
+	}
+}
+
+// ==========================================================================
+// Composant: Flux Instagram
+// ==========================================================================
+.insta_flux {
+	padding-block: 5rem;
+	background-color: $bloom;
+
+	.container-xxl {
+		overflow-x: hidden;
+	}
+}
+
+// ==========================================================================
+// Utilitaires et helpers
+// ==========================================================================
+// Titre principal avec trait
+.maj_title {
+	font-size: 2.5rem !important;
+	text-transform: uppercase;
+	font-weight: 600;
+
+	&.h2::after {
+		border-color: #fff;
+	}
+}
+
+// Suppression des border-radius
+.card,
+.card-img-top,
+.card-body,
+.card-footer,
+.btn,
+.container,
+.carousel,
+.carousel-inner,
+.carousel-item,
+.carousel-caption,
+input,
+textarea,
+select {
+	border-radius: 0 !important;
+}
+
+// Container personnalisé
+.container-1600 {
+	max-width: 1600px;
+	margin: auto;
+	padding: 0 1.5rem;
+}
+
+// Logo dans les titres
+h3.logo_before {
+	position: relative;
+
+	.logo_h3_content {
+		display: flex;
+		align-items: center;
+		gap: 0.7rem;
+
+		&::before {
+			content: "";
+			display: inline-block;
+			width: 2rem;
+			height: 4rem;
+			background: url("../images/utc-logomark.svg") no-repeat center center;
+			background-size: cover;
+			vertical-align: middle;
+			flex-shrink: 0;
+		}
+	}
+}
+
+// ==========================================================================
+// Media Queries Responsive
+// ==========================================================================
+@media (max-width: 991px) {
+	.logo_svg {
+		height: 1.6rem;
+	}
+
+	.menu_container .nav {
+		gap: 0.7rem;
+	}
+
+	.boutique_categories {
+		.carousel-controls {
+			left: -30px;
+			right: -30px;
+		}
+
+		.category-item {
+			flex: 0 0 calc(50% - 20px);
+			min-width: calc(50% - 20px);
+		}
+	}
+
+	.parallax-banner {
+		background-attachment: scroll;
+
+		.parallax-content {
+			text-align: center;
+			padding: 3rem 1rem;
+		}
+	}
+}
+
+@media (max-width: 576px) {
+	.boutique_categories {
+		.carousel-controls {
+			left: 0;
+			right: 0;
+		}
+
+		.category-item {
+			flex: 0 0 100%;
+			min-width: 100%;
+		}
+	}
+}
+
+@media (min-width: 992px) and (max-width: 1599px) {
+	.px-lg-5rem {
+		padding-left: 5rem !important;
+		padding-right: 5rem !important;
+	}
+}
+
+// Respect des préférences de réduction d'animation
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+
+	.fullscreen-slider .carousel-item .container-xxl [class^="col-"] {
+		transition: none !important;
+		transform: none !important;
+		opacity: 1 !important;
+	}
+
 	#submenu-boutique ul li,
 	#submenu-boutique {
 		transition: none !important;
 		animation: none !important;
 		transform: none !important;
 		opacity: 1 !important;
-	}
-}
-.insta_flux {
-	padding-block: 5rem;
-	background-color: $bloom;
-	.container-xxl {
-		overflow-x: hidden;
 	}
 }

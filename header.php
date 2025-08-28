@@ -41,7 +41,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
         <div class="container-1600 h-100">
             <div class="row align-items-center justify-content-between" style="min-height: 3.2rem;">
                 <!-- Logo à gauche -->
-                <div class="col-2 d-flex align-items-center justify-content-start h-100">
+                <div class="col-4 d-flex align-items-center justify-content-start h-100">
                     <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
                         <svg class="logo_svg" width="220" height="auto" data-name="Calque 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1148.43 389.27">
 
@@ -73,7 +73,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                 </div>
 
                 <!-- Menu principal centré -->
-                <div class="col-6 d-flex align-items-center justify-content-center h-100">
+                <div class="col-4 d-flex align-items-center justify-content-center h-100">
                     <div class="boutique-container"> <!-- wrapper du trigger -->
                         <nav class="menu_container gap-3">
                             <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>"
