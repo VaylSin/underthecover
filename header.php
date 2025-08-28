@@ -75,17 +75,22 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                 <!-- Menu principal centré -->
                 <div class="col-4 d-flex align-items-center justify-content-center h-100">
                     <div class="boutique-container"> <!-- wrapper du trigger -->
-                        <nav class="menu_container gap-3">
-                            <a href="<?php echo esc_url(get_permalink(wc_get_page_id('shop'))); ?>"
-                               class="nav-link menu-item-boutique d-flex align-items-center text-uppercase px-3 fw-semibold"
-                               aria-haspopup="true" aria-expanded="false">
-                                Boutique
-                            </a>
+                        <nav class="menu_container gap-4">
+						<?php
+							$shop_id = wc_get_page_id( 'shop' );
+							$shop_url = $shop_id ? get_permalink( $shop_id ) : home_url( '/' );
+							$shop_title = $shop_id ? get_the_title( $shop_id ) : __( 'Boutique', 'siklane' );
+						?>
+						<a href="<?php echo esc_url( $shop_url ); ?>"
+						class="nav-link menu-item-boutique d-flex align-items-center text-uppercase px-3 fw-semibold"
+						aria-haspopup="true" aria-expanded="false">
+						<?php echo esc_html( $shop_title ); ?>
+						</a>
 
                             <?php
                             wp_nav_menu( array(
                                 'theme_location' => 'left-menu',
-                                'menu_class'     => 'nav justify-content-center gap-3 align-items-center',
+                                'menu_class'     => 'nav justify-content-center gap-4 align-items-center',
                                 'container'      => false,
                                 'fallback_cb'    => false,
                             ) );

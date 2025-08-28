@@ -16613,46 +16613,66 @@ h6,
   width: 100%;
 }
 
-.bandeau-carousel {
+/* Bandeau défilant optimisé - évite les sauts */
+.bandeau_deroulant {
+  background-color: white;
   overflow: hidden;
   width: 100%;
-  padding: 0.7rem 0;
+}
+
+.bandeau-container {
+  width: 100%;
+  overflow: hidden;
   white-space: nowrap;
   -webkit-font-smoothing: antialiased;
-  contain: paint layout; /* limite les repaints */
 }
-.bandeau-carousel .bandeau-track {
+
+.bandeau-track {
   display: inline-flex;
   gap: 2.5rem;
   align-items: center;
-  /* durée contrôlée via variable CSS (définie par JS) */
-  animation: bandeau-scroll var(--bandeau-duration, 30s) linear infinite;
+  animation: bandeau-scroll 30s linear infinite;
   will-change: transform;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
-.bandeau-carousel .bandeau-item {
+
+.bandeau-item {
   display: inline-flex;
+  align-items: center;
+  gap: 1rem;
   white-space: nowrap;
   font-size: 1.5rem;
   color: #bc3365;
   font-weight: 700;
-  line-height: 1;
-}
-.bandeau-carousel .bandeau-icon img {
-  width: 3.375rem;
-  height: auto;
-  display: inline-block;
-  vertical-align: middle;
+  flex-shrink: 0;
 }
 
+.bandeau-icon {
+  display: flex;
+  align-items: center;
+}
+
+.bandeau-icon img {
+  width: 3.375rem;
+  height: auto;
+  display: block;
+}
+
+/* Animation en translate3d (pixels plutôt que %) */
 @keyframes bandeau-scroll {
-  0% {
+  from {
     transform: translate3d(0, 0, 0);
   }
-  100% {
-    transform: translate3d(-50%, 0, 0); /* on assume track dupliqué (translate de la moitié) */
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+/* Respect reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .bandeau-track {
+    animation: none !important;
   }
 }
 #page,

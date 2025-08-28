@@ -6144,67 +6144,84 @@
 
       // Fonction pour mettre à jour la position du carousel
       function updateCarousel() {
-        const itemWidth = items[0].offsetWidth;
-        carouselRow.style.transform = `translateX(${-currentPosition * itemWidth}px)`;
+        var _items$;
+        const itemWidth = ((_items$ = items[0]) == null ? void 0 : _items$.offsetWidth) || 0;
+        if (carouselRow && itemWidth) {
+          carouselRow.style.transform = `translateX(${-currentPosition * itemWidth}px)`;
 
-        // Mettre à jour l'état des boutons
-        const prevButton = categoriesCarousel.querySelector(".carousel-control-prev");
-        const nextButton = categoriesCarousel.querySelector(".carousel-control-next");
-        prevButton.classList.toggle("disabled", currentPosition <= 0);
-        nextButton.classList.toggle("disabled", currentPosition >= totalItems - itemsPerView);
+          // Mettre à jour l'état des boutons
+          const prevButton = categoriesCarousel.querySelector(".carousel-control-prev");
+          const nextButton = categoriesCarousel.querySelector(".carousel-control-next");
+          if (prevButton) prevButton.classList.toggle("disabled", currentPosition <= 0);
+          if (nextButton) nextButton.classList.toggle("disabled", currentPosition >= totalItems - itemsPerView);
+        }
       }
 
-      // Initialisation
-      updateCarousel();
+      // Initialisation si on a des items et une row
+      if (items.length > 0 && carouselRow) {
+        updateCarousel();
 
-      // Gérer les événements des boutons
-      categoriesCarousel.querySelector(".carousel-control-prev").addEventListener("click", function (e) {
-        e.preventDefault();
-        if (currentPosition > 0) {
-          currentPosition--;
-          updateCarousel();
+        // Gérer les événements des boutons
+        const prevBtn = categoriesCarousel.querySelector(".carousel-control-prev");
+        if (prevBtn) {
+          prevBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (currentPosition > 0) {
+              currentPosition--;
+              updateCarousel();
+            }
+          });
         }
-      });
-      categoriesCarousel.querySelector(".carousel-control-next").addEventListener("click", function (e) {
-        e.preventDefault();
-        if (currentPosition < totalItems - itemsPerView) {
-          currentPosition++;
-          updateCarousel();
+        const nextBtn = categoriesCarousel.querySelector(".carousel-control-next");
+        if (nextBtn) {
+          nextBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (currentPosition < totalItems - itemsPerView) {
+              currentPosition++;
+              updateCarousel();
+            }
+          });
         }
-      });
 
-      // Adapter au redimensionnement
-      window.addEventListener("resize", function () {
-        const newItemsPerView = window.innerWidth > 768 ? 4 : 1;
-        if (newItemsPerView !== itemsPerView) {
-          itemsPerView = newItemsPerView;
-          currentPosition = Math.min(currentPosition, totalItems - itemsPerView);
-          updateCarousel();
-        }
-      });
+        // Adapter au redimensionnement
+        window.addEventListener("resize", function () {
+          const newItemsPerView = window.innerWidth > 768 ? 4 : 1;
+          if (newItemsPerView !== itemsPerView) {
+            itemsPerView = newItemsPerView;
+            currentPosition = Math.min(currentPosition, totalItems - itemsPerView);
+            updateCarousel();
+          }
+        });
+      }
     }
 
     // ----- Slider principal -----
     const slider = document.getElementById("main-slider");
     if (slider) {
       const dots = slider.querySelectorAll(".slider-dot");
-      const carousel = new bootstrap.Carousel(slider);
-      dots.forEach((dot, idx) => {
-        dot.addEventListener("click", function () {
-          carousel.to(idx);
-          // Met à jour la classe active sur les dots
-          dots.forEach(d => d.classList.remove("active"));
-          dot.classList.add("active");
-        });
-      });
 
-      // Synchronise les dots quand le slide change (flèches, auto, swipe)
-      slider.addEventListener("slid.bs.carousel", function (e) {
-        const activeIdx = e.to;
-        dots.forEach((dot, idx) => {
-          dot.classList.toggle("active", idx === activeIdx);
-        });
-      });
+      // Vérifier que bootstrap est chargé avant d'utiliser
+      if (typeof bootstrap !== "undefined" && bootstrap.Carousel) {
+        const carousel = new bootstrap.Carousel(slider);
+        if (dots.length) {
+          dots.forEach((dot, idx) => {
+            dot.addEventListener("click", function () {
+              carousel.to(idx);
+              // Met à jour la classe active sur les dots
+              dots.forEach(d => d.classList.remove("active"));
+              dot.classList.add("active");
+            });
+          });
+
+          // Synchronise les dots quand le slide change (flèches, auto, swipe)
+          slider.addEventListener("slid.bs.carousel", function (e) {
+            const activeIdx = e.to;
+            dots.forEach((dot, idx) => {
+              dot.classList.toggle("active", idx === activeIdx);
+            });
+          });
+        }
+      }
     }
 
     // ----- Barre de recherche header -----
@@ -6219,7 +6236,7 @@
       closeBtn.addEventListener("click", function () {
         dropdown.classList.remove("active");
       });
-      // Optionnel : fermer au clic hors du panneau
+      // Optionnel : fermer au clic hors du panneau
       dropdown.addEventListener("click", function (e) {
         if (e.target === dropdown) {
           dropdown.classList.remove("active");
@@ -6236,102 +6253,152 @@
       }
     }
 
-    // ----- Bandeau défilant : stabilisation & durée dynamique -----
-    (function () {
+    // ----- Sous-menu Boutique -----
+    var trigger = document.querySelector(".menu-item-boutique");
+    var boutiqueWrap = trigger ? trigger.closest(".boutique-container") : null;
+    var submenu = document.getElementById("submenu-boutique");
+
+    // Important: Ne pas arrêter le script avec un return global ici
+    if (trigger && boutiqueWrap && submenu) {
+      var closeTimer = null;
+      function open() {
+        clearTimeout(closeTimer);
+        boutiqueWrap.classList.add("open");
+        trigger.setAttribute("aria-expanded", "true");
+      }
+      function close() {
+        clearTimeout(closeTimer);
+        closeTimer = setTimeout(function () {
+          boutiqueWrap.classList.remove("open");
+          trigger.setAttribute("aria-expanded", "false");
+        }, 120);
+      }
+
+      // desktop / keyboard
+      trigger.addEventListener("mouseenter", open);
+      trigger.addEventListener("focus", open);
+      trigger.addEventListener("mouseleave", close);
+      trigger.addEventListener("blur", close);
+
+      // keep open when hovering submenu
+      submenu.addEventListener("mouseenter", open);
+      submenu.addEventListener("mouseleave", close);
+
+      // mobile tap : toggle (préserve comportement lien si large écran)
+      trigger.addEventListener("click", function (e) {
+        if (window.innerWidth < 992) {
+          e.preventDefault();
+          if (boutiqueWrap.classList.contains("open")) close();else open();
+        }
+      });
+
+      // close on ESC or click outside
+      document.addEventListener("keyup", function (e) {
+        if (e.key === "Escape") close();
+      });
+      document.addEventListener("click", function (e) {
+        if (!boutiqueWrap.contains(e.target) && !submenu.contains(e.target)) close();
+      });
+    }
+  });
+
+  // ----- Bandeau défilant (version simplifiée sans conflit) -----
+  (function () {
+    // Fonction d'initialisation - utilise requestAnimationFrame pour assurer propreté
+    function setupBandeau() {
       const track = document.querySelector(".bandeau-track");
       if (!track) return;
-      function initBandeau() {
-        // Dupliquer le contenu une seule fois (si non dupliqué)
-        if (!track.dataset.duplicated) {
-          track.innerHTML = track.innerHTML + track.innerHTML;
-          track.dataset.duplicated = "1";
-        }
 
-        // largeur du contenu original (après duplication, /2)
-        const totalWidth = track.scrollWidth;
-        const originalWidth = totalWidth / 2 || totalWidth;
+      // On garde une référence au contenu HTML original (en détectant si c'est déjà dupliqué)
+      function getOriginalContent() {
+        const html = track.innerHTML;
+        // Si déjà stocké, retourner la valeur
+        if (track.dataset.originalHtml) return track.dataset.originalHtml;
 
-        // vitesse souhaitée en pixels / seconde (ajuste si besoin)
-        const speedPxPerSec = 80; // 80 px/s par défaut
-        const durationSeconds = Math.max(8, Math.round(originalWidth / speedPxPerSec));
+        // Détecter si c'est déjà dupliqué (A+A)
+        const len = html.length;
+        const half = Math.floor(len / 2);
+        const firstHalf = html.substring(0, half);
+        const secondHalf = html.substring(half);
 
-        // appliquer la variable CSS utilisée par la règle SCSS
-        track.style.setProperty("--bandeau-duration", durationSeconds + "s");
+        // Stocker et retourner
+        track.dataset.originalHtml = firstHalf === secondHalf ? firstHalf : html;
+        return track.dataset.originalHtml;
+      }
 
-        // restart animation proprement pour appliquer la nouvelle durée
+      // Récupère contenu original
+      const originalContent = getOriginalContent();
+
+      // Reset et assure duplication exactement une fois
+      track.innerHTML = originalContent + originalContent;
+
+      // Mesure précise des largeurs
+      const items = track.querySelectorAll(".bandeau-item");
+      if (!items.length) return;
+
+      // Calculer largeur du contenu original (avec gaps)
+      const originalItems = Array.from(items).slice(0, items.length / 2);
+      let totalWidth = 0;
+      originalItems.forEach(item => {
+        const style = window.getComputedStyle(item);
+        const marginRight = parseFloat(style.marginRight || 0);
+        const marginLeft = parseFloat(style.marginLeft || 0);
+        totalWidth += item.offsetWidth + marginRight + marginLeft;
+      });
+
+      // Prendre en compte le gap entre les éléments s'il est défini
+      const gapSize = parseFloat(window.getComputedStyle(track).gap || 0);
+      if (gapSize > 0 && originalItems.length > 1) {
+        totalWidth += gapSize * (originalItems.length - 1);
+      }
+
+      // Ajout d'1px pour éviter les sauts aux bords
+      const animationWidth = Math.ceil(totalWidth) + 1;
+
+      // Vitesse et durée
+      const pixelsPerSecond = 60; // Vitesse en px/s
+      const durationSeconds = Math.max(8, animationWidth / pixelsPerSecond);
+
+      // Application des propriétés via RAF pour assurer que tout est prêt
+      requestAnimationFrame(() => {
+        // Reset animation pour éviter les bugs de timing
         track.style.animation = "none";
-        // force reflow
-        /* eslint-disable no-unused-expressions */
+
+        // Force reflow
         void track.offsetWidth;
-        /* eslint-enable no-unused-expressions */
-        track.style.animation = "";
-        // ensure GPU compositing
+
+        // Applique les variables CSS nécessaires
+        track.style.setProperty("--bandeau-width", `-${animationWidth}px`);
+        track.style.animation = `bandeau-scroll ${durationSeconds}s linear infinite`;
+
+        // Optimisations GPU
         track.style.transform = "translate3d(0,0,0)";
         track.style.willChange = "transform";
-      }
-
-      // debounce simple pour resize
-      let bandeauResizeTimer = null;
-      window.addEventListener("resize", function () {
-        clearTimeout(bandeauResizeTimer);
-        bandeauResizeTimer = setTimeout(initBandeau, 150);
+        track.style.backfaceVisibility = "hidden";
       });
-
-      // init au chargement (après fonts)
-      window.addEventListener("load", function () {
-        setTimeout(initBandeau, 80);
-      });
-
-      // si DOMReady déjà atteint, init rapidement
-      initBandeau();
-    })();
-
-    // ----- Sous-menu Boutique (logique existante) -----
-    var trigger = document.querySelector(".menu-item-boutique");
-    if (!trigger) return;
-    var boutiqueWrap = trigger.closest(".boutique-container");
-    var submenu = document.getElementById("submenu-boutique");
-    if (!boutiqueWrap || !submenu) return;
-    var closeTimer = null;
-    function open() {
-      clearTimeout(closeTimer);
-      boutiqueWrap.classList.add("open");
-      trigger.setAttribute("aria-expanded", "true");
-    }
-    function close() {
-      clearTimeout(closeTimer);
-      closeTimer = setTimeout(function () {
-        boutiqueWrap.classList.remove("open");
-        trigger.setAttribute("aria-expanded", "false");
-      }, 120);
     }
 
-    // desktop / keyboard
-    trigger.addEventListener("mouseenter", open);
-    trigger.addEventListener("focus", open);
-    trigger.addEventListener("mouseleave", close);
-    trigger.addEventListener("blur", close);
-
-    // keep open when hovering submenu
-    submenu.addEventListener("mouseenter", open);
-    submenu.addEventListener("mouseleave", close);
-
-    // mobile tap : toggle (préserve comportement lien si large écran)
-    trigger.addEventListener("click", function (e) {
-      if (window.innerWidth < 992) {
-        e.preventDefault();
-        if (boutiqueWrap.classList.contains("open")) close();else open();
-      }
+    // Initialiser après chargement complet (polices incluses)
+    window.addEventListener("load", () => {
+      setTimeout(setupBandeau, 200);
     });
 
-    // close on ESC or click outside
-    document.addEventListener("keyup", function (e) {
-      if (e.key === "Escape") close();
+    // Réinitialiser au redimensionnement (debounced)
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(setupBandeau, 200);
     });
-    document.addEventListener("click", function (e) {
-      if (!boutiqueWrap.contains(e.target) && !submenu.contains(e.target)) close();
-    });
-  });
+
+    // Si DOM est déjà chargé, initialiser rapidement
+    if (document.readyState === "complete" || document.readyState === "interactive") {
+      setTimeout(setupBandeau, 200);
+    } else {
+      document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(setupBandeau, 200);
+      });
+    }
+  })();
 
   exports.Alert = Alert;
   exports.Button = Button;

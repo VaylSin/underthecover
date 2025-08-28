@@ -71,13 +71,28 @@ get_header();
 </section>
 <section class="bandeau_deroulant container-fluid py-4 px-0">
     <?php if (have_rows('elements_du_bandeau_')): ?>
-        <div class="bandeau-carousel">
+        <div class="bandeau-container">
             <div class="bandeau-track">
                 <?php while (have_rows('elements_du_bandeau_')): the_row();
                     $texte = get_sub_field('texte');
-                    $icone = get_sub_field('icone'); // SVG ou image
+                    $icone = get_sub_field('icone');
                 ?>
-                    <div class="bandeau-item d-flex align-items-center gap-2">
+                    <div class="bandeau-item">
+                        <?php if ($icone): ?>
+                            <span class="bandeau-icon">
+                                <img src="<?php echo $icone; ?>" alt=""/>
+                            </span>
+                        <?php endif; ?>
+                        <span class="bandeau-text"><?php echo esc_html($texte); ?></span>
+                    </div>
+                <?php endwhile; ?>
+
+                <!-- Duplication des éléments pour l'effet infini -->
+                <?php while (have_rows('elements_du_bandeau_')): the_row();
+                    $texte = get_sub_field('texte');
+                    $icone = get_sub_field('icone');
+                ?>
+                    <div class="bandeau-item">
                         <?php if ($icone): ?>
                             <span class="bandeau-icon">
                                 <img src="<?php echo $icone; ?>" alt=""/>
