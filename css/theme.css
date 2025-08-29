@@ -17005,13 +17005,12 @@ header,
   content: "";
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0);
   transition: background-color 0.4s ease;
   pointer-events: none;
   z-index: 1;
 }
 .insta_flux .insta-item:hover::after {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(188, 51, 101, 0.2);
 }
 @media (prefers-reduced-motion: reduce) {
   .insta_flux .insta-item img {

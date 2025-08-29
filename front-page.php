@@ -192,7 +192,7 @@ get_header();
     <div class="overlay"></div>
     <div class="container-xxl px-lg-5remrem position-relative d-flex align-items-center" >
         <div class="row w-100 ms-3 align-items-center">
-            <div class="col-md-5 text-start text-white parallax-content" data-aos="fade-left" data-aos-duration="2000" data-aos-ease="ease-in-out">
+            <div class="col-md-5 text-start text-white parallax-content" >
                 <?php if($pre_titre = get_field('pre_titre')): ?>
                     <p class="text-uppercase fw-lighter"><?php echo esc_html($pre_titre); ?></p>
                 <?php endif; ?>
@@ -271,7 +271,7 @@ get_header();
                 <h2 class="mb-4 text-uppercase fw-bold" ><?php echo $texte_accroche; ?></h2>
             <?php endif;
                 if($texte = get_field('contenu_texte_charte')): ?>
-                    <span data-aos="zoom-in"><?php echo wp_kses_post($texte); ?></span>
+                    <span ><?php echo wp_kses_post($texte); ?></span>
                 <?php endif;
                 $lien = get_field('lien_page_charte');
                 $texte_bouton = get_field('texte_cta_charte');
@@ -399,7 +399,7 @@ get_header();
 
                     // normaliser l'URL du lien
                     $link_url = '';
-                    if ( is_array($link) || is_object($link) ) {
+                    if ( is_array($link) || is_object($link)  ) {
                         $link_url = get_permalink( is_array($link) ? $link[0] : $link );
                     } elseif ( ! empty($link) ) {
                         $link_url = $link;
@@ -434,7 +434,6 @@ get_header();
                     </div>
 
                 <?php
-				$count = $count +80;
 			endwhile; ?>
             </div>
         <?php endif; ?>
