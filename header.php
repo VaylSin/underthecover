@@ -144,7 +144,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 
                 <!-- Menu droit collé à droite -->
                 <div class="col-4 d-flex align-items-center justify-content-end h-100">
-                    <nav class="menu_container d-flex align-items-center gap-3">
+                    <nav class="menu_container d-flex align-items-center">
                         <select class="border-0" name="lang" id="lang-select" aria-label="Choisir la langue">
                             <option value="fr">FR</option>
                             <option value="en">EN</option>
