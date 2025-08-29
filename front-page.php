@@ -268,10 +268,10 @@ get_header();
     <div class="container-xxl px-lg-5rem d-flex justify-content-center align-items-center" style="min-height: 500px;">
         <div class="text-center col-md-8 mx-auto text-white" >
             <?php if($texte_accroche = get_field('phrase_daccroche_bloc_charte')): ?>
-                <h2 class="mb-4 text-uppercase fw-bold" data-aos="zoom-in" data-aos-duration="1000" data-aos-ease="ease-in-out"><?php echo $texte_accroche; ?></h2>
+                <h2 class="mb-4 text-uppercase fw-bold" ><?php echo $texte_accroche; ?></h2>
             <?php endif;
                 if($texte = get_field('contenu_texte_charte')): ?>
-                    <span data-aos="zoom-in" data-aos-duration="1000" data-aos-ease="ease-in-out" data-aos-delay="1000"><?php echo wp_kses_post($texte); ?></span>
+                    <span data-aos="zoom-in"><?php echo wp_kses_post($texte); ?></span>
                 <?php endif;
                 $lien = get_field('lien_page_charte');
                 $texte_bouton = get_field('texte_cta_charte');
@@ -282,7 +282,7 @@ get_header();
                     } else {
                         $url = $lien;
                     }?>
-                <a href="<?php echo esc_url($url); ?>" class="btn view-all-link px-4 py-2 text-uppercase mt-3" data-aos="zoom-in" data-aos-duration="1000" data-aos-ease="ease-in-out" data-aos-delay="2000">
+                <a href="<?php echo esc_url($url); ?>" class="btn view-all-link px-4 py-2 text-uppercase mt-3" >
                     <?php echo esc_html($texte_bouton); ?>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
@@ -386,12 +386,11 @@ get_header();
 <div class="spacer-10"></div>
 <section class="insta_flux">
     <div class="container-xxl px-lg-5rem text-center">
-        <h3 class="maj_title mb-5 logo_before d-flex justify-content-center" data-aos="fade-up" data-aos-duration="750"><span class="logo_h3_content "><?php echo esc_html(get_field('titre_instagram')); ?></span></h3>
+        <h3 class="maj_title mb-5 logo_before d-flex justify-content-center" ><span class="logo_h3_content "><?php echo esc_html(get_field('titre_instagram')); ?></span></h3>
 
         <?php if ( have_rows('publication') ) : ?>
             <div class="row d-flex insta-grid">
                 <?php
-				$count = 0;
                 while ( have_rows('publication') ) : the_row();
 
 
@@ -417,7 +416,7 @@ get_header();
                         }
                     }
                 ?>
-                    <div class="col-6 col-sm-4 col-md-3" data-aos="zoom-in" data-aos-duration="750" data-aos-ease="ease-in-out" data-aos-delay="<?php echo esc_attr($count); ?>">
+                    <div class="col-6 col-sm-4 col-md-3">
                         <?php if ( $link_url ) : ?>
                             <a href="<?php echo esc_url( $link_url ); ?>"
                                class="d-block insta-item">
@@ -426,7 +425,7 @@ get_header();
                                 <?php endif; ?>
                             </a>
                         <?php else : ?>
-                            <div class="d-block insta-item" data-aos="fade-up" data-aos-duration="750" data-aos-ease="ease-in-out" data-aos-delay="<?php echo esc_attr($count); ?>">
+                            <div class="d-block insta-item">
                                 <?php if ( $image_url ) : ?>
                                     <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>" class="img-fluid w-100">
                                 <?php endif; ?>
