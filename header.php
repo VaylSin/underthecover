@@ -24,8 +24,17 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 </head>
 
 <body <?php body_class(); ?>>
-
-<div class="site" id="page">
+    <!-- Loader plein écran homepage-->
+	 <?php if(is_front_page()) : ?>
+    <div id="site-loader">
+        <div class="loader-content">
+            <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/logo-loader.svg" alt="<?php echo get_bloginfo('name'); ?>" class="loader-logo">
+            <div class="loader-progress"><div class="loader-bar"></div></div>
+        </div>
+    </div>
+	<?php endif; ?>
+    <!-- Site content (existant) -->
+    <div class="site" id="page">
 	    <div class="social-sticky">
         <a href="https://facebook.com" target="_blank" class="social-icon"><i class="bi bi-facebook"></i></a>
         <a href="https://instagram.com" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>

@@ -6304,100 +6304,125 @@
 
   // ----- Bandeau défilant (version simplifiée sans conflit) -----
   (function () {
-    // Fonction d'initialisation - utilise requestAnimationFrame pour assurer propreté
-    function setupBandeau() {
+    window.addEventListener("load", function () {
       const track = document.querySelector(".bandeau-track");
       if (!track) return;
+      function adjustBandeau() {
+        // Récupération de la largeur totale
+        const trackWidth = track.scrollWidth;
+        const halfWidth = Math.floor(trackWidth / 2);
 
-      // On garde une référence au contenu HTML original (en détectant si c'est déjà dupliqué)
-      function getOriginalContent() {
-        const html = track.innerHTML;
-        // Si déjà stocké, retourner la valeur
-        if (track.dataset.originalHtml) return track.dataset.originalHtml;
+        // Définition de la vitesse (ajustez selon préférence)
+        const pxPerSecond = 60;
+        const duration = Math.max(10, halfWidth / pxPerSecond);
 
-        // Détecter si c'est déjà dupliqué (A+A)
-        const len = html.length;
-        const half = Math.floor(len / 2);
-        const firstHalf = html.substring(0, half);
-        const secondHalf = html.substring(half);
-
-        // Stocker et retourner
-        track.dataset.originalHtml = firstHalf === secondHalf ? firstHalf : html;
-        return track.dataset.originalHtml;
+        // Application
+        track.style.animationDuration = duration + "s";
       }
 
-      // Récupère contenu original
-      const originalContent = getOriginalContent();
+      // Initialiser et mettre à jour au resize
+      adjustBandeau();
+      window.addEventListener("resize", adjustBandeau);
+    });
+  })();
 
-      // Reset et assure duplication exactement une fois
-      track.innerHTML = originalContent + originalContent;
+  // Bandeau défilant amélioré - évite l'effet "affolé" au chargement
+  (function () {
+    // S'assurer que tout est chargé avant d'initialiser
+    window.addEventListener("load", function () {
+      // Référence au bandeau
+      const bandeauContainer = document.querySelector(".bandeau_deroulant");
+      const track = document.querySelector(".bandeau-track");
+      if (!track || !bandeauContainer) return;
 
-      // Mesure précise des largeurs
-      const items = track.querySelectorAll(".bandeau-item");
-      if (!items.length) return;
+      // Marquer comme en chargement
+      bandeauContainer.classList.add("loading");
 
-      // Calculer largeur du contenu original (avec gaps)
-      const originalItems = Array.from(items).slice(0, items.length / 2);
-      let totalWidth = 0;
-      originalItems.forEach(item => {
-        const style = window.getComputedStyle(item);
-        const marginRight = parseFloat(style.marginRight || 0);
-        const marginLeft = parseFloat(style.marginLeft || 0);
-        totalWidth += item.offsetWidth + marginRight + marginLeft;
-      });
-
-      // Prendre en compte le gap entre les éléments s'il est défini
-      const gapSize = parseFloat(window.getComputedStyle(track).gap || 0);
-      if (gapSize > 0 && originalItems.length > 1) {
-        totalWidth += gapSize * (originalItems.length - 1);
-      }
-
-      // Ajout d'1px pour éviter les sauts aux bords
-      const animationWidth = Math.ceil(totalWidth) + 1;
-
-      // Vitesse et durée
-      const pixelsPerSecond = 60; // Vitesse en px/s
-      const durationSeconds = Math.max(8, animationWidth / pixelsPerSecond);
-
-      // Application des propriétés via RAF pour assurer que tout est prêt
-      requestAnimationFrame(() => {
-        // Reset animation pour éviter les bugs de timing
+      // Initialiser avec un délai pour permettre le rendu complet
+      setTimeout(function () {
+        // Stopper toute animation existante
         track.style.animation = "none";
 
-        // Force reflow
+        // Forcer reflow
         void track.offsetWidth;
 
-        // Applique les variables CSS nécessaires
-        track.style.setProperty("--bandeau-width", `-${animationWidth}px`);
-        track.style.animation = `bandeau-scroll ${durationSeconds}s linear infinite`;
+        // Réappliquer l'animation avec les valeurs optimales
+        const trackWidth = track.scrollWidth;
+        const duration = Math.max(10, Math.round(trackWidth / 100));
 
-        // Optimisations GPU
-        track.style.transform = "translate3d(0,0,0)";
-        track.style.willChange = "transform";
-        track.style.backfaceVisibility = "hidden";
-      });
+        // Appliquer avec RAF pour garantir stabilité
+        requestAnimationFrame(function () {
+          track.style.animationDuration = duration + "s";
+          track.style.animationName = "bandeau-scroll";
+          track.style.animationTimingFunction = "linear";
+          track.style.animationIterationCount = "infinite";
+          track.style.transform = "translate3d(0,0,0)";
+
+          // Marquer comme prêt et afficher progressivement
+          bandeauContainer.classList.remove("loading");
+          bandeauContainer.classList.add("ready");
+        });
+      }, 300); // Délai avant initialisation
+    });
+  })();
+  // Loader pour tout le site (uniquement sur la homepage)
+  (function () {
+    // Éléments DOM
+    const siteLoader = document.getElementById("site-loader");
+    // Si pas de loader, on sort immédiatement (pages autres que homepage)
+    if (!siteLoader) {
+      // Révéler immédiatement le contenu sur les autres pages
+      const siteContent = document.getElementById("page");
+      if (siteContent) siteContent.classList.add("loaded");
+      return;
+    }
+    const loaderBar = document.querySelector(".loader-bar");
+    const siteContent = document.getElementById("page");
+
+    // Progression simulée pendant le chargement
+    let progress = 0;
+    const progressInterval = setInterval(function () {
+      progress += Math.random() * 5;
+      if (progress > 70) progress = 70; // max 70% avant chargement complet
+      if (loaderBar) loaderBar.style.width = progress + "%";
+    }, 150);
+
+    // Fonction qui masque le loader et montre le site
+    function revealSite() {
+      clearInterval(progressInterval);
+
+      // Finaliser la barre de progression
+      if (loaderBar) loaderBar.style.width = "100%";
+
+      // Attendre un peu pour que l'utilisateur voie la barre complète
+      setTimeout(function () {
+        // Masquer le loader
+        siteLoader.classList.add("hidden");
+
+        // Afficher le contenu du site avec transition
+        if (siteContent) siteContent.classList.add("loaded");
+
+        // Initialiser le bandeau défilant quand tout est prêt
+        setupBandeau();
+
+        // Nettoyer les événements
+        window.removeEventListener("load", onLoadHandler);
+      }, 600);
     }
 
-    // Initialiser après chargement complet (polices incluses)
-    window.addEventListener("load", () => {
-      setTimeout(setupBandeau, 200);
-    });
-
-    // Réinitialiser au redimensionnement (debounced)
-    let resizeTimer;
-    window.addEventListener("resize", () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(setupBandeau, 200);
-    });
-
-    // Si DOM est déjà chargé, initialiser rapidement
-    if (document.readyState === "complete" || document.readyState === "interactive") {
-      setTimeout(setupBandeau, 200);
-    } else {
-      document.addEventListener("DOMContentLoaded", () => {
-        setTimeout(setupBandeau, 200);
-      });
-    }
+    // Attendre que tout soit chargé
+    const onLoadHandler = function () {
+      // Attendre que les polices soient chargées
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () {
+          setTimeout(revealSite, 300);
+        });
+      } else {
+        // Fallback pour les navigateurs sans API fonts
+        setTimeout(revealSite, 800);
+      }
+    };
+    window.addEventListener("load", onLoadHandler);
   })();
 
   exports.Alert = Alert;

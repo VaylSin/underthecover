@@ -221,3 +221,104 @@ document.addEventListener("DOMContentLoaded", function () {
 		window.addEventListener("resize", adjustBandeau);
 	});
 })();
+
+// Bandeau défilant amélioré - évite l'effet "affolé" au chargement
+(function () {
+	// S'assurer que tout est chargé avant d'initialiser
+	window.addEventListener("load", function () {
+		// Référence au bandeau
+		const bandeauContainer = document.querySelector(".bandeau_deroulant");
+		const track = document.querySelector(".bandeau-track");
+		if (!track || !bandeauContainer) return;
+
+		// Marquer comme en chargement
+		bandeauContainer.classList.add("loading");
+
+		// Initialiser avec un délai pour permettre le rendu complet
+		setTimeout(function () {
+			// Stopper toute animation existante
+			track.style.animation = "none";
+
+			// Forcer reflow
+			void track.offsetWidth;
+
+			// Réappliquer l'animation avec les valeurs optimales
+			const trackWidth = track.scrollWidth;
+			const duration = Math.max(10, Math.round(trackWidth / 100));
+
+			// Appliquer avec RAF pour garantir stabilité
+			requestAnimationFrame(function () {
+				track.style.animationDuration = duration + "s";
+				track.style.animationName = "bandeau-scroll";
+				track.style.animationTimingFunction = "linear";
+				track.style.animationIterationCount = "infinite";
+				track.style.transform = "translate3d(0,0,0)";
+
+				// Marquer comme prêt et afficher progressivement
+				bandeauContainer.classList.remove("loading");
+				bandeauContainer.classList.add("ready");
+			});
+		}, 300); // Délai avant initialisation
+	});
+})();
+// Loader pour tout le site (uniquement sur la homepage)
+(function () {
+	// Éléments DOM
+	const siteLoader = document.getElementById("site-loader");
+	// Si pas de loader, on sort immédiatement (pages autres que homepage)
+	if (!siteLoader) {
+		// Révéler immédiatement le contenu sur les autres pages
+		const siteContent = document.getElementById("page");
+		if (siteContent) siteContent.classList.add("loaded");
+		return;
+	}
+
+	const loaderBar = document.querySelector(".loader-bar");
+	const siteContent = document.getElementById("page");
+
+	// Progression simulée pendant le chargement
+	let progress = 0;
+	const progressInterval = setInterval(function () {
+		progress += Math.random() * 5;
+		if (progress > 70) progress = 70; // max 70% avant chargement complet
+		if (loaderBar) loaderBar.style.width = progress + "%";
+	}, 150);
+
+	// Fonction qui masque le loader et montre le site
+	function revealSite() {
+		clearInterval(progressInterval);
+
+		// Finaliser la barre de progression
+		if (loaderBar) loaderBar.style.width = "100%";
+
+		// Attendre un peu pour que l'utilisateur voie la barre complète
+		setTimeout(function () {
+			// Masquer le loader
+			siteLoader.classList.add("hidden");
+
+			// Afficher le contenu du site avec transition
+			if (siteContent) siteContent.classList.add("loaded");
+
+			// Initialiser le bandeau défilant quand tout est prêt
+			setupBandeau();
+
+			// Nettoyer les événements
+			window.removeEventListener("load", onLoadHandler);
+		}, 600);
+	}
+
+	// Attendre que tout soit chargé
+	const onLoadHandler = function () {
+		// Attendre que les polices soient chargées
+		if (document.fonts && document.fonts.ready) {
+			document.fonts.ready.then(function () {
+				setTimeout(revealSite, 300);
+			});
+		} else {
+			// Fallback pour les navigateurs sans API fonts
+			setTimeout(revealSite, 800);
+		}
+	};
+
+	window.addEventListener("load", onLoadHandler);
+})();

@@ -73,34 +73,27 @@ get_header();
     <?php if (have_rows('elements_du_bandeau_')): ?>
         <div class="bandeau-container">
             <div class="bandeau-track">
-                <?php while (have_rows('elements_du_bandeau_')): the_row();
-                    $texte = get_sub_field('texte');
-                    $icone = get_sub_field('icone');
-                ?>
-                    <div class="bandeau-item">
-                        <?php if ($icone): ?>
-                            <span class="bandeau-icon">
-                                <img src="<?php echo $icone; ?>" alt=""/>
-                            </span>
-                        <?php endif; ?>
-                        <span class="bandeau-text"><?php echo esc_html($texte); ?></span>
-                    </div>
-                <?php endwhile; ?>
-
-                <!-- Duplication des éléments pour l'effet infini -->
-                <?php while (have_rows('elements_du_bandeau_')): the_row();
-                    $texte = get_sub_field('texte');
-                    $icone = get_sub_field('icone');
-                ?>
-                    <div class="bandeau-item">
-                        <?php if ($icone): ?>
-                            <span class="bandeau-icon">
-                                <img src="<?php echo $icone; ?>" alt=""/>
-                            </span>
-                        <?php endif; ?>
-                        <span class="bandeau-text"><?php echo esc_html($texte); ?></span>
-                    </div>
-                <?php endwhile; ?>
+				<?php
+				if (have_rows('elements_du_bandeau_')) {
+					for ($k = 0; $k < 10; $k++) {
+						while (have_rows('elements_du_bandeau_')) {
+							the_row();
+							$texte = get_sub_field('texte');
+							$icone = get_sub_field('icone');
+							?>
+							<div class="bandeau-item">
+							<?php if ($icone): ?>
+								<span class="bandeau-icon">
+									<img src="<?php echo $icone; ?>" alt=""/>
+								</span>
+							<?php endif; ?>
+							<span class="bandeau-text"><?php echo esc_html($texte); ?></span></div>
+						<?php }
+						// reset rows for next iteration
+						reset_rows();
+					}
+				}
+				?>
             </div>
         </div>
     <?php endif; ?>
