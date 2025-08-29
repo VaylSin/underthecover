@@ -99,7 +99,7 @@ get_header();
     <?php endif; ?>
 </section>
 <div class="spacer-10"></div>
-<section class="best_sellers container-xxl px-lg-5rem" >
+<section class="best_sellers container-xxl px-lg-5rem" data-aos="fade-down" data-aos-duration="750" data-aos-ease="ease-in-out">
     <h3 class="maj_title mb-4 logo_before"><span class="logo_h3_content">Nos Best Sellers</span></h3>
     <div class="row g-4" >
         <?php
@@ -385,12 +385,13 @@ get_header();
 </section>
 <div class="spacer-10"></div>
 <section class="insta_flux">
-    <div class="container-xxl px-lg-5rem">
-        <h3 class="maj_title mb-4 logo_before"><span class="logo_h3_content"><?php echo esc_html(get_field('titre_instagram')); ?></span></h3>
+    <div class="container-xxl px-lg-5rem text-center">
+        <h3 class="maj_title mb-5 logo_before d-flex justify-content-center" data-aos="fade-up" data-aos-duration="750"><span class="logo_h3_content "><?php echo esc_html(get_field('titre_instagram')); ?></span></h3>
 
         <?php if ( have_rows('publication') ) : ?>
-            <div class="row g-2 insta-grid">
+            <div class="row d-flex insta-grid">
                 <?php
+				$count = 0;
                 while ( have_rows('publication') ) : the_row();
 
 
@@ -416,7 +417,7 @@ get_header();
                         }
                     }
                 ?>
-                    <div class="col-6 col-sm-4 col-md-3">
+                    <div class="col-6 col-sm-4 col-md-3" data-aos="zoom-in" data-aos-duration="750" data-aos-ease="ease-in-out" data-aos-delay="<?php echo esc_attr($count); ?>">
                         <?php if ( $link_url ) : ?>
                             <a href="<?php echo esc_url( $link_url ); ?>"
                                class="d-block insta-item">
@@ -425,7 +426,7 @@ get_header();
                                 <?php endif; ?>
                             </a>
                         <?php else : ?>
-                            <div class="d-block insta-item">
+                            <div class="d-block insta-item" data-aos="fade-up" data-aos-duration="750" data-aos-ease="ease-in-out" data-aos-delay="<?php echo esc_attr($count); ?>">
                                 <?php if ( $image_url ) : ?>
                                     <img src="<?php echo esc_url( $image_url ); ?>" alt="<?php echo esc_attr( $image_alt ); ?>" class="img-fluid w-100">
                                 <?php endif; ?>
@@ -434,13 +435,13 @@ get_header();
                     </div>
 
                 <?php
-
+				$count = $count +80;
 			endwhile; ?>
             </div>
         <?php endif; ?>
     </div>
 </section>
-<!-- <div class="spacer-10"></div> -->
+<div class="spacer-10-lips"></div>
 <?php
 get_footer();
 ?>

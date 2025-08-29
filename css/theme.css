@@ -16983,10 +16983,41 @@ header,
 }
 .insta_flux {
   padding-block: 5rem;
-  background-color: #fbd2da;
+  background-color: #ea6676;
 }
 .insta_flux .container-xxl {
   overflow-x: hidden;
+}
+.insta_flux .insta-item {
+  display: block;
+  overflow: hidden;
+  position: relative;
+}
+.insta_flux .insta-item img {
+  width: 100%;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+.insta_flux .insta-item:hover img, .insta_flux .insta-item:focus img {
+  transform: scale(1.05);
+}
+.insta_flux .insta-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.insta_flux .insta-item:hover::after {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+@media (prefers-reduced-motion: reduce) {
+  .insta_flux .insta-item img {
+    transition: none !important;
+    transform: none !important;
+  }
 }
 
 .maj_title {
@@ -17517,6 +17548,11 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
 
 .p-spacer-b-10 {
   padding-bottom: 5rem;
+}
+
+.spacer-10-lips {
+  height: 5rem;
+  background-color: #ea6676;
 }
 
 /*# sourceMappingURL=theme.css.map */

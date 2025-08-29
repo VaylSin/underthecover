@@ -39,3 +39,8 @@
 
 // Utilisation de la mixin pour générer les classes
 @include generate-spacers();
+
+.spacer-10-lips {
+	height: 5rem;
+	background-color: $lips;
+}
