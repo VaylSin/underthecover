@@ -441,7 +441,7 @@ get_header();
 
     <!-- Logo background en bas à droite -->
     <div class="insta-background-logo" >
-        <img data-aos-anchor-placement="center" data-aos="fade-left" data-aos-duration="750" data-aos-delay="1500"data-aos-ease="ease-" src="<?php echo get_template_directory_uri(); ?>/images/utc-logomark-blanc.svg" alt="Logo background" />
+        <img src="<?php echo get_template_directory_uri(); ?>/images/utc-logomark-blanc.svg" alt="Logo background" />
     </div>
 </section>
 <div class="spacer-10-lips"></div>

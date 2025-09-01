@@ -6451,6 +6451,70 @@
       // Seulement si pas déjà initialisé
       if (document.querySelector(".smooth-scroll-wrapper")) return;
 
+      // --- Préparer les social-sticky : les détacher du DOM pour éviter qu'ils soient déplacés dans le wrapper ---
+      const socialElems = Array.from(document.querySelectorAll(".social-sticky"));
+      const socialStore = socialElems.map(el => {
+        const rect = el.getBoundingClientRect();
+        const offsetFromRight = Math.max(0, window.innerWidth - rect.right);
+        const width = rect.width;
+        // Détacher l'élément du DOM en gardant une référence (on le ré-injectera APRÈS la création du wrapper)
+        const originalParent = el.parentElement;
+        const originalNextSibling = el.nextSibling;
+        originalParent && originalParent.removeChild(el);
+        return {
+          el,
+          // élément détaché
+          originalParent,
+          originalNextSibling,
+          offsetFromRight,
+          width
+        };
+      });
+
+      // Fonction pour ré-insérer et fixer les socials (appelée APRÈS le wrapping)
+      function fixSocialsToBody() {
+        socialStore.forEach(s => {
+          try {
+            // Insérer dans le body (garantit qu'ils ne seront pas dans le wrapper)
+            if (s.el && s.el.parentElement !== document.body) document.body.appendChild(s.el);
+
+            // Styles : fixed + centré verticalement
+            s.el.style.position = "fixed";
+            s.el.style.top = "50%";
+            s.el.style.transform = "translateY(-50%)";
+            s.el.style.right = (s.offsetFromRight || 20) + "px"; // fallback 20px si calcul KO
+            s.el.style.zIndex = "9999";
+            s.el.style.width = (s.width || s.el.offsetWidth) + "px";
+            s.el.style.pointerEvents = "auto";
+          } catch (err) {
+            // silent
+          }
+        });
+      }
+
+      // Repositionner les socials au resize — recalculer right et largeur
+      window.addEventListener("resize", function () {
+        socialStore.forEach(s => {
+          try {
+            s.width = s.el ? s.el.offsetWidth : s.width;
+            // recalculer offset droit depuis l'ancienne position si possible
+            if (s.originalParent && document.body.contains(s.originalParent)) {
+              const parentRect = s.originalParent.getBoundingClientRect();
+              s.offsetFromRight = Math.max(0, window.innerWidth - parentRect.right);
+            } else if (s.el) {
+              const rect = s.el.getBoundingClientRect();
+              s.offsetFromRight = Math.max(0, window.innerWidth - rect.right);
+            }
+          } catch (err) {
+            // ignore
+          }
+        });
+        fixSocialsToBody();
+      }, {
+        passive: true
+      });
+      // -------------------------------------------------------------------------
+
       // Créer le wrapper de contenu
       const scrollWrapper = document.createElement("div");
       scrollWrapper.className = "smooth-scroll-wrapper";
@@ -6461,6 +6525,7 @@
 
       // Déplacer le contenu actuel dans le wrapper
       while (document.body.firstChild) {
+        // Ne pas déplacer les social-sticky récemment détachés (ils ne sont plus dans le DOM)
         scrollWrapper.appendChild(document.body.firstChild);
       }
 
@@ -6469,6 +6534,9 @@
 
       // Ajouter le wrapper au body
       document.body.appendChild(scrollWrapper);
+
+      // Maintenant que le wrapper est en place, ré-insérer et fixer les socials
+      if (socialStore.length) fixSocialsToBody();
 
       // Styles CSS nécessaires
       document.body.style.height = "100vh";
