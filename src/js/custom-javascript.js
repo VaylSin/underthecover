@@ -322,3 +322,138 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	window.addEventListener("load", onLoadHandler);
 })();
+
+// Smooth Scroll personnalisé (léger et fiable)
+(function () {
+	// Uniquement sur desktop - utiliser CSS natif sur mobile
+	if (window.innerWidth < 1024) {
+		document.documentElement.style.scrollBehavior = "smooth";
+		return;
+	}
+
+	// Configuration
+	// const config = {
+	// 	speed: 0.08,
+	// 	ease: "cubic-bezier(0.23, 1, 0.32, 1)",
+	// };
+	const config = {
+		speed: 0.05, // Réduit de 0.08 à 0.05 pour un effet moins prononcé
+		precision: 0.2, // Meilleure précision pour l'arrêt d'animation
+	};
+
+	let scrollY = window.scrollY;
+	let scrollTarget = scrollY;
+	let rafId = null;
+	let resizeObserver = null;
+
+	function initScroller() {
+		// Seulement si pas déjà initialisé
+		if (document.querySelector(".smooth-scroll-wrapper")) return;
+
+		// Créer le wrapper de contenu
+		const scrollWrapper = document.createElement("div");
+		scrollWrapper.className = "smooth-scroll-wrapper";
+
+		// Placer le loader en dehors du wrapper si présent
+		const loader = document.getElementById("site-loader");
+		if (loader) document.body.removeChild(loader);
+
+		// Déplacer le contenu actuel dans le wrapper
+		while (document.body.firstChild) {
+			scrollWrapper.appendChild(document.body.firstChild);
+		}
+
+		// Remettre le loader s'il existe
+		if (loader) document.body.appendChild(loader);
+
+		// Ajouter le wrapper au body
+		document.body.appendChild(scrollWrapper);
+
+		// Styles CSS nécessaires
+		document.body.style.height = "100vh";
+		document.body.style.overflowY = "scroll"; // <- Garder la barre de défilement visible
+		document.body.style.position = "relative";
+
+		scrollWrapper.style.position = "fixed";
+		scrollWrapper.style.width = "100%";
+		scrollWrapper.style.top = "0";
+		scrollWrapper.style.left = "0";
+		scrollWrapper.style.willChange = "transform";
+
+		// Calculer la hauteur totale
+		updateHeight();
+
+		// Observer les changements de taille
+		if ("ResizeObserver" in window) {
+			resizeObserver = new ResizeObserver(updateHeight);
+			resizeObserver.observe(scrollWrapper);
+		}
+
+		// Gestionnaire de défilement
+		function onScroll() {
+			scrollTarget = window.scrollY;
+			if (!rafId) {
+				rafId = requestAnimationFrame(render);
+			}
+		}
+
+		// Animation fluide
+		function render() {
+			scrollY += (scrollTarget - scrollY) * config.speed;
+
+			// Arrondir pour éviter subpixel
+			if (Math.abs(scrollTarget - scrollY) < 0.1) {
+				scrollY = scrollTarget;
+				rafId = null;
+				return;
+			}
+
+			// Appliquer la transformation
+			scrollWrapper.style.transform = `translate3d(0,${-scrollY}px,0)`;
+			rafId = requestAnimationFrame(render);
+		}
+
+		// Mise à jour de hauteur
+		function updateHeight() {
+			const height = scrollWrapper.scrollHeight;
+			document.body.style.height = `${height}px`;
+		}
+
+		// Événements
+		window.addEventListener("scroll", onScroll, { passive: true });
+		window.addEventListener("resize", updateHeight);
+
+		// Position initiale
+		scrollTarget = scrollY = window.scrollY;
+		scrollWrapper.style.transform = `translate3d(0,${-scrollY}px,0)`;
+
+		// Si un hash est présent, défiler jusqu'à lui
+		if (window.location.hash) {
+			const target = document.querySelector(window.location.hash);
+			if (target) {
+				setTimeout(() => {
+					target.scrollIntoView();
+				}, 500);
+			}
+		}
+	}
+
+	// Initialiser après que le loader est masqué
+	if (document.getElementById("site-loader")) {
+		const checkLoaderStatus = setInterval(() => {
+			if (document.getElementById("site-loader").classList.contains("hidden")) {
+				clearInterval(checkLoaderStatus);
+				initScroller();
+			}
+		}, 100);
+	} else {
+		// Si pas de loader, initialiser directement
+		if (document.readyState === "complete") {
+			initScroller();
+		} else {
+			window.addEventListener("load", () => {
+				setTimeout(initScroller, 100);
+			});
+		}
+	}
+})();

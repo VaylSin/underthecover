@@ -16373,6 +16373,7 @@ h6,
 }
 
 .footer {
+  position: relative;
   background: #272727;
   color: #fff;
   padding-bottom: 0;
@@ -16982,11 +16983,14 @@ header,
   }
 }
 .insta_flux {
+  position: relative;
   padding-block: 5rem;
   background-color: #ea6676;
 }
 .insta_flux .container-xxl {
   overflow-x: hidden;
+  position: relative;
+  z-index: 1;
 }
 .insta_flux .insta-item {
   display: block;
@@ -17011,6 +17015,24 @@ header,
 }
 .insta_flux .insta-item:hover::after {
   background-color: rgba(188, 51, 101, 0.2);
+}
+.insta_flux .insta-background-logo {
+  position: absolute;
+  bottom: -28rem;
+  right: -25rem;
+  z-index: 0;
+  opacity: 0.7;
+  transform: rotate(-5deg);
+}
+.insta_flux .insta-background-logo img {
+  width: 65rem;
+  height: auto;
+  filter: grayscale(100%);
+}
+@media (max-width: 768px) {
+  .insta_flux .insta-background-logo img {
+    width: 250px;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .insta_flux .insta-item img {

@@ -99,7 +99,7 @@ get_header();
     <?php endif; ?>
 </section>
 <div class="spacer-10"></div>
-<section class="best_sellers container-xxl px-lg-5rem" data-aos="fade-down" data-aos-duration="750" data-aos-ease="ease-in-out">
+<section class="best_sellers container-xxl px-lg-5rem" data-aos="fade-up" data-aos-duration="1000" data-aos-ease="ease-in">
     <h3 class="maj_title mb-4 logo_before"><span class="logo_h3_content">Nos Best Sellers</span></h3>
     <div class="row g-4" >
         <?php
@@ -331,7 +331,7 @@ get_header();
                         <?php echo get_the_post_thumbnail(get_the_ID(), 'large', ['style' => 'width:100%; height:100%; object-fit:cover;']); ?>
                     </div>
                 </div>
-                <div class="col-md-6 d-flex flex-column justify-content-center align-items-center" data-aos="fade-left" data-aos-duration="2000">
+                <div class="col-md-6 d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-duration="750">
                     <div class="w-100 px-4">
                         <h3 class="mb-3 text-uppercase logo_before fw-bold"><span class="logo_h3_content"><?php the_title(); ?></span></h3>
                         <div class="mb-3">
@@ -385,7 +385,7 @@ get_header();
 </section>
 <div class="spacer-10"></div>
 <section class="insta_flux">
-    <div class="container-xxl px-lg-5rem text-center">
+    <div class="container-xxl px-lg-5rem text-center ">
         <h3 class="maj_title mb-5 logo_before d-flex justify-content-center" ><span class="logo_h3_content "><?php echo esc_html(get_field('titre_instagram')); ?></span></h3>
 
         <?php if ( have_rows('publication') ) : ?>
@@ -437,6 +437,11 @@ get_header();
 			endwhile; ?>
             </div>
         <?php endif; ?>
+    </div>
+
+    <!-- Logo background en bas à droite -->
+    <div class="insta-background-logo" >
+        <img data-aos-anchor-placement="center" data-aos="fade-left" data-aos-duration="750" data-aos-delay="1500"data-aos-ease="ease-" src="<?php echo get_template_directory_uri(); ?>/images/utc-logomark-blanc.svg" alt="Logo background" />
     </div>
 </section>
 <div class="spacer-10-lips"></div>

@@ -944,6 +944,7 @@ h6 {
 // Composant: Footer
 // ==========================================================================
 .footer {
+	position: relative;
 	background: $black-main;
 	color: #fff;
 	padding-bottom: 0;
@@ -1343,11 +1344,14 @@ header,
 // Composant: Flux Instagram
 // ==========================================================================
 .insta_flux {
+	position: relative;
 	padding-block: 5rem;
 	background-color: $lips;
 
 	.container-xxl {
 		overflow-x: hidden;
+		position: relative;
+		z-index: 1; // au-dessus du logo de fond
 	}
 
 	// Animation hover des images Instagram
@@ -1380,6 +1384,28 @@ header,
 
 		&:hover::after {
 			background-color: rgba($velvet, 0.2);
+		}
+	}
+
+	// Logo background dans la section Instagram
+	.insta-background-logo {
+		position: absolute;
+		bottom: -28rem;
+		right: -25rem;
+		z-index: 0;
+		opacity: 0.7;
+		transform: rotate(-5deg);
+		img {
+			width: 65rem; // ajustez la taille selon vos besoins
+			height: auto;
+			filter: grayscale(100%); // option: effet noir et blanc
+		}
+	}
+
+	// Responsive: réduire la taille sur les petits écrans
+	@media (max-width: 768px) {
+		.insta-background-logo img {
+			width: 250px;
 		}
 	}
 
