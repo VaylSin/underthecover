@@ -12425,7 +12425,7 @@ body.understrap-no-sidebar .wp-block-cover.alignwide {
 * .wpcf7-submit
 */
 .wpcf7 {
-  max-width: 600px;
+  max-width: 50rem;
   margin: 0 auto !important;
 }
 .wpcf7 .wpcf7-form p {
@@ -17219,6 +17219,45 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   opacity: 1;
 }
 
+/* Formulaire CF7 — layout : prénom/nom 50% chacun, autres 100%, bouton centré */
+.contact__row--two {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.field--half {
+  flex: 1 1 calc(50% - 8px);
+  min-width: 200px;
+}
+
+.field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.contact__button--center {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+
+.button.view-all-link,
+input.wpcf7-submit.view-all-link {
+  display: inline-block;
+  padding: 10px 22px;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* responsive */
+@media (max-width: 600px) {
+  .field--half {
+    flex-basis: 100%;
+  }
+}
 .spacer-0 {
   margin-bottom: 0rem;
 }
