@@ -6132,14 +6132,71 @@
 
   (function () {
 
-    // guard pour éviter double exécution si le fichier est inclus plusieurs fois
+    // Guard pour éviter double exécution
     if (window.__siklane_js_initialized) return;
     window.__siklane_js_initialized = true;
 
     /* Helpers */
-    const $ = (s, ctx = document) => ctx.querySelector(s);
-    const $$ = (s, ctx = document) => Array.from((ctx || document).querySelectorAll(s));
+    const $ = (sel, ctx = document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx = document) => Array.from((ctx || document).querySelectorAll(sel));
     const on = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts || false);
+    const isHomePath = () => document.body.classList.contains("home") || document.body.classList.contains("front-page") || location.pathname === "/" || location.pathname === "/index.html";
+
+    /* ----- Scroll lock helpers ----- */
+    let __siklane_scroll_locked = false;
+    function preventDefault(e) {
+      e.preventDefault();
+    }
+    function preventKeys(e) {
+      const keys = [32, 33, 34, 35, 36, 37, 38, 39, 40];
+      if (keys.includes(e.keyCode)) e.preventDefault();
+    }
+    function disablePageScroll() {
+      if (__siklane_scroll_locked) return;
+      __siklane_scroll_locked = true;
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+      window.addEventListener("wheel", preventDefault, {
+        passive: false
+      });
+      window.addEventListener("touchmove", preventDefault, {
+        passive: false
+      });
+      window.addEventListener("keydown", preventKeys, {
+        passive: false
+      });
+      if (window.__smoothScrollbar && typeof window.__smoothScrollbar.stop === "function") {
+        try {
+          window.__smoothScrollbar.stop();
+        } catch (e) {
+          /* silent */
+        }
+      }
+    }
+    function enablePageScroll() {
+      if (!__siklane_scroll_locked) return;
+      __siklane_scroll_locked = false;
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+      window.removeEventListener("wheel", preventDefault, {
+        passive: false
+      });
+      window.removeEventListener("touchmove", preventDefault, {
+        passive: false
+      });
+      window.removeEventListener("keydown", preventKeys, {
+        passive: false
+      });
+      if (window.__smoothScrollbar && typeof window.__smoothScrollbar.update === "function") {
+        try {
+          window.__smoothScrollbar.update();
+        } catch (e) {
+          /* silent */
+        }
+      }
+    }
 
     /* ----- AOS ----- */
     function initAOS() {
@@ -6152,7 +6209,29 @@
     function initLoader() {
       const siteLoader = document.getElementById("site-loader");
       const siteContent = document.querySelector(".site");
-      if (!siteLoader || !siteContent) return;
+      if (!siteContent) return;
+
+      // Non-home : remove immediately (prevent overlay)
+      if (!isHomePath()) {
+        if (siteLoader) {
+          siteLoader.classList.add("hidden");
+          siteLoader.dataset.removed = "1";
+          window.__siklane_loader_removed = true;
+          try {
+            siteLoader.parentNode && siteLoader.parentNode.removeChild(siteLoader);
+          } catch (e) {
+            /* silent */
+          }
+        }
+        siteContent.classList.add("loaded");
+        return;
+      }
+
+      // Home: orchestrate fake progress then hide on load
+      if (!siteLoader) {
+        siteContent.classList.add("loaded");
+        return;
+      }
       const bar = siteLoader.querySelector(".loader-bar");
       let progress = 0;
       let interval = null;
@@ -6174,49 +6253,80 @@
           bar.style.width = progress + "%";
         }, 180);
       };
-      const isHome = document.body.classList.contains("home") || document.body.classList.contains("front-page") || location.pathname === "/" || location.pathname === "/index.html";
-      if (isHome) {
-        setWidth(6);
-        startFakeProgress();
-        on(window, "load", () => {
-          finished = true;
-          if (interval) {
-            clearInterval(interval);
-            interval = null;
-          }
-          if (bar) requestAnimationFrame(() => bar.style.width = "100%");
-          setTimeout(() => {
-            siteLoader.classList.add("hidden");
-            siteContent.classList.add("loaded");
-            setTimeout(() => {
-              if (siteLoader.parentNode) siteLoader.parentNode.removeChild(siteLoader);
-            }, 600);
-          }, 450);
-        });
-        // fallback safety
-        setTimeout(() => {
-          if (!finished) {
-            siteLoader.classList.add("hidden");
-            siteContent.classList.add("loaded");
-            if (siteLoader.parentNode) siteLoader.parentNode.removeChild(siteLoader);
-          }
-        }, 9000);
-      } else {
-        // quick fade on non-home pages
-        if (bar) {
-          bar.style.transition = bar.style.transition || "width 160ms linear";
-          requestAnimationFrame(() => bar.style.width = "100%");
+      setWidth(6);
+      startFakeProgress();
+      on(window, "load", () => {
+        finished = true;
+        if (interval) {
+          clearInterval(interval);
+          interval = null;
         }
-        requestAnimationFrame(() => {
-          siteLoader.style.transition = siteLoader.style.transition || "opacity 200ms ease";
-          siteLoader.style.opacity = "0";
-          siteLoader.style.pointerEvents = "none";
-        });
+        if (bar) requestAnimationFrame(() => bar.style.width = "100%");
         setTimeout(() => {
+          siteLoader.classList.add("hidden");
           siteContent.classList.add("loaded");
-          if (siteLoader.parentNode) siteLoader.parentNode.removeChild(siteLoader);
-        }, 260);
+          setTimeout(() => {
+            try {
+              siteLoader.parentNode && siteLoader.parentNode.removeChild(siteLoader);
+            } catch (e) {}
+          }, 600);
+        }, 450);
+      }, {
+        once: true
+      });
+
+      // Safety fallback
+      setTimeout(() => {
+        if (!finished) {
+          siteLoader.classList.add("hidden");
+          siteContent.classList.add("loaded");
+          try {
+            siteLoader.parentNode && siteLoader.parentNode.removeChild(siteLoader);
+          } catch (e) {}
+        }
+      }, 9000);
+    }
+
+    /* ----- Ensure .site.loaded class across pages ----- */
+    function ensureSiteLoadedClass() {
+      const site = document.querySelector(".site");
+      if (!site) return;
+      if (!isHomePath()) {
+        site.classList.add("loaded");
+        return;
       }
+      // Home: wait for loader hide or load event
+      const loader = document.getElementById("site-loader");
+      if (!loader) {
+        site.classList.add("loaded");
+        return;
+      }
+      const mo = new MutationObserver((mutations, obs) => {
+        if (loader.classList.contains("hidden")) {
+          site.classList.add("loaded");
+          try {
+            obs.disconnect();
+          } catch (e) {}
+        }
+      });
+      mo.observe(loader, {
+        attributes: true,
+        attributeFilter: ["class"]
+      });
+      on(window, "load", () => {
+        site.classList.add("loaded");
+        try {
+          mo.disconnect();
+        } catch (e) {}
+      }, {
+        once: true
+      });
+      setTimeout(() => {
+        if (!site.classList.contains("loaded")) site.classList.add("loaded");
+        try {
+          mo.disconnect();
+        } catch (e) {}
+      }, 9000);
     }
 
     /* ----- Search overlay toggle ----- */
@@ -6228,31 +6338,36 @@
       on(searchToggle, "click", e => {
         e.preventDefault();
         searchDropdown.classList.add("open");
+        disablePageScroll();
         const input = searchDropdown.querySelector(".search-field");
         if (input) setTimeout(() => input.focus(), 300);
       });
       on(closeSearch, "click", e => {
         e.preventDefault();
         searchDropdown.classList.remove("open");
+        enablePageScroll();
       });
       on(document, "keydown", e => {
         if (e.key === "Escape" && searchDropdown.classList.contains("open")) {
           searchDropdown.classList.remove("open");
+          enablePageScroll();
         }
       });
       on(document, "click", e => {
         if (!searchDropdown.contains(e.target) && !searchToggle.contains(e.target) && searchDropdown.classList.contains("open")) {
           searchDropdown.classList.remove("open");
+          enablePageScroll();
         }
       });
+      // if already open at init
+      if (searchDropdown.classList.contains("open")) disablePageScroll();
     }
 
-    /* ----- Replace search submit content with icon ----- */
+    /* ----- Replace search submit with icon ----- */
     function replaceSearchButtonWithIcon() {
       const doReplace = () => {
         const btn = document.querySelector('.search-dropdown form button[type="submit"], #searchDropdown form button[type="submit"]');
-        if (!btn) return;
-        if (btn.dataset.iconified === "1") return;
+        if (!btn || btn.dataset.iconified === "1") return;
         if (!btn.getAttribute("aria-label")) btn.setAttribute("aria-label", "Rechercher");
         btn.innerHTML = "";
         const icon = document.createElement("i");
@@ -6275,7 +6390,7 @@
       });
     }
 
-    /* ----- Simple categories carousel ----- */
+    /* ----- Categories carousel (light) ----- */
     function initCategoriesCarousel() {
       const container = document.getElementById("categories-carousel");
       if (!container) return;
@@ -6331,13 +6446,11 @@
       if (typeof bootstrap !== "undefined" && bootstrap.Carousel) {
         const carousel = new bootstrap.Carousel(slider);
         if (dots.length) {
-          dots.forEach((dot, idx) => {
-            on(dot, "click", () => {
-              carousel.to(idx);
-              dots.forEach(d => d.classList.remove("active"));
-              dot.classList.add("active");
-            });
-          });
+          dots.forEach((dot, idx) => on(dot, "click", () => {
+            carousel.to(idx);
+            dots.forEach(d => d.classList.remove("active"));
+            dot.classList.add("active");
+          }));
           on(slider, "slid.bs.carousel", e => {
             const active = e.to;
             dots.forEach((d, i) => d.classList.toggle("active", i === active));
@@ -6397,136 +6510,26 @@
             thumbMinSize: 20
           });
           window.__smoothScrollbar = sb;
-          console.debug("[smooth] SmoothScrollbar initialisé");
           return;
         } catch (e) {
-          console.warn("[smooth] SmoothScrollbar init failed:", e);
+          /* fallback */
         }
       }
       try {
         document.documentElement.style.scrollBehavior = "smooth";
-      } catch (e) {
-        /* silent */
-      }
-      document.querySelectorAll('a[href^="#"]').forEach(a => {
-        on(a, "click", function (ev) {
-          const href = this.getAttribute("href");
-          if (!href || href === "#" || href === "#!") return;
-          const target = document.querySelector(href);
-          if (!target) return;
-          ev.preventDefault();
-          target.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-          history.pushState(null, "", href);
+      } catch (e) {}
+      document.querySelectorAll('a[href^="#"]').forEach(a => on(a, "click", function (ev) {
+        const href = this.getAttribute("href");
+        if (!href || href === "#" || href === "#!") return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        ev.preventDefault();
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
         });
-      });
-      console.debug("[smooth] Fallback smooth scroll activé");
-    }
-
-    /* ----- Custom smooth scroller (lightweight) ----- */
-    function initScroller() {
-      // évite double init
-      if (document.querySelector(".smooth-scroll-wrapper")) return;
-
-      // Preserve certain elements as direct body children
-      const preserve = ["#site-loader", "#searchDropdown", ".search-dropdown", ".social-sticky", ".social-links"];
-      const preserved = [];
-      preserve.forEach(sel => {
-        $$(sel).forEach(el => {
-          if (el.parentNode !== document.body && !preserved.includes(el)) {
-            preserved.push(el);
-            document.body.appendChild(el);
-          }
-        });
-      });
-
-      // Create wrapper and move remaining nodes inside it
-      const wrapper = document.createElement("div");
-      wrapper.className = "smooth-scroll-wrapper";
-      const bodyNodes = Array.from(document.body.childNodes).slice(); // clone list
-      bodyNodes.forEach(node => {
-        if (preserved.includes(node)) return;
-        if (node === wrapper) return;
-        wrapper.appendChild(node);
-      });
-      document.body.appendChild(wrapper);
-
-      // Minimal styles for wrapper behavior (prefer SCSS for visuals)
-      Object.assign(wrapper.style, {
-        position: "fixed",
-        width: "100%",
-        top: "0",
-        left: "0",
-        willChange: "transform"
-      });
-
-      // Scroller state (déclarées avant utilisation)
-      let scrollY = window.scrollY || 0;
-      let scrollTarget = scrollY;
-      let rafId = null;
-      const cfg = {
-        speed: 0.05
-      };
-
-      // calculer et appliquer la hauteur réelle du body
-      function updateHeight() {
-        const h = wrapper.scrollHeight || document.documentElement.clientHeight;
-        document.body.style.height = `${h}px`;
-      }
-      // appliquer styles de body cohérents
-      document.body.style.overflowY = "auto";
-      document.body.style.position = "relative";
-
-      // initial height & transform
-      updateHeight();
-      scrollTarget = scrollY = window.scrollY || 0;
-      wrapper.style.transform = `translate3d(0,${-scrollY}px,0)`;
-
-      // Resize observer to update height on content changes
-      let ro;
-      if ("ResizeObserver" in window) {
-        ro = new ResizeObserver(updateHeight);
-        ro.observe(wrapper);
-      }
-      function render() {
-        scrollY += (scrollTarget - scrollY) * cfg.speed;
-        // appliquer le transform à chaque frame si nécessaire
-        wrapper.style.transform = `translate3d(0,${-scrollY}px,0)`;
-        if (Math.abs(scrollTarget - scrollY) < 0.1) {
-          // arrêter la boucle quand la différence est négligeable
-          cancelAnimationFrame(rafId);
-          rafId = null;
-          return;
-        }
-        rafId = requestAnimationFrame(render);
-      }
-      function onScroll() {
-        scrollTarget = window.scrollY;
-        if (!rafId) rafId = requestAnimationFrame(render);
-      }
-
-      // attacher les listeners
-      on(window, "scroll", onScroll, {
-        passive: true
-      });
-      on(window, "resize", updateHeight, {
-        passive: true
-      });
-
-      // garantir que les positions initiales sont cohérentes
-      scrollTarget = scrollY = window.scrollY || 0;
-      wrapper.style.transform = `translate3d(0,${-scrollY}px,0)`;
-
-      // If page has hash, allow small delay then jump
-      if (window.location.hash) {
-        const t = document.querySelector(window.location.hash);
-        if (t) setTimeout(() => t.scrollIntoView(), 500);
-      }
-
-      // Ensure overlays/social/loader are detached if they are inside wrapper
-      detachAfterWrap(wrapper);
+        history.pushState(null, "", href);
+      }));
     }
 
     /* ----- detachAfterWrap ----- */
@@ -6538,21 +6541,18 @@
         const el = wrapper.querySelector(sel);
         if (!el) return;
 
-        // Si le loader est déjà caché, on le supprime pour éviter un overlay persistant
-        if (sel === "#site-loader" && el.classList.contains("hidden")) {
+        // If loader already marked removed, clean placeholder and skip
+        if (sel === "#site-loader" && (el.classList.contains("hidden") || el.dataset.removed === "1" || window.__siklane_loader_removed)) {
+          const phClass = `${sel.replace(/[^a-z0-9]/gi, "_")}_placeholder`;
+          const ph = wrapper.querySelector(`.${phClass}`);
+          if (ph && ph.parentNode) ph.parentNode.removeChild(ph);
           try {
-            // retirer tout placeholder lié s'il existe
-            const phClass = `${sel.replace(/[^a-z0-9]/gi, "_")}_placeholder`;
-            const ph = wrapper.querySelector(`.${phClass}`);
-            if (ph && ph.parentNode) ph.parentNode.removeChild(ph);
             if (el.parentNode) el.parentNode.removeChild(el);
-          } catch (e) {
-            /* silent */
-          }
+          } catch (e) {}
           return;
         }
 
-        // Create placeholder to preserve layout if necessary
+        // placeholder to preserve layout if needed
         try {
           const placeholder = document.createElement("div");
           placeholder.className = `${sel.replace(/[^a-z0-9]/gi, "_")}_placeholder`;
@@ -6561,13 +6561,13 @@
           placeholder.style.display = getComputedStyle(el).display || "block";
           el.parentNode.insertBefore(placeholder, el);
         } catch (e) {
-          /* ignore placeholder errors */
+          /* ignore */
         }
 
-        // Move to body
+        // move element to body
         document.body.appendChild(el);
 
-        // Apply reasonable inline styles depending on element
+        // apply inline styles appropriate to element
         if (sel.includes("search") || sel === "#site-loader") {
           Object.assign(el.style, {
             position: "fixed",
@@ -6575,7 +6575,6 @@
             width: "100%",
             maxHeight: "100vh",
             zIndex: "9999",
-            // si le loader est caché, désactiver les pointer-events et visibilité
             pointerEvents: el.classList.contains("hidden") ? "none" : "auto",
             visibility: el.classList.contains("hidden") ? "hidden" : "visible"
           });
@@ -6592,7 +6591,98 @@
       });
     }
 
-    /* ----- Watcher: if wrapper appears later, detach UI elements ----- */
+    /* ----- Custom smooth scroller (lightweight) ----- */
+    function initScroller() {
+      if (document.querySelector(".smooth-scroll-wrapper")) return;
+
+      // Preserve nodes that must stay direct children of body
+      const preserveSelectors = ["#site-loader", "#searchDropdown", ".search-dropdown", ".social-sticky", ".social-links"];
+      const preserved = [];
+      preserveSelectors.forEach(sel => $$(sel).forEach(el => {
+        if (el.parentNode !== document.body && !preserved.includes(el)) {
+          preserved.push(el);
+          document.body.appendChild(el);
+        }
+      }));
+
+      // Create wrapper and move remaining nodes inside it
+      const wrapper = document.createElement("div");
+      wrapper.className = "smooth-scroll-wrapper";
+      const bodyNodes = Array.from(document.body.childNodes).slice();
+      bodyNodes.forEach(node => {
+        if (preserved.includes(node)) return;
+        if (node === wrapper) return;
+        wrapper.appendChild(node);
+      });
+      document.body.appendChild(wrapper);
+
+      // wrapper styles
+      Object.assign(wrapper.style, {
+        position: "fixed",
+        width: "100%",
+        top: "0",
+        left: "0",
+        willChange: "transform"
+      });
+
+      // scroller state
+      let scrollY = window.scrollY || 0;
+      let scrollTarget = scrollY;
+      let rafId = null;
+      const cfg = {
+        speed: 0.06
+      };
+      function updateHeight() {
+        const h = wrapper.scrollHeight || document.documentElement.clientHeight;
+        document.body.style.height = `${h}px`;
+      }
+      document.body.style.overflowY = "auto";
+      document.body.style.position = "relative";
+      updateHeight();
+
+      // initial transform
+      scrollTarget = scrollY = window.scrollY || 0;
+      wrapper.style.transform = `translate3d(0,${-scrollY}px,0)`;
+
+      // ResizeObserver to keep height updated
+      if ("ResizeObserver" in window) {
+        try {
+          new ResizeObserver(updateHeight).observe(wrapper);
+        } catch (e) {
+          /* silent */
+        }
+      }
+      function render() {
+        scrollY += (scrollTarget - scrollY) * cfg.speed;
+        wrapper.style.transform = `translate3d(0,${-scrollY}px,0)`;
+        if (Math.abs(scrollTarget - scrollY) < 0.1) {
+          rafId = null;
+          return;
+        }
+        rafId = requestAnimationFrame(render);
+      }
+      function onScroll() {
+        scrollTarget = window.scrollY;
+        if (!rafId) rafId = requestAnimationFrame(render);
+      }
+      on(window, "scroll", onScroll, {
+        passive: true
+      });
+      on(window, "resize", updateHeight, {
+        passive: true
+      });
+
+      // handle hash jumping after init
+      if (window.location.hash) {
+        const t = document.querySelector(window.location.hash);
+        if (t) setTimeout(() => t.scrollIntoView(), 500);
+      }
+
+      // detach problematic UI elements that ended in wrapper
+      detachAfterWrap(wrapper);
+    }
+
+    /* ----- Watcher to detach after wrapper appears ----- */
     function watchWrapperThenDetach() {
       if (document.querySelector(".smooth-scroll-wrapper")) {
         detachAfterWrap();
@@ -6614,15 +6704,16 @@
     on(document, "DOMContentLoaded", function () {
       initAOS();
       initLoader();
+      ensureSiteLoadedClass();
       initSearchToggle();
       replaceSearchButtonWithIcon();
       initCategoriesCarousel();
       initMainSlider();
       initBoutiqueMenu();
 
-      // Initialize smooth scroller: wait loader hide on home, else init quickly
+      // Initialize scroller: wait loader hide on home, else init immediately
       const loader = document.getElementById("site-loader");
-      if (loader) {
+      if (loader && isHomePath()) {
         const check = setInterval(() => {
           const l = document.getElementById("site-loader");
           if (!l || l.classList.contains("hidden")) {
@@ -6641,15 +6732,11 @@
           console.warn("[smooth] initScroller failed:", e);
         }
       }
-
-      // Try to init external smooth libs as well (Scrollbar fallback)
       setTimeout(initSmoothLibraries, 120);
-
-      // Watch wrapper and detach if needed
       watchWrapperThenDetach();
     });
 
-    // expose for debug
+    /* Expose debug hooks */
     window.__siklane_detachAfterWrap = detachAfterWrap;
     window.__siklane_initScroller = initScroller;
     window.__siklane_initSmoothLibraries = initSmoothLibraries;
