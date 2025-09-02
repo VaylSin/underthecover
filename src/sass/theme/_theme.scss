@@ -1110,43 +1110,117 @@ h6 {
 	}
 }
 
+// Barre de recherche avec effet de glissé fondu
 .search-dropdown {
-	position: absolute;
+	position: fixed;
+	top: 0;
 	left: 0;
-	right: 0;
-	top: 100%;
 	width: 100%;
-	background: #fff;
-	z-index: 99;
-	@include transition(
-		transform opacity visibility,
-		0.4s,
-		cubic-bezier(0.4, 0, 0.2, 1)
-	);
-	transform: translateY(-20px);
+	height: 100%;
+	background: rgba(255, 255, 255, 0.97);
+	z-index: 1050;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 	opacity: 0;
+	transform: translateY(-20px);
 	visibility: hidden;
-	padding: 1rem 1.5rem 1rem 1.5rem;
-	align-items: flex-end;
+	pointer-events: none;
+	transition: opacity 0.4s ease, transform 0.4s ease;
 
-	&.active {
-		transform: translateY(0);
+	&.open {
 		opacity: 1;
+		transform: translateY(0);
 		visibility: visible;
+		pointer-events: auto;
 	}
 
 	.close-search {
+		position: absolute;
+		top: 20px;
+		right: 20px;
 		background: none;
 		border: none;
 		font-size: 2rem;
-		color: $black-main;
+		color: $velvet;
 		cursor: pointer;
-		margin-bottom: 1rem;
-		align-self: flex-end;
+		transition: color 0.3s ease;
+
+		&:hover {
+			color: darken($velvet, 10%);
+		}
 	}
 
 	.search-form-container {
 		width: 100%;
+		max-width: 600px;
+
+		form {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			position: relative;
+
+			.search-field {
+				background: transparent;
+				flex: 1;
+				padding: 0.75rem;
+				border: none;
+				border-bottom: 2px solid $bloom;
+				font-size: 1.2rem;
+				outline: none;
+				transition: border-color 0.3s ease;
+				/* masquer la croix native (WebKit / Blink / Edge / IE) */
+				&::-webkit-search-cancel-button,
+				&::-webkit-search-decoration {
+					-webkit-appearance: none;
+					appearance: none;
+					display: none;
+				}
+
+				&::-ms-clear,
+				&::-ms-reveal {
+					display: none;
+					width: 0;
+					height: 0;
+				}
+				&:focus {
+					border-color: $velvet;
+				}
+			}
+
+			button[type="submit"] {
+				position: absolute;
+				right: 0;
+				top: 50%;
+				transform: translateY(-50%);
+				width: 40px;
+				height: 40px;
+				background: none;
+				border: none;
+				cursor: pointer;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				padding: 0;
+
+				/* style pour l'icône <i> injectée par le JS */
+				i.bi {
+					font-size: 1.4rem;
+					line-height: 1;
+					color: $bloom !important;
+					-webkit-font-smoothing: antialiased;
+					-moz-osx-font-smoothing: grayscale;
+					transition: color 0.3s ease, transform 0.2s ease;
+				}
+
+				&:hover i.bi,
+				&:focus i.bi {
+					color: $velvet !important;
+				}
+			}
+		}
 	}
 }
 
@@ -1170,7 +1244,7 @@ h6 {
 	display: inline-flex;
 	// gap: 2.5rem;
 	align-items: center;
-	animation: bandeau-scroll 30s linear infinite;
+	animation: bandeau-scroll 120s linear infinite;
 	will-change: transform;
 	transform: translate3d(0, 0, 0);
 	backface-visibility: hidden;
@@ -1231,7 +1305,7 @@ h6 {
 }
 
 // ==========================================================================
-// Composant: Sous-menu Boutique
+// Composant: Sous-menu Boutique (version simplifiée)
 // ==========================================================================
 #page,
 .site,
@@ -1258,12 +1332,13 @@ header,
 	display: block;
 	visibility: hidden;
 	opacity: 0;
-	transform: translateY(-10px);
+	transform: translateY(-12px);
 	pointer-events: none;
+	will-change: opacity, transform, visibility;
 	@include transition(
-		transform opacity visibility,
-		0.26s,
-		cubic-bezier(0.2, 0.8, 0.2, 1)
+		opacity 0.36s cubic-bezier(0.2, 0.8, 0.2, 1),
+		transform 0.36s cubic-bezier(0.2, 0.8, 0.2, 1),
+		visibility 0s linear 0.36s
 	);
 	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 
@@ -1288,20 +1363,32 @@ header,
 		display: block;
 	}
 
-	/* SUBMENU : affichage UNIQUEMENT quand .boutique-container a .open (ou en hover direct du submenu) */
-	display: block;
-	visibility: hidden;
-	opacity: 0;
-	transform: translateY(-12px);
-	pointer-events: none;
-	will-change: opacity, transform;
-	transition: opacity 0.36s cubic-bezier(0.2, 0.8, 0.2, 1),
-		transform 0.36s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.36s;
+	/* Stagger des items : chaque li a un délai progressif */
+	ul li {
+		opacity: 0;
+		transform: translateX(-12px);
+		will-change: opacity, transform;
+		@include transition(opacity 0.42s ease, transform 0.42s ease);
+	}
 }
 
-/* montrer quand boutique-container possède .open (ou focus-within) — cible le cas sibling */
-.boutique-container.open + #submenu-boutique,
-.boutique-container:focus-within + #submenu-boutique,
+/* Montrer le sous-menu quand .boutique-container a la classe .open */
+.boutique-container.open + #submenu-boutique {
+	visibility: visible !important;
+	opacity: 1 !important;
+	transform: translateY(0) !important;
+	pointer-events: auto !important;
+	transition-delay: 0s !important;
+	transition-duration: 0.36s !important;
+
+	/* Appliquer le stagger aux li */
+	ul li {
+		opacity: 1 !important;
+		transform: translateX(0) !important;
+	}
+}
+
+/* Fallback : montrer le sous-menu au hover direct si le JS ne fonctionne pas */
 #submenu-boutique:hover {
 	visibility: visible !important;
 	opacity: 1 !important;
@@ -1309,34 +1396,29 @@ header,
 	pointer-events: auto !important;
 	transition-delay: 0s !important;
 	transition-duration: 0.36s !important;
-}
 
-/* stagger des items */
-#submenu-boutique ul li {
-	opacity: 0;
-	transform: translateX(-12px);
-	transition: opacity 0.42s ease, transform 0.42s ease;
-	will-change: opacity, transform;
-}
-
-/* delays générés en SCSS */
-@for $i from 1 through 30 {
-	.boutique-container.open + #submenu-boutique ul li:nth-child(#{$i}),
-	#submenu-boutique:hover ul li:nth-child(#{$i}) {
-		transition-delay: #{0.05 * $i}s;
-		opacity: 1;
-		transform: translateX(0);
+	ul li {
+		opacity: 1 !important;
+		transform: translateX(0) !important;
 	}
 }
 
-/* reduced-motion */
+/* Délais progressifs pour le stagger des li (générés en SCSS) */
+@for $i from 1 through 30 {
+	.boutique-container.open + #submenu-boutique ul li:nth-child(#{$i}),
+	#submenu-boutique:hover ul li:nth-child(#{$i}) {
+		transition-delay: #{0.05 * $i}s !important;
+	}
+}
+
+/* Respect reduced-motion */
 @media (prefers-reduced-motion: reduce) {
 	#submenu-boutique,
 	#submenu-boutique ul li {
 		transition: none !important;
+		animation: none !important;
 		transform: none !important;
 		opacity: 1 !important;
-		pointer-events: auto !important;
 	}
 }
 
