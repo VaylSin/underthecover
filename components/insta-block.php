@@ -1,3 +1,18 @@
+<?php
+$page_id = get_queried_object_id();
+$logo_img = 'utc-logomark-blanc.svg';
+$bg_color = '';
+
+if ($page_id == 58) {
+    $logo_img = 'utc-logomark.svg';
+    $bg_color = 'background-color: #fff;';
+}
+?>
+<style>
+.insta_flux {
+    <?php echo esc_html( $bg_color ); ?>
+}
+</style>
 <section class="insta_flux">
     <div class="container-xxl px-lg-5rem text-center ">
         <h3 class="maj_title mb-5 logo_before d-flex justify-content-center" ><span class="logo_h3_content "><?php echo esc_html(get_field('titre_instagram', 'option')); ?></span></h3>
@@ -48,13 +63,13 @@
                     </div>
 
                 <?php
-			endwhile; ?>
+            endwhile; ?>
             </div>
         <?php endif; ?>
     </div>
 
     <!-- Logo background en bas à droite -->
     <div class="insta-background-logo" >
-        <img src="<?php echo get_template_directory_uri(); ?>/images/utc-logomark-blanc.svg" alt="Logo background" />
+        <img src="<?php echo esc_url( get_template_directory_uri() . '/images/' . $logo_img ); ?>" alt="Logo background" />
     </div>
 </section>

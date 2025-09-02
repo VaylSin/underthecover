@@ -5,15 +5,29 @@ get_header();
 if ( have_posts() ) :
   while ( have_posts() ) : the_post();
 
-    // URL de la vignette
+    // URL de la vignette (fallback si absent)
     $thumb_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
     $thumb_url = $thumb_url ? $thumb_url : get_template_directory_uri() . '/assets/img/default-banner.jpg';
-    // ACF fields
-    $pre_form = get_field( 'contenu_pre-formulaire' );
-    $post_form = get_field( 'texte_post_formulaire' );
+
+    // inline style sûr pour le background avec attachment fixed
+    $bg_style = "background-image: url('" . esc_url( $thumb_url ) . "'); background-size: cover; background-position: center; background-attachment: fixed; background-repeat: no-repeat; height: 400px; position: relative; overflow: hidden;";
     ?>
-    <!-- Bandeau full width -->
-    <section class="page-banner w-100" style="background-image: url('<?php echo esc_url( $thumb_url ); ?>'); background-size: cover; background-position: center; height: 400px;"></section>
+    <!-- Bandeau full width avec overlay et titre -->
+    <section class="page-banner w-100" style="<?php echo esc_attr( $bg_style ); ?>">
+      <!-- overlay couvrant toute la section -->
+      <div class="banner-overlay" style="position: absolute; inset: 0; background: rgba(188,51,101,0.5); z-index: 1;"></div>
+
+      <!-- Contenu centré verticalement et aligné à gauche, contenu contraint par container-1600 -->
+      <div class="container-1600 h-100" style="position: relative; z-index: 2; height: 100%;">
+        <div class="row h-100">
+          <div class="col-12 d-flex align-items-center justify-content-start">
+            <h1 class="page-title text-white mb-0" style="font-weight: 600;">
+              <?php echo esc_html( get_the_title() ); ?>
+            </h1>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Contenu principal -->
     <div class="container-1600 py-5">
@@ -21,7 +35,9 @@ if ( have_posts() ) :
         <div class="col-12 col-lg-10">
 
           <!-- bloc : contenu_pre-formulaire -->
-          <?php if ( $pre_form ) : ?>
+          <?php
+          $pre_form = get_field( 'contenu_pre-formulaire' );
+          if ( $pre_form ) : ?>
             <section class="mb-4">
               <div class="card border-0">
                 <div class="card-body pre_form">
@@ -43,7 +59,9 @@ if ( have_posts() ) :
     </div>
 
     <!-- bloc : texte_post_formulaire déplacé en container-fluid > container-xxl -->
-    <?php if ( $post_form ) : ?>
+    <?php
+    $post_form = get_field( 'texte_post_formulaire' );
+    if ( $post_form ) : ?>
       <div class="container-fluid bg-velvet">
         <div class="container-xxl py-5">
           <div class="row justify-content-center">
@@ -58,7 +76,8 @@ if ( have_posts() ) :
         </div>
       </div>
     <?php endif; ?>
-<?php get_template_part('components/insta-block');?>
+
+    <?php get_template_part('components/insta-block');?>
 
   <?php
   endwhile;
