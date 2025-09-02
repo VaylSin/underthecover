@@ -1110,7 +1110,7 @@ h6 {
 	}
 }
 
-// Barre de recherche avec effet de glissé fondu
+/* Barre de recherche avec effet de glissé fondu */
 .search-dropdown {
 	position: fixed;
 	top: 0;
@@ -1122,7 +1122,7 @@ h6 {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	justify-content: center; /* centre verticalement et horizontalement */
 	opacity: 0;
 	transform: translateY(-20px);
 	visibility: hidden;
@@ -1154,74 +1154,103 @@ h6 {
 
 	.search-form-container {
 		width: 100%;
-		max-width: 600px;
-
-		form {
-			display: flex;
-			align-items: center;
-			gap: 10px;
-			position: relative;
-
-			.search-field {
-				background: transparent;
-				flex: 1;
-				padding: 0.75rem;
-				border: none;
-				border-bottom: 2px solid $bloom;
-				font-size: 1.2rem;
-				outline: none;
-				transition: border-color 0.3s ease;
-				/* masquer la croix native (WebKit / Blink / Edge / IE) */
-				&::-webkit-search-cancel-button,
-				&::-webkit-search-decoration {
-					-webkit-appearance: none;
-					appearance: none;
-					display: none;
-				}
-
-				&::-ms-clear,
-				&::-ms-reveal {
-					display: none;
-					width: 0;
-					height: 0;
-				}
-				&:focus {
-					border-color: $velvet;
-				}
-			}
-
-			button[type="submit"] {
-				position: absolute;
-				right: 0;
-				top: 50%;
-				transform: translateY(-50%);
-				width: 40px;
-				height: 40px;
-				background: none;
-				border: none;
-				cursor: pointer;
-				display: inline-flex;
-				align-items: center;
-				justify-content: center;
-				padding: 0;
-
-				/* style pour l'icône <i> injectée par le JS */
-				i.bi {
-					font-size: 1.4rem;
-					line-height: 1;
-					color: $bloom !important;
-					-webkit-font-smoothing: antialiased;
-					-moz-osx-font-smoothing: grayscale;
-					transition: color 0.3s ease, transform 0.2s ease;
-				}
-
-				&:hover i.bi,
-				&:focus i.bi {
-					color: $velvet !important;
-				}
+		max-width: 640px; /* un peu plus large si nécessaire */
+		margin: 0 auto; /* centre horizontalement */
+		padding: 0 1rem;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		.widget_product_search {
+			width: 100%;
+			form {
+				width: 100%;
+				max-width: 640px;
+				display: block;
+				position: relative; /* nécessaire pour le bouton absolute */
 			}
 		}
 	}
+
+	.search-field {
+		background: transparent;
+		width: 100%;
+		padding: 0.75rem;
+		padding-right: 56px; /* laisser de la place pour le bouton absolu (>= bouton width + gap) */
+		border: none;
+		border-bottom: 2px solid $bloom;
+		font-size: 1.2rem;
+		outline: none;
+		transition: border-color 0.3s ease;
+		/* masquer la croix native */
+		&::-webkit-search-cancel-button,
+		&::-webkit-search-decoration {
+			-webkit-appearance: none;
+			appearance: none;
+			display: none;
+		}
+		&::-ms-clear,
+		&::-ms-reveal {
+			display: none;
+			width: 0;
+			height: 0;
+		}
+		&:focus {
+			border-color: $velvet;
+		}
+	}
+
+	button[type="submit"] {
+		position: absolute;
+		right: 8px; /* petit padding depuis le bord du form */
+		top: 50%;
+		transform: translateY(-50%);
+		width: 40px;
+		height: 40px;
+		background: none;
+		border: none;
+		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		z-index: 2;
+
+		i.bi {
+			font-size: 1.4rem;
+			line-height: 1;
+			color: $bloom !important;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			transition: color 0.3s ease, transform 0.2s ease;
+		}
+
+		&:hover i.bi,
+		&:focus i.bi {
+			color: $velvet !important;
+		}
+	}
+}
+
+/* Fix overlay search quand détaché ou pas : couvrir viewport sans dépasser */
+.search-dropdown,
+#searchDropdown {
+	position: fixed !important;
+	inset: 0 !important; /* top:0; right:0; bottom:0; left:0; */
+	width: 100% !important;
+	max-height: 100vh !important; /* éviter de dépasser la hauteur de la fenêtre */
+	overflow: auto !important; /* si contenu plus grand, permettre scroll interne */
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	background: rgba(255, 255, 255, 0.97) !important;
+	z-index: 9999 !important;
+}
+
+/* style optionnel pour debug / trace */
+.overlay-detached {
+	/* pas nécessaire, utile pour debug visuel */
+	/* outline: 1px dashed rgba(0,0,0,0.05); */
 }
 
 // ==========================================================================

@@ -6130,238 +6130,530 @@
     }
   })();
 
-  document.addEventListener("DOMContentLoaded", function () {
-    // ----- Initialisation des animations AOS -----
-    if (typeof AOS !== "undefined") {
-      AOS.init();
+  (function () {
+
+    // guard pour éviter double exécution si le fichier est inclus plusieurs fois
+    if (window.__siklane_js_initialized) return;
+    window.__siklane_js_initialized = true;
+
+    /* Helpers */
+    const $ = (s, ctx = document) => ctx.querySelector(s);
+    const $$ = (s, ctx = document) => Array.from((ctx || document).querySelectorAll(s));
+    const on = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts || false);
+
+    /* ----- AOS ----- */
+    function initAOS() {
+      if (typeof AOS !== "undefined" && AOS && typeof AOS.init === "function") {
+        AOS.init();
+      }
     }
 
-    // ----- Loader plein écran -----
-    const siteLoader = document.getElementById("site-loader");
-    const siteContent = document.querySelector(".site");
-    if (siteLoader && siteContent) {
-      // Masquer le loader après le chargement
-      window.addEventListener("load", function () {
-        siteLoader.classList.add("hidden");
-        siteContent.classList.add("loaded");
-      });
+    /* ----- Loader ----- */
+    function initLoader() {
+      const siteLoader = document.getElementById("site-loader");
+      const siteContent = document.querySelector(".site");
+      if (!siteLoader || !siteContent) return;
+      const bar = siteLoader.querySelector(".loader-bar");
+      let progress = 0;
+      let interval = null;
+      let finished = false;
+      const setWidth = n => {
+        progress = Math.max(progress, n);
+        if (bar) bar.style.width = Math.min(100, progress) + "%";
+      };
+      const startFakeProgress = () => {
+        if (!bar || interval) return;
+        interval = setInterval(() => {
+          if (finished) {
+            clearInterval(interval);
+            interval = null;
+            return;
+          }
+          const step = Math.random() * 6 + 1;
+          progress = Math.min(90, progress + step);
+          bar.style.width = progress + "%";
+        }, 180);
+      };
+      const isHome = document.body.classList.contains("home") || document.body.classList.contains("front-page") || location.pathname === "/" || location.pathname === "/index.html";
+      if (isHome) {
+        setWidth(6);
+        startFakeProgress();
+        on(window, "load", () => {
+          finished = true;
+          if (interval) {
+            clearInterval(interval);
+            interval = null;
+          }
+          if (bar) requestAnimationFrame(() => bar.style.width = "100%");
+          setTimeout(() => {
+            siteLoader.classList.add("hidden");
+            siteContent.classList.add("loaded");
+            setTimeout(() => {
+              if (siteLoader.parentNode) siteLoader.parentNode.removeChild(siteLoader);
+            }, 600);
+          }, 450);
+        });
+        // fallback safety
+        setTimeout(() => {
+          if (!finished) {
+            siteLoader.classList.add("hidden");
+            siteContent.classList.add("loaded");
+            if (siteLoader.parentNode) siteLoader.parentNode.removeChild(siteLoader);
+          }
+        }, 9000);
+      } else {
+        // quick fade on non-home pages
+        if (bar) {
+          bar.style.transition = bar.style.transition || "width 160ms linear";
+          requestAnimationFrame(() => bar.style.width = "100%");
+        }
+        requestAnimationFrame(() => {
+          siteLoader.style.transition = siteLoader.style.transition || "opacity 200ms ease";
+          siteLoader.style.opacity = "0";
+          siteLoader.style.pointerEvents = "none";
+        });
+        setTimeout(() => {
+          siteContent.classList.add("loaded");
+          if (siteLoader.parentNode) siteLoader.parentNode.removeChild(siteLoader);
+        }, 260);
+      }
     }
 
-    // ----- Barre de recherche header -----
-    const searchToggle = document.getElementById("searchToggle");
-    const searchDropdown = document.getElementById("searchDropdown");
-    const closeSearch = document.getElementById("closeSearch");
-    if (searchToggle && searchDropdown && closeSearch) {
-      // Ouvrir la barre de recherche
-      searchToggle.addEventListener("click", function (e) {
+    /* ----- Search overlay toggle ----- */
+    function initSearchToggle() {
+      const searchToggle = document.getElementById("searchToggle");
+      const searchDropdown = document.getElementById("searchDropdown") || $(".search-dropdown");
+      const closeSearch = document.getElementById("closeSearch");
+      if (!searchToggle || !searchDropdown || !closeSearch) return;
+      on(searchToggle, "click", e => {
         e.preventDefault();
         searchDropdown.classList.add("open");
-        const searchField = searchDropdown.querySelector(".search-field");
-        if (searchField) {
-          setTimeout(() => searchField.focus(), 300); // Focus sur le champ après l'animation
-        }
+        const input = searchDropdown.querySelector(".search-field");
+        if (input) setTimeout(() => input.focus(), 300);
       });
-
-      // Fermer la barre de recherche
-      closeSearch.addEventListener("click", function (e) {
+      on(closeSearch, "click", e => {
         e.preventDefault();
         searchDropdown.classList.remove("open");
       });
-
-      // Fermer avec la touche "Escape"
-      document.addEventListener("keydown", function (e) {
+      on(document, "keydown", e => {
         if (e.key === "Escape" && searchDropdown.classList.contains("open")) {
           searchDropdown.classList.remove("open");
         }
       });
-
-      // Fermer au clic en dehors de la barre de recherche
-      document.addEventListener("click", function (e) {
+      on(document, "click", e => {
         if (!searchDropdown.contains(e.target) && !searchToggle.contains(e.target) && searchDropdown.classList.contains("open")) {
           searchDropdown.classList.remove("open");
         }
       });
     }
 
-    // ----- Carousel des catégories -----
-    const categoriesCarousel = document.querySelector("#categories-carousel");
-    if (categoriesCarousel) {
-      const carouselRow = categoriesCarousel.querySelector(".carousel-row");
-      const items = categoriesCarousel.querySelectorAll(".category-item");
-      const totalItems = items.length;
-      let itemsPerView = window.innerWidth > 768 ? 4 : 1;
-      let currentPosition = 0;
-
-      // Fonction pour mettre à jour la position du carousel
-      function updateCarousel() {
-        var _items$;
-        const itemWidth = ((_items$ = items[0]) == null ? void 0 : _items$.offsetWidth) || 0;
-        if (carouselRow && itemWidth) {
-          carouselRow.style.transform = `translateX(${-currentPosition * itemWidth}px)`;
-
-          // Mettre à jour l'état des boutons
-          const prevButton = categoriesCarousel.querySelector(".carousel-control-prev");
-          const nextButton = categoriesCarousel.querySelector(".carousel-control-next");
-          if (prevButton) prevButton.classList.toggle("disabled", currentPosition <= 0);
-          if (nextButton) nextButton.classList.toggle("disabled", currentPosition >= totalItems - itemsPerView);
-        }
-      }
-
-      // Initialisation si on a des items et une row
-      if (items.length > 0 && carouselRow) {
-        updateCarousel();
-
-        // Gérer les événements des boutons
-        const prevBtn = categoriesCarousel.querySelector(".carousel-control-prev");
-        if (prevBtn) {
-          prevBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            if (currentPosition > 0) {
-              currentPosition--;
-              updateCarousel();
-            }
-          });
-        }
-        const nextBtn = categoriesCarousel.querySelector(".carousel-control-next");
-        if (nextBtn) {
-          nextBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            if (currentPosition < totalItems - itemsPerView) {
-              currentPosition++;
-              updateCarousel();
-            }
-          });
-        }
-
-        // Adapter au redimensionnement
-        window.addEventListener("resize", function () {
-          const newItemsPerView = window.innerWidth > 768 ? 4 : 1;
-          if (newItemsPerView !== itemsPerView) {
-            itemsPerView = newItemsPerView;
-            currentPosition = Math.min(currentPosition, totalItems - itemsPerView);
-            updateCarousel();
-          }
-        });
-      }
-    }
-
-    // ----- Slider principal -----
-    const slider = document.getElementById("main-slider");
-    if (slider) {
-      const dots = slider.querySelectorAll(".slider-dot");
-
-      // Vérifier que bootstrap est chargé avant d'utiliser
-      if (typeof bootstrap !== "undefined" && bootstrap.Carousel) {
-        const carousel = new bootstrap.Carousel(slider);
-        if (dots.length) {
-          dots.forEach((dot, idx) => {
-            dot.addEventListener("click", function () {
-              carousel.to(idx);
-              // Met à jour la classe active sur les dots
-              dots.forEach(d => d.classList.remove("active"));
-              dot.classList.add("active");
-            });
-          });
-
-          // Synchronise les dots quand le slide change (flèches, auto, swipe)
-          slider.addEventListener("slid.bs.carousel", function (e) {
-            const activeIdx = e.to;
-            dots.forEach((dot, idx) => {
-              dot.classList.toggle("active", idx === activeIdx);
-            });
-          });
-        }
-      }
-    }
-
-    // ----- Sous-menu Boutique -----
-    const trigger = document.querySelector(".menu-item-boutique");
-    const boutiqueWrap = trigger ? trigger.closest(".boutique-container") : null;
-    const submenu = document.getElementById("submenu-boutique");
-    if (trigger && boutiqueWrap && submenu) {
-      let closeTimer = null;
-      function open() {
-        clearTimeout(closeTimer);
-        boutiqueWrap.classList.add("open");
-        trigger.setAttribute("aria-expanded", "true");
-      }
-      function close() {
-        clearTimeout(closeTimer);
-        closeTimer = setTimeout(function () {
-          boutiqueWrap.classList.remove("open");
-          trigger.setAttribute("aria-expanded", "false");
-        }, 120);
-      }
-
-      // desktop / keyboard
-      trigger.addEventListener("mouseenter", open);
-      trigger.addEventListener("focus", open);
-      trigger.addEventListener("mouseleave", close);
-      trigger.addEventListener("blur", close);
-
-      // keep open when hovering submenu
-      submenu.addEventListener("mouseenter", open);
-      submenu.addEventListener("mouseleave", close);
-
-      // mobile tap : toggle (préserve comportement lien si large écran)
-      trigger.addEventListener("click", function (e) {
-        if (window.innerWidth < 992) {
-          e.preventDefault();
-          if (boutiqueWrap.classList.contains("open")) close();else open();
-        }
-      });
-
-      // close on ESC or click outside
-      document.addEventListener("keyup", function (e) {
-        if (e.key === "Escape") close();
-      });
-      document.addEventListener("click", function (e) {
-        if (!boutiqueWrap.contains(e.target) && !submenu.contains(e.target)) close();
-      });
-    }
-    (function replaceSearchButtonWithIcon() {
-      function doReplace() {
-        const btn = document.querySelector('.search-dropdown form button[type="submit"]');
+    /* ----- Replace search submit content with icon ----- */
+    function replaceSearchButtonWithIcon() {
+      const doReplace = () => {
+        const btn = document.querySelector('.search-dropdown form button[type="submit"], #searchDropdown form button[type="submit"]');
         if (!btn) return;
-        if (btn.dataset.iconified === "1") return; // déjà fait
-
-        // préserver aria-label ou en créer un
+        if (btn.dataset.iconified === "1") return;
         if (!btn.getAttribute("aria-label")) btn.setAttribute("aria-label", "Rechercher");
-
-        // vider le contenu visible
         btn.innerHTML = "";
-
-        // créer l'icône <i>
         const icon = document.createElement("i");
         icon.className = "bi bi-search";
         icon.setAttribute("aria-hidden", "true");
-        // garantir la taille si le bouton a font-size:0
         icon.style.fontSize = "1.4rem";
         icon.style.lineHeight = "1";
-
-        // texte caché pour lecteurs d'écran
         const sr = document.createElement("span");
         sr.className = "visually-hidden";
         sr.textContent = "Rechercher";
         btn.appendChild(icon);
         btn.appendChild(sr);
         btn.dataset.iconified = "1";
-      }
-
-      // exécuter au chargement du DOM et au load (sécurité)
-      document.addEventListener("DOMContentLoaded", doReplace);
-      window.addEventListener("load", doReplace);
-
-      // observer les ajouts dynamiques (ex : injection via JS)
-      const observer = new MutationObserver(function () {
-        doReplace();
-      });
-      observer.observe(document.body, {
+      };
+      doReplace();
+      const mo = new MutationObserver(doReplace);
+      mo.observe(document.body, {
         childList: true,
         subtree: true
       });
-    })();
-  });
+    }
+
+    /* ----- Simple categories carousel ----- */
+    function initCategoriesCarousel() {
+      const container = document.getElementById("categories-carousel");
+      if (!container) return;
+      const row = container.querySelector(".carousel-row");
+      const items = container.querySelectorAll(".category-item");
+      if (!row || items.length === 0) return;
+      let itemsPerView = window.innerWidth > 768 ? 4 : 1;
+      let current = 0;
+      function update() {
+        var _items$;
+        const w = ((_items$ = items[0]) == null ? void 0 : _items$.offsetWidth) || 0;
+        if (!w) return;
+        row.style.transform = `translateX(${-current * w}px)`;
+        const prev = container.querySelector(".carousel-control-prev");
+        const next = container.querySelector(".carousel-control-next");
+        if (prev) prev.classList.toggle("disabled", current <= 0);
+        if (next) next.classList.toggle("disabled", current >= items.length - itemsPerView);
+      }
+      update();
+      const prevBtn = container.querySelector(".carousel-control-prev");
+      if (prevBtn) on(prevBtn, "click", e => {
+        e.preventDefault();
+        if (current > 0) {
+          current--;
+          update();
+        }
+      });
+      const nextBtn = container.querySelector(".carousel-control-next");
+      if (nextBtn) on(nextBtn, "click", e => {
+        e.preventDefault();
+        if (current < items.length - itemsPerView) {
+          current++;
+          update();
+        }
+      });
+      on(window, "resize", () => {
+        const npv = window.innerWidth > 768 ? 4 : 1;
+        if (npv !== itemsPerView) {
+          itemsPerView = npv;
+          current = Math.min(current, items.length - itemsPerView);
+          update();
+        }
+      }, {
+        passive: true
+      });
+    }
+
+    /* ----- Main slider (bootstrap) ----- */
+    function initMainSlider() {
+      const slider = document.getElementById("main-slider");
+      if (!slider) return;
+      const dots = slider.querySelectorAll(".slider-dot");
+      if (typeof bootstrap !== "undefined" && bootstrap.Carousel) {
+        const carousel = new bootstrap.Carousel(slider);
+        if (dots.length) {
+          dots.forEach((dot, idx) => {
+            on(dot, "click", () => {
+              carousel.to(idx);
+              dots.forEach(d => d.classList.remove("active"));
+              dot.classList.add("active");
+            });
+          });
+          on(slider, "slid.bs.carousel", e => {
+            const active = e.to;
+            dots.forEach((d, i) => d.classList.toggle("active", i === active));
+          });
+        }
+      }
+    }
+
+    /* ----- Boutique submenu ----- */
+    function initBoutiqueMenu() {
+      const trigger = document.querySelector(".menu-item-boutique");
+      const boutiqueWrap = trigger ? trigger.closest(".boutique-container") : null;
+      const submenu = document.getElementById("submenu-boutique");
+      if (!trigger || !boutiqueWrap || !submenu) return;
+      let closeTimer = null;
+      const open = () => {
+        clearTimeout(closeTimer);
+        boutiqueWrap.classList.add("open");
+        trigger.setAttribute("aria-expanded", "true");
+      };
+      const close = () => {
+        clearTimeout(closeTimer);
+        closeTimer = setTimeout(() => {
+          boutiqueWrap.classList.remove("open");
+          trigger.setAttribute("aria-expanded", "false");
+        }, 120);
+      };
+      on(trigger, "mouseenter", open);
+      on(trigger, "focus", open);
+      on(trigger, "mouseleave", close);
+      on(trigger, "blur", close);
+      on(submenu, "mouseenter", open);
+      on(submenu, "mouseleave", close);
+      on(trigger, "click", e => {
+        if (window.innerWidth < 992) {
+          e.preventDefault();
+          boutiqueWrap.classList.contains("open") ? close() : open();
+        }
+      });
+      on(document, "keyup", e => {
+        if (e.key === "Escape") close();
+      });
+      on(document, "click", e => {
+        if (!boutiqueWrap.contains(e.target) && !submenu.contains(e.target)) close();
+      });
+    }
+
+    /* ----- Smooth libraries fallback ----- */
+    function initSmoothLibraries() {
+      if (window.__smooth_libs_initialized) return;
+      window.__smooth_libs_initialized = true;
+      const wrapper = document.querySelector(".smooth-scroll-wrapper") || document.querySelector(".site");
+      if (typeof Scrollbar !== "undefined" && wrapper) {
+        try {
+          const sb = Scrollbar.init(wrapper, {
+            damping: 0.07,
+            thumbMinSize: 20
+          });
+          window.__smoothScrollbar = sb;
+          console.debug("[smooth] SmoothScrollbar initialisé");
+          return;
+        } catch (e) {
+          console.warn("[smooth] SmoothScrollbar init failed:", e);
+        }
+      }
+      try {
+        document.documentElement.style.scrollBehavior = "smooth";
+      } catch (e) {
+        /* silent */
+      }
+      document.querySelectorAll('a[href^="#"]').forEach(a => {
+        on(a, "click", function (ev) {
+          const href = this.getAttribute("href");
+          if (!href || href === "#" || href === "#!") return;
+          const target = document.querySelector(href);
+          if (!target) return;
+          ev.preventDefault();
+          target.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+          history.pushState(null, "", href);
+        });
+      });
+      console.debug("[smooth] Fallback smooth scroll activé");
+    }
+
+    /* ----- Custom smooth scroller (lightweight) ----- */
+    function initScroller() {
+      // évite double init
+      if (document.querySelector(".smooth-scroll-wrapper")) return;
+
+      // Preserve certain elements as direct body children
+      const preserve = ["#site-loader", "#searchDropdown", ".search-dropdown", ".social-sticky", ".social-links"];
+      const preserved = [];
+      preserve.forEach(sel => {
+        $$(sel).forEach(el => {
+          if (el.parentNode !== document.body && !preserved.includes(el)) {
+            preserved.push(el);
+            document.body.appendChild(el);
+          }
+        });
+      });
+
+      // Create wrapper and move remaining nodes inside it
+      const wrapper = document.createElement("div");
+      wrapper.className = "smooth-scroll-wrapper";
+      const bodyNodes = Array.from(document.body.childNodes).slice(); // clone list
+      bodyNodes.forEach(node => {
+        if (preserved.includes(node)) return;
+        if (node === wrapper) return;
+        wrapper.appendChild(node);
+      });
+      document.body.appendChild(wrapper);
+
+      // Minimal styles for wrapper behavior (prefer SCSS for visuals)
+      Object.assign(wrapper.style, {
+        position: "fixed",
+        width: "100%",
+        top: "0",
+        left: "0",
+        willChange: "transform"
+      });
+
+      // Scroller state (déclarées avant utilisation)
+      let scrollY = window.scrollY || 0;
+      let scrollTarget = scrollY;
+      let rafId = null;
+      const cfg = {
+        speed: 0.05
+      };
+
+      // calculer et appliquer la hauteur réelle du body
+      function updateHeight() {
+        const h = wrapper.scrollHeight || document.documentElement.clientHeight;
+        document.body.style.height = `${h}px`;
+      }
+      // appliquer styles de body cohérents
+      document.body.style.overflowY = "auto";
+      document.body.style.position = "relative";
+
+      // initial height & transform
+      updateHeight();
+      scrollTarget = scrollY = window.scrollY || 0;
+      wrapper.style.transform = `translate3d(0,${-scrollY}px,0)`;
+
+      // Resize observer to update height on content changes
+      let ro;
+      if ("ResizeObserver" in window) {
+        ro = new ResizeObserver(updateHeight);
+        ro.observe(wrapper);
+      }
+      function render() {
+        scrollY += (scrollTarget - scrollY) * cfg.speed;
+        // appliquer le transform à chaque frame si nécessaire
+        wrapper.style.transform = `translate3d(0,${-scrollY}px,0)`;
+        if (Math.abs(scrollTarget - scrollY) < 0.1) {
+          // arrêter la boucle quand la différence est négligeable
+          cancelAnimationFrame(rafId);
+          rafId = null;
+          return;
+        }
+        rafId = requestAnimationFrame(render);
+      }
+      function onScroll() {
+        scrollTarget = window.scrollY;
+        if (!rafId) rafId = requestAnimationFrame(render);
+      }
+
+      // attacher les listeners
+      on(window, "scroll", onScroll, {
+        passive: true
+      });
+      on(window, "resize", updateHeight, {
+        passive: true
+      });
+
+      // garantir que les positions initiales sont cohérentes
+      scrollTarget = scrollY = window.scrollY || 0;
+      wrapper.style.transform = `translate3d(0,${-scrollY}px,0)`;
+
+      // If page has hash, allow small delay then jump
+      if (window.location.hash) {
+        const t = document.querySelector(window.location.hash);
+        if (t) setTimeout(() => t.scrollIntoView(), 500);
+      }
+
+      // Ensure overlays/social/loader are detached if they are inside wrapper
+      detachAfterWrap(wrapper);
+    }
+
+    /* ----- detachAfterWrap ----- */
+    function detachAfterWrap(optionalWrapper) {
+      const wrapper = optionalWrapper || document.querySelector(".smooth-scroll-wrapper");
+      if (!wrapper) return;
+      const selectors = [".search-dropdown", "#searchDropdown", ".social-sticky", ".social-links", "#site-loader"];
+      selectors.forEach(sel => {
+        const el = wrapper.querySelector(sel);
+        if (!el) return;
+
+        // Si le loader est déjà caché, on le supprime pour éviter un overlay persistant
+        if (sel === "#site-loader" && el.classList.contains("hidden")) {
+          try {
+            // retirer tout placeholder lié s'il existe
+            const phClass = `${sel.replace(/[^a-z0-9]/gi, "_")}_placeholder`;
+            const ph = wrapper.querySelector(`.${phClass}`);
+            if (ph && ph.parentNode) ph.parentNode.removeChild(ph);
+            if (el.parentNode) el.parentNode.removeChild(el);
+          } catch (e) {
+            /* silent */
+          }
+          return;
+        }
+
+        // Create placeholder to preserve layout if necessary
+        try {
+          const placeholder = document.createElement("div");
+          placeholder.className = `${sel.replace(/[^a-z0-9]/gi, "_")}_placeholder`;
+          placeholder.style.width = el.offsetWidth + "px";
+          placeholder.style.height = el.offsetHeight + "px";
+          placeholder.style.display = getComputedStyle(el).display || "block";
+          el.parentNode.insertBefore(placeholder, el);
+        } catch (e) {
+          /* ignore placeholder errors */
+        }
+
+        // Move to body
+        document.body.appendChild(el);
+
+        // Apply reasonable inline styles depending on element
+        if (sel.includes("search") || sel === "#site-loader") {
+          Object.assign(el.style, {
+            position: "fixed",
+            inset: "0",
+            width: "100%",
+            maxHeight: "100vh",
+            zIndex: "9999",
+            // si le loader est caché, désactiver les pointer-events et visibilité
+            pointerEvents: el.classList.contains("hidden") ? "none" : "auto",
+            visibility: el.classList.contains("hidden") ? "hidden" : "visible"
+          });
+        } else if (sel.includes("social")) {
+          Object.assign(el.style, {
+            position: "fixed",
+            left: "0",
+            top: "50%",
+            transform: "translateY(-50%)",
+            zIndex: "3000",
+            pointerEvents: "auto"
+          });
+        }
+      });
+    }
+
+    /* ----- Watcher: if wrapper appears later, detach UI elements ----- */
+    function watchWrapperThenDetach() {
+      if (document.querySelector(".smooth-scroll-wrapper")) {
+        detachAfterWrap();
+        return;
+      }
+      const mo = new MutationObserver((mutations, obs) => {
+        if (document.querySelector(".smooth-scroll-wrapper")) {
+          obs.disconnect();
+          detachAfterWrap();
+        }
+      });
+      mo.observe(document.body, {
+        childList: true,
+        subtree: false
+      });
+    }
+
+    /* ----- Single DOMContentLoaded orchestration ----- */
+    on(document, "DOMContentLoaded", function () {
+      initAOS();
+      initLoader();
+      initSearchToggle();
+      replaceSearchButtonWithIcon();
+      initCategoriesCarousel();
+      initMainSlider();
+      initBoutiqueMenu();
+
+      // Initialize smooth scroller: wait loader hide on home, else init quickly
+      const loader = document.getElementById("site-loader");
+      if (loader) {
+        const check = setInterval(() => {
+          const l = document.getElementById("site-loader");
+          if (!l || l.classList.contains("hidden")) {
+            clearInterval(check);
+            try {
+              initScroller();
+            } catch (e) {
+              console.warn("[smooth] initScroller failed:", e);
+            }
+          }
+        }, 120);
+      } else {
+        try {
+          initScroller();
+        } catch (e) {
+          console.warn("[smooth] initScroller failed:", e);
+        }
+      }
+
+      // Try to init external smooth libs as well (Scrollbar fallback)
+      setTimeout(initSmoothLibraries, 120);
+
+      // Watch wrapper and detach if needed
+      watchWrapperThenDetach();
+    });
+
+    // expose for debug
+    window.__siklane_detachAfterWrap = detachAfterWrap;
+    window.__siklane_initScroller = initScroller;
+    window.__siklane_initSmoothLibraries = initSmoothLibraries;
+  })();
 
   exports.Alert = Alert;
   exports.Button = Button;

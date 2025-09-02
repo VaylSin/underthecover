@@ -16581,6 +16581,7 @@ h6,
   text-decoration: none;
 }
 
+/* Barre de recherche avec effet de glissé fondu */
 .search-dropdown {
   position: fixed;
   top: 0;
@@ -16592,7 +16593,7 @@ h6,
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center; /* centre verticalement et horizontalement */
   opacity: 0;
   transform: translateY(-20px);
   visibility: hidden;
@@ -16621,41 +16622,51 @@ h6,
 }
 .search-dropdown .search-form-container {
   width: 100%;
-  max-width: 600px;
-}
-.search-dropdown .search-form-container form {
+  max-width: 640px; /* un peu plus large si nécessaire */
+  margin: 0 auto; /* centre horizontalement */
+  padding: 0 1rem;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: 10px;
-  position: relative;
+  justify-content: center;
 }
-.search-dropdown .search-form-container form .search-field {
+.search-dropdown .search-form-container .widget_product_search {
+  width: 100%;
+}
+.search-dropdown .search-form-container .widget_product_search form {
+  width: 100%;
+  max-width: 640px;
+  display: block;
+  position: relative; /* nécessaire pour le bouton absolute */
+}
+.search-dropdown .search-field {
   background: transparent;
-  flex: 1;
+  width: 100%;
   padding: 0.75rem;
+  padding-right: 56px; /* laisser de la place pour le bouton absolu (>= bouton width + gap) */
   border: none;
   border-bottom: 2px solid #fbd2da;
   font-size: 1.2rem;
   outline: none;
   transition: border-color 0.3s ease;
-  /* masquer la croix native (WebKit / Blink / Edge / IE) */
+  /* masquer la croix native */
 }
-.search-dropdown .search-form-container form .search-field::-webkit-search-cancel-button, .search-dropdown .search-form-container form .search-field::-webkit-search-decoration {
+.search-dropdown .search-field::-webkit-search-cancel-button, .search-dropdown .search-field::-webkit-search-decoration {
   -webkit-appearance: none;
   appearance: none;
   display: none;
 }
-.search-dropdown .search-form-container form .search-field::-ms-clear, .search-dropdown .search-form-container form .search-field::-ms-reveal {
+.search-dropdown .search-field::-ms-clear, .search-dropdown .search-field::-ms-reveal {
   display: none;
   width: 0;
   height: 0;
 }
-.search-dropdown .search-form-container form .search-field:focus {
+.search-dropdown .search-field:focus {
   border-color: #bc3365;
 }
-.search-dropdown .search-form-container form button[type=submit] {
+.search-dropdown button[type=submit] {
   position: absolute;
-  right: 0;
+  right: 8px; /* petit padding depuis le bord du form */
   top: 50%;
   transform: translateY(-50%);
   width: 40px;
@@ -16667,9 +16678,9 @@ h6,
   align-items: center;
   justify-content: center;
   padding: 0;
-  /* style pour l'icône <i> injectée par le JS */
+  z-index: 2;
 }
-.search-dropdown .search-form-container form button[type=submit] i.bi {
+.search-dropdown button[type=submit] i.bi {
   font-size: 1.4rem;
   line-height: 1;
   color: #fbd2da !important;
@@ -16677,8 +16688,29 @@ h6,
   -moz-osx-font-smoothing: grayscale;
   transition: color 0.3s ease, transform 0.2s ease;
 }
-.search-dropdown .search-form-container form button[type=submit]:hover i.bi, .search-dropdown .search-form-container form button[type=submit]:focus i.bi {
+.search-dropdown button[type=submit]:hover i.bi, .search-dropdown button[type=submit]:focus i.bi {
   color: #bc3365 !important;
+}
+
+/* Fix overlay search quand détaché ou pas : couvrir viewport sans dépasser */
+.search-dropdown,
+#searchDropdown {
+  position: fixed !important;
+  inset: 0 !important; /* top:0; right:0; bottom:0; left:0; */
+  width: 100% !important;
+  max-height: 100vh !important; /* éviter de dépasser la hauteur de la fenêtre */
+  overflow: auto !important; /* si contenu plus grand, permettre scroll interne */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: rgba(255, 255, 255, 0.97) !important;
+  z-index: 9999 !important;
+}
+
+/* style optionnel pour debug / trace */
+.overlay-detached {
+  /* pas nécessaire, utile pour debug visuel */
+  /* outline: 1px dashed rgba(0,0,0,0.05); */
 }
 
 .bandeau_deroulant {
