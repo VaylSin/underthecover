@@ -6,6 +6,9 @@ $bg_color = '';
 if ($page_id == 58) {
     $logo_img = 'utc-logomark.svg';
     $bg_color = 'background-color: #fff;';
+} else {
+	$bg_color = 'background-color: #ea6676;';
+	$logo_img = 'utc-logomark-blanc.svg';
 }
 ?>
 <style>
