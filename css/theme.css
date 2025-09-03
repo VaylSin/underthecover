@@ -12039,6 +12039,9 @@ body.understrap-no-sidebar .wp-block-cover.alignwide {
   outline: none !important;
   transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
+.wpcf7 .wpcf7-acceptance {
+  background-color: transparent !important;
+}
 .wpcf7 textarea {
   resize: none;
 }
