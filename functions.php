@@ -54,3 +54,63 @@ class Walker_Nav_Menu_HTML extends Walker_Nav_Menu {
         );
     }
 }
+add_action( 'init', function() {
+    if ( function_exists( 'is_woocommerce' ) ) {
+        // supprime l'affichage par défaut du prix (priority 10)
+        remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
+    }
+}, 20 );
+/**
+ * Nettoie la short description affichée : supprime les attributs style et désencapsule un span unique.
+ */
+add_filter( 'woocommerce_short_description', 'siklane_clean_short_description', 20 );
+function siklane_clean_short_description( $html ) {
+    if ( empty( $html ) ) {
+        return $html;
+    }
+
+    // Utilise DOMDocument pour enlever les style="" proprement
+    if ( ! class_exists( 'DOMDocument' ) ) {
+        // fallback : suppression basique des style attributes
+        $html = preg_replace( '/(<[^>]+)\sstyle=(["\']).*?\2/iu', '$1', $html );
+        // désencapsuler un seul span englobant
+        if ( preg_match( '/^\s*<span\b[^>]*>(.*)<\/span>\s*$/is', $html, $m ) ) {
+            $html = $m[1];
+        }
+        return $html;
+    }
+
+    libxml_use_internal_errors( true );
+    $doc = new DOMDocument();
+    // wrapper pour conserver racine valide
+    $doc->loadHTML( '<?xml encoding="utf-8" ?><div id="siklane-wrapper">' . $html . '</div>' );
+    libxml_clear_errors();
+
+    $container = $doc->getElementById( 'siklane-wrapper' );
+    if ( ! $container ) {
+        // fallback
+        return $html;
+    }
+
+    // supprimer tous les attributs style
+    $xpath = new DOMXPath( $doc );
+    foreach ( $xpath->query( '//*[@style]', $container ) as $el ) {
+        $el->removeAttribute( 'style' );
+    }
+
+    // récupérer innerHTML du container
+    $inner = '';
+    foreach ( $container->childNodes as $child ) {
+        $inner .= $doc->saveHTML( $child );
+    }
+
+    // si tout est encapsulé dans un span unique, désencapsuler
+    if ( preg_match( '/^\s*<span\b[^>]*>(.*)<\/span>\s*$/is', $inner, $m ) ) {
+        $inner = $m[1];
+    }
+
+    // optionnel : appliquer wp_kses pour garder only safe tags si besoin
+    $allowed = wp_kses_allowed_html( 'post' );
+    return wp_kses( $inner, $allowed );
+}
+

@@ -12204,6 +12204,22 @@ form.wpcf7-form .wpcf7-submit.view-all-link:focus {
     flex-basis: 100%;
   }
 }
+/* Supprimer les flèches natives des input[type="number"] (Chrome, Safari, Edge, Firefox) */
+.wpcf7 input[type=number],
+form.cart input[type=number] {
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  appearance: textfield;
+}
+
+.wpcf7 input[type=number]::-webkit-outer-spin-button,
+.wpcf7 input[type=number]::-webkit-inner-spin-button,
+form.cart input[type=number]::-webkit-outer-spin-button,
+form.cart input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .woocommerce-input-wrapper {
   width: 100%;
 }
@@ -12265,6 +12281,81 @@ figure.woocommerce-product-gallery__wrapper {
   top: initial;
 }
 
+.btn-increment,
+.btn-decrement {
+  cursor: pointer;
+  font-size: 1.8rem;
+  color: #272727;
+  transition: color 0.2s;
+}
+.btn-increment:hover,
+.btn-decrement:hover {
+  color: #bc3365;
+}
+
+.woocommerce input[type=number] {
+  margin-left: 0 !important;
+}
+.woocommerce input[type=number]:focus {
+  box-shadow: none;
+}
+.woocommerce .increment_container {
+  max-width: 7rem;
+  flex-basis: content;
+}
+
+/* Layout: thumbnails verticales à gauche du visuel principal */
+.siklane-product-gallery {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  /* thumbnails : adapter la taille des images miniatures */
+}
+.siklane-product-gallery .siklane-product-thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  order: 1;
+  flex: 0 0 auto;
+  /* largeur des vignettes : ajuste selon ton design */
+  width: 5.2rem;
+}
+.siklane-product-gallery .woocommerce-product-gallery__wrapper {
+  order: 2;
+  flex: 1 1 auto;
+}
+.siklane-product-gallery .siklane-product-thumbs .woocommerce-product-gallery__image {
+  width: 100%;
+  cursor: pointer;
+}
+.siklane-product-gallery .siklane-product-thumbs .woocommerce-product-gallery__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+/* responsive : sur petits écrans empiler et thumbnails en ligne sous l'image */
+@media (max-width: 991px) {
+  .siklane-product-gallery {
+    flex-direction: column;
+  }
+  .siklane-product-thumbs {
+    flex-direction: row;
+    width: 100%;
+    order: 2;
+    overflow-x: auto;
+    gap: 0.5rem;
+  }
+  .woocommerce-product-gallery__wrapper {
+    order: 1;
+  }
+  .siklane-product-thumbs .woocommerce-product-gallery__image {
+    width: 4.5rem;
+    flex: 0 0 auto;
+  }
+}
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)

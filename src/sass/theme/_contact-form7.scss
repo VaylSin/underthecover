@@ -235,3 +235,17 @@ form.wpcf7-form {
 		flex-basis: 100%;
 	}
 }
+/* Supprimer les flèches natives des input[type="number"] (Chrome, Safari, Edge, Firefox) */
+.wpcf7 input[type="number"],
+form.cart input[type="number"] {
+	-moz-appearance: textfield;
+	appearance: textfield;
+}
+
+.wpcf7 input[type="number"]::-webkit-outer-spin-button,
+.wpcf7 input[type="number"]::-webkit-inner-spin-button,
+form.cart input[type="number"]::-webkit-outer-spin-button,
+form.cart input[type="number"]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}

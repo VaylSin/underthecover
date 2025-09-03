@@ -15,8 +15,13 @@
  * @version    1.6.4
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
-}
+defined( 'ABSPATH' ) || exit;
+global $product;
+if ( ! $product ) return;
 
-the_title( '<h1 class="product_title entry-title">', '</h1>' );
+$price_html = $product->is_on_sale() && $product->get_sale_price() !== '' ? wc_price( $product->get_sale_price() ) : $product->get_price_html();
+?>
+<div class="siklane-product-title-price d-flex align-items-start justify-content-between">
+    <h1 class="text-uppercase fw-bold product_title entry-title mb-0"><?php echo esc_html( get_the_title() ); ?></h1>
+    <div class="h2 fw-bold product-price ms-3"><?php echo wp_kses_post( $price_html ); ?></div>
+</div>

@@ -9,7 +9,7 @@ figure.woocommerce-product-gallery__wrapper {
 }
 
 // Fix coupon code input width for cart, apply only to the cart as it will break the checkout field width
-@media(min-width: 768px) {
+@media (min-width: 768px) {
 	.woocommerce-cart #coupon_code.input-text {
 		width: 110px !important;
 	}
@@ -66,7 +66,7 @@ figure.woocommerce-product-gallery__wrapper {
 
 .woocommerce form .form-row label {
 	// Override WooCommerce default styles.
-	@if variable-exists('bootstrap4') {
+	@if variable-exists("bootstrap4") {
 		&.custom-control-label {
 			line-height: inherit;
 		}
@@ -77,7 +77,7 @@ figure.woocommerce-product-gallery__wrapper {
 	}
 }
 
-@if not variable-exists('bootstrap4') {
+@if not variable-exists("bootstrap4") {
 	// Override WooCommerce default styles.
 	.woocommerce form .form-row .checkbox {
 		&.form-check {
@@ -87,9 +87,9 @@ figure.woocommerce-product-gallery__wrapper {
 	}
 	.woocommerce form .form-row .input-checkbox {
 		&.form-check-input {
-			$top: ($line-height-base - $form-check-input-width) * .5;
+			$top: ($line-height-base - $form-check-input-width) * 0.5;
 			$left: $form-check-padding-start * -1;
-			margin: $top 0 0 $left
+			margin: $top 0 0 $left;
 		}
 	}
 }
@@ -107,4 +107,82 @@ figure.woocommerce-product-gallery__wrapper {
 
 .woocommerce-page form .show-password-input {
 	top: initial;
+}
+
+.btn-increment,
+.btn-decrement {
+	cursor: pointer;
+	font-size: 1.8rem;
+	color: $black-main;
+	transition: color 0.2s;
+	&:hover {
+		color: $velvet;
+	}
+}
+.woocommerce {
+	input[type="number"] {
+		margin-left: 0 !important;
+		&:focus {
+			box-shadow: none;
+		}
+	}
+	.increment_container {
+		max-width: 7rem;
+		flex-basis: content;
+	}
+}
+
+/* Layout: thumbnails verticales à gauche du visuel principal */
+.siklane-product-gallery {
+	display: flex;
+	align-items: flex-start;
+	gap: 1rem;
+
+	.siklane-product-thumbs {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		order: 1;
+		flex: 0 0 auto;
+		/* largeur des vignettes : ajuste selon ton design */
+		width: 5.2rem;
+	}
+
+	.woocommerce-product-gallery__wrapper {
+		order: 2;
+		flex: 1 1 auto;
+	}
+
+	/* thumbnails : adapter la taille des images miniatures */
+	.siklane-product-thumbs .woocommerce-product-gallery__image {
+		width: 100%;
+		cursor: pointer;
+	}
+	.siklane-product-thumbs .woocommerce-product-gallery__image img {
+		width: 100%;
+		height: auto;
+		display: block;
+		object-fit: cover;
+	}
+}
+
+/* responsive : sur petits écrans empiler et thumbnails en ligne sous l'image */
+@media (max-width: 991px) {
+	.siklane-product-gallery {
+		flex-direction: column;
+	}
+	.siklane-product-thumbs {
+		flex-direction: row;
+		width: 100%;
+		order: 2;
+		overflow-x: auto;
+		gap: 0.5rem;
+	}
+	.woocommerce-product-gallery__wrapper {
+		order: 1;
+	}
+	.siklane-product-thumbs .woocommerce-product-gallery__image {
+		width: 4.5rem;
+		flex: 0 0 auto;
+	}
 }
