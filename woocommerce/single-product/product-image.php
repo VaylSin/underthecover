@@ -1,60 +1,62 @@
 <?php
-/**
- * Single Product Image
- *
- * This template can be overridden by copying it to yourtheme/woocommerce/single-product/product-image.php.
- *
- * HOWEVER, on occasion WooCommerce will need to update template files and you
- * (the theme developer) will need to copy the new files to your theme to
- * maintain compatibility. We try to do this as little as possible, but it does
- * happen. When this occurs the version of the template file will be bumped and
- * the readme will list any important changes.
- *
- * @see     https://woocommerce.com/document/template-structure/
- * @package WooCommerce\Templates
- * @version 9.7.0
- */
-
-use Automattic\WooCommerce\Enums\ProductType;
-
 defined( 'ABSPATH' ) || exit;
-
-// Note: `wc_get_gallery_image_html` was added in WC 3.3.2 and did not exist prior. This check protects against theme overrides being used on older versions of WC.
-if ( ! function_exists( 'wc_get_gallery_image_html' ) ) {
-	return;
-}
-
 global $product;
+if ( ! $product ) return;
 
-$columns           = apply_filters( 'woocommerce_product_thumbnails_columns', 4 );
 $post_thumbnail_id = $product->get_image_id();
-$wrapper_classes   = apply_filters(
-	'woocommerce_single_product_image_gallery_classes',
-	array(
-		'woocommerce-product-gallery',
-		'woocommerce-product-gallery--' . ( $post_thumbnail_id ? 'with-images' : 'without-images' ),
-		'woocommerce-product-gallery--columns-' . absint( $columns ),
-		'images',
-	)
-);
+$gallery_ids = $product->get_gallery_image_ids();
+$all_ids = array();
+if ( $post_thumbnail_id ) $all_ids[] = $post_thumbnail_id;
+if ( is_array( $gallery_ids ) ) {
+    foreach ( $gallery_ids as $id ) {
+        if ( $id && $id !== $post_thumbnail_id ) $all_ids[] = $id;
+    }
+}
+if ( empty( $all_ids ) ) $all_ids[] = false;
 ?>
-<div class="<?php echo esc_attr( implode( ' ', array_map( 'sanitize_html_class', $wrapper_classes ) ) ); ?>" data-columns="<?php echo esc_attr( $columns ); ?>" style="opacity: 0; transition: opacity .25s ease-in-out;">
-	<div class="woocommerce-product-gallery__wrapper">
-		<?php
-		if ( $post_thumbnail_id ) {
-			$html = wc_get_gallery_image_html( $post_thumbnail_id, true );
-		} else {
-			$wrapper_classname = $product->is_type( ProductType::VARIABLE ) && ! empty( $product->get_available_variations( 'image' ) ) ?
-				'woocommerce-product-gallery__image woocommerce-product-gallery__image--placeholder' :
-				'woocommerce-product-gallery__image--placeholder';
-			$html              = sprintf( '<div class="%s">', esc_attr( $wrapper_classname ) );
-			$html             .= sprintf( '<img src="%s" alt="%s" class="wp-post-image" />', esc_url( wc_placeholder_img_src( 'woocommerce_single' ) ), esc_html__( 'Awaiting product image', 'woocommerce' ) );
-			$html             .= '</div>';
-		}
+<div class="woocommerce-product-gallery siklane-swiper-gallery">
 
-		echo apply_filters( 'woocommerce_single_product_image_thumbnail_html', $html, $post_thumbnail_id ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+    <div class="siklane-swiper-container siklane-swiper-thumbs swiper" aria-hidden="true">
+        <div class="swiper-wrapper">
+            <?php foreach ( $all_ids as $index => $aid ) :
+                if ( ! $aid ) : ?>
+                    <div class="swiper-slide" data-index="<?php echo esc_attr( $index ); ?>" data-siklane-index="<?php echo esc_attr( $index ); ?>">
+                        <img data-siklane-index="<?php echo esc_attr( $index ); ?>" src="<?php echo esc_url( wc_placeholder_img_src( 'woocommerce_gallery_thumbnail' ) ); ?>" alt="" />
+                    </div>
+                <?php else :
+                    $thumb = wp_get_attachment_image_url( $aid, 'woocommerce_gallery_thumbnail' ); ?>
+                    <div class="swiper-slide" data-index="<?php echo esc_attr( $index ); ?>" data-siklane-index="<?php echo esc_attr( $index ); ?>">
+                        <img data-siklane-index="<?php echo esc_attr( $index ); ?>" src="<?php echo esc_url( $thumb ); ?>" alt="<?php echo esc_attr( get_post_meta( $aid, '_wp_attachment_image_alt', true ) ?: '' ); ?>" />
+                    </div>
+                <?php endif;
+            endforeach; ?>
+        </div>
+    </div>
 
-		do_action( 'woocommerce_product_thumbnails' );
-		?>
-	</div>
+    <div class="siklane-swiper-container siklane-swiper-main swiper">
+        <div class="swiper-wrapper">
+            <?php foreach ( $all_ids as $index => $aid ) :
+                if ( ! $aid ) : ?>
+                    <div class="swiper-slide" data-index="<?php echo esc_attr( $index ); ?>" data-siklane-index="<?php echo esc_attr( $index ); ?>">
+                        <img data-siklane-index="<?php echo esc_attr( $index ); ?>" src="<?php echo esc_url( wc_placeholder_img_src( 'woocommerce_single' ) ); ?>" alt="<?php esc_attr_e( 'Placeholder', 'woocommerce' ); ?>" />
+                    </div>
+                <?php else : ?>
+                    <div class="swiper-slide" data-index="<?php echo esc_attr( $index ); ?>" data-siklane-index="<?php echo esc_attr( $index ); ?>">
+                        <?php
+                        echo wp_get_attachment_image( $aid, 'siklane_square', false, array(
+                          'class' => 'wp-post-image',
+                          'data-large' => wp_get_attachment_url( $aid ),
+                          'data-siklane-index' => $index,
+                          'loading' => 'eager'
+                        ) );
+                        ?>
+                    </div>
+                <?php endif;
+            endforeach; ?>
+        </div>
+
+        <button class="siklane-slide-prev" aria-label="Précédent"></button>
+        <button class="siklane-slide-next" aria-label="Suivant"></button>
+    </div>
+
 </div>

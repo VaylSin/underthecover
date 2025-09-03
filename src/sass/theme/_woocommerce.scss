@@ -132,57 +132,364 @@ figure.woocommerce-product-gallery__wrapper {
 	}
 }
 
-/* Layout: thumbnails verticales à gauche du visuel principal */
-.siklane-product-gallery {
+/* Contrainte de taille pour la galerie Swiper */
+.siklane-swiper-gallery {
+	display: flex;
+	gap: 0;
+	align-items: stretch;
+	max-height: 80vh; /* empêche de dépasser la fenêtre */
+}
+
+/* Colonne principale : centrer et limiter la hauteur */
+.siklane-swiper-main {
+	flex: 1 1 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	max-height: 80vh;
+}
+
+/* Chaque slide occupe l'espace du conteneur et centre son image */
+.siklane-swiper-main .swiper-slide {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+
+/* Image principale : respecter la largeur du conteneur et la hauteur max */
+.siklane-swiper-main .swiper-slide img {
+	width: 100%;
+	height: auto;
+	max-height: 80vh;
+	object-fit: contain; /* change en 'cover' si tu veux recadrer */
+	display: block;
+}
+
+/* Thumbnails : taille fixe/colonne, garder cover pour miniatures */
+.siklane-swiper-thumbs {
+	flex: 0 0 5.2rem;
+	width: 5.2rem;
+	align-self: stretch;
+}
+.siklane-swiper-thumbs .swiper-slide {
+	height: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.siklane-swiper-thumbs .swiper-slide img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+/* Layout 50/50 parent - appliquer flex uniquement au wrapper custom */
+.single-product .siklane-product-inner {
 	display: flex;
 	align-items: flex-start;
-	gap: 1rem;
+	gap: 2rem;
+	flex-wrap: nowrap;
+}
 
-	.siklane-product-thumbs {
-		display: flex;
-		flex-direction: column;
-		gap: 0.6rem;
-		order: 1;
+/* Chaque colonne = 50% (gallery <-> summary) */
+.single-product .siklane-product-inner .siklane-swiper-gallery,
+.single-product .siklane-product-inner .summary.entry-summary {
+	flex: 0 0 50%;
+	max-width: 50%;
+	box-sizing: border-box;
+}
+.siklane-product-inner {
+	h1 {
+		font-size: 1.5625rem;
+	}
+	.view-all-link {
+		font-size: 0.875rem;
+	}
+	.woocommerce-Price-amount {
+		font-size: 1.375rem;
+	}
+}
+/* Galery: thumbs à gauche, main à droite, centrage vertical */
+.siklane-swiper-gallery {
+	display: flex;
+	align-items: center; /* CENTER thumbnails vertically relative to main image */
+	gap: 0;
+	max-height: 80vh;
+}
+
+/* Colonne miniatures : fixe, centrée verticalement */
+.siklane-swiper-thumbs {
+	display: flex;
+	flex-direction: column;
+	justify-content: center; /* centre verticalement les vignettes */
+	gap: 0.5rem;
+	flex: 0 0 3.6rem; /* colonne plus étroite */
+	width: 3.6rem;
+	align-self: center; /* s'aligne au centre du conteneur */
+	box-sizing: border-box;
+	padding: 0.4rem 0;
+	overflow: visible;
+}
+
+/* chaque mini a taille fixe et n'étire pas la colonne */
+.siklane-swiper-thumbs .swiper-slide {
+	flex: 0 0 auto; /* ne se dilate pas */
+	width: 2.8rem;
+	height: 2.8rem;
+	min-height: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	border-radius: 6px;
+	overflow: hidden;
+	background: transparent;
+}
+
+/* miniatures : cover et centrées */
+.siklane-swiper-thumbs .swiper-slide img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+/* Main : garder image centrée verticalement et align-items center */
+.siklane-swiper-main {
+	flex: 1 1 auto;
+	display: flex;
+	align-items: center; /* centre verticalement l'image principale */
+	justify-content: center;
+	overflow: hidden;
+	max-height: 80vh;
+}
+
+/* Responsive : sur mobile, miniatures horizontales plus petites */
+@media (max-width: 991px) {
+	.siklane-swiper-thumbs {
+		flex-direction: row;
+		width: 100%;
 		flex: 0 0 auto;
-		/* largeur des vignettes : ajuste selon ton design */
-		width: 5.2rem;
+		padding: 0.3rem 0;
+		justify-content: flex-start;
 	}
+	.siklane-swiper-thumbs .swiper-slide {
+		width: 4.5rem;
+		height: 4.5rem;
+		margin-right: 0.5rem;
+	}
+}
 
-	.woocommerce-product-gallery__wrapper {
-		order: 2;
-		flex: 1 1 auto;
-	}
+/* Verrouiller la zone principale du slider à un ratio 1:1 (carré) */
 
-	/* thumbnails : adapter la taille des images miniatures */
-	.siklane-product-thumbs .woocommerce-product-gallery__image {
-		width: 100%;
-		cursor: pointer;
-	}
-	.siklane-product-thumbs .woocommerce-product-gallery__image img {
-		width: 100%;
+/* conteneur principal : responsive square, limitation par viewport */
+.siklane-swiper-main {
+	position: relative;
+	width: 100%;
+	max-width: 100%;
+	max-height: 80vh;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	/* support moderne */
+	aspect-ratio: 1 / 1;
+}
+
+/* Fallback pour anciens navigateurs : padding trick */
+@supports not (aspect-ratio: 1 / 1) {
+	.siklane-swiper-main {
+		/* crée un carré via padding */
 		height: auto;
+	}
+	.siklane-swiper-main::before {
+		content: "";
 		display: block;
+		padding-top: 100%; /* 1:1 ratio */
+	}
+	/* positionne l'intérieur par dessus l'espace créé */
+	.siklane-swiper-main .swiper-wrapper,
+	.siklane-swiper-main .swiper-slide {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+/* Slides : centrer l'image sans étirer le conteneur */
+.siklane-swiper-main .swiper-slide {
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Image principale : s'adapte au carré, garde l'aspect ratio */
+.siklane-swiper-main .swiper-slide img {
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height: auto;
+	object-fit: contain; /* change en cover si tu veux recadrer */
+	display: block;
+}
+
+/* S'assurer que la colonne de miniatures reste centrée verticalement */
+.siklane-swiper-gallery {
+	align-items: center;
+}
+.siklane-swiper-thumbs {
+	align-self: center;
+}
+
+/* Conteneur carré et images qui remplissent 100% (crop 1:1 côté client) */
+.siklane-swiper-main {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 1 / 1; /* maintien ratio 1:1 */
+	max-height: 80vh;
+	overflow: hidden;
+	display: block;
+}
+
+/* wrapper / slides prennent la totalité du conteneur */
+.siklane-swiper-main .swiper-wrapper,
+.siklane-swiper-main .swiper-slide {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* image remplit exactement le bloc : width/height 100% + cover */
+.siklane-swiper-main .swiper-slide img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover; /* recadrage centré */
+	object-position: center;
+	display: block;
+}
+
+/* fallback pour navigateurs sans aspect-ratio */
+@supports not (aspect-ratio: 1 / 1) {
+	.siklane-swiper-main {
+		position: relative;
+	}
+	.siklane-swiper-main::before {
+		content: "";
+		display: block;
+		padding-top: 100%;
+	}
+	.siklane-swiper-main .swiper-wrapper,
+	.siklane-swiper-main .swiper-slide {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.siklane-swiper-main .swiper-slide img {
+		width: 100%;
+		height: 100%;
 		object-fit: cover;
 	}
 }
 
-/* responsive : sur petits écrans empiler et thumbnails en ligne sous l'image */
-@media (max-width: 991px) {
-	.siklane-product-gallery {
-		flex-direction: column;
-	}
-	.siklane-product-thumbs {
-		flex-direction: row;
-		width: 100%;
-		order: 2;
-		overflow-x: auto;
-		gap: 0.5rem;
-	}
-	.woocommerce-product-gallery__wrapper {
-		order: 1;
-	}
-	.siklane-product-thumbs .woocommerce-product-gallery__image {
-		width: 4.5rem;
-		flex: 0 0 auto;
-	}
+/* Pour éviter que Swiper calcule des larges translations, stacker les slides en mode fade */
+.siklane-swiper-main {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	overflow: hidden;
+}
+
+/* wrapper relatif, slides empilés */
+.siklane-swiper-main .swiper-wrapper {
+	position: relative !important;
+	height: 100% !important;
+}
+
+/* chaque slide occupe tout le conteneur et se superpose */
+.siklane-swiper-main .swiper-slide {
+	position: absolute !important;
+	inset: 0;
+	width: 100% !important;
+	height: 100% !important;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	visibility: hidden;
+	z-index: 0;
+	transition: opacity 0.35s ease;
+	background-color: #fff; /* évite zone transparente si image tardive */
+}
+
+.siklane-swiper-main .swiper-slide.swiper-slide-active,
+.siklane-swiper-main .swiper-slide.swiper-slide-thumb-active {
+	opacity: 1;
+	visibility: visible;
+	z-index: 2;
+	transition: opacity 0.35s ease;
+}
+
+/* Fix fade flicker: neutraliser les transforms inline et gérer l'opacité */
+.siklane-swiper-main {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	overflow: hidden;
+}
+
+.siklane-swiper-main .swiper-wrapper {
+	position: relative !important;
+	height: 100% !important;
+}
+
+/* Slide empilé : laisser Swiper gérer la transition (pas de transition CSS sur opacity) */
+.siklane-swiper-main .swiper-slide {
+	position: absolute !important;
+	inset: 0;
+	width: 100% !important;
+	height: 100% !important;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	visibility: hidden;
+	z-index: 0;
+	transform: none !important;
+	will-change: opacity;
+	background-color: #fff;
+	/* no CSS transition here to avoid double animations */
+}
+
+/* Slide actif : visible, au‑dessus */
+.siklane-swiper-main .swiper-slide.swiper-slide-active,
+.siklane-swiper-main .swiper-slide.swiper-slide-thumb-active {
+	opacity: 1 !important;
+	visibility: visible !important;
+	z-index: 5 !important;
+	transform: none !important;
+}
+
+/* images plein conteneur */
+.siklane-swiper-main .swiper-slide img,
+.siklane-swiper-main .swiper-slide .wp-post-image {
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover !important;
+	object-position: center center !important;
+	display: block !important;
 }

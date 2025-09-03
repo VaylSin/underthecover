@@ -367,3 +367,13 @@ if ( ! function_exists( 'understrap_account_menu_item_classes' ) ) {
 		return $classes;
 	}
 }
+
+
+add_action( 'wp', function() {
+    if ( function_exists( 'is_product' ) && is_product() ) {
+        remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
+    }
+}, 9 );
+add_action( 'after_setup_theme', function() {
+    add_image_size( 'siklane_square', 800, 800, true ); // 800x800 hard crop
+} );
