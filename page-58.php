@@ -72,7 +72,7 @@ if ( have_posts() ) :
                 <div class="p-4 rounded text-white">
                   <?php echo wp_kses_post( $post_form ); ?>
                 </div>
-								<div class="d-flex justify-content-center align-items-center" style="height: 120px;" data-aos="zoom-in" data-aos-delay="500">
+								<div class="d-flex justify-content-center align-items-center" style="height: 120px;" data-aos="zoom-in" data-aos-delay="250">
 									<img src="<?php echo esc_url( get_template_directory_uri() . '/images/utc-logomark-blanc.svg' ); ?>" class="h-100" alt="Logo SilkLane Blanc">
 								</div>
               </section>
