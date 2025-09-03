@@ -599,6 +599,23 @@
 
 		// detach problematic UI elements that ended in wrapper
 		detachAfterWrap(wrapper);
+
+		// si AOS est présent, forcer un refresh après la création du wrapper
+		if (
+			typeof AOS !== "undefined" &&
+			AOS &&
+			typeof AOS.refresh === "function"
+		) {
+			try {
+				// petit délai pour laisser le layout se stabiliser
+				setTimeout(() => {
+					AOS.refresh();
+					console.debug("[aos] refreshed after initScroller");
+				}, 60);
+			} catch (e) {
+				/* silent */
+			}
+		}
 	}
 
 	/* ----- Watcher to detach after wrapper appears ----- */

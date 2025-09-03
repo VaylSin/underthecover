@@ -1497,28 +1497,6 @@ header,
 		}
 	}
 
-	// Logo background dans la section Instagram
-	.insta-background-logo {
-		position: absolute;
-		bottom: -28rem;
-		right: -25rem;
-		z-index: 0;
-		opacity: 0.5;
-		transform: rotate(-5deg);
-		img {
-			width: 65rem; // ajustez la taille selon vos besoins
-			height: auto;
-			filter: grayscale(100%); // option: effet noir et blanc
-		}
-	}
-
-	// Responsive: réduire la taille sur les petits écrans
-	@media (max-width: 768px) {
-		.insta-background-logo img {
-			width: 250px;
-		}
-	}
-
 	// Respect reduced-motion
 	@media (prefers-reduced-motion: reduce) {
 		.insta-item img {
@@ -1527,7 +1505,38 @@ header,
 		}
 	}
 }
+// Logo background dans la section Instagram
+.insta-background-logo {
+	width: 65rem;
+	height: auto;
+	position: absolute;
+	bottom: -28rem;
+	right: -25rem;
+	&.section_contact {
+		width: 60rem;
+		z-index: -1;
+		left: -28rem;
+		opacity: 1;
+		img {
+			filter: none;
+		}
+	}
+	z-index: 0;
+	opacity: 0.5;
+	transform: rotate(-5deg);
+	img {
+		width: 100%; // ajustez la taille selon vos besoins
+		height: auto;
+		filter: grayscale(100%); // option: effet noir et blanc
+	}
+}
 
+// Responsive: réduire la taille sur les petits écrans
+@media (max-width: 768px) {
+	.insta-background-logo img {
+		width: 250px;
+	}
+}
 // ==========================================================================
 // Utilitaires et helpers
 // ==========================================================================
@@ -1587,7 +1596,25 @@ h3.logo_before {
 		}
 	}
 }
+#page {
+	.logo_h3_content {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.7rem;
 
+		&::before {
+			content: "";
+			display: inline-block;
+			width: 2rem;
+			height: 4rem;
+			background: url("../images/utc-logomark.svg") no-repeat center center;
+			background-size: cover;
+			vertical-align: middle;
+			flex-shrink: 0;
+		}
+	}
+}
 // ==========================================================================
 // Media Queries Responsive
 // ==========================================================================
@@ -1740,37 +1767,9 @@ h3.logo_before {
 		opacity: 1;
 	}
 }
-/* Formulaire CF7 — layout : prénom/nom 50% chacun, autres 100%, bouton centré */
-.contact__row--two {
-	display: flex;
-	gap: 16px;
-	align-items: flex-start;
-	flex-wrap: wrap;
-}
-.field--half {
-	flex: 1 1 calc(50% - 8px);
-	min-width: 200px;
-}
-.field {
-	width: 100%;
-	margin-bottom: 16px;
-}
-.contact__button--center {
-	display: flex;
-	justify-content: center;
-	margin-top: 12px;
-	margin-bottom: 24px;
-}
-.button.view-all-link,
-input.wpcf7-submit.view-all-link {
-	display: inline-block;
-	padding: 10px 22px;
-	text-align: center;
-	cursor: pointer;
-}
-/* responsive */
-@media (max-width: 600px) {
-	.field--half {
-		flex-basis: 100%;
+.page-header-banner-content {
+	z-index: 9;
+	h1 {
+		text-transform: uppercase;
 	}
 }

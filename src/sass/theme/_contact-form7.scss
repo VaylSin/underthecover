@@ -1,46 +1,29 @@
 /*
-* Use existing Bootstrap 4/5 classes and
-* variables to extend - override CF7 style
-*
-* Useful CF7 classes:
-* .wpcf7 the wrapper element
-* .wpcf7-form
-* .wpcf7-form-control
-* .wpcf7-text
-* .wpcf7-email
-* .wpcf7-textarea
-* .wpcf7-submit
+* Refonte SCSS pour les formulaires Contact Form 7
+* - bordures 1px solid $velvet
+* - border-radius 2px
+* - pas d'outline au focus
+* - placeholder 0.9rem
+* - utilitaire .form-half (50/50)
+* - garde compatibilité avec Bootstrap via sélecteurs spécifiques
 */
 
-// keep a max width in case it is just the form and nothing else
-// we do not want a form spanning whole page
 .wpcf7 {
 	max-width: 50rem;
 	margin: 0 auto !important;
 
-	// all inputs except radios and checkboxes inherit from form-control
+	// inherit bootstrap form-control where pertinent
 	input[type="text"],
 	input[type="search"],
 	input[type="url"],
 	input[type="tel"],
 	input[type="number"],
-	input[type="range"],
-	input[type="date"],
-	input[type="month"],
-	input[type="week"],
-	input[type="time"],
-	input[type="datetime"],
-	input[type="datetime-local"],
-	input[type="color"],
 	input[type="email"],
-	input[type="file"],
-	input[type="submit"],
 	select,
 	textarea {
 		@extend .form-control;
 	}
 
-	// submit button, inherit .btn and .btn-outline-primary classes.
 	input[type="submit"] {
 		@extend .btn;
 		@extend .btn-outline-primary;
@@ -66,8 +49,187 @@
 
 	// validation errors ourput bottom of form
 	.wpcf7-validation-errors {
-		@extend .form-control;
 		color: theme-color("danger");
 		border: 1px solid $gray-200;
+	}
+
+	/* --- Input / textarea styling --- */
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	input[type="number"],
+	input[type="search"],
+	input[type="url"],
+	select,
+	textarea,
+	.wpcf7-form-control {
+		font-size: 0.9rem !important;
+		color: $black-main !important;
+		border: none !important;
+		border-radius: 2px !important;
+		background-color: rgba($bloom, 0.3) !important;
+		background-clip: padding-box;
+		box-shadow: none !important;
+		outline: none !important;
+		transition: background-color 0.15s ease, border-color 0.15s ease,
+			box-shadow 0.15s ease;
+	}
+
+	textarea {
+		resize: none;
+	}
+
+	/* Focus : haute spécificité pour écraser Bootstrap */
+	// cible inputs qui ont la classe .form-control (Bootstrap)
+	input.form-control:focus,
+	textarea.form-control:focus,
+	select.form-control:focus,
+	input[type="text"]:focus,
+	input[type="email"]:focus,
+	input[type="tel"]:focus,
+	input[type="number"]:focus,
+	input[type="search"]:focus,
+	input[type="url"]:focus,
+	select:focus,
+	textarea:focus,
+	.wpcf7-form-control:focus {
+		background-color: rgba($bloom, 0.5) !important;
+		border-color: $velvet !important;
+		outline: none !important;
+		box-shadow: none !important;
+	}
+
+	/* submit/button */
+	input[type="submit"],
+	button,
+	.wpcf7-submit {
+		border-radius: 2px;
+		&:focus {
+			outline: none !important;
+			box-shadow: none !important;
+		}
+	}
+
+	/* --- 50/50 fields --- */
+	.form-half {
+		display: inline-block;
+		width: calc(50% - 8px);
+		box-sizing: border-box;
+		vertical-align: top;
+	}
+
+	.form-half + .form-half {
+		margin-left: 16px;
+	}
+
+	@media (max-width: 575px) {
+		.form-half {
+			display: block;
+			width: 100%;
+			margin-left: 0 !important;
+			margin-bottom: 0.75rem;
+		}
+	}
+
+	/* --- Placeholder size --- */
+	input::placeholder,
+	textarea::placeholder,
+	select::placeholder {
+		font-size: 0.9rem !important;
+		color: rgba($black-main, 1) !important;
+	}
+
+	/* vendor fallbacks */
+	input::-webkit-input-placeholder,
+	textarea::-webkit-input-placeholder {
+		font-size: 0.9rem !important;
+	}
+	input::-moz-placeholder,
+	textarea::-moz-placeholder {
+		font-size: 0.9rem !important;
+		opacity: 1 !important;
+	}
+	input:-ms-input-placeholder,
+	textarea:-ms-input-placeholder {
+		font-size: 0.9rem !important;
+	}
+	input::-ms-input-placeholder,
+	textarea::-ms-input-placeholder {
+		font-size: 0.9rem !important;
+	}
+}
+
+/* Formulaire CF7 — layout : prénom/nom 50% chacun, autres 100%, bouton centré */
+.contact__row--two {
+	display: flex;
+	gap: 1rem;
+	align-items: flex-start;
+	flex-wrap: wrap;
+}
+.field--half {
+	flex: 1 1 calc(50% - 8px);
+	min-width: 200px;
+}
+.field {
+	width: 100%;
+}
+.contact__button--center {
+	display: flex;
+	justify-content: center;
+	margin-top: 12px;
+	margin-bottom: 24px;
+}
+
+// Forcer styles pour les boutons "view-all-link" dans les formulaires CF7
+.wpcf7,
+form.wpcf7-form {
+	/* selector très spécifique pour surpasser Bootstrap */
+	.view-all-link,
+	button.view-all-link,
+	input[type="submit"].view-all-link,
+	.wpcf7-submit.view-all-link {
+		display: inline-flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		padding: 0.75rem 1.5rem !important;
+		font-size: 0.95rem !important;
+		font-weight: 700 !important;
+		text-transform: uppercase !important;
+		color: #fff !important;
+		background: $black-main !important;
+		border: 1px solid #fff !important;
+		border-radius: 0 !important;
+		cursor: pointer !important;
+		line-height: 1 !important;
+		text-decoration: none !important;
+		box-shadow: none !important;
+		transition: all 0.3s !important;
+	}
+
+	/* focus/hover states */
+	.view-all-link:hover,
+	button.view-all-link:hover,
+	input[type="submit"].view-all-link:hover,
+	.wpcf7-submit.view-all-link:hover {
+		color: rgba($black-main, 1) !important;
+		background: $bloom !important;
+		border-color: $bloom !important;
+		outline: none !important;
+		box-shadow: none !important;
+	}
+
+	.view-all-link:focus,
+	button.view-all-link:focus,
+	input[type="submit"].view-all-link:focus,
+	.wpcf7-submit.view-all-link:focus {
+		outline: none !important;
+		box-shadow: none !important;
+	}
+}
+
+/* responsive */
+@media (max-width: 600px) {
+	.field--half {
+		flex-basis: 100%;
 	}
 }

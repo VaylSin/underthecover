@@ -18,10 +18,10 @@ if ( have_posts() ) :
       <div class="banner-overlay" style="position: absolute; inset: 0; background: rgba(188,51,101,0.5); z-index: 1;"></div>
 
       <!-- Contenu centré verticalement et aligné à gauche, contenu contraint par container-1600 -->
-      <div class="container-1600 h-100" style="position: relative; z-index: 2; height: 100%;">
+      <div class="container-xxl h-100 position-relative page-header-banner-content">
         <div class="row h-100">
           <div class="col-12 d-flex align-items-center justify-content-start">
-            <h1 class="page-title text-white mb-0" style="font-weight: 600;">
+            <h1 class="page-title text-white fw-bold mb-0" style="font-weight: 600;">
               <?php echo esc_html( get_the_title() ); ?>
             </h1>
           </div>
@@ -30,7 +30,7 @@ if ( have_posts() ) :
     </section>
 
     <!-- Contenu principal -->
-    <div class="container-1600 py-5">
+    <div class="container-1600 py-5 position-relative" data-aos="fade-up" data-aos-duration="1000">
       <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
 
@@ -56,6 +56,9 @@ if ( have_posts() ) :
 
         </div>
       </div>
+			<div class="section_contact insta-background-logo">
+					<img src="<?php echo esc_url( get_template_directory_uri() . '/images/logo-loader.svg' ); ?>" alt="Logo SilkLane" >
+				</div>
     </div>
 
     <!-- bloc : texte_post_formulaire déplacé en container-fluid > container-xxl -->
@@ -74,6 +77,7 @@ if ( have_posts() ) :
             </div>
           </div>
         </div>
+
       </div>
     <?php endif; ?>
 

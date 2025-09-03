@@ -54,13 +54,3 @@ class Walker_Nav_Menu_HTML extends Walker_Nav_Menu {
         );
     }
 }
-function silklane_enqueue_submenu_debug() {
-    wp_enqueue_script(
-        'submenu-debug',
-        get_template_directory_uri() . '/js/submenu-debug.js',
-        array(),
-        time(), // cache-bust en dev
-        true
-    );
-}
-add_action('wp_enqueue_scripts', 'silklane_enqueue_submenu_debug');
