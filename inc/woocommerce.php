@@ -10,29 +10,19 @@ defined( 'ABSPATH' ) || exit;
 
 add_action( 'after_setup_theme', 'understrap_woocommerce_support' );
 if ( ! function_exists( 'understrap_woocommerce_support' ) ) {
-	/**
-	 * Declares WooCommerce theme support.
-	 */
-	function understrap_woocommerce_support() {
-		add_theme_support( 'woocommerce' );
+    function understrap_woocommerce_support() {
+        add_theme_support( 'woocommerce' );
+        add_theme_support( 'wc-product-gallery-lightbox' );
+        add_theme_support( 'wc-product-gallery-zoom' );
+        add_theme_support( 'wc-product-gallery-slider' );
 
-		// Add Product Gallery support.
-		add_theme_support( 'wc-product-gallery-lightbox' );
-		add_theme_support( 'wc-product-gallery-zoom' );
-		add_theme_support( 'wc-product-gallery-slider' );
-
-		// Add Bootstrap classes to form fields.
-		add_filter( 'woocommerce_form_field_args', 'understrap_wc_form_field_args', 10, 3 );
-		add_filter( 'woocommerce_form_field_radio', 'understrap_wc_form_field_radio', 10, 4 );
-		add_filter( 'woocommerce_quantity_input_classes', 'understrap_quantity_input_classes' );
-		add_filter( 'woocommerce_loop_add_to_cart_args', 'understrap_loop_add_to_cart_args' );
-
-		// Wrap the add-to-cart link in `div.add-to-cart-container`.
-		add_filter( 'woocommerce_loop_add_to_cart_link', 'understrap_loop_add_to_cart_link' );
-
-		// Add Bootstrap classes to account navigation.
-		add_filter( 'woocommerce_account_menu_item_classes', 'understrap_account_menu_item_classes' );
-	}
+        add_filter( 'woocommerce_form_field_args', 'understrap_wc_form_field_args', 10, 3 );
+        add_filter( 'woocommerce_form_field_radio', 'understrap_wc_form_field_radio', 10, 4 );
+        add_filter( 'woocommerce_quantity_input_classes', 'understrap_quantity_input_classes' );
+        add_filter( 'woocommerce_loop_add_to_cart_args', 'understrap_loop_add_to_cart_args' );
+        add_filter( 'woocommerce_loop_add_to_cart_link', 'understrap_loop_add_to_cart_link' );
+        add_filter( 'woocommerce_account_menu_item_classes', 'understrap_account_menu_item_classes' );
+    }
 }
 
 // First unhook the WooCommerce content wrappers.
@@ -44,328 +34,159 @@ add_action( 'woocommerce_before_main_content', 'understrap_woocommerce_wrapper_s
 add_action( 'woocommerce_after_main_content', 'understrap_woocommerce_wrapper_end', 10 );
 
 if ( ! function_exists( 'understrap_woocommerce_wrapper_start' ) ) {
-	/**
-	 * Display the theme specific start of the page wrapper.
-	 */
-	function understrap_woocommerce_wrapper_start() {
-		$container = get_theme_mod( 'understrap_container_type' );
-		if ( false === $container ) {
-			$container = '';
-		}
+    function understrap_woocommerce_wrapper_start() {
+        $container = get_theme_mod( 'understrap_container_type' );
+        if ( false === $container ) {
+            $container = '';
+        }
 
-		echo '<div class="wrapper mt-5" id="woocommerce-wrapper">';
-		echo '<div class="' . esc_attr( $container ) . '" id="content" tabindex="-1">';
-		echo '<div class="row">';
-		get_template_part( 'global-templates/left-sidebar-check' );
-		echo '<main class="site-main" id="main">';
-	}
+        echo '<div class="wrapper mt-5" id="woocommerce-wrapper">';
+        echo '<div class="' . esc_attr( $container ) . '" id="content" tabindex="-1">';
+        echo '<div class="row">';
+        get_template_part( 'global-templates/left-sidebar-check' );
+        echo '<main class="site-main" id="main">';
+    }
 }
 
 if ( ! function_exists( 'understrap_woocommerce_wrapper_end' ) ) {
-	/**
-	 * Display the theme specific end of the page wrapper.
-	 */
-	function understrap_woocommerce_wrapper_end() {
-		echo '</main>';
-		get_template_part( 'global-templates/right-sidebar-check' );
-		echo '</div><!-- .row -->';
-		echo '</div><!-- .container(-fluid) -->';
-		echo '</div><!-- #woocommerce-wrapper -->';
-	}
+    function understrap_woocommerce_wrapper_end() {
+        echo '</main>';
+        get_template_part( 'global-templates/right-sidebar-check' );
+        echo '</div><!-- .row -->';
+        echo '</div><!-- .container(-fluid) -->';
+        echo '</div><!-- #woocommerce-wrapper -->';
+    }
 }
 
 if ( ! function_exists( 'understrap_wc_form_field_args' ) ) {
-	/**
-	 * Modifies the form field's arguments by input type. The arguments are used
-	 * in `woocommerce_form_field()` to build the form fields.
-	 *
-	 * @see https://woocommerce.github.io/code-reference/namespaces/default.html#function_woocommerce_form_field
-	 *
-	 * @param array       $args  Form field arguments.
-	 * @param string      $key   Value of the fields name attribute.
-	 * @param string|null $value Value of <select> option.
-	 * @return array Filtered form field arguments.
-	 *
-	 * @phpstan-template T of array{
-	 *     'type': string,
-	 *     'label': string,
-	 *     'description': string,
-	 *     'placeholder': string,
-	 *     'maxlength': false|int,
-	 *     'required': bool,
-	 *     'autocomplete': false|string,
-	 *     'id': string,
-	 *     'class': list<string>,
-	 *     'label_class': list<string>,
-	 *     'input_class': list<string>,
-	 *     'return': bool,
-	 *     'options': array<string,string>,
-	 *     'custom_attributes': array<string,int|string>,
-	 *     'validate': list<string>,
-	 *     'default': string,
-	 *     'autofocus': ?(string|bool),
-	 *     'priority': ?string,
-	 * }
-	 * @phpstan-param T $args
-	 * @phpstan-return T | array{'class': non-empty-list<string>}
-	 */
-	function understrap_wc_form_field_args( $args, $key, $value ) {
-		$bootstrap4 = 'bootstrap4' === get_theme_mod( 'understrap_bootstrap_version', 'bootstrap4' );
+    function understrap_wc_form_field_args( $args, $key, $value ) {
+        $bootstrap4 = 'bootstrap4' === get_theme_mod( 'understrap_bootstrap_version', 'bootstrap4' );
 
-		// Add margin to each form field's html element wrapper (<p></p>).
-		if ( $bootstrap4 ) {
-			$args['class'][] = 'form-group';
-		}
-		$args['class'][] = 'mb-3';
+        if ( $bootstrap4 ) {
+            $args['class'][] = 'form-group';
+        }
+        $args['class'][] = 'mb-3';
 
-		// Start field type switch case.
-		switch ( $args['type'] ) {
-			case 'country':
-				/*
-				 * WooCommerce will populate a <select> element of type 'country'
-				 * with the country names.
-				 */
-
-				// Add class to the form field's html element wrapper.
-				$args['class'][] = 'single-country';
-				break;
-			case 'state':
-				/*
-				 * WooCommerce will populate a <select> element of type 'state'
-				 * with the state names.
-				 */
-
-				// Add custom data attributes to the form input itself.
-				$args['custom_attributes']['data-plugin']      = 'select2';
-				$args['custom_attributes']['data-allow-clear'] = 'true';
-				$args['custom_attributes']['aria-hidden']      = 'true';
-
-				// If state is text input.
-				$args['input_class'][] = 'form-control';
-				break;
-			case 'checkbox':
-				/*
-				 * WooCommerce checkbox markup differs from Bootstrap checkbox
-				 * markup. We apply Bootstrap classes such that the WooCommerce
-				 * checkbox look matches the Bootstrap checkbox look.
-				 */
-
-				// Get Bootstrap version specific CSS class base.
-				$base = $bootstrap4 ? 'custom-control' : 'form-check';
-
-				if ( '' !== $args['label'] || $bootstrap4 ) {
-					// Wrap the label in <span> tag.
-					$args['label'] = "<span class=\"{$base}-label\">{$args['label']}</span>";
-				}
-
-				// Add a class to the form input's <label> tag.
-				$args['label_class'][] = $base;
-				if ( $bootstrap4 ) {
-					$args['label_class'][] = 'custom-checkbox';
-				}
-
-				// Add a class to the form input itself.
-				$args['input_class'][] = $base . '-input';
-				break;
-			case 'select':
-				// Targets all <select> elements, except the country and state <select>.
-
-				// Add a class to the form input itself.
-				$args['input_class'][] = $bootstrap4 ? 'form-control' : 'form-select';
-
-				// Add custom data attributes to the form input itself.
-				$args['custom_attributes']['data-plugin']      = 'select2';
-				$args['custom_attributes']['data-allow-clear'] = 'true';
-				break;
-			case 'radio':
-				// Get Bootstrap version specific CSS class base.
-				$base = $bootstrap4 ? 'custom-control' : 'form-check';
-
-				$args['label_class'][] = $base . '-label';
-				$args['input_class'][] = $base . '-input';
-				break;
-			default:
-				$args['input_class'][] = 'form-control';
-		} // End of switch ( $args ).
-		return $args;
-	}
+        switch ( $args['type'] ) {
+            case 'country':
+                $args['class'][] = 'single-country';
+                break;
+            case 'state':
+                $args['custom_attributes']['data-plugin']      = 'select2';
+                $args['custom_attributes']['data-allow-clear'] = 'true';
+                $args['custom_attributes']['aria-hidden']      = 'true';
+                $args['input_class'][] = 'form-control';
+                break;
+            case 'checkbox':
+                $base = $bootstrap4 ? 'custom-control' : 'form-check';
+                if ( '' !== $args['label'] || $bootstrap4 ) {
+                    $args['label'] = "<span class=\"{$base}-label\">{$args['label']}</span>";
+                }
+                $args['label_class'][] = $base;
+                if ( $bootstrap4 ) {
+                    $args['label_class'][] = 'custom-checkbox';
+                }
+                $args['input_class'][] = $base . '-input';
+                break;
+            case 'select':
+                $args['input_class'][] = $bootstrap4 ? 'form-control' : 'form-select';
+                $args['custom_attributes']['data-plugin']      = 'select2';
+                $args['custom_attributes']['data-allow-clear'] = 'true';
+                break;
+            case 'radio':
+                $base = $bootstrap4 ? 'custom-control' : 'form-check';
+                $args['label_class'][] = $base . '-label';
+                $args['input_class'][] = $base . '-input';
+                break;
+            default:
+                $args['input_class'][] = 'form-control';
+        }
+        return $args;
+    }
 }
 
 if ( ! function_exists( 'understrap_wc_form_field_radio' ) ) {
-	/**
-	 * Adjust the WooCommerce checkout/address radio fields to match the look of
-	 * Bootstrap radio fields.
-	 *
-	 * Wraps each radio field (`<input>`+`<label>`) in a `.from-check`.
-	 *
-	 * If `$args['label']` is set a `<label>` tag is prepended to the radio
-	 * fields. `$args['label_class']` is used for the class attribute of this
-	 * tag and the class attribute of the actual input labels. Hence, we must
-	 * remove the first occurrence of the label class added via
-	 * `understrap_wc_form_field_args()` that is meant for input labels only.
-	 *
-	 * @param string              $field The field's HTML incl. the wrapper element.
-	 * @param string              $key   The wrapper element's id attribute value.
-	 * @param array<string|mixed> $args  An array of field arguments.
-	 * @param string|null         $value The field's value.
-	 * @return string The field's filtered HTML.
-	 *
-	 * @phpstan-template T of array{
-	 *     'type': string,
-	 *     'label': string,
-	 *     'description': string,
-	 *     'placeholder': string,
-	 *     'maxlength': false|int,
-	 *     'required': bool,
-	 *     'autocomplete': false|string,
-	 *     'id': string,
-	 *     'class': list<string>,
-	 *     'label_class': list<string>,
-	 *     'input_class': list<string>,
-	 *     'return': bool,
-	 *     'options': array<string,string>,
-	 *     'custom_attributes': array<string,int|string>,
-	 *     'validate': list<string>,
-	 *     'default': string,
-	 *     'autofocus': ?(string|bool),
-	 *     'priority': ?string,
-	 * }
-	 * @phpstan-param T $args
-	 */
-	function understrap_wc_form_field_radio( $field, $key, $args, $value ) {
-		// Set up Bootstrap version specific variables.
-		if ( 'bootstrap4' === get_theme_mod( 'understrap_bootstrap_version', 'bootstrap4' ) ) {
-			$wrapper_classes = 'custom-control custom-radio';
-			$label_class     = 'custom-control-label';
-		} else {
-			$wrapper_classes = 'form-check';
-			$label_class     = 'form-check-label';
-		}
+    function understrap_wc_form_field_radio( $field, $key, $args, $value ) {
+        if ( 'bootstrap4' === get_theme_mod( 'understrap_bootstrap_version', 'bootstrap4' ) ) {
+            $wrapper_classes = 'custom-control custom-radio';
+            $label_class     = 'custom-control-label';
+        } else {
+            $wrapper_classes = 'form-check';
+            $label_class     = 'form-check-label';
+        }
 
-		// Remove the first occurrence of the label class if necessary.
-		if ( '' !== $args['label'] && ! empty( $args['label_class'] ) ) {
-			$strpos = strpos( $field, $label_class );
-			if ( false !== $strpos ) {
-				$field = substr_replace( $field, '', $strpos, strlen( $label_class ) );
+        if ( '' !== $args['label'] && ! empty( $args['label_class'] ) ) {
+            $strpos = strpos( $field, $label_class );
+            if ( false !== $strpos ) {
+                $field = substr_replace( $field, '', $strpos, strlen( $label_class ) );
+                $field = str_replace( 'class=""', '', $field );
+            }
+        }
 
-				/*
-				 * If $label_class was the only class in $args['label_class']
-				 * then there is an empty class attribute now. Let's remove it.
-				 */
-				$field = str_replace( 'class=""', '', $field );
-			}
-		}
+        $field = str_replace( '<input', "<span class=\"{$wrapper_classes}\"><input", $field );
+        $field = str_replace( '</label>', '</label></span>', $field );
+        if ( '' !== $args['label'] ) {
+            $strpos = strpos( $field, '</label>' ) + strlen( '</label>' );
+            $field  = substr_replace( $field, '', $strpos, strlen( '</span>' ) );
+        }
 
-		// Wrap each radio in a <span.from-check>.
-		$field = str_replace( '<input', "<span class=\"{$wrapper_classes}\"><input", $field );
-		$field = str_replace( '</label>', '</label></span>', $field );
-		if ( '' !== $args['label'] ) {
-			// Remove the closing span tag from the first <label> element.
-			$strpos = strpos( $field, '</label>' ) + strlen( '</label>' );
-			$field  = substr_replace( $field, '', $strpos, strlen( '</span>' ) );
-		}
-
-		return $field;
-	}
+        return $field;
+    }
 }
 
 if ( ! is_admin() && ! function_exists( 'wc_review_ratings_enabled' ) ) {
-	/**
-	 * Check if reviews are enabled.
-	 *
-	 * Function introduced in WooCommerce 3.6.0., include it for backward compatibility.
-	 *
-	 * @return bool
-	 */
-	function wc_reviews_enabled() {
-		return 'yes' === get_option( 'woocommerce_enable_reviews' );
-	}
-
-	/**
-	 * Check if reviews ratings are enabled.
-	 *
-	 * Function introduced in WooCommerce 3.6.0., include it for backward compatibility.
-	 *
-	 * @return bool
-	 */
-	function wc_review_ratings_enabled() {
-		return wc_reviews_enabled() && 'yes' === get_option( 'woocommerce_enable_review_rating' );
-	}
+    function wc_reviews_enabled() {
+        return 'yes' === get_option( 'woocommerce_enable_reviews' );
+    }
+    function wc_review_ratings_enabled() {
+        return wc_reviews_enabled() && 'yes' === get_option( 'woocommerce_enable_review_rating' );
+    }
 }
 
 if ( ! function_exists( 'understrap_quantity_input_classes' ) ) {
-	/**
-	 * Add Bootstrap class to quantity input field.
-	 *
-	 * @param array<int,string> $classes Array of quantity input classes.
-	 * @return array<int,string>
-	 */
-	function understrap_quantity_input_classes( $classes ) {
-		$classes[] = 'form-control';
-		return $classes;
-	}
+    function understrap_quantity_input_classes( $classes ) {
+        $classes[] = 'form-control';
+        return $classes;
+    }
 }
 
 if ( ! function_exists( 'understrap_loop_add_to_cart_link' ) ) {
-	/**
-	 * Wrap add to cart link in container.
-	 *
-	 * @param string $html Add to cart link HTML.
-	 * @return string Add to cart link HTML.
-	 */
-	function understrap_loop_add_to_cart_link( $html ) {
-		return '<div class="add-to-cart-container">' . $html . '</div>';
-	}
+    function understrap_loop_add_to_cart_link( $html ) {
+        return '<div class="add-to-cart-container">' . $html . '</div>';
+    }
 }
 
 if ( ! function_exists( 'understrap_loop_add_to_cart_args' ) ) {
-	/**
-	 * Add Bootstrap button classes to add to cart link.
-	 *
-	 * @param array<string,mixed> $args Array of add to cart link arguments.
-	 * @return array<string,mixed> Array of add to cart link arguments.
-	 */
-	function understrap_loop_add_to_cart_args( $args ) {
-		if ( isset( $args['class'] ) && ! empty( $args['class'] ) ) {
-			if ( ! is_string( $args['class'] ) ) {
-				return $args;
-			}
-
-			// Remove the `button` class if it exists.
-			if ( false !== strpos( $args['class'], 'button' ) ) {
-				$args['class'] = explode( ' ', $args['class'] );
-				$args['class'] = array_diff( $args['class'], array( 'button' ) );
-				$args['class'] = implode( ' ', $args['class'] );
-			}
-
-			$args['class'] .= ' btn btn-outline-primary';
-		} else {
-			$args['class'] = 'btn btn-outline-primary';
-		}
-
-		if ( 'bootstrap4' === get_theme_mod( 'understrap_bootstrap_version', 'bootstrap4' ) ) {
-			$args['class'] .= ' btn-block';
-		}
-
-		return $args;
-	}
+    function understrap_loop_add_to_cart_args( $args ) {
+        if ( isset( $args['class'] ) && ! empty( $args['class'] ) ) {
+            if ( ! is_string( $args['class'] ) ) {
+                return $args;
+            }
+            if ( false !== strpos( $args['class'], 'button' ) ) {
+                $args['class'] = explode( ' ', $args['class'] );
+                $args['class'] = array_diff( $args['class'], array( 'button' ) );
+                $args['class'] = implode( ' ', $args['class'] );
+            }
+            $args['class'] .= ' btn btn-outline-primary';
+        } else {
+            $args['class'] = 'btn btn-outline-primary';
+        }
+        if ( 'bootstrap4' === get_theme_mod( 'understrap_bootstrap_version', 'bootstrap4' ) ) {
+            $args['class'] .= ' btn-block';
+        }
+        return $args;
+    }
 }
 
 if ( ! function_exists( 'understrap_account_menu_item_classes' ) ) {
-	/**
-	 * Add Bootstrap classes to the account navigation.
-	 *
-	 * @param string[] $classes Array of classes added to the account menu items.
-	 * @return string[] Array of classes added to the account menu items.
-	 */
-	function understrap_account_menu_item_classes( $classes ) {
-		$classes[] = 'list-group-item';
-		$classes[] = 'list-group-item-action';
-		if ( in_array( 'is-active', $classes, true ) ) {
-			$classes[] = 'active';
-		}
-		return $classes;
-	}
+    function understrap_account_menu_item_classes( $classes ) {
+        $classes[] = 'list-group-item';
+        $classes[] = 'list-group-item-action';
+        if ( in_array( 'is-active', $classes, true ) ) {
+            $classes[] = 'active';
+        }
+        return $classes;
+    }
 }
 
 
@@ -444,29 +265,22 @@ function siklane_render_product_specs() {
     // helper pour afficher l'icone : gère image array, attachment ID ou url string
     $render_icon = function( $icon ) {
         if ( empty( $icon ) ) return '';
-        // ACF image array
         if ( is_array( $icon ) && ! empty( $icon['url'] ) ) {
             return '<span class="spec-icon"><img src="' . esc_url( $icon['url'] ) . '" alt="" width="28" height="28" /></span>';
         }
-        // attachment ID
         if ( is_numeric( $icon ) ) {
             return '<span class="spec-icon">' . wp_get_attachment_image( intval( $icon ), array(28,28), false, array( 'class' => 'img-fluid' ) ) . '</span>';
         }
-        // url string
         if ( is_string( $icon ) && filter_var( $icon, FILTER_VALIDATE_URL ) ) {
             return '<span class="spec-icon"><img src="' . esc_url( $icon ) . '" alt="" width="28" height="28" /></span>';
         }
-        // otherwise return raw (e.g. SVG markup)
         return '<span class="spec-icon">' . $icon . '</span>';
     };
 
-    // Try to include local partial if present
     $partial = locate_template( 'woocommerce/single-product/specs.php' );
     if ( $partial ) {
-        // expose $items to the partial and include it
         include $partial;
     } else {
-        // fallback render and a visible HTML comment for debug
         echo "<!-- siklane: partial woocommerce/single-product/specs.php not found - fallback output -->\n";
         echo '<div class="product-specs my-3" aria-hidden="false">';
         echo '<ul class="list-unstyled d-flex flex-column gap-2 mb-0">';
@@ -484,3 +298,119 @@ function siklane_render_product_specs() {
         echo '</div>';
     }
 }
+
+
+/* Register five Siklane tabs in Product data (same as before) */
+add_filter( 'woocommerce_product_data_tabs', function( $tabs ) {
+    $tabs['siklane_desc']        = array( 'label' => __( 'Description', 'siklane' ), 'target' => 'siklane_desc_panel', 'class' => array( 'show_if_simple','show_if_variable' ), 'priority' => 70 );
+    $tabs['siklane_ingredients'] = array( 'label' => __( 'Ingrédients', 'siklane' ), 'target' => 'siklane_ingredients_panel', 'class' => array( 'show_if_simple','show_if_variable' ), 'priority' => 72 );
+    $tabs['siklane_usage']       = array( 'label' => __( 'Comment s\'en servir', 'siklane' ), 'target' => 'siklane_usage_panel', 'class' => array( 'show_if_simple','show_if_variable' ), 'priority' => 74 );
+    $tabs['siklane_storage']     = array( 'label' => __( 'Conservation', 'siklane' ), 'target' => 'siklane_storage_panel', 'class' => array( 'show_if_simple','show_if_variable' ), 'priority' => 76 );
+    $tabs['siklane_commitment']  = array( 'label' => __( 'Notre engagement', 'siklane' ), 'target' => 'siklane_commitment_panel', 'class' => array( 'show_if_simple','show_if_variable' ), 'priority' => 78 );
+    return $tabs;
+}, 20 );
+
+/* Render panels: one wp_editor per panel (visual editor) */
+add_action( 'woocommerce_product_data_panels', function() {
+    global $post;
+    $map = array(
+        'siklane_desc'        => array( 'panel_id' => 'siklane_desc_panel',        'meta' => '_siklane_desc',        'title' => __( 'Description', 'siklane' ) ),
+        'siklane_ingredients' => array( 'panel_id' => 'siklane_ingredients_panel', 'meta' => '_siklane_ingredients', 'title' => __( 'Ingrédients', 'siklane' ) ),
+        'siklane_usage'       => array( 'panel_id' => 'siklane_usage_panel',       'meta' => '_siklane_usage',       'title' => __( 'Comment s\'en servir', 'siklane' ) ),
+        'siklane_storage'     => array( 'panel_id' => 'siklane_storage_panel',     'meta' => '_siklane_storage',     'title' => __( 'Comment le conserver', 'siklane' ) ),
+        'siklane_commitment'  => array( 'panel_id' => 'siklane_commitment_panel',  'meta' => '_siklane_commitment',  'title' => __( 'Notre engagement', 'siklane' ) ),
+    );
+
+    // settings: taille suffisante, toolbar utile pour les listes
+    $editor_settings = array(
+        'textarea_rows' => 16,
+        'media_buttons' => false,
+        'tinymce' => array(
+            'wpautop' => true,
+            'toolbar1' => 'formatselect bold italic | bullist numlist | link',
+            'toolbar2' => '',
+        ),
+        'quicktags' => true,
+    );
+
+    foreach ( $map as $key => $cfg ) {
+        $value = get_post_meta( $post->ID, $cfg['meta'], true );
+        echo '<div id="' . esc_attr( $cfg['panel_id'] ) . '" class="panel woocommerce_options_panel">';
+            echo '<div class="options_group">';
+                echo '<p class="form-field"><label for="' . esc_attr( $key ) . '"><strong class="siklane-panel-title">' . esc_html( $cfg['title'] ) . '</strong></label></p>';
+                wp_editor( wp_kses_post( $value ), $key, $editor_settings );
+                echo '<p class="description">' . esc_html__( 'Contenu éditable pour cet onglet (listes supportées).', 'siklane' ) . '</p>';
+            echo '</div>';
+        echo '</div>';
+    }
+} );
+
+/* Save editors content */
+add_action( 'woocommerce_process_product_meta', function( $post_id ) {
+    $keys = array(
+        'siklane_desc'        => '_siklane_desc',
+        'siklane_ingredients' => '_siklane_ingredients',
+        'siklane_usage'       => '_siklane_usage',
+        'siklane_storage'     => '_siklane_storage',
+        'siklane_commitment'  => '_siklane_commitment',
+    );
+    foreach ( $keys as $field => $meta ) {
+        if ( isset( $_POST[ $field ] ) ) {
+            update_post_meta( $post_id, $meta, wp_kses_post( wp_unslash( $_POST[ $field ] ) ) );
+        }
+    }
+} );
+
+/* Ensure WP editor assets are available on product edit screen */
+add_action( 'admin_enqueue_scripts', function() {
+    $screen = get_current_screen();
+    if ( ! $screen || 'product' !== $screen->id ) return;
+    wp_enqueue_editor();
+}, 20 );
+
+/* Admin CSS: garantir hauteur confortable des éditeurs sans casser le layout */
+add_action( 'admin_head', function() {
+    $screen = get_current_screen();
+    if ( ! $screen || 'product' !== $screen->id ) return;
+    ?>
+    <style type="text/css">
+    /* titre */
+    .siklane-panel-title { font-size:16px; font-weight:600; display:block; margin-bottom:.35rem; }
+
+    /* ciblage des wrappers générés par wp_editor */
+    #wp-siklane_desc-wrap,
+    #wp-siklane_ingredients-wrap,
+    #wp-siklane_usage-wrap,
+    #wp-siklane_storage-wrap,
+    #wp-siklane_commitment-wrap {
+      /* hauteur minimale visible dans le panel */
+      min-height: 360px !important;
+    }
+
+    /* textarea visual and html modes */
+    #wp-siklane_desc-wrap .wp-editor-area,
+    #wp-siklane_ingredients-wrap .wp-editor-area,
+    #wp-siklane_usage-wrap .wp-editor-area,
+    #wp-siklane_storage-wrap .wp-editor-area,
+    #wp-siklane_commitment-wrap .wp-editor-area {
+      min-height: 320px !important;
+      max-height: 60vh !important;
+      height: auto !important;
+      box-sizing: border-box !important;
+    }
+
+    /* TinyMCE iframe */
+    #wp-siklane_desc-wrap iframe,
+    #wp-siklane_ingredients-wrap iframe,
+    #wp-siklane_usage-wrap iframe,
+    #wp-siklane_storage-wrap iframe,
+    #wp-siklane_commitment-wrap iframe {
+      min-height: 320px !important;
+      height: 100% !important;
+      box-sizing: border-box !important;
+    }
+    </style>
+    <?php
+}, 20 );
+
+// ...existing code...
