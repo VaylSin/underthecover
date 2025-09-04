@@ -12769,6 +12769,224 @@ figure.woocommerce-product-gallery__wrapper {
   box-sizing: border-box;
 }
 
+.siklane-accordion {
+  border-top: 1px solid #e9ecef;
+  margin-top: 1.5rem;
+}
+
+/* Item */
+.siklane-accordion-item {
+  border-bottom: 1px solid #e9ecef;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- Consolidated Siklane accordion (remove duplicates below line ~609) --- */
+.siklane-accordion {
+  margin-top: 1.5rem;
+  border-top: 1px solid #272727 !important; /* top border en black-main */
+  box-sizing: border-box;
+  border-left: none !important;
+  border-right: none !important;
+  border-radius: 0 !important;
+}
+.siklane-accordion .siklane-accordion-item {
+  border-bottom: 1px solid #080808;
+  margin: 0;
+  padding: 0;
+  border-left: none !important;
+  border-right: none !important;
+  border-radius: 0 !important;
+  background-clip: padding-box;
+}
+.siklane-accordion .siklane-accordion-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 1.15rem 1rem;
+  background: transparent;
+  border: 0;
+  width: 100%;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 0 !important;
+}
+.siklane-accordion .siklane-accordion-summary .siklane-accordion-title {
+  font-weight: 800;
+  font-size: 1.4rem; /* titre agrandi */
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.siklane-accordion .siklane-accordion-summary .siklane-accordion-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.22s ease, color 0.22s ease;
+  color: #6c757d;
+}
+.siklane-accordion .siklane-accordion-summary .siklane-accordion-icon svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+.siklane-accordion .siklane-accordion-item[open] .siklane-accordion-icon {
+  transform: rotate(180deg);
+  color: #bc3365;
+}
+.siklane-accordion .siklane-accordion-panel {
+  padding: 0 1rem 1rem 1rem;
+  border-left: none !important;
+  border-right: none !important;
+  border-radius: 0 !important;
+}
+.siklane-accordion .siklane-accordion-body {
+  padding-top: 0.6rem;
+  color: #333;
+}
+.siklane-accordion .siklane-accordion-body p {
+  margin: 0.5rem 0;
+}
+.siklane-accordion .siklane-accordion-body ul,
+.siklane-accordion .siklane-accordion-body ol {
+  margin: 0.5rem 0 1rem 1.25rem;
+}
+@media (max-width: 768px) {
+  .siklane-accordion .siklane-accordion-title {
+    font-size: 1.1rem;
+  }
+  .siklane-accordion .siklane-accordion-summary {
+    padding: 0.85rem 1rem;
+  }
+  .siklane-accordion .siklane-accordion-item {
+    border-bottom-width: 1.6px;
+  }
+}
+
+/* --- END consolidated block --- */
+/* remove purple outline on mouse click but keep keyboard focus-visible for accessibility */
+.siklane-accordion .accordion-button,
+.siklane-accordion-summary {
+  outline: none;
+}
+
+/* hide the focus ring for mouse interactions (leave it for keyboard users) */
+.siklane-accordion .accordion-button:focus:not(:focus-visible),
+.siklane-accordion-summary:focus:not(:focus-visible) {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* subtle visible ring for keyboard focus */
+.siklane-accordion .accordion-button:focus-visible,
+.siklane-accordion-summary:focus-visible {
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.14) !important; /* subtle bootstrap-primary ring */
+  outline: none !important;
+}
+
+/* ...existing code... */
+/* Reviews styling: étoiles velvet, quote italique, controls visibles et plus lentes (interval géré en PHP) */
+.siklane-reviews {
+  margin-top: 2rem;
+  border-top: 1px solid #272727;
+  padding-top: 1rem;
+  box-sizing: border-box;
+  /* commentaire en italique entouré de guillemets décoratifs */
+  /* make bootstrap carousel controls clearly visible on any background */
+  /* use simple chevrons (CSS content) so they are always visible */
+  /* responsive spacing inside cards */
+}
+.siklane-reviews .siklane-review-card {
+  background: transparent;
+}
+.siklane-reviews .siklane-review-stars {
+  /* étoiles pleines en $velvet */
+  /* étoiles vides : border / stroke en $velvet, atténuées */
+}
+.siklane-reviews .siklane-review-stars .siklane-star {
+  vertical-align: middle;
+  color: rgba(0, 0, 0, 0.12);
+}
+.siklane-reviews .siklane-review-stars .siklane-star.filled {
+  color: #bc3365 !important;
+  opacity: 1;
+}
+.siklane-reviews .siklane-review-stars .siklane-star.outline {
+  color: rgba(188, 51, 101, 0.45) !important;
+  opacity: 0.85;
+}
+.siklane-reviews .siklane-review-stars svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+.siklane-reviews .siklane-review-quote {
+  margin: 0;
+  padding: 1rem 1rem 0.75rem 2.25rem;
+  position: relative;
+  font-style: italic;
+  color: #333;
+  quotes: "“" "”" "‘" "’";
+  border-left: 3px solid rgba(0, 0, 0, 0.04);
+  background: transparent;
+  box-sizing: border-box;
+}
+.siklane-reviews .siklane-review-quote:before {
+  content: open-quote;
+  position: absolute;
+  left: 0.6rem;
+  top: 0.1rem;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.08); /* discret */
+}
+.siklane-reviews .siklane-review-cite {
+  display: block;
+  margin-top: 0.6rem;
+  font-style: normal;
+  font-weight: 700;
+  color: #666;
+}
+.siklane-reviews .carousel-control-prev,
+.siklane-reviews .carousel-control-next {
+  z-index: 20;
+}
+.siklane-reviews .carousel-control-prev-icon,
+.siklane-reviews .carousel-control-next-icon {
+  background-image: none !important;
+  width: 2.4rem;
+  height: 2.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.55);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+.siklane-reviews .carousel-control-prev-icon::after,
+.siklane-reviews .carousel-control-next-icon::after {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.siklane-reviews .carousel-control-prev-icon::after {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'><path d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z'/></svg>");
+}
+.siklane-reviews .carousel-control-next-icon::after {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'><path d='M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z'/></svg>");
+}
+.siklane-reviews .siklane-review-card .card-body {
+  padding: 1rem;
+}
+@media (max-width: 767px) {
+  .siklane-reviews .siklane-review-stars {
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* ...existing code... */
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
