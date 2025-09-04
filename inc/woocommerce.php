@@ -53,7 +53,7 @@ if ( ! function_exists( 'understrap_woocommerce_wrapper_start' ) ) {
 			$container = '';
 		}
 
-		echo '<div class="wrapper" id="woocommerce-wrapper">';
+		echo '<div class="wrapper mt-5" id="woocommerce-wrapper">';
 		echo '<div class="' . esc_attr( $container ) . '" id="content" tabindex="-1">';
 		echo '<div class="row">';
 		get_template_part( 'global-templates/left-sidebar-check' );
@@ -377,3 +377,110 @@ add_action( 'wp', function() {
 add_action( 'after_setup_theme', function() {
     add_image_size( 'siklane_square', 800, 800, true ); // 800x800 hard crop
 } );
+
+/**
+ * Affiche une liste de specs (2 depuis Options / répéteur 'spec', 2 depuis le produit : groups 'teste' et 'contenance')
+ * Injectée entre la description (prio 20) et le bouton add-to-cart (prio 30).
+ */
+add_action( 'woocommerce_single_product_summary', 'siklane_render_product_specs', 25 );
+function siklane_render_product_specs() {
+    if ( ! function_exists( 'get_field' ) ) {
+        return;
+    }
+
+    $items = array();
+
+    // 1) Répéteur sur la page Options : 'spec' avec sous-champs 'icone' et 'libelle'
+    $specs_opt = get_field( 'spec', 'option' );
+    if ( is_array( $specs_opt ) ) {
+        foreach ( $specs_opt as $row ) {
+            $label = isset( $row['libelle'] ) ? $row['libelle'] : '';
+            $icon  = isset( $row['icone'] ) ? $row['icone'] : '';
+            if ( $label || $icon ) {
+                $items[] = array( 'icon' => $icon, 'label' => $label );
+            }
+        }
+    }
+
+    // 2) Champs product-level : groupes 'teste' et 'contenance' (chacun contient 'icone' et 'libelle')
+    $groups = array( 'teste', 'contenance' );
+    foreach ( $groups as $g ) {
+        $grp = get_field( $g );
+        if ( is_array( $grp ) ) {
+            $raw_label = isset( $grp['libelle'] ) ? $grp['libelle'] : ( isset( $grp['label'] ) ? $grp['label'] : '' );
+            $icon      = isset( $grp['icone'] ) ? $grp['icone'] : ( isset( $grp['icon'] ) ? $grp['icon'] : '' );
+
+            // spécifique pour 'teste' : formater la phrase
+            if ( $g === 'teste' && ! empty( $raw_label ) ) {
+                $label = sprintf( /* translators: %s = valeur du test */ __( 'Testé sous contrôle %s', 'siklane' ), sanitize_text_field( $raw_label ) );
+            } else {
+                $label = $raw_label;
+            }
+
+            if ( $label || $icon ) {
+                $items[] = array( 'icon' => $icon, 'label' => $label );
+            }
+        } else {
+            // fallback si les champs sont non-groupés (ex: teste_libelle, teste_icone)
+            $label_raw = get_field( $g . '_libelle' );
+            $icon_fallback  = get_field( $g . '_icone' );
+
+            if ( $g === 'teste' && ! empty( $label_raw ) ) {
+                $label = sprintf( __( 'Testé sous contrôle %s', 'siklane' ), sanitize_text_field( $label_raw ) );
+            } else {
+                $label = $label_raw;
+            }
+
+            if ( $label || $icon_fallback ) {
+                $items[] = array( 'icon' => $icon_fallback, 'label' => $label );
+            }
+        }
+    }
+
+    if ( empty( $items ) ) {
+        return;
+    }
+
+    // helper pour afficher l'icone : gère image array, attachment ID ou url string
+    $render_icon = function( $icon ) {
+        if ( empty( $icon ) ) return '';
+        // ACF image array
+        if ( is_array( $icon ) && ! empty( $icon['url'] ) ) {
+            return '<span class="spec-icon"><img src="' . esc_url( $icon['url'] ) . '" alt="" width="28" height="28" /></span>';
+        }
+        // attachment ID
+        if ( is_numeric( $icon ) ) {
+            return '<span class="spec-icon">' . wp_get_attachment_image( intval( $icon ), array(28,28), false, array( 'class' => 'img-fluid' ) ) . '</span>';
+        }
+        // url string
+        if ( is_string( $icon ) && filter_var( $icon, FILTER_VALIDATE_URL ) ) {
+            return '<span class="spec-icon"><img src="' . esc_url( $icon ) . '" alt="" width="28" height="28" /></span>';
+        }
+        // otherwise return raw (e.g. SVG markup)
+        return '<span class="spec-icon">' . $icon . '</span>';
+    };
+
+    // Try to include local partial if present
+    $partial = locate_template( 'woocommerce/single-product/specs.php' );
+    if ( $partial ) {
+        // expose $items to the partial and include it
+        include $partial;
+    } else {
+        // fallback render and a visible HTML comment for debug
+        echo "<!-- siklane: partial woocommerce/single-product/specs.php not found - fallback output -->\n";
+        echo '<div class="product-specs my-3" aria-hidden="false">';
+        echo '<ul class="list-unstyled d-flex flex-column gap-2 mb-0">';
+        foreach ( $items as $it ) {
+            $label_html = is_array( $it['label'] ) ? ( esc_html( $it['label']['label'] ?? '' ) ) : esc_html( $it['label'] );
+            $icon_html  = isset( $it['icon'] ) ? $render_icon( $it['icon'] ) : '';
+            echo '<li class="spec-item d-flex align-items-center">';
+            if ( $icon_html ) {
+                echo wp_kses( $icon_html, array( 'span' => array( 'class' => array() ), 'img' => array( 'src' => array(), 'alt' => array(), 'width' => array(), 'height' => array(), 'class' => array() ) ) );
+            }
+            echo '<span class="spec-label ms-2 text-muted">' . $label_html . '</span>';
+            echo '</li>';
+        }
+        echo '</ul>';
+        echo '</div>';
+    }
+}

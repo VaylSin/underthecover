@@ -42,12 +42,12 @@ if ( $product->is_in_stock() ) : ?>
             <label class="form-label visually-hidden" for="quantity_<?php echo esc_attr( $product->get_id() ); ?>"><?php esc_html_e( 'Quantity', 'woocommerce' ); ?></label>
 
             <div class="d-flex increment_container align-items-center gap-2 input-group input-group-lg w-100">
-                <span class=" btn-decrement" aria-label="<?php esc_attr_e( 'Decrease quantity', 'woocommerce' ); ?>"><i class="bi bi-emoji-frown"></i></span>
+                <span class=" btn-decrement" aria-label="<?php esc_attr_e( 'Decrease quantity', 'woocommerce' ); ?>"><i class="bi bi-dash-circle"></i></span>
 
                 <input
                     type="number"
                     id="quantity_<?php echo esc_attr( $product->get_id() ); ?>"
-                    class="border-0 form-control text-center"
+                    class="border-0 p-0 form-control text-center"
                     step="1"
                     min="<?php echo esc_attr( $min_qty ); ?>"
                     max="<?php echo esc_attr( $max_qty ); ?>"
@@ -58,7 +58,7 @@ if ( $product->is_in_stock() ) : ?>
                     inputmode="numeric"
                 />
 
-                <span class=" btn-increment" aria-label="<?php esc_attr_e( 'Increase quantity', 'woocommerce' ); ?>"><i class="bi bi-emoji-laughing-fill"></i></span>
+                <span class=" btn-increment" aria-label="<?php esc_attr_e( 'Increase quantity', 'woocommerce' ); ?>"><i class="bi bi-plus-circle-fill"></i></span>
             </div>
         </div>
 

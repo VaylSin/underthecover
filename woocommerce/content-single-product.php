@@ -31,23 +31,23 @@ if ( post_password_required() ) {
          * afin d'appliquer le layout flex uniquement à cette zone.
          */
     ?>
-    <div class="siklane-product-inner">
-        <?php
-            /**
-             * Hook : affiche la galerie (product-image.php)
-             */
-            do_action( 'woocommerce_before_single_product_summary' );
-        ?>
+	<div class="siklane-product-inner ">
+		<?php
+			/**
+			 * Hook : affiche la galerie (product-image.php)
+			 */
+			do_action( 'woocommerce_before_single_product_summary' );
+		?>
 
-        <div class="summary entry-summary">
-            <?php
-                /**
-                 * Hook : affiche title/price/excerpt/add-to-cart etc.
-                 */
-                do_action( 'woocommerce_single_product_summary' );
-            ?>
-        </div>
-    </div>
+		<div class="summary entry-summary col">
+			<?php
+				/**
+				 * Hook : affiche title/price/excerpt/add-to-cart etc.
+				 */
+				do_action( 'woocommerce_single_product_summary' );
+			?>
+		</div>
+	</div>
 
     <?php
         /**

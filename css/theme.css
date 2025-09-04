@@ -12286,11 +12286,12 @@ figure.woocommerce-product-gallery__wrapper {
   cursor: pointer;
   font-size: 1.8rem;
   color: #272727;
-  transition: color 0.2s;
+  transition: color 0.2s, transform 0.1s;
 }
 .btn-increment:hover,
 .btn-decrement:hover {
   color: #bc3365;
+  transform: scale(1.2);
 }
 
 .woocommerce input[type=number] {
@@ -12302,6 +12303,11 @@ figure.woocommerce-product-gallery__wrapper {
 .woocommerce .increment_container {
   max-width: 7rem;
   flex-basis: content;
+}
+
+.swiper,
+.swiper-container {
+  overflow: initial !important;
 }
 
 /* Contrainte de taille pour la galerie Swiper */
@@ -12348,13 +12354,6 @@ figure.woocommerce-product-gallery__wrapper {
   align-self: stretch;
 }
 
-.siklane-swiper-thumbs .swiper-slide {
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .siklane-swiper-thumbs .swiper-slide img {
   width: 100%;
   height: 100%;
@@ -12363,22 +12362,7 @@ figure.woocommerce-product-gallery__wrapper {
   display: block;
 }
 
-/* Layout 50/50 parent - appliquer flex uniquement au wrapper custom */
-.single-product .siklane-product-inner {
-  display: flex;
-  align-items: flex-start;
-  gap: 2rem;
-  flex-wrap: nowrap;
-}
-
-/* Chaque colonne = 50% (gallery <-> summary) */
-.single-product .siklane-product-inner .siklane-swiper-gallery,
-.single-product .siklane-product-inner .summary.entry-summary {
-  flex: 0 0 50%;
-  max-width: 50%;
-  box-sizing: border-box;
-}
-
+/* chaque colonne = 50% (gallery <-> summary) */
 .siklane-product-inner h1, .siklane-product-inner .h1 {
   font-size: 1.5625rem;
 }
@@ -12387,14 +12371,6 @@ figure.woocommerce-product-gallery__wrapper {
 }
 .siklane-product-inner .woocommerce-Price-amount {
   font-size: 1.375rem;
-}
-
-/* Galery: thumbs à gauche, main à droite, centrage vertical */
-.siklane-swiper-gallery {
-  display: flex;
-  align-items: center; /* CENTER thumbnails vertically relative to main image */
-  gap: 0;
-  max-height: 80vh;
 }
 
 /* Colonne miniatures : fixe, centrée verticalement */
@@ -12414,8 +12390,8 @@ figure.woocommerce-product-gallery__wrapper {
 /* chaque mini a taille fixe et n'étire pas la colonne */
 .siklane-swiper-thumbs .swiper-slide {
   flex: 0 0 auto; /* ne se dilate pas */
-  width: 2.8rem;
-  height: 2.8rem;
+  width: 4.5rem;
+  height: 4.5rem;
   min-height: 0;
   display: flex;
   align-items: center;
@@ -12423,28 +12399,13 @@ figure.woocommerce-product-gallery__wrapper {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  border-radius: 6px;
   overflow: hidden;
   background: transparent;
+  cursor: pointer;
+  transition: outline 0.1s, background-color 0.1s;
 }
-
-/* miniatures : cover et centrées */
-.siklane-swiper-thumbs .swiper-slide img {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-  object-fit: cover;
-  display: block;
-}
-
-/* Main : garder image centrée verticalement et align-items center */
-.siklane-swiper-main {
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center; /* centre verticalement l'image principale */
-  justify-content: center;
-  overflow: hidden;
-  max-height: 80vh;
+.siklane-swiper-thumbs .swiper-slide.swiper-slide-thumb-active {
+  outline: 2px solid #bc3365;
 }
 
 /* Responsive : sur mobile, miniatures horizontales plus petites */
@@ -12462,7 +12423,6 @@ figure.woocommerce-product-gallery__wrapper {
     margin-right: 0.5rem;
   }
 }
-/* Verrouiller la zone principale du slider à un ratio 1:1 (carré) */
 /* conteneur principal : responsive square, limitation par viewport */
 .siklane-swiper-main {
   position: relative;
@@ -12526,6 +12486,7 @@ figure.woocommerce-product-gallery__wrapper {
 
 .siklane-swiper-thumbs {
   align-self: center;
+  overflow: hidden;
 }
 
 /* Conteneur carré et images qui remplissent 100% (crop 1:1 côté client) */
@@ -12584,20 +12545,6 @@ figure.woocommerce-product-gallery__wrapper {
     object-fit: cover;
   }
 }
-/* Pour éviter que Swiper calcule des larges translations, stacker les slides en mode fade */
-.siklane-swiper-main {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1/1;
-  overflow: hidden;
-}
-
-/* wrapper relatif, slides empilés */
-.siklane-swiper-main .swiper-wrapper {
-  position: relative !important;
-  height: 100% !important;
-}
-
 /* chaque slide occupe tout le conteneur et se superpose */
 .siklane-swiper-main .swiper-slide {
   position: absolute !important;
@@ -12620,14 +12567,6 @@ figure.woocommerce-product-gallery__wrapper {
   visibility: visible;
   z-index: 2;
   transition: opacity 0.35s ease;
-}
-
-/* Fix fade flicker: neutraliser les transforms inline et gérer l'opacité */
-.siklane-swiper-main {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1/1;
-  overflow: hidden;
 }
 
 .siklane-swiper-main .swiper-wrapper {
@@ -12672,6 +12611,162 @@ figure.woocommerce-product-gallery__wrapper {
   -o-object-position: center center !important;
   object-position: center center !important;
   display: block !important;
+}
+
+/* Specs grid 2x2 : icones alignées */
+.product-specs-grid .specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: auto;
+  gap: 0.5rem 1rem; /* espace vertical/horizontal */
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.product-specs-grid .spec-item {
+  display: flex;
+  align-items: flex-start; /* permet au label de wrap sans désaligner l'icône */
+  min-height: 3.2rem;
+}
+
+/* Limiter la largeur du champ qui accueille le libellé pour forcer le wrap */
+.product-specs-grid .spec-item {
+  box-sizing: border-box;
+  min-width: 0 !important;
+  gap: 0.75rem;
+}
+
+/* largeur max fixe (ajuste 12rem / 14rem selon le rendu souhaité) */
+.product-specs-grid .spec-item .spec-label {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  max-width: 12.5rem !important; /* <- règle clé : ajuste cette valeur */
+  white-space: normal !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  margin: 0 !important; /* utiliser gap du parent, pas de margin-left */
+}
+
+.product-specs-grid .spec-icon {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px; /* ajuste la position verticale par rapport au texte sur 2 lignes */
+}
+
+.product-specs-grid .spec-icon img,
+.product-specs-grid .spec-icon .spec-icon-img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+  object-fit: contain;
+  display: block;
+}
+
+/* clamp sur 2 lignes avec ellipsis */
+.product-specs-grid .spec-label {
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.15;
+  max-height: 2.3em;
+  font-size: 0.95rem;
+  color: #272727;
+  margin-left: 0.75rem;
+  word-break: break-word;
+}
+
+/* responsive : garde 2x2 sur desktop, passe en 2 colonnes sur mobile si besoin */
+@media (max-width: 479px) {
+  .product-specs-grid .specs-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+}
+/* Coloration des étoiles de rating */
+.star-rating,
+.woocommerce-product-rating .star-rating,
+.rating,
+.woocommerce .star-rating {
+  color: #bc3365 !important; /* pour les implementations basées sur color */
+}
+
+.star-rating::before,
+.woocommerce-product-rating .star-rating::before {
+  color: #bc3365 !important; /* pour les pseudo-éléments */
+}
+
+/* pour les SVG inline ou icônes utilisant fill */
+.star-rating svg,
+.woocommerce-product-rating .star-rating svg,
+.rating svg {
+  fill: #bc3365 !important;
+}
+
+.siklane-swiper-thumbs .swiper-wrapper,
+.siklane-swiper-thumbs .swiper-slide {
+  box-sizing: border-box;
+}
+
+/* chaque slide doit masquer la partie agrandie */
+.siklane-swiper-thumbs .swiper-slide {
+  overflow: hidden;
+  position: relative;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* image : transition et origine de la transformation */
+.siklane-swiper-thumbs .swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: center;
+  object-position: center;
+  transition: transform 280ms cubic-bezier(0.22, 0.8, 0.35, 1);
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* scale au hover ou quand la vignette est active */
+.siklane-swiper-thumbs .swiper-slide:hover img,
+.siklane-swiper-thumbs .swiper-slide.swiper-slide-thumb-active img {
+  transform: scale(1.05);
+}
+
+/* s'assurer que la vignette hover soit au-dessus (ne change pas le flux) */
+.siklane-swiper-thumbs .swiper-slide:hover {
+  z-index: 3;
+}
+
+/* Layout produit : utiliser grid pour gérer proprement le gap sans overflow */
+.single-product .siklane-product-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* deux colonnes égales */
+  gap: 3rem; /* ajuste la valeur si nécessaire */
+  align-items: start;
+  box-sizing: border-box;
+}
+
+/* garantir que les enfants ne dépassent pas leur colonne */
+.single-product .siklane-product-inner .siklane-swiper-gallery,
+.single-product .siklane-product-inner .summary.entry-summary {
+  width: 100% !important;
+  max-width: 100%;
+  flex: none;
+  box-sizing: border-box;
 }
 
 /*!

@@ -14,7 +14,7 @@ if ( is_array( $gallery_ids ) ) {
 }
 if ( empty( $all_ids ) ) $all_ids[] = false;
 ?>
-<div class="woocommerce-product-gallery siklane-swiper-gallery">
+<div class="woocommerce-product-gallery siklane-swiper-gallery gap-4">
 
     <div class="siklane-swiper-container siklane-swiper-thumbs swiper" aria-hidden="true">
         <div class="swiper-wrapper">
@@ -34,7 +34,7 @@ if ( empty( $all_ids ) ) $all_ids[] = false;
     </div>
 
     <div class="siklane-swiper-container siklane-swiper-main swiper">
-        <div class="swiper-wrapper">
+        <div class="swiper-wrapper align-items-center">
             <?php foreach ( $all_ids as $index => $aid ) :
                 if ( ! $aid ) : ?>
                     <div class="swiper-slide" data-index="<?php echo esc_attr( $index ); ?>" data-siklane-index="<?php echo esc_attr( $index ); ?>">
@@ -54,9 +54,6 @@ if ( empty( $all_ids ) ) $all_ids[] = false;
                 <?php endif;
             endforeach; ?>
         </div>
-
-        <button class="siklane-slide-prev" aria-label="Précédent"></button>
-        <button class="siklane-slide-next" aria-label="Suivant"></button>
     </div>
 
 </div>

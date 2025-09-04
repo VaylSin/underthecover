@@ -115,3 +115,15 @@ if ( ! function_exists( 'understrap_offcanvas_admin_bar_inline_styles' ) ) {
 		wp_add_inline_style( 'understrap-styles', $css );
 	}
 }
+add_action( 'wp_enqueue_scripts', function() {
+    // Swiper (CDN)
+    wp_enqueue_style( 'siklane-swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css', array(), '9' );
+    wp_enqueue_script( 'siklane-swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js', array(), '9', true );
+
+    // local gallery init — n'utiliser filemtime que si le fichier existe
+    $local_path = get_template_directory() . '/src/js/siklane-gallery-swiper.js';
+    $local_url  = get_template_directory_uri() . '/src/js/siklane-gallery-swiper.js';
+    $version    = file_exists( $local_path ) ? filemtime( $local_path ) : false;
+
+    wp_enqueue_script( 'siklane-gallery', $local_url, array( 'siklane-swiper-js' ), $version, true );
+}, 20 );
