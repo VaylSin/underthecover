@@ -457,31 +457,42 @@ add_action( 'woocommerce_after_single_product_summary', function() {
 
     if ( ! empty( $items ) ) {
         $accordion_id = 'siklane-accordion';
-        echo '<h3 class="logo_h3_content mb-3">' . esc_html__( 'En savoir plus', 'siklane' ) . '</h3>';
-        echo '<div class="accordion siklane-accordion" id="' . esc_attr( $accordion_id ) . '">';
-        foreach ( $items as $it ) {
-            $san_id      = esc_attr( $it['id'] );
-            $collapse_id = 'siklaneCollapse-' . $san_id;
-            $heading_id  = 'siklaneHeading-' . $san_id;
+        // Parent container that wraps the accordion and its title
+		echo'<div class="spacer-10"></div>';
+        echo '<div class="container siklane-accordion-container">';
+          echo '<div class="row">';
+            echo '<div class="col-12 col-lg-9 mx-lg-auto">';
+              echo '<h3 class="maj_title logo_h3_content mb-3">' . esc_html__( 'En savoir plus', 'siklane' ) . '</h3>';
+              echo '<div class="accordion siklane-accordion" id="' . esc_attr( $accordion_id ) . '">';
+                foreach ( $items as $it ) {
+                    $san_id      = esc_attr( $it['id'] );
+                    $collapse_id = 'siklaneCollapse-' . $san_id;
+                    $heading_id  = 'siklaneHeading-' . $san_id;
 
-            echo '<div class="accordion-item siklane-accordion-item" id="item-' . $san_id . '">';
-                printf(
-                    '<h2 class="accordion-header" id="%1$s"><button class="accordion-button collapsed siklane-accordion-summary" type="button" data-bs-toggle="collapse" data-bs-target="#%2$s" aria-expanded="false" aria-controls="%2$s"><span class="siklane-accordion-title">%3$s</span></button></h2>',
-                    esc_attr( $heading_id ),
-                    esc_attr( $collapse_id ),
-                    esc_html( $it['title'] )
-                );
-                printf(
-                    '<div id="%1$s" class="accordion-collapse collapse" aria-labelledby="%2$s" data-bs-parent="#%3$s"><div class="accordion-body siklane-accordion-body">%4$s</div></div>',
-                    esc_attr( $collapse_id ),
-                    esc_attr( $heading_id ),
-                    esc_attr( $accordion_id ),
-                    wp_kses_post( wpautop( $it['content'] ) )
-                );
-            echo '</div>';
-        }
-        echo '</div>'; // .accordion
-        echo '</div>'; // .accordion
+                    echo '<div class="accordion-item siklane-accordion-item" id="item-' . $san_id . '">';
+                        printf(
+                            '<h2 class="accordion-header" id="%1$s"><button class="accordion-button collapsed siklane-accordion-summary" type="button" data-bs-toggle="collapse" data-bs-target="#%2$s" aria-expanded="false" aria-controls="%2$s"><span class="siklane-accordion-title">%3$s</span><i class="bi bi-arrow-down-circle siklane-accordion-icon" aria-hidden="true"></i></button></h2>',
+                            esc_attr( $heading_id ),
+                            esc_attr( $collapse_id ),
+                            esc_html( $it['title'] )
+                        );
+                        printf(
+                            '<div id="%1$s" class="accordion-collapse collapse" aria-labelledby="%2$s" data-bs-parent="#%3$s"><div class="accordion-body siklane-accordion-body">%4$s</div></div>',
+                            esc_attr( $collapse_id ),
+                            esc_attr( $heading_id ),
+                            esc_attr( $accordion_id ),
+                            wp_kses_post( wpautop( $it['content'] ) )
+                        );
+                    echo '</div>';
+                }
+              echo '</div>'; // .accordion
+            echo '</div>'; // .col
+          echo '</div>'; // .row
+		echo '<div class="insta-background-logo section_product mt-4" aria-hidden="true">';
+			echo '<img src="' . esc_url( get_template_directory_uri() . '/images/logo-loader.svg' ) . '" alt="' . esc_attr__( 'Logo background', 'siklane' ) . '" />';
+		echo '</div>';
+        echo '</div>'; // .container .siklane-accordion-container
+		echo '<div class="spacer-10"></div>';
 
     }
 
@@ -524,8 +535,8 @@ add_action( 'woocommerce_after_single_product_summary', function() {
 		echo '</div>'; // close previous .wrapper (from understrap_woocommerce_wrapper_start)
         echo '<div class="container-fluid siklane-reviews-bg py-5 my-5">'; // full-width velvet bg
           echo '<div class="container">';
-            echo '<div class="siklane-reviews my-0 bg-transparent">';
-              echo '<h3 class="logo_h3_content mb-3 text-white">' . esc_html__( 'Avis clients', 'siklane' ) . '</h3>';
+            echo '<div class="siklane-reviews mb-5 bg-transparent">';
+              echo '<h3 class="maj_title logo_h3_content mb-5 text-white">' . esc_html__( 'Avis clients', 'siklane' ) . '</h3>';
               echo '<div id="' . esc_attr( $carousel_id ) . '" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000" data-bs-pause="hover">';
                 echo '<div class="carousel-inner">';
                   foreach ( $chunks as $idx => $group ) {
@@ -592,5 +603,7 @@ add_action( 'woocommerce_after_single_product_summary', function() {
         // keep flag true (will be closed by wrapper_end later)
     }
 }, 11 );
+
+
 
 

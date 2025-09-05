@@ -31,7 +31,7 @@ if ( post_password_required() ) {
          * afin d'appliquer le layout flex uniquement à cette zone.
          */
     ?>
-	<div class="siklane-product-inner my-5">
+	<div class="siklane-product-inner mt-5">
 		<?php
 			/**
 			 * Hook : affiche la galerie (product-image.php)

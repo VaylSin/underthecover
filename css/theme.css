@@ -12224,15 +12224,37 @@ form.cart input[type=number]::-webkit-inner-spin-button {
   width: 100%;
 }
 
+.woocommerce span.onsale {
+  min-height: 3.236em;
+  min-width: 3.236em;
+  padding: 0.202em;
+  font-size: 1em;
+  font-weight: 700;
+  position: absolute;
+  text-align: center;
+  line-height: 3.236;
+  top: -1.5em;
+  left: 3.5rem;
+  margin: 0;
+  border-radius: 100%;
+  background-color: #bc3365 !important;
+  color: #fff;
+  font-size: 0.857em;
+  z-index: 9;
+}
+
+/* Woocommerce product gallery slider width fix */
 figure.woocommerce-product-gallery__wrapper {
   max-width: inherit !important;
 }
 
+/* Fix coupon code input width for cart, apply only to the cart as it will break the checkout field width */
 @media (min-width: 768px) {
   .woocommerce-cart #coupon_code.input-text {
     width: 110px !important;
   }
 }
+/* Fix input fields for Stripe Checkout fields */
 #stripe-payment-data #wc-stripe-cc-form .form-row {
   display: flex;
   flex-direction: column;
@@ -12250,6 +12272,7 @@ figure.woocommerce-product-gallery__wrapper {
 .woocommerce-info {
   padding: 1em 2em 1em 3.5em;
 }
+/* Accessibility - update color for required class */
 .woocommerce form .form-row .required {
   color: #dc3545;
 }
@@ -12267,6 +12290,7 @@ figure.woocommerce-product-gallery__wrapper {
   margin: 0.25em 0 0 -1.5em;
 }
 
+/* Accessibility requirement for color contrast */
 .woocommerce div.product p.price,
 .woocommerce div.product span.price,
 .woocommerce div.product .stock,
@@ -12678,7 +12702,7 @@ figure.woocommerce-product-gallery__wrapper {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.15;
+  line-height: 1.25;
   max-height: 2.3em;
   font-size: 0.95rem;
   color: #272727;
@@ -12769,35 +12793,42 @@ figure.woocommerce-product-gallery__wrapper {
   box-sizing: border-box;
 }
 
-.siklane-accordion {
-  border-top: 1px solid #e9ecef;
-  margin-top: 1.5rem;
-}
-
-/* Item */
-.siklane-accordion-item {
-  border-bottom: 1px solid #e9ecef;
-  margin: 0;
-  padding: 0;
-}
-
 /* --- Consolidated Siklane accordion (remove duplicates below line ~609) --- */
 .siklane-accordion {
   margin-top: 1.5rem;
-  border-top: 1px solid #272727 !important; /* top border en black-main */
   box-sizing: border-box;
   border-left: none !important;
   border-right: none !important;
   border-radius: 0 !important;
+  /* Replace Bootstrap ::after chevron with positioned inline icon.
+        Ensure button has room on the right, hide default pseudo,
+        position our .siklane-accordion-icon exactly where ::after was. */
+  /* when item is open (Bootstrap removes .collapsed on the button) rotate and color icon */
+  /* hover / focus color for icon */
+}
+.siklane-accordion .accordion-button {
+  position: relative;
+  padding-right: 3rem;
+}
+.siklane-accordion .accordion-button::after {
+  display: none !important;
+  width: 0;
+  height: 0;
+  content: none !important;
 }
 .siklane-accordion .siklane-accordion-item {
-  border-bottom: 1px solid #080808;
   margin: 0;
   padding: 0;
   border-left: none !important;
   border-right: none !important;
   border-radius: 0 !important;
   background-clip: padding-box;
+  transition: all 0.2s ease;
+}
+.siklane-accordion .siklane-accordion-item:hover .siklane-accordion-title,
+.siklane-accordion .siklane-accordion-item:focus-within .siklane-accordion-title,
+.siklane-accordion .siklane-accordion-item[open] .siklane-accordion-title {
+  color: #bc3365 !important;
 }
 .siklane-accordion .siklane-accordion-summary {
   display: flex;
@@ -12811,26 +12842,42 @@ figure.woocommerce-product-gallery__wrapper {
   color: inherit;
   text-decoration: none;
   border-radius: 0 !important;
+  position: relative; /* ensure inner icon placement works */
+  /* position the bootstrap-icon <i> where the ::after used to be */
 }
 .siklane-accordion .siklane-accordion-summary .siklane-accordion-title {
   font-weight: 800;
   font-size: 1.4rem; /* titre agrandi */
   letter-spacing: 0.03em;
   text-transform: uppercase;
+  transition: color 0.2s ease;
 }
 .siklane-accordion .siklane-accordion-summary .siklane-accordion-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.75rem;
+  line-height: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.22s ease, color 0.22s ease;
-  color: #6c757d;
+  transition: transform 0.22s ease, color 0.18s ease;
+  color: #6c757d; /* fallback */
+  pointer-events: none; /* don't interfere with clicks */
 }
-.siklane-accordion .siklane-accordion-summary .siklane-accordion-icon svg {
-  width: 20px;
-  height: 20px;
-  display: block;
+.siklane-accordion .accordion-button:not(.collapsed) .siklane-accordion-icon,
+.siklane-accordion .siklane-accordion-summary:not(.collapsed) .siklane-accordion-icon {
+  transform: translateY(-50%) rotate(-180deg);
+  color: #bc3365 !important;
+}
+.siklane-accordion .siklane-accordion-item:hover .siklane-accordion-icon,
+.siklane-accordion .siklane-accordion-item:focus-within .siklane-accordion-icon,
+.siklane-accordion .siklane-accordion-item[open] .siklane-accordion-icon {
+  color: #bc3365 !important;
 }
 .siklane-accordion .siklane-accordion-item[open] .siklane-accordion-icon {
+  /* fallback for other cases */
   transform: rotate(180deg);
   color: #bc3365;
 }
@@ -16355,274 +16402,6 @@ h6,
   background: #bc3365;
 }
 
-.product_item {
-  /* Restauration : effet "glissé depuis le bas" pour l'icône dans les boutons (ajouter au panier) */
-  /* overlay button (structure existante : .btn-overlay > button) */
-  /* état visible : au survol, focus-within, ou quand le bouton est survolé */
-  /* cas spécifique : si tu veux que l'icône apparaisse uniquement quand l'overlay est visible */
-  /* leave overlay logic to existing rules */
-  /* respect reduced-motion */
-}
-.product_item.card,
-.product_item .card {
-  border: none;
-}
-.product_item .card_infos {
-  padding-inline: 0;
-}
-.product_item .img-container {
-  overflow: hidden;
-  aspect-ratio: 1/1;
-  position: relative;
-}
-.product_item .card-img-top {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-  object-fit: cover;
-  background: #f8f8f8;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.product_item h3, .product_item .h3 {
-  font-weight: 600;
-  text-transform: uppercase;
-}
-.product_item:hover .card-img-top, .product_item:focus .card-img-top {
-  transform: scale(1.06);
-}
-.product_item:hover .btn-overlay, .product_item:focus .btn-overlay {
-  opacity: 1;
-}
-.product_item:hover .btn-overlay button, .product_item:focus .btn-overlay button {
-  transform: translateY(0);
-}
-.product_item:hover .btn-overlay .logo-bg-overlay, .product_item:focus .btn-overlay .logo-bg-overlay {
-  opacity: 0.18;
-}
-.product_item .btn i, .product_item .wpcf7 input[type=submit] i, .wpcf7 .product_item input[type=submit] i, .product_item .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item a.button i, .product_item .woocommerce-info a.button i, .woocommerce-info .product_item a.button i,
-.product_item .btn .bi,
-.product_item .wpcf7 input[type=submit] .bi,
-.wpcf7 .product_item input[type=submit] .bi,
-.product_item .woocommerce-notices-wrapper .woocommerce-message a.button .bi,
-.woocommerce-notices-wrapper .woocommerce-message .product_item a.button .bi,
-.product_item .woocommerce-info a.button .bi,
-.woocommerce-info .product_item a.button .bi,
-.product_item button i,
-.product_item button .bi {
-  display: inline-block;
-  transform: translateY(10px);
-  opacity: 0;
-  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.22s ease;
-  will-change: transform, opacity;
-}
-.product_item .btn-overlay button i,
-.product_item .btn-overlay button .bi {
-  transform: translateY(14px);
-  opacity: 0;
-}
-.product_item:hover .btn i, .product_item:hover .wpcf7 input[type=submit] i, .wpcf7 .product_item:hover input[type=submit] i, .product_item:hover .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item:hover a.button i, .product_item:hover .woocommerce-info a.button i, .woocommerce-info .product_item:hover a.button i, .product_item:focus-within .btn i, .product_item:focus-within .wpcf7 input[type=submit] i, .wpcf7 .product_item:focus-within input[type=submit] i, .product_item:focus-within .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item:focus-within a.button i, .product_item:focus-within .woocommerce-info a.button i, .woocommerce-info .product_item:focus-within a.button i,
-.product_item .btn:hover i,
-.product_item .wpcf7 input[type=submit]:hover i,
-.wpcf7 .product_item input[type=submit]:hover i,
-.product_item .woocommerce-notices-wrapper .woocommerce-message a.button:hover i,
-.woocommerce-notices-wrapper .woocommerce-message .product_item a.button:hover i,
-.product_item .woocommerce-info a.button:hover i,
-.woocommerce-info .product_item a.button:hover i,
-.product_item .btn:focus i,
-.product_item .wpcf7 input[type=submit]:focus i,
-.wpcf7 .product_item input[type=submit]:focus i,
-.product_item .woocommerce-notices-wrapper .woocommerce-message a.button:focus i,
-.woocommerce-notices-wrapper .woocommerce-message .product_item a.button:focus i,
-.product_item .woocommerce-info a.button:focus i,
-.woocommerce-info .product_item a.button:focus i, .product_item:hover .btn-overlay button i, .product_item:focus-within .btn-overlay button i {
-  transform: translateY(0);
-  opacity: 1;
-}
-.product_item .btn-overlay {
-  opacity: 0;
-  pointer-events: none;
-}
-.product_item:hover .btn-overlay {
-  opacity: 1;
-  pointer-events: auto;
-}
-@media (prefers-reduced-motion: reduce) {
-  .product_item .btn i, .product_item .wpcf7 input[type=submit] i, .wpcf7 .product_item input[type=submit] i, .product_item .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item a.button i, .product_item .woocommerce-info a.button i, .woocommerce-info .product_item a.button i,
-  .product_item .btn-overlay button i {
-    transition: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-}
-
-.btn-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  background: rgba(188, 51, 101, 0.5);
-  transition: opacity 0.3s ease;
-  z-index: 2;
-  overflow: hidden;
-}
-.btn-overlay .logo-bg-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  z-index: 1;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.btn-overlay .logo-bg-overlay img {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: contain;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
-}
-.btn-overlay button {
-  position: relative;
-  z-index: 2;
-  width: 95%;
-  transform: translateY(100%);
-  transition: transform 0.3s ease;
-  text-align: center;
-  color: #fff;
-  background-color: transparent;
-  border: 1px solid #fff;
-  font-weight: bold;
-  font-size: 1rem;
-  letter-spacing: 1px;
-}
-.btn-overlay button:hover, .btn-overlay button:focus {
-  background-color: transparent !important;
-  color: #fff !important;
-  border-color: #fff !important;
-}
-
-.product-image-container {
-  aspect-ratio: 1/1;
-  width: 100%;
-  background: #f8f8f8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-.product-image-container img {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-  object-fit: cover;
-  display: block;
-}
-
-.best_sellers .card {
-  border: none !important;
-}
-.best_sellers .row {
-  align-items: stretch;
-}
-.best_sellers .row > [class*=col-] {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-.best_sellers .row > [class*=col-] > .card,
-.best_sellers .row > [class*=col-] > .product_item.card {
-  display: flex !important;
-  flex-direction: column;
-  flex: 1 1 auto !important;
-  height: 100% !important;
-  min-height: 0;
-}
-.best_sellers .card .card-body {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-.best_sellers .card-body h3, .best_sellers .card-body .h3,
-.best_sellers .product_item h3,
-.best_sellers .product_item .h3,
-.best_sellers .product-title {
-  margin: 0 0 0.5rem;
-  font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-height: 2.1em;
-  max-height: 2.1em;
-}
-@supports not (-webkit-line-clamp: 2) {
-  .best_sellers .card-body h3, .best_sellers .card-body .h3,
-  .best_sellers .product_item h3,
-  .best_sellers .product_item .h3,
-  .best_sellers .product-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-height: 2.1em;
-  }
-}
-.best_sellers .img-container {
-  position: relative !important;
-  display: block !important;
-  overflow: hidden !important;
-  aspect-ratio: 1/1;
-  width: 100%;
-  min-height: 0;
-}
-.best_sellers .card-img-top,
-.best_sellers img {
-  display: block !important;
-  width: 100% !important;
-  height: auto !important;
-  -o-object-fit: cover !important;
-  object-fit: cover !important;
-}
-.best_sellers .btn-overlay {
-  position: absolute !important;
-  inset: 0;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  opacity: 0;
-  background: rgba(188, 51, 101, 0.5);
-  transition: opacity 0.28s ease;
-  z-index: 5;
-  pointer-events: none;
-}
-.best_sellers .btn-overlay button {
-  transform: translateY(100%);
-  transition: transform 0.32s ease;
-  pointer-events: auto;
-  z-index: 6;
-}
-.best_sellers .product_item:hover .btn-overlay, .best_sellers .product_item:focus .btn-overlay {
-  opacity: 1;
-  pointer-events: auto;
-}
-.best_sellers .product_item:hover .btn-overlay button, .best_sellers .product_item:focus .btn-overlay button {
-  transform: translateY(0);
-}
-
 .product-rating .star-rating-custom {
   display: inline-flex;
   align-items: center;
@@ -17583,6 +17362,16 @@ header,
 .insta-background-logo.section_contact img {
   filter: none;
 }
+.insta-background-logo.section_product {
+  width: 60rem;
+  z-index: -1;
+  left: -39rem;
+  opacity: 1;
+  bottom: -36rem !important;
+}
+.insta-background-logo.section_product img {
+  filter: none;
+}
 .insta-background-logo img {
   width: 100%;
   height: auto;
@@ -18151,6 +17940,274 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
 .spacer-10-lips {
   height: 5rem;
   background-color: #ea6676;
+}
+
+.product_item {
+  /* Restauration : effet "glissé depuis le bas" pour l'icône dans les boutons (ajouter au panier) */
+  /* overlay button (structure existante : .btn-overlay > button) */
+  /* état visible : au survol, focus-within, ou quand le bouton est survolé */
+  /* cas spécifique : si tu veux que l'icône apparaisse uniquement quand l'overlay est visible */
+  /* leave overlay logic to existing rules */
+  /* respect reduced-motion */
+}
+.product_item.card,
+.product_item .card {
+  border: none;
+}
+.product_item .card_infos {
+  padding-inline: 0;
+}
+.product_item .img-container {
+  overflow: hidden;
+  aspect-ratio: 1/1;
+  position: relative;
+}
+.product_item .card-img-top {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  background: #f8f8f8;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.product_item h3, .product_item .h3 {
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.product_item:hover .card-img-top, .product_item:focus .card-img-top {
+  transform: scale(1.06);
+}
+.product_item:hover .btn-overlay, .product_item:focus .btn-overlay {
+  opacity: 1;
+}
+.product_item:hover .btn-overlay button, .product_item:focus .btn-overlay button {
+  transform: translateY(0);
+}
+.product_item:hover .btn-overlay .logo-bg-overlay, .product_item:focus .btn-overlay .logo-bg-overlay {
+  opacity: 0.18;
+}
+.product_item .btn i, .product_item .wpcf7 input[type=submit] i, .wpcf7 .product_item input[type=submit] i, .product_item .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item a.button i, .product_item .woocommerce-info a.button i, .woocommerce-info .product_item a.button i,
+.product_item .btn .bi,
+.product_item .wpcf7 input[type=submit] .bi,
+.wpcf7 .product_item input[type=submit] .bi,
+.product_item .woocommerce-notices-wrapper .woocommerce-message a.button .bi,
+.woocommerce-notices-wrapper .woocommerce-message .product_item a.button .bi,
+.product_item .woocommerce-info a.button .bi,
+.woocommerce-info .product_item a.button .bi,
+.product_item button i,
+.product_item button .bi {
+  display: inline-block;
+  transform: translateY(10px);
+  opacity: 0;
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.22s ease;
+  will-change: transform, opacity;
+}
+.product_item .btn-overlay button i,
+.product_item .btn-overlay button .bi {
+  transform: translateY(14px);
+  opacity: 0;
+}
+.product_item:hover .btn i, .product_item:hover .wpcf7 input[type=submit] i, .wpcf7 .product_item:hover input[type=submit] i, .product_item:hover .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item:hover a.button i, .product_item:hover .woocommerce-info a.button i, .woocommerce-info .product_item:hover a.button i, .product_item:focus-within .btn i, .product_item:focus-within .wpcf7 input[type=submit] i, .wpcf7 .product_item:focus-within input[type=submit] i, .product_item:focus-within .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item:focus-within a.button i, .product_item:focus-within .woocommerce-info a.button i, .woocommerce-info .product_item:focus-within a.button i,
+.product_item .btn:hover i,
+.product_item .wpcf7 input[type=submit]:hover i,
+.wpcf7 .product_item input[type=submit]:hover i,
+.product_item .woocommerce-notices-wrapper .woocommerce-message a.button:hover i,
+.woocommerce-notices-wrapper .woocommerce-message .product_item a.button:hover i,
+.product_item .woocommerce-info a.button:hover i,
+.woocommerce-info .product_item a.button:hover i,
+.product_item .btn:focus i,
+.product_item .wpcf7 input[type=submit]:focus i,
+.wpcf7 .product_item input[type=submit]:focus i,
+.product_item .woocommerce-notices-wrapper .woocommerce-message a.button:focus i,
+.woocommerce-notices-wrapper .woocommerce-message .product_item a.button:focus i,
+.product_item .woocommerce-info a.button:focus i,
+.woocommerce-info .product_item a.button:focus i, .product_item:hover .btn-overlay button i, .product_item:focus-within .btn-overlay button i {
+  transform: translateY(0);
+  opacity: 1;
+}
+.product_item .btn-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+.product_item:hover .btn-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .product_item .btn i, .product_item .wpcf7 input[type=submit] i, .wpcf7 .product_item input[type=submit] i, .product_item .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item a.button i, .product_item .woocommerce-info a.button i, .woocommerce-info .product_item a.button i,
+  .product_item .btn-overlay button i {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+.btn-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  background: rgba(188, 51, 101, 0.5);
+  transition: opacity 0.3s ease;
+  z-index: 2;
+  overflow: hidden;
+}
+.btn-overlay .logo-bg-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-overlay .logo-bg-overlay img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+}
+.btn-overlay button {
+  position: relative;
+  z-index: 2;
+  width: 95%;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  text-align: center;
+  color: #fff;
+  background-color: transparent;
+  border: 1px solid #fff;
+  font-weight: bold;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+.btn-overlay button:hover, .btn-overlay button:focus {
+  background-color: transparent !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+.product-image-container {
+  aspect-ratio: 1/1;
+  width: 100%;
+  background: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.product-image-container img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  display: block;
+}
+
+.best_sellers .card {
+  border: none !important;
+}
+.best_sellers .row {
+  align-items: stretch;
+}
+.best_sellers .row > [class*=col-] {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.best_sellers .row > [class*=col-] > .card,
+.best_sellers .row > [class*=col-] > .product_item.card {
+  display: flex !important;
+  flex-direction: column;
+  flex: 1 1 auto !important;
+  height: 100% !important;
+  min-height: 0;
+}
+.best_sellers .card .card-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.best_sellers .card-body h3, .best_sellers .card-body .h3,
+.best_sellers .product_item h3,
+.best_sellers .product_item .h3,
+.best_sellers .product-title {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 2.1em;
+  max-height: 2.1em;
+}
+@supports not (-webkit-line-clamp: 2) {
+  .best_sellers .card-body h3, .best_sellers .card-body .h3,
+  .best_sellers .product_item h3,
+  .best_sellers .product_item .h3,
+  .best_sellers .product-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.1em;
+  }
+}
+.best_sellers .img-container {
+  position: relative !important;
+  display: block !important;
+  overflow: hidden !important;
+  aspect-ratio: 1/1;
+  width: 100%;
+  min-height: 0;
+}
+.best_sellers .card-img-top,
+.best_sellers img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  -o-object-fit: cover !important;
+  object-fit: cover !important;
+}
+.best_sellers .btn-overlay {
+  position: absolute !important;
+  inset: 0;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 0;
+  background: rgba(188, 51, 101, 0.5);
+  transition: opacity 0.28s ease;
+  z-index: 5;
+  pointer-events: none;
+}
+.best_sellers .btn-overlay button {
+  transform: translateY(100%);
+  transition: transform 0.32s ease;
+  pointer-events: auto;
+  z-index: 6;
+}
+.best_sellers .product_item:hover .btn-overlay, .best_sellers .product_item:focus .btn-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+.best_sellers .product_item:hover .btn-overlay button, .best_sellers .product_item:focus .btn-overlay button {
+  transform: translateY(0);
 }
 
 /*# sourceMappingURL=theme.css.map */

@@ -117,58 +117,23 @@ get_header();
                 global $product;
                 ?>
                 <div class="col-12 col-md-3">
-                    <div class="card product_item">
-                        <a href="<?php the_permalink(); ?>" class="text-decoration-none text-dark">
-                            <div class="img-container overflow-hidden position-relative">
-                                <?php the_post_thumbnail('large', [
-                                    'class' => 'card-img-top object-fit-cover',
-                                    'style' => 'aspect-ratio:1/1;object-fit:cover;width:100%;'
-                                ]); ?>
-
-                                <div class="btn-overlay">
-                                    <span class="logo-bg-overlay">
-                                        <img src="<?php echo get_template_directory_uri(); ?>/images/utc-logomark-blanc.svg" alt="Logo UTC" />
-                                    </span>
-                                    <button class="btn py-2 px-4 text-uppercase font-weight-bolder">
-                                        Voir le produit
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="card-body card_infos d-flex flex-column gap-2 ">
-                                <h3 class="card-title h6 mb-0"><?php the_title(); ?></h3>
-
-                                <!-- Description courte -->
-                                <!-- <?php if (isset($product) && is_object($product) && method_exists($product, 'get_short_description')) : ?>
-                                    <p class="card-text mb-0 text-center small">
-                                        <?php
-                                        $short_description = $product->get_short_description();
-                                        echo wp_trim_words($short_description, 15, '...');
-                                        ?>
-                                    </p>
-                                <?php endif; ?> -->
-
-                                <?php if (isset($product) && is_object($product)) : ?>
-                                    <div class="d-flex align-items-center justify-content-between w-100">
-										<p class="price mb-0"><?php echo $product->get_price_html(); ?></p>
-
-										<!-- Ajout des étoiles et du nombre d'avis -->
-										<div class="product-rating ">
-											<?php echo silklane_get_star_rating_html($product->get_average_rating(), $product->get_rating_count()); ?>
-											<span class="rating-count small text-muted">(<?php echo $product->get_rating_count(); ?>)</span>
-										</div>
-									</div>
-                                    <!-- Bouton Ajouter au panier -->
-                                    <form method="post" class="add-to-cart-form mt-2">
-                                        <input type="hidden" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>">
-                                        <button type="submit" class="view-all-link d-flex justify-content-center align-items-center w-100">
-                                            ajouter au panier&nbsp;&nbsp;<i class="bi bi-bag-heart"></i>
-                                        </button>
-                                    </form>
-                                <?php endif; ?>
-                            </div>
-                        </a>
-                    </div>
+                    <?php
+                    // build args for the product card component
+                    $card_args = array(
+                        'product'       => $product,
+                        'post_id'       => get_the_ID(),
+                        'permalink'     => get_permalink(),
+                        'thumbnail'     => get_the_post_thumbnail( get_the_ID(), 'large', array(
+											'class' => 'card-img-top object-fit-cover',
+											'style' => 'aspect-ratio:1/1;object-fit:cover;width:100%;'
+										) ),
+                        'price_html'    => $product->get_price_html(),
+                        'avg_rating'    => $product->get_average_rating(),
+                        'rating_count'  => $product->get_rating_count(),
+                    );
+                    // WP >= 5.5 supports passing $args as 3rd parameter
+                    get_template_part( 'components/card-product-item', null, $card_args );
+                    ?>
                 </div>
                 <?php
             endwhile;

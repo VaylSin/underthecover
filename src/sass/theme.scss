@@ -12,3 +12,4 @@
 // Any additional imported files //
 @import "theme/theme"; // <--- That's where you can add your own design. Thats your part!
 @import "theme/_spacer"; // <--- This is the spacer mixin. You can use it to generate spacers in your theme.
+@import "theme/components/card-product-item"; // <- si le fichier s'appelle card-product-item.scss
