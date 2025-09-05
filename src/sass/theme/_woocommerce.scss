@@ -720,12 +720,9 @@ figure.woocommerce-product-gallery__wrapper {
 	outline: none !important;
 }
 
-/* ...existing code... */
-// ...existing code...
 /* Reviews styling: étoiles velvet, quote italique, controls visibles et plus lentes (interval géré en PHP) */
 .siklane-reviews {
 	margin-top: 2rem;
-	border-top: 1px solid $black-main;
 	padding-top: 1rem;
 	box-sizing: border-box;
 
@@ -831,4 +828,61 @@ figure.woocommerce-product-gallery__wrapper {
 		}
 	}
 }
-/* ...existing code... */
+
+/* Reviews slider: background on the parent container-fluid ONLY */
+.siklane-reviews-bg {
+	background-color: $velvet !important; /* parent full-width background */
+	padding-top: 3rem;
+	padding-bottom: 3rem;
+	/* ensure container inside keeps its own spacing and white cards */
+	.container {
+		/* optional: keep container padding as needed */
+	}
+}
+
+/* inner block must remain transparent so only parent shows velvet */
+.siklane-reviews {
+	background: transparent !important;
+
+	.siklane-review-card {
+		background-color: #fff !important;
+		border: 1px solid $bloom !important;
+		border-radius: 0.5rem;
+	}
+
+	/* étoiles */
+	.siklane-review-stars {
+		.siklane-star.filled {
+			color: $velvet !important;
+		}
+		.siklane-star.outline {
+			color: rgba($velvet, 0.45) !important;
+		}
+	}
+
+	/* citation */
+	.siklane-review-quote {
+		font-style: italic;
+		color: #333;
+		margin: 0;
+		padding-left: 1rem;
+		position: relative;
+		quotes: "“" "”";
+		&:before {
+			content: open-quote;
+			position: absolute;
+			left: -0.6rem;
+			top: 0;
+			font-size: 2rem;
+			color: rgba(255, 255, 255, 0.12);
+		}
+		cite.siklane-review-cite,
+		.siklane-review-cite {
+			display: block;
+			margin-top: 0.6rem;
+			font-style: normal;
+			font-weight: 700;
+			color: #666;
+		}
+	}
+}

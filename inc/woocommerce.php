@@ -429,12 +429,16 @@ add_action( 'wp', function() {
 
 
 
-/* --- Replace previous accordion output + inline JS with a Bootstrap accordion --- */
+
+
+/* Integrated: accordion + full-width reviews slider (safely close/reopen theme wrappers) */
 add_action( 'woocommerce_after_single_product_summary', function() {
     global $post;
+    if ( ! $post || 'product' !== $post->post_type ) {
+        return;
+    }
 
-    if ( ! $post || 'product' !== $post->post_type ) return;
-
+    // --- ACCORDION (Bootstrap collapse markup) ---
     $map = array(
         'siklane_desc'        => __( 'Description', 'siklane' ),
         'siklane_ingredients' => __( 'Ingrédients', 'siklane' ),
@@ -443,7 +447,6 @@ add_action( 'woocommerce_after_single_product_summary', function() {
         'siklane_commitment'  => __( 'Notre engagement', 'siklane' ),
     );
 
-    // collect non-empty blocks
     $items = array();
     foreach ( $map as $key => $title ) {
         $content = get_post_meta( $post->ID, '_' . $key, true );
@@ -452,51 +455,47 @@ add_action( 'woocommerce_after_single_product_summary', function() {
         }
     }
 
-    if ( empty( $items ) ) return;
+    if ( ! empty( $items ) ) {
+        $accordion_id = 'siklane-accordion';
+        echo '<h3 class="logo_h3_content mb-3">' . esc_html__( 'En savoir plus', 'siklane' ) . '</h3>';
+        echo '<div class="accordion siklane-accordion" id="' . esc_attr( $accordion_id ) . '">';
+        foreach ( $items as $it ) {
+            $san_id      = esc_attr( $it['id'] );
+            $collapse_id = 'siklaneCollapse-' . $san_id;
+            $heading_id  = 'siklaneHeading-' . $san_id;
 
-    // Output Bootstrap accordion markup (requires theme to load Bootstrap JS)
-    $accordion_id = 'siklane-accordion';
-    echo '<div class="accordion siklane-accordion" id="' . esc_attr( $accordion_id ) . '">';
-    foreach ( $items as $i => $it ) {
-        $san_id = esc_attr( $it['id'] );
-        $collapse_id = 'siklaneCollapse-' . $san_id;
-        $heading_id  = 'siklaneHeading-' . $san_id;
+            echo '<div class="accordion-item siklane-accordion-item" id="item-' . $san_id . '">';
+                printf(
+                    '<h2 class="accordion-header" id="%1$s"><button class="accordion-button collapsed siklane-accordion-summary" type="button" data-bs-toggle="collapse" data-bs-target="#%2$s" aria-expanded="false" aria-controls="%2$s"><span class="siklane-accordion-title">%3$s</span></button></h2>',
+                    esc_attr( $heading_id ),
+                    esc_attr( $collapse_id ),
+                    esc_html( $it['title'] )
+                );
+                printf(
+                    '<div id="%1$s" class="accordion-collapse collapse" aria-labelledby="%2$s" data-bs-parent="#%3$s"><div class="accordion-body siklane-accordion-body">%4$s</div></div>',
+                    esc_attr( $collapse_id ),
+                    esc_attr( $heading_id ),
+                    esc_attr( $accordion_id ),
+                    wp_kses_post( wpautop( $it['content'] ) )
+                );
+            echo '</div>';
+        }
+        echo '</div>'; // .accordion
+        echo '</div>'; // .accordion
 
-        printf(
-            '<div class="accordion-item siklane-accordion-item" id="item-%1$s">',
-            $san_id
-        );
-
-        // header/button
-        printf(
-            '<h2 class="accordion-header" id="%1$s"><button class="accordion-button collapsed siklane-accordion-summary" type="button" data-bs-toggle="collapse" data-bs-target="#%2$s" aria-expanded="false" aria-controls="%2$s"><span class="siklane-accordion-title">%3$s</span></button></h2>',
-            esc_attr( $heading_id ),
-            esc_attr( $collapse_id ),
-            esc_html( $it['title'] )
-        );
-
-        // collapse body (data-bs-parent ensures only one open)
-        printf(
-            '<div id="%1$s" class="accordion-collapse collapse" aria-labelledby="%2$s" data-bs-parent="#%3$s"><div class="accordion-body siklane-accordion-body">%4$s</div></div>',
-            esc_attr( $collapse_id ),
-            esc_attr( $heading_id ),
-            esc_attr( $accordion_id ),
-            wp_kses_post( wpautop( $it['content'] ) )
-        );
-
-        echo '</div>'; // .accordion-item
     }
-    echo '</div>';
-}, 11 );
 
+    // --- CLOSE theme layout wrappers so slider can be full-width ---
+    // Prevent double-closing if this runs multiple times
+    if ( empty( $GLOBALS['siklane_closed_content_flag'] ) ) {
+        // understrap wrapper_start opened: <div class="{container}" id="content"><div class="row">...<main id="main">
+        echo '</main>';                    // close <main class="site-main" id="main">
+        echo '</div><!-- .row -->';        // close <div class="row">
+        echo '</div><!-- .container -->';  // close <div class="{container}" id="content">
+        $GLOBALS['siklane_closed_content_flag'] = true;
+    }
 
-
-/* Carousel d'avis (groupes de 3) affiché après l'accordéon — include commentaires mêmes sans note */
-add_action( 'woocommerce_after_single_product_summary', function() {
-    global $post;
-    if ( ! $post || 'product' !== $post->post_type ) return;
-
-    // récupérer tous les commentaires approuvés du produit
+    // --- REVIEWS SLIDER (full-width container-fluid with velvet background) ---
     $all_comments = get_comments( array(
         'post_id' => $post->ID,
         'status'  => 'approve',
@@ -504,19 +503,14 @@ add_action( 'woocommerce_after_single_product_summary', function() {
         'order'   => 'DESC',
     ) );
 
-    if ( empty( $all_comments ) ) {
-        return;
-    }
-
-    // construire tableau de reviews : on accepte les commentaires non vides, rating optionnel
     $reviews = array();
     foreach ( $all_comments as $c ) {
-        if ( ! isset( $c->comment_content ) || '' === trim( $c->comment_content ) ) {
+        if ( empty( trim( $c->comment_content ) ) ) {
             continue;
         }
         $rating = get_comment_meta( $c->comment_ID, 'rating', true );
         if ( '' === $rating ) {
-            $rating = get_comment_meta( $c->comment_ID, '_rating', true ); // fallback
+            $rating = get_comment_meta( $c->comment_ID, '_rating', true );
         }
         $reviews[] = (object) array(
             'comment' => $c,
@@ -524,68 +518,79 @@ add_action( 'woocommerce_after_single_product_summary', function() {
         );
     }
 
-    if ( empty( $reviews ) ) {
-        return;
+    if ( ! empty( $reviews ) ) {
+        $chunks      = array_chunk( $reviews, 3 );
+        $carousel_id = 'siklane-review-carousel-' . (int) $post->ID;
+		echo '</div>'; // close previous .wrapper (from understrap_woocommerce_wrapper_start)
+        echo '<div class="container-fluid siklane-reviews-bg py-5 my-5">'; // full-width velvet bg
+          echo '<div class="container">';
+            echo '<div class="siklane-reviews my-0 bg-transparent">';
+              echo '<h3 class="logo_h3_content mb-3 text-white">' . esc_html__( 'Avis clients', 'siklane' ) . '</h3>';
+              echo '<div id="' . esc_attr( $carousel_id ) . '" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000" data-bs-pause="hover">';
+                echo '<div class="carousel-inner">';
+                  foreach ( $chunks as $idx => $group ) {
+                      echo '<div class="carousel-item ' . ( $idx === 0 ? 'active' : '' ) . '">';
+                        echo '<div class="row gx-3">';
+                          foreach ( $group as $r ) {
+                              $c = $r->comment;
+                              $rating = max( 0, min( 5, intval( $r->rating ) ) );
+
+                              echo '<div class="col-12 col-md-4">';
+                                echo '<div class="card siklane-review-card h-100 border-0">';
+                                  echo '<div class="card-body p-3">';
+
+                                    // étoiles
+                                    echo '<div class="siklane-review-stars mb-2" aria-hidden="true">';
+                                    for ( $s = 1; $s <= 5; $s++ ) {
+                                        if ( $s <= $rating ) {
+                                            echo '<svg class="siklane-star filled me-1" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 .587l3.668 7.431 8.21 1.192-5.938 5.79 1.403 8.185L12 18.896l-7.343 3.99 1.403-8.185L.122 9.21l8.21-1.192z"/></svg>';
+                                        } else {
+                                            echo '<svg class="siklane-star outline me-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg>';
+                                        }
+                                    }
+                                    echo '</div>';
+
+                                    // commentaire en blockquote + citation
+                                    $content_html = wp_kses_post( wpautop( $c->comment_content ) );
+                                    echo '<blockquote class="siklane-review-quote mb-2">' . $content_html . '<footer class="siklane-review-cite mt-2"><cite>' . esc_html( get_comment_author( $c ) ) . '</cite></footer></blockquote>';
+
+                                  echo '</div>'; // .card-body
+                                echo '</div>'; // .card
+                              echo '</div>'; // .col
+                          }
+                        echo '</div>'; // .row
+                      echo '</div>'; // .carousel-item
+                  }
+                echo '</div>'; // .carousel-inner
+
+                if ( count( $chunks ) > 1 ) {
+                    echo '<button class="carousel-control-prev" type="button" data-bs-target="#' . esc_attr( $carousel_id ) . '" data-bs-slide="prev" aria-label="' . esc_attr__( 'Précédent', 'siklane' ) . '">';
+                      echo '<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
+                    echo '</button>';
+                    echo '<button class="carousel-control-next" type="button" data-bs-target="#' . esc_attr( $carousel_id ) . '" data-bs-slide="next" aria-label="' . esc_attr__( 'Suivant', 'siklane' ) . '">';
+                      echo '<span class="carousel-control-next-icon" aria-hidden="true"></span>';
+                    echo '</button>';
+                }
+
+              echo '</div>'; // .carousel
+            echo '</div>'; // .siklane-reviews
+          echo '</div>'; // .container
+        echo '</div>'; // .container-fluid.siklane-reviews-bg
     }
 
-    // grouper par 3
-    $chunks = array_chunk( $reviews, 3 );
-    $carousel_id = 'siklane-review-carousel-' . (int) $post->ID;
-    ?>
-    <div class="siklane-reviews my-4">
-        <h3 class="logo_h3_content mb-3"><?php esc_html_e( 'Avis clients', 'siklane' ); ?></h3>
+    // --- REOPEN theme layout (container / row / left-sidebar / main) ---
+    // only reopen if we closed earlier
+    if ( ! empty( $GLOBALS['siklane_closed_content_flag'] ) ) {
+        $container = get_theme_mod( 'understrap_container_type' );
+        if ( false === $container || empty( $container ) ) {
+            $container = 'container';
+        }
+        echo '<div class="' . esc_attr( $container ) . '" id="content" tabindex="-1">';
+          echo '<div class="row">';
+            get_template_part( 'global-templates/left-sidebar-check' );
+            echo '<main class="site-main" id="main">';
+        // keep flag true (will be closed by wrapper_end later)
+    }
+}, 11 );
 
-        <div id="<?php echo esc_attr( $carousel_id ); ?>" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000" data-bs-pause="hover">
-            <div class="carousel-inner">
-                <?php foreach ( $chunks as $idx => $group ) : ?>
-                    <div class="carousel-item <?php echo $idx === 0 ? 'active' : ''; ?>">
-                        <div class="row gx-3">
-                            <?php foreach ( $group as $r ) :
-                                $c = $r->comment;
-                                $rating = max(0, min(5, intval( $r->rating ) ));
-                                ?>
-                                <div class="col-12 col-md-4">
-                                    <div class="card siklane-review-card h-100 border-0">
-                                        <div class="card-body p-3">
-                                            <div class="siklane-review-stars mb-2" aria-hidden="true">
-                                                <?php
-                                                for ( $s = 1; $s <= 5; $s++ ) {
-                                                    if ( $s <= $rating ) {
-                                                        echo '<svg class="siklane-star filled me-1" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 .587l3.668 7.431 8.21 1.192-5.938 5.79 1.403 8.185L12 18.896l-7.343 3.99 1.403-8.185L.122 9.21l8.21-1.192z"/></svg>';
-                                                    } else {
-                                                        echo '<svg class="siklane-star outline me-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z"/></svg>';
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
 
-                                            <?php
-                                            // blockquote pour le commentaire, avec citation (auteur)
-                                            $content_html = wp_kses_post( wpautop( $c->comment_content ) );
-                                            ?>
-                                            <blockquote class="siklane-review-quote mb-2">
-                                                <?php echo $content_html; ?>
-                                                <footer class="siklane-review-cite mt-2"><cite><?php echo esc_html( get_comment_author( $c ) ); ?></cite></footer>
-                                            </blockquote>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-
-            <?php if ( count( $chunks ) > 1 ) : ?>
-                <button class="carousel-control-prev" type="button" data-bs-target="#<?php echo esc_attr( $carousel_id ); ?>" data-bs-slide="prev" aria-label="<?php esc_attr_e( 'Précédent', 'siklane' ); ?>">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#<?php echo esc_attr( $carousel_id ); ?>" data-bs-slide="next" aria-label="<?php esc_attr_e( 'Suivant', 'siklane' ); ?>">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                </button>
-            <?php endif; ?>
-        </div>
-    </div>
-    <?php
-}, 12 );

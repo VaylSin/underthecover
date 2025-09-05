@@ -12884,11 +12884,9 @@ figure.woocommerce-product-gallery__wrapper {
   outline: none !important;
 }
 
-/* ...existing code... */
 /* Reviews styling: étoiles velvet, quote italique, controls visibles et plus lentes (interval géré en PHP) */
 .siklane-reviews {
   margin-top: 2rem;
-  border-top: 1px solid #272727;
   padding-top: 1rem;
   box-sizing: border-box;
   /* commentaire en italique entouré de guillemets décoratifs */
@@ -12986,7 +12984,59 @@ figure.woocommerce-product-gallery__wrapper {
   }
 }
 
-/* ...existing code... */
+/* Reviews slider: background on the parent container-fluid ONLY */
+.siklane-reviews-bg {
+  background-color: #bc3365 !important; /* parent full-width background */
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  /* ensure container inside keeps its own spacing and white cards */
+}
+.siklane-reviews-bg .container {
+  /* optional: keep container padding as needed */
+}
+
+/* inner block must remain transparent so only parent shows velvet */
+.siklane-reviews {
+  background: transparent !important;
+  /* étoiles */
+  /* citation */
+}
+.siklane-reviews .siklane-review-card {
+  background-color: #fff !important;
+  border: 1px solid #fbd2da !important;
+  border-radius: 0.5rem;
+}
+.siklane-reviews .siklane-review-stars .siklane-star.filled {
+  color: #bc3365 !important;
+}
+.siklane-reviews .siklane-review-stars .siklane-star.outline {
+  color: rgba(188, 51, 101, 0.45) !important;
+}
+.siklane-reviews .siklane-review-quote {
+  font-style: italic;
+  color: #333;
+  margin: 0;
+  padding-left: 1rem;
+  position: relative;
+  quotes: "“" "”";
+}
+.siklane-reviews .siklane-review-quote:before {
+  content: open-quote;
+  position: absolute;
+  left: -0.6rem;
+  top: 0;
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.12);
+}
+.siklane-reviews .siklane-review-quote cite.siklane-review-cite,
+.siklane-reviews .siklane-review-quote .siklane-review-cite {
+  display: block;
+  margin-top: 0.6rem;
+  font-style: normal;
+  font-weight: 700;
+  color: #666;
+}
+
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
