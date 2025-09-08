@@ -29,7 +29,9 @@
 		font-weight: 600;
 		text-transform: uppercase;
 	}
-
+	.price {
+		color: $black-main !important;
+	}
 	@include hover-focus {
 		.card-img-top {
 			transform: scale(1.06);

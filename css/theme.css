@@ -12694,22 +12694,6 @@ figure.woocommerce-product-gallery__wrapper {
   display: block;
 }
 
-/* clamp sur 2 lignes avec ellipsis */
-.product-specs-grid .spec-label {
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.25;
-  max-height: 2.3em;
-  font-size: 0.95rem;
-  color: #272727;
-  margin-left: 0.75rem;
-  word-break: break-word;
-}
-
 /* responsive : garde 2x2 sur desktop, passe en 2 colonnes sur mobile si besoin */
 @media (max-width: 479px) {
   .product-specs-grid .specs-grid {
@@ -12893,6 +12877,7 @@ figure.woocommerce-product-gallery__wrapper {
 }
 .siklane-accordion .siklane-accordion-body p {
   margin: 0.5rem 0;
+  font-size: 0.9rem;
 }
 .siklane-accordion .siklane-accordion-body ul,
 .siklane-accordion .siklane-accordion-body ol {
@@ -12950,10 +12935,10 @@ figure.woocommerce-product-gallery__wrapper {
 }
 .siklane-reviews .siklane-review-stars .siklane-star {
   vertical-align: middle;
-  color: rgba(0, 0, 0, 0.12);
+  color: #fff;
 }
 .siklane-reviews .siklane-review-stars .siklane-star.filled {
-  color: #bc3365 !important;
+  color: #fff !important;
   opacity: 1;
 }
 .siklane-reviews .siklane-review-stars .siklane-star.outline {
@@ -12969,9 +12954,9 @@ figure.woocommerce-product-gallery__wrapper {
   padding: 1rem 1rem 0.75rem 2.25rem;
   position: relative;
   font-style: italic;
-  color: #333;
+  color: #fff;
   quotes: "“" "”" "‘" "’";
-  border-left: 3px solid rgba(0, 0, 0, 0.04);
+  border-left: 3px solid rgba(255, 255, 255, 0.04);
   background: transparent;
   box-sizing: border-box;
 }
@@ -12982,7 +12967,7 @@ figure.woocommerce-product-gallery__wrapper {
   top: 0.1rem;
   font-size: 2.2rem;
   line-height: 1;
-  color: rgba(0, 0, 0, 0.08); /* discret */
+  color: rgba(255, 255, 255, 0.08); /* discret */
 }
 .siklane-reviews .siklane-review-cite {
   display: block;
@@ -12995,6 +12980,14 @@ figure.woocommerce-product-gallery__wrapper {
 .siklane-reviews .carousel-control-next {
   z-index: 20;
 }
+.siklane-reviews .carousel-control-prev {
+  justify-content: start;
+  left: -1rem;
+}
+.siklane-reviews .carousel-control-next {
+  justify-content: end;
+  right: -1rem;
+}
 .siklane-reviews .carousel-control-prev-icon,
 .siklane-reviews .carousel-control-next-icon {
   background-image: none !important;
@@ -13004,7 +12997,7 @@ figure.woocommerce-product-gallery__wrapper {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.55);
+  background-color: rgba(255, 255, 255, 0.55);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 .siklane-reviews .carousel-control-prev-icon::after,
@@ -13017,10 +13010,10 @@ figure.woocommerce-product-gallery__wrapper {
   background-repeat: no-repeat;
 }
 .siklane-reviews .carousel-control-prev-icon::after {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'><path d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'><path d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z'/></svg>");
 }
 .siklane-reviews .carousel-control-next-icon::after {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'><path d='M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'><path d='M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z'/></svg>");
 }
 .siklane-reviews .siklane-review-card .card-body {
   padding: 1rem;
@@ -13036,32 +13029,26 @@ figure.woocommerce-product-gallery__wrapper {
   background-color: #bc3365 !important; /* parent full-width background */
   padding-top: 3rem;
   padding-bottom: 3rem;
-  /* ensure container inside keeps its own spacing and white cards */
-}
-.siklane-reviews-bg .container {
-  /* optional: keep container padding as needed */
 }
 
 /* inner block must remain transparent so only parent shows velvet */
 .siklane-reviews {
-  background: transparent !important;
   /* étoiles */
   /* citation */
 }
 .siklane-reviews .siklane-review-card {
-  background-color: #fff !important;
   border: 1px solid #fbd2da !important;
-  border-radius: 0.5rem;
+  border-radius: 1rem !important;
 }
 .siklane-reviews .siklane-review-stars .siklane-star.filled {
-  color: #bc3365 !important;
+  color: #fff !important;
 }
 .siklane-reviews .siklane-review-stars .siklane-star.outline {
-  color: rgba(188, 51, 101, 0.45) !important;
+  color: #fff !important;
 }
 .siklane-reviews .siklane-review-quote {
   font-style: italic;
-  color: #333;
+  color: #fff;
   margin: 0;
   padding-left: 1rem;
   position: relative;
@@ -13073,7 +13060,7 @@ figure.woocommerce-product-gallery__wrapper {
   left: -0.6rem;
   top: 0;
   font-size: 2rem;
-  color: rgba(255, 255, 255, 0.12);
+  color: #fff;
 }
 .siklane-reviews .siklane-review-quote cite.siklane-review-cite,
 .siklane-reviews .siklane-review-quote .siklane-review-cite {
@@ -13081,7 +13068,7 @@ figure.woocommerce-product-gallery__wrapper {
   margin-top: 0.6rem;
   font-style: normal;
   font-weight: 700;
-  color: #666;
+  color: #fff;
 }
 
 /*!
@@ -17453,6 +17440,10 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   flex-shrink: 0;
 }
 
+.siklane-reviews-bg .logo_h3_content::before {
+  background: url("../images/utc-logomark-blanc.svg") no-repeat center center !important;
+}
+
 @media (max-width: 991px) {
   .logo_svg {
     height: 1.6rem;
@@ -17973,6 +17964,9 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
 .product_item h3, .product_item .h3 {
   font-weight: 600;
   text-transform: uppercase;
+}
+.product_item .price {
+  color: #272727 !important;
 }
 .product_item:hover .card-img-top, .product_item:focus .card-img-top {
   transform: scale(1.06);

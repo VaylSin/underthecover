@@ -1322,6 +1322,15 @@ h3.logo_before {
 		}
 	}
 }
+.siklane-reviews-bg {
+	.logo_h3_content {
+		&::before {
+			background: url("../images/utc-logomark-blanc.svg") no-repeat center
+				center !important;
+		}
+	}
+}
+
 // ==========================================================================
 // Media Queries Responsive
 // ==========================================================================
