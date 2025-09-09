@@ -427,8 +427,70 @@ add_action( 'wp', function() {
     }
 }, 9 );
 
+add_action( 'wp_footer', function() {
+    // inclure le partial si présent dans le thème enfant/parent
+    if ( locate_template( 'woocommerce/cart-drawer.php' ) ) {
+        include locate_template( 'woocommerce/cart-drawer.php' );
+    }
+}, 50 );
+
+/**
+ * Update cart drawer fragment on add/remove AJAX actions
+ */
+add_filter( 'woocommerce_add_to_cart_fragments', function( $fragments ) {
+    ob_start();
+    // même structure que dans le partial : juste la zone drawer-content
+    woocommerce_mini_cart();
+    $mini = ob_get_clean();
+
+    // cible : .cart-drawer .drawer-content
+    $fragments['.cart-drawer .drawer-content'] = '<div class="drawer-content">' . $mini . '</div>';
+    // aussi mettre à jour le compteur header si besoin (ex: .cart-count)
+    $fragments['.cart-count'] = '<span class="cart-count">' . WC()->cart->get_cart_contents_count() . '</span>';
+
+    return $fragments;
+} );
 
 
+/**
+ * Marque automatiquement le lien du menu qui pointe vers le panier
+ * et ajoute un item panier si le menu n'en contient pas (pour right-menu).
+ */
+add_filter( 'nav_menu_link_attributes', function( $atts, $item, $args ) {
+    if ( empty( $atts['href'] ) ) {
+        return $atts;
+    }
+
+    $cart_url = untrailingslashit( wc_get_cart_url() );
+    $link_url = untrailingslashit( $atts['href'] );
+
+    if ( $link_url === $cart_url ) {
+        $atts['class'] = ( isset( $atts['class'] ) ? $atts['class'] . ' ' : '' ) . 'cart-toggle';
+        $atts['data-cart-url']   = esc_url( $cart_url );
+        $atts['data-cart-count'] = ( function_exists( 'WC' ) && WC()->cart ) ? (int) WC()->cart->get_cart_contents_count() : 0;
+        $atts['aria-label']      = isset( $atts['aria-label'] ) ? $atts['aria-label'] : esc_attr__( 'Ouvrir le panier', 'siklane' );
+    }
+    return $atts;
+}, 10, 3 );
+
+/**
+ * Si le menu (right-menu) ne contient pas de lien vers le panier, on l'ajoute en fin.
+ */
+add_filter( 'wp_nav_menu_items', function( $items, $args ) {
+    // n'ajoute que pour l'emplacement right-menu ; adapte si besoin
+    if ( isset( $args->theme_location ) && 'right-menu' === $args->theme_location ) {
+        $cart_url = untrailingslashit( wc_get_cart_url() );
+        if ( false === strpos( $items, esc_url( $cart_url ) ) ) {
+            $count = ( function_exists( 'WC' ) && WC()->cart ) ? (int) WC()->cart->get_cart_contents_count() : 0;
+            $cart_link  = '<a href="' . esc_url( $cart_url ) . '" class="nav-link cart-toggle" data-cart-url="' . esc_url( $cart_url ) . '" data-cart-count="' . esc_attr( $count ) . '" aria-label="' . esc_attr__( 'Ouvrir le panier', 'siklane' ) . '">';
+            $cart_link .= '<i class="bi bi-bag"></i>';
+            $cart_link .= '</a>';
+            $items .= '<li class="menu-item menu-item-cart">' . $cart_link . '</li>';
+        }
+    }
+
+    return $items;
+}, 10, 2 );
 
 
 /* Integrated: accordion + full-width reviews slider (safely close/reopen theme wrappers) */

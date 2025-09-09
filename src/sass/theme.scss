@@ -2,7 +2,7 @@
 @import "assets/bootstrap5/bootstrap"; // <--- Loads Bootstrap
 // @import "theme/understrap"; // <--- Loads the Understrap defaults. Just a few classes to incorporate BS in WP
 @import "theme/colors"; // <--- This creates the necessary bootstrap color classes.
-@import "theme/blocks"; // <--- This adds Bootstrap styles to blocks.
+// @import "theme/blocks"; // <--- This adds Bootstrap styles to blocks.
 
 // Optional files - If you dont use the corresponding plugins/scripts/fonts comment em out
 @import "theme/contact-form7"; // <--- Contact Form 7 - Bootstrap support
@@ -12,4 +12,6 @@
 // Any additional imported files //
 @import "theme/theme"; // <--- That's where you can add your own design. Thats your part!
 @import "theme/_spacer"; // <--- This is the spacer mixin. You can use it to generate spacers in your theme.
-@import "theme/components/card-product-item"; // <- si le fichier s'appelle card-product-item.scss
+@import "theme/components/_card-product-item"; // <- si le fichier s'appelle card-product-item.scss
+@import "theme/components/_cart-drawer";
+@import "theme/_cart";

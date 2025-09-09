@@ -748,6 +748,8 @@ progress {
 .container,
 .container-fluid,
 .container-xxl,
+body.understrap-no-sidebar .alignwide,
+body.understrap-no-sidebar .wp-block-cover.alignwide,
 .container-xl,
 .container-lg,
 .container-md,
@@ -782,7 +784,8 @@ progress {
   }
 }
 @media (min-width: 1400px) {
-  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+  .container-xxl, body.understrap-no-sidebar .alignwide,
+  body.understrap-no-sidebar .wp-block-cover.alignwide, .container-xl, .container-lg, .container-md, .container-sm, .container {
     max-width: 1356px;
   }
 }
@@ -6758,8 +6761,6 @@ body.understrap-no-sidebar .wp-block-cover.alignfull .wp-block-cover__inner-cont
 body.understrap-no-sidebar .alignwide,
 body.understrap-no-sidebar .wp-block-cover.alignwide {
   margin: 0 calc(50% - 45vw);
-  max-width: 90vw;
-  width: 100vw;
 }
 @media (max-width: 920px) {
   body.understrap-no-sidebar .alignwide,

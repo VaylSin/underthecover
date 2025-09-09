@@ -1,0 +1,228 @@
+/* Cart drawer (slide-in right) */
+.cart-drawer {
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+	pointer-events: none;
+	height: 100vh;
+	.cart-drawer-backdrop {
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.28);
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+	.cart-drawer-panel {
+		position: absolute;
+		right: -100%;
+		top: 0;
+		height: 100%;
+		width: 100vw;
+		max-width: 420px;
+		background: #fff;
+		box-shadow: -2px 0 24px rgba(0, 0, 0, 0.12);
+		padding: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		pointer-events: auto;
+		transition: right 0.36s cubic-bezier(0.2, 0.8, 0.2, 1);
+	}
+	&.active {
+		pointer-events: auto;
+		.cart-drawer-backdrop {
+			opacity: 1;
+		}
+		.cart-drawer-panel {
+			right: 0;
+		}
+	}
+	.cart-drawer-close {
+		background: none;
+		border: 0;
+		font-size: 1.6rem;
+		line-height: 1;
+	}
+	.drawer-content {
+		overflow: auto;
+		max-height: calc(100vh - 180px);
+	}
+	.mini-cart {
+		font-size: 0.8125rem;
+	}
+}
+
+/* Mini-cart : li en inline-flex, image à gauche, titre + prix à droite */
+.cart-drawer .drawer-content .cart_list li,
+.widget_shopping_cart .cart_list li,
+.woocommerce-mini-cart .cart_list li {
+	padding: 0.75rem 0;
+	border-bottom: 1px solid rgba($velvet, 0.8);
+	box-sizing: border-box;
+	background: transparent;
+}
+
+/* vignette produit */
+.cart-drawer .drawer-content .cart_list li img,
+.widget_shopping_cart .cart_list li img,
+.woocommerce-mini-cart .cart_list li img {
+	flex: 0 0 64px;
+	width: 64px;
+	height: 64px;
+	object-fit: cover;
+	border-radius: 6px;
+	display: block;
+}
+
+/* zone texte (titre + meta) occupe tout l'espace restant */
+.cart-drawer .drawer-content .cart_list li .product-name,
+.widget_shopping_cart .cart_list li .product-name,
+.woocommerce-mini-cart .cart_list li .product-name {
+	flex: 1 1 auto;
+	margin: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between; /* titre à gauche, prix à droite */
+	gap: 0.5rem;
+	color: #222;
+	font-size: 0.95rem;
+	line-height: 1.25;
+}
+
+/* si le titre est un lien */
+.cart-drawer .drawer-content .cart_list li .product-name a,
+.widget_shopping_cart .cart_list li .product-name a,
+.woocommerce-mini-cart .cart_list li .product-name a {
+	color: inherit;
+	text-decoration: none;
+	flex: 1 1 auto;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* prix aligné à droite */
+.cart-drawer .drawer-content .cart_list li .amount,
+.widget_shopping_cart .cart_list li .amount,
+.woocommerce-mini-cart .cart_list li .woocommerce-Price-amount {
+	flex: 0 0 auto;
+	white-space: nowrap;
+	font-weight: 700;
+	color: $velvet;
+	margin-left: 0.5rem;
+}
+
+/* adapt mobile : réduire vignette et espacement */
+@media (max-width: 575.98px) {
+	.cart-drawer .drawer-content .cart_list li,
+	.widget_shopping_cart .cart_list li,
+	.woocommerce-mini-cart .cart_list li {
+		gap: 0.5rem;
+		padding: 0.6rem 0;
+	}
+	.cart-drawer .drawer-content .cart_list li img,
+	.widget_shopping_cart .cart_list li img,
+	.woocommerce-mini-cart .cart_list li img {
+		width: 48px;
+		height: 48px;
+		flex: 0 0 48px;
+	}
+	.cart-drawer .drawer-content .cart_list li .product-name a {
+		white-space: normal;
+		line-clamp: 2;
+		-webkit-line-clamp: 2;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+}
+
+// variables par défaut (remplace si déjà définies dans ton thème)
+$velvet: #c72f56 !default;
+$bloom: #ff8ab6 !default;
+$black-main: #0b0b0b !default;
+
+// bordures des lignes mini-cart en velvet
+.cart-drawer,
+.woocommerce-mini-cart,
+.widget_shopping_cart {
+	.cart_list {
+		li {
+			border-bottom: 1px solid $velvet;
+		}
+	}
+}
+
+// titres produits : uppercase, couleur black-main, bold, sans underline
+.product-title,
+.product-name {
+	text-transform: uppercase;
+	color: $black-main;
+	font-weight: 700;
+	text-decoration: none;
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+}
+
+// bouton "économiser x€" (ajoute la classe HTML .btn-save ou .save-amount si nécessaire)
+.btn-save,
+.save-amount,
+.cart-savings {
+	display: inline-block;
+	background: $bloom;
+	color: #fff;
+	border: none;
+	padding: 0.35rem 0.6rem;
+	font-weight: 600;
+	border-radius: 6px;
+	text-decoration: none;
+	line-height: 1;
+	text-align: center;
+}
+
+// prix total : bold + velvet
+.woocommerce-mini-cart__totals .value,
+.mini-cart-footer .value,
+.woocommerce-mini-cart .total .amount,
+.widget_shopping_cart .total .amount,
+.cart-totals .order-total .amount {
+	color: $velvet;
+	font-weight: 700;
+}
+
+// assurer layout flex : header / list (scrollable) / footer
+.cart-drawer {
+	.cart-drawer-panel {
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+		max-height: 100vh;
+		overflow: hidden;
+	}
+
+	.drawer-content {
+		flex: 1 1 auto;
+		overflow: auto;
+	}
+
+	.drawer-actions,
+	.mini-cart-footer {
+		flex: 0 0 auto;
+	}
+}
+
+// responsive : adapter taille vignette et espacement
+@media (max-width: 576px) {
+	.product-title,
+	.product-name {
+		font-size: 0.92rem;
+	}
+	.mini-cart-thumb img,
+	.woocommerce-mini-cart img,
+	.widget_shopping_cart img {
+		width: 48px;
+		height: 48px;
+	}
+}

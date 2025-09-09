@@ -6154,9 +6154,15 @@
     function disablePageScroll() {
       if (__siklane_scroll_locked) return;
       __siklane_scroll_locked = true;
-      document.documentElement.style.overflow = "hidden";
-      document.body.style.overflow = "hidden";
+      // lock native scroll
+      try {
+        document.documentElement.style.overflow = "hidden";
+      } catch (e) {}
+      try {
+        document.body.style.overflow = "hidden";
+      } catch (e) {}
       document.body.style.touchAction = "none";
+      // prevent wheel/touch keys
       window.addEventListener("wheel", preventDefault, {
         passive: false
       });
@@ -6166,6 +6172,7 @@
       window.addEventListener("keydown", preventKeys, {
         passive: false
       });
+      // if external smooth scrollbar exists, stop it
       if (window.__smoothScrollbar && typeof window.__smoothScrollbar.stop === "function") {
         try {
           window.__smoothScrollbar.stop();
@@ -6173,12 +6180,19 @@
           /* silent */
         }
       }
+      // add class hooks for CSS fallback
+      document.documentElement.classList.add("cart-drawer-open");
+      document.body.classList.add("cart-drawer-open");
     }
     function enablePageScroll() {
       if (!__siklane_scroll_locked) return;
       __siklane_scroll_locked = false;
-      document.documentElement.style.overflow = "";
-      document.body.style.overflow = "";
+      try {
+        document.documentElement.style.overflow = "";
+      } catch (e) {}
+      try {
+        document.body.style.overflow = "";
+      } catch (e) {}
       document.body.style.touchAction = "";
       window.removeEventListener("wheel", preventDefault, {
         passive: false
@@ -6196,6 +6210,9 @@
           /* silent */
         }
       }
+      // remove class hooks
+      document.documentElement.classList.remove("cart-drawer-open");
+      document.body.classList.remove("cart-drawer-open");
     }
 
     /* ----- AOS ----- */
@@ -6684,7 +6701,6 @@
       // si AOS est présent, forcer un refresh après la création du wrapper
       if (typeof AOS !== "undefined" && AOS && typeof AOS.refresh === "function") {
         try {
-          // petit délai pour laisser le layout se stabiliser
           setTimeout(() => {
             AOS.refresh();
             console.debug("[aos] refreshed after initScroller");
@@ -6711,6 +6727,58 @@
         childList: true,
         subtree: false
       });
+    }
+
+    /* ----- Cart drawer (slide-in) ----- */
+    function initCartDrawer() {
+      const openButtons = Array.from(document.querySelectorAll(".cart-toggle"));
+      const drawer = document.getElementById("cartDrawer");
+      if (!drawer) return;
+      const closeEls = drawer.querySelectorAll("[data-cart-drawer-close]");
+      function open() {
+        drawer.classList.add("active");
+        drawer.setAttribute("aria-hidden", "false");
+        disablePageScroll();
+        // ensure internal scrollable area is reset to top
+        const inner = drawer.querySelector(".drawer-content");
+        if (inner) inner.scrollTop = 0;
+        // put focus in drawer for accessibility
+        const firstFocusable = drawer.querySelector("button, a, input, [tabindex]");
+        if (firstFocusable) firstFocusable.focus();
+      }
+      function close() {
+        drawer.classList.remove("active");
+        drawer.setAttribute("aria-hidden", "true");
+        enablePageScroll();
+      }
+      openButtons.forEach(btn => btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        open();
+      }));
+      closeEls.forEach(el => el.addEventListener("click", function (e) {
+        e.preventDefault();
+        close();
+      }));
+      document.addEventListener("keyup", e => {
+        if (e.key === "Escape") close();
+      });
+
+      // delegate clicks outside panel (backdrop closes)
+      const backdrop = drawer.querySelector(".cart-drawer-backdrop");
+      if (backdrop) backdrop.addEventListener("click", close);
+
+      // optional: reopen drawer automatically when product added via AJAX
+      document.body.addEventListener("added_to_cart", function () {
+        // small delay to let fragments update
+        setTimeout(function () {
+          // if drawer not visible, open it
+          if (!drawer.classList.contains("active")) open();
+        }, 200);
+      });
+
+      // Allow external code to open/close drawer via events
+      document.addEventListener("open-cart-drawer", () => open());
+      document.addEventListener("close-cart-drawer", () => close());
     }
 
     /* ----- Single DOMContentLoaded orchestration ----- */
@@ -6747,6 +6815,13 @@
       }
       setTimeout(initSmoothLibraries, 120);
       watchWrapperThenDetach();
+
+      // Initialise drawer après tout (binding idempotent si absent)
+      try {
+        initCartDrawer();
+      } catch (e) {
+        console.warn("initCartDrawer failed:", e);
+      }
     });
 
     /* Expose debug hooks */

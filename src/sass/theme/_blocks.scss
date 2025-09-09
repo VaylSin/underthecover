@@ -12,7 +12,6 @@
 	}
 }
 
-
 figure.wp-block-image, // Image captions
 .wp-block-image > figure // Alternate/classic editor image captions
 {
@@ -49,8 +48,7 @@ body.understrap-no-sidebar {
 	.alignwide,
 	.wp-block-cover.alignwide {
 		margin: 0 calc(50% - 45vw);
-		max-width: 90vw;
-		width: 100vw;
+		@extend .container-xxl;
 	}
 
 	@media (max-width: 920px) {
@@ -67,10 +65,21 @@ body.understrap-no-sidebar {
 .wp-block-buttons {
 	.wp-block-button {
 		.wp-block-button__link {
-			@if variable-exists('bootstrap4') {
-				@include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-line-height, $btn-border-radius);
+			@if variable-exists("bootstrap4") {
+				@include button-size(
+					$btn-padding-y,
+					$btn-padding-x,
+					$btn-font-size,
+					$btn-line-height,
+					$btn-border-radius
+				);
 			} @else {
-				@include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-border-radius);
+				@include button-size(
+					$btn-padding-y,
+					$btn-padding-x,
+					$btn-font-size,
+					$btn-border-radius
+				);
 			}
 		}
 		&:not(.is-style-outline) .wp-block-button__link {

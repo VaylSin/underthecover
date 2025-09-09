@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 	<?php
 	if ( ! is_page_template( 'page-templates/no-title.php' ) ) {
 		the_title(
-			'<header class="entry-header"><h1 class="entry-title">',
+			'<header class="my-5 entry-header"><h1 class="logo_h3_content entry-title">',
 			'</h1></header><!-- .entry-header -->'
 		);
 	}

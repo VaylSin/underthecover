@@ -1,0 +1,28 @@
+.wc-block-cart__main .wc-block-cart-items td {
+	border-top: 1px solid rgba($velvet, 0.5) !important;
+}
+.wc-block-components-product-name {
+	font-size: 1.2rem;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: $velvet;
+	text-decoration: none;
+	transition: color 0.2s ease;
+	&:hover {
+		color: darken($velvet, 15%);
+	}
+}
+.wc-block-components-product-price {
+	font-weight: 700;
+}
+.wc-block-cart-item__product {
+	.wc-block-components-sale-badge,
+	.wc-block-components-product-metadata {
+		display: none;
+	}
+}
+.wc-block-cart-item__total {
+	.wc-block-components-sale-badge {
+		background-color: $bloom;
+	}
+}
