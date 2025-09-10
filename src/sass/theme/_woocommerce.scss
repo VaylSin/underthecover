@@ -759,8 +759,6 @@ figure.woocommerce-product-gallery__wrapper {
 
 /* Reviews styling: étoiles velvet, quote italique, controls visibles et plus lentes (interval géré en PHP) */
 .siklane-reviews {
-	margin-top: 2rem;
-	padding-top: 1rem;
 	box-sizing: border-box;
 
 	.siklane-review-card {
@@ -827,11 +825,11 @@ figure.woocommerce-product-gallery__wrapper {
 	}
 	.carousel-control-prev {
 		justify-content: start;
-		left: -1rem;
+		left: -3rem;
 	}
 	.carousel-control-next {
 		justify-content: end;
-		right: -1rem;
+		right: -3rem;
 	}
 	.carousel-control-prev-icon,
 	.carousel-control-next-icon {

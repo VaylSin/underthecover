@@ -526,28 +526,45 @@ add_action( 'woocommerce_after_single_product_summary', function() {
             echo '<div class="col-12 col-lg-9 mx-lg-auto">';
               echo '<h3 class="maj_title logo_h3_content mb-3">' . esc_html__( 'En savoir plus', 'siklane' ) . '</h3>';
               echo '<div class="accordion siklane-accordion" id="' . esc_attr( $accordion_id ) . '">';
+
+                $idx = 0;
                 foreach ( $items as $it ) {
                     $san_id      = esc_attr( $it['id'] );
                     $collapse_id = 'siklaneCollapse-' . $san_id;
                     $heading_id  = 'siklaneHeading-' . $san_id;
 
+                    $is_first = ( $idx === 0 );
+                    $button_class   = $is_first ? 'accordion-button' : 'accordion-button collapsed';
+                    $aria_expanded  = $is_first ? 'true' : 'false';
+                    // le premier panneau doit avoir la classe "show" si aria-expanded="true"
+                    $collapse_classes = $is_first ? 'accordion-collapse collapse' : 'accordion-collapse collapse';
+
                     echo '<div class="accordion-item siklane-accordion-item" id="item-' . $san_id . '">';
-                        printf(
-                            '<h2 class="accordion-header" id="%1$s"><button class="accordion-button collapsed siklane-accordion-summary" type="button" data-bs-toggle="collapse" data-bs-target="#%2$s" aria-expanded="false" aria-controls="%2$s"><span class="siklane-accordion-title">%3$s</span><i class="bi bi-arrow-down-circle siklane-accordion-icon" aria-hidden="true"></i></button></h2>',
-                            esc_attr( $heading_id ),
-                            esc_attr( $collapse_id ),
-                            esc_html( $it['title'] )
-                        );
-                        printf(
-                            '<div id="%1$s" class="accordion-collapse collapse" aria-labelledby="%2$s" data-bs-parent="#%3$s"><div class="accordion-body siklane-accordion-body">%4$s</div></div>',
-                            esc_attr( $collapse_id ),
-                            esc_attr( $heading_id ),
-                            esc_attr( $accordion_id ),
-                            wp_kses_post( wpautop( $it['content'] ) )
-                        );
+
+                    printf(
+                        '<h2 class="accordion-header" id="%1$s"><button class="%2$s siklane-accordion-summary" data-callapse="%2$s" type="button" data-bs-toggle="collapse" data-bs-target="#%3$s" aria-controls="%3$s"><span class="siklane-accordion-title">%5$s</span><i class="bi bi-arrow-down-circle siklane-accordion-icon" aria-hidden="true"></i></button></h2>',
+                        esc_attr( $heading_id ),
+                        esc_attr( $button_class ),
+                        esc_attr( $collapse_id ),
+                        esc_attr( $aria_expanded ),
+                        esc_html( $it['title'] )
+                    );
+
+                    printf(
+                        '<div id="%1$s" class="%2$s" aria-labelledby="%3$s" data-bs-parent="#%4$s"><div class="accordion-body siklane-accordion-body">%5$s</div></div>',
+                        esc_attr( $collapse_id ),
+                        esc_attr( $collapse_classes ),
+                        esc_attr( $heading_id ),
+                        esc_attr( $accordion_id ),
+                        wp_kses_post( wpautop( $it['content'] ) )
+                    );
+
                     echo '</div>';
+
+                    $idx++;
                 }
-              echo '</div>'; // .accordion
+
+                echo '</div>'; // .accordion
             echo '</div>'; // .col
           echo '</div>'; // .row
 		echo '<div class="insta-background-logo section_product mt-4" aria-hidden="true">';
@@ -597,7 +614,7 @@ add_action( 'woocommerce_after_single_product_summary', function() {
 		echo '</div>'; // close previous .wrapper (from understrap_woocommerce_wrapper_start)
         echo '<div class="container-fluid siklane-reviews-bg py-5 my-5">'; // full-width velvet bg
           echo '<div class="container">';
-            echo '<div class="siklane-reviews mb-5 bg-transparent">';
+            echo '<div class="siklane-reviews mb-3 bg-transparent">';
               echo '<h3 class="maj_title logo_h3_content mb-5 text-white">' . esc_html__( 'Avis clients', 'siklane' ) . '</h3>';
               echo '<div id="' . esc_attr( $carousel_id ) . '" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000" data-bs-pause="hover">';
                 echo '<div class="carousel-inner">';
@@ -666,6 +683,17 @@ add_action( 'woocommerce_after_single_product_summary', function() {
     }
 }, 11 );
 
+add_action( 'init', function() {
+    // supprime le bouton par défaut si présent
+    remove_action( 'woocommerce_proceed_to_checkout', 'woocommerce_button_proceed_to_checkout', 20 );
 
-
-
+    // ajoute notre bouton personnalisé (avec classes)
+    add_action( 'woocommerce_proceed_to_checkout', function() {
+        printf(
+            '<a href="%s" class="btn btn-primary btn-lg w-100 proceed-to-checkout" aria-label="%s">%s</a>',
+            esc_url( wc_get_checkout_url() ),
+            esc_attr__( 'Finaliser la commande', 'siklane' ),
+            esc_html__( 'Finaliser la commande', 'siklane' )
+        );
+    }, 20 );
+} );
