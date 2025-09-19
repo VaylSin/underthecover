@@ -12238,13 +12238,6 @@ form.cart input[type=number]::-webkit-inner-spin-button {
   color: #bc3365 !important;
 }
 
-.wc-block-components-form .wc-block-components-checkout-step {
-  box-shadow: 0 2px 8px 0 rgba(188, 51, 101, 0.08) !important;
-  border: 0.0625rem solid #bc3365 !important;
-  padding: 1rem !important;
-  border-radius: 0.3125rem;
-}
-
 .woocommerce-input-wrapper {
   width: 100%;
 }
@@ -18537,7 +18530,7 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
 
 .wp-block-woocommerce-checkout-order-summary-block,
 .wp-block-woocommerce-checkout-order-summary-block {
-  border-color: #bc3365 !important;
+  border-color: rgba(188, 51, 101, 0.1) !important;
   box-shadow: 0 2px 8px 0 rgba(188, 51, 101, 0.08) !important;
 }
 
@@ -18634,6 +18627,13 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
 #my-account-menu.position-left .myaccount-menu:before {
   border-bottom: 1px solid rgba(188, 51, 101, 0.1);
   box-shadow: 0 2px 8px 0 rgba(188, 51, 101, 0.08);
+}
+
+.wc-block-components-form .wc-block-components-checkout-step {
+  box-shadow: 0 2px 8px 0 rgba(188, 51, 101, 0.08) !important;
+  border: 1px solid rgba(188, 51, 101, 0.1) !important;
+  padding: 1rem !important;
+  border-radius: 0.3125rem;
 }
 
 /*# sourceMappingURL=theme.css.map */

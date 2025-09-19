@@ -290,9 +290,3 @@ form.cart input[type="number"]::-webkit-inner-spin-button {
 .woocommerce-form-login__submit {
 	@extend .view-all-link, .btn;
 }
-.wc-block-components-form .wc-block-components-checkout-step {
-	box-shadow: 0 2px 8px 0 rgba($velvet, 0.08) !important;
-	border: 0.0625rem solid $velvet !important;
-	padding: 1rem !important;
-	border-radius: 0.3125rem;
-}

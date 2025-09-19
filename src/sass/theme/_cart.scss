@@ -28,7 +28,8 @@
 }
 .wp-block-woocommerce-checkout-order-summary-block,
 .wp-block-woocommerce-checkout-order-summary-block {
-	border-color: $velvet !important;
+	border-color: rgba($velvet, 0.1) !important;
+
 	box-shadow: 0 2px 8px 0 rgba($velvet, 0.08) !important;
 }
 .wc-block-components-checkout-return-to-cart-button,
