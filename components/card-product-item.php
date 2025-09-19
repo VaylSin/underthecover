@@ -11,11 +11,16 @@ $thumbnail    = isset( $args['thumbnail'] ) ? $args['thumbnail'] : get_the_post_
 $price_html   = isset( $args['price_html'] ) ? $args['price_html'] : ( $product ? $product->get_price_html() : '' );
 $avg_rating   = isset( $args['avg_rating'] ) ? $args['avg_rating'] : ( $product ? $product->get_average_rating() : 0 );
 $rating_count = isset( $args['rating_count'] ) ? $args['rating_count'] : ( $product ? $product->get_rating_count() : 0 );
+$image_html   = $args['image_html'] ?? '';
+if ( empty( $image_html ) ) {
+    $image_html = '<img src="' . esc_url( get_site_url() . '/wp-content/uploads/woocommerce-placeholder-350x350.webp' ) . '" alt="' . esc_attr__( 'Image produit par défaut', 'siklane' ) . '" class="img-fluid" />';
+}
 ?>
 <div class="card product_item">
     <a href="<?php echo $permalink; ?>" class="text-decoration-none text-dark">
         <div class="img-container overflow-hidden position-relative">
             <?php echo $thumbnail; ?>
+            <?php echo $image_html; ?>
 
             <div class="btn-overlay">
                 <span class="logo-bg-overlay">

@@ -17,7 +17,7 @@ if ( is_array( $banner ) && isset( $banner['url'] ) ) {
 } elseif ( is_string( $banner ) ) {
     $banner_url = $banner;
 } else {
-    $banner_url = get_template_directory_uri() . '/assets/img/default-banner.jpg';
+	$banner_url = get_site_url() . '/wp-content/uploads/woocommerce-placeholder-350x350.webp';
 }
 
 if ( is_product_category() ) {
@@ -81,7 +81,7 @@ if ( is_product_category() ) {
                         if ( has_post_thumbnail() ) {
                             $image_html = woocommerce_get_product_thumbnail();
                         } else {
-                            $image_html = '<img src="' . esc_url( get_template_directory_uri() . '/assets/img/default-product.jpg' ) . '" alt="' . esc_attr__( 'Image produit par défaut', 'siklane' ) . '" class="img-fluid" />';
+                            $image_html = '<img src="' . esc_url( get_site_url() . '/wp-content/uploads/woocommerce-placeholder-350x350.webp' ) . '" alt="' . esc_attr__( 'Image produit par défaut', 'siklane' ) . '" class="img-fluid" />';
                         }
                         $args = array(
                             'product_id'    => $product->get_id(),
