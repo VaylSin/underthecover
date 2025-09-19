@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
 
 			if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_checkout_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
 				?>
-				<tr class="<?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
+				<!-- <tr class="<?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
 					<td class="product-name">
 						<?php echo wp_kses_post( apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key ) ) . '&nbsp;'; ?>
 						<?php echo apply_filters( 'woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf( '&times;&nbsp;%s', $cart_item['quantity'] ) . '</strong>', $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
@@ -42,7 +42,7 @@ defined( 'ABSPATH' ) || exit;
 					<td class="product-total">
 						<?php echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					</td>
-				</tr>
+				</tr> -->
 				<?php
 			}
 		}
@@ -109,20 +109,3 @@ defined( 'ABSPATH' ) || exit;
 	</tfoot>
 </table>
 
-<?php
-$order_button_text = apply_filters( 'woocommerce_order_button_text', esc_html__( 'Commander', 'woocommerce' ) );
-?>
-<div class="checkout-actions d-flex gap-2 align-items-stretch">
-  <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="btn btn-return btn-outline-secondary">
-    <?php esc_html_e( 'Retour au panier TEST', 'siklane' ); ?>
-  </a>
-
-  <?php
-  // bouton de commande (conserver le filtre WooCommerce)
-  echo apply_filters(
-    'woocommerce_order_button_html',
-    '<button type="submit" class="btn btn-place-order btn-velvet" name="woocommerce_checkout_place_order" id="place_order" value="' . esc_attr( $order_button_text ) . '">' . esc_html( $order_button_text ) . '</button>'
-  );
-  ?>
-</div>
-<?php do_action( 'woocommerce_review_order_after_submit' ); ?>

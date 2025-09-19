@@ -19,6 +19,7 @@ input[type="url"],
 input[type="tel"],
 input[type="number"],
 input[type="email"],
+input[type="password"],
 textarea {
 	@extend .form-control;
 }
@@ -58,6 +59,7 @@ input[type="email"],
 input[type="tel"],
 input[type="search"],
 input[type="url"],
+input[type="password"],
 select,
 textarea,
 .wc-blocks-components-select__select,
@@ -261,4 +263,36 @@ form.cart input[type="number"]::-webkit-inner-spin-button {
 }
 .wc-block-components-totals-coupon__form {
 	gap: 0 !important;
+}
+.wc-block-checkout__actions_row {
+	gap: 1rem;
+	.wc-block-components-checkout-place-order-button {
+		padding: 0.75rem 1.5rem !important;
+	}
+	.wc-block-components-checkout-return-to-cart-button {
+		svg {
+			display: none;
+		}
+		@extend .view-all-link;
+		flex-basis: 50%;
+		&:hover {
+			color: rgba($black-main, 1) !important;
+			background: $bloom !important;
+			border-color: $bloom !important;
+			outline: none !important;
+			box-shadow: none !important;
+		}
+	}
+}
+.wc-block-components-validation-error {
+	color: $velvet !important;
+}
+.woocommerce-form-login__submit {
+	@extend .view-all-link, .btn;
+}
+.wc-block-components-form .wc-block-components-checkout-step {
+	box-shadow: 0 2px 8px 0 rgba($velvet, 0.08) !important;
+	border: 0.0625rem solid $velvet !important;
+	padding: 1rem !important;
+	border-radius: 0.3125rem;
 }

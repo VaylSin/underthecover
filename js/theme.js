@@ -6828,6 +6828,133 @@
     window.__siklane_detachAfterWrap = detachAfterWrap;
     window.__siklane_initScroller = initScroller;
     window.__siklane_initSmoothLibraries = initSmoothLibraries;
+
+    // smooth details accordion for my-account
+    function initAccountAccordion() {
+      const items = document.querySelectorAll(".siklane-account-item");
+      if (!items.length) return;
+      items.forEach(detail => {
+        const body = detail.querySelector(".siklane-account-body");
+        const summary = detail.querySelector(".siklane-account-summary");
+
+        // set initial styles
+        body.style.overflow = "hidden";
+        body.style.transition = "max-height .36s ease, opacity .28s ease";
+        body.style.maxHeight = detail.hasAttribute("open") ? body.scrollHeight + "px" : "0px";
+        body.style.opacity = detail.hasAttribute("open") ? "1" : "0";
+        summary.addEventListener("click", function (e) {
+          // default summary toggling is fine; we manage smooth height animation
+          // prevent following if nested link exists (we removed links)
+          e.preventDefault();
+          const isOpen = detail.hasAttribute("open");
+          if (isOpen) {
+            // close
+            body.style.maxHeight = body.scrollHeight + "px"; // set to current to allow transition
+            requestAnimationFrame(() => {
+              body.style.maxHeight = "0px";
+              body.style.opacity = "0";
+            });
+            detail.removeAttribute("open");
+            // optional: update URL to base account (remove endpoint)
+            if (history && history.replaceState) {
+              window.location.pathname.replace(/\/[^\/]*\/?$/, "/");
+              // do not force replace if you prefer keep url unchanged
+              // history.replaceState(null, '', base);
+            }
+          } else {
+            // open
+            detail.setAttribute("open", "");
+            // ensure we compute scrollHeight after open
+            requestAnimationFrame(() => {
+              body.style.maxHeight = body.scrollHeight + "px";
+              body.style.opacity = "1";
+              // remove maxHeight after transition to allow dynamic content
+              setTimeout(() => {
+                if (detail.hasAttribute("open")) body.style.maxHeight = "";
+              }, 400);
+            });
+
+            // optional: push endpoint url to address bar without reload
+            const url = detail.getAttribute("data-endpoint-url");
+            if (url && history && history.pushState) {
+              history.replaceState(null, "", url);
+            }
+          }
+        }, {
+          passive: false
+        });
+      });
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initAccountAccordion);
+    } else {
+      initAccountAccordion();
+    }
+    (function () {
+      // lazy load endpoint content into Bootstrap accordion-body when opened
+      function initAccountLazyLoad() {
+        const accordion = document.querySelector(".siklane-account-accordion");
+        if (!accordion || typeof window.bootstrap === "undefined") return;
+        accordion.addEventListener("shown.bs.collapse", async function (ev) {
+          const collapse = ev.target; // .accordion-collapse
+          if (!collapse) return;
+          const body = collapse.querySelector(".siklane-account-body");
+          if (!body) return;
+
+          // already loaded or has content -> skip
+          if (body.dataset.loaded === "1" || body.innerHTML.trim().length > 8) {
+            body.dataset.loaded = "1";
+            return;
+          }
+          const url = collapse.getAttribute("data-endpoint-url");
+          if (!url) return;
+          try {
+            const res = await fetch(url, {
+              credentials: "same-origin"
+            });
+            if (!res.ok) return;
+            const text = await res.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, "text/html");
+
+            // selectors to try (first match with meaningful HTML)
+            const selectors = [".woocommerce-MyAccount-content", ".woocommerce-account .woocommerce-MyAccount-content", ".woocommerce-account",
+            // fallback
+            "#primary",
+            // generic fallback
+            "main"];
+            let fragmentHtml = "";
+            for (const sel of selectors) {
+              const node = doc.querySelector(sel);
+              if (node && node.innerHTML.trim().length > 20) {
+                fragmentHtml = node.innerHTML;
+                break;
+              }
+            }
+            if (!fragmentHtml) {
+              // fallback: take main content of response
+              fragmentHtml = doc.body ? doc.body.innerHTML : text;
+            }
+            body.innerHTML = fragmentHtml;
+            body.dataset.loaded = "1";
+          } catch (err) {
+            // silent fail
+            // console.error('accordion lazy load error', err);
+          }
+        });
+
+        // optional: mark collapsed bodies as not loaded on page load if empty
+        accordion.querySelectorAll(".accordion-collapse").forEach(c => {
+          const b = c.querySelector(".siklane-account-body");
+          if (b && b.innerHTML.trim().length > 8) b.dataset.loaded = "1";
+        });
+      }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initAccountLazyLoad);
+      } else {
+        initAccountLazyLoad();
+      }
+    })();
   })();
 
   exports.Alert = Alert;

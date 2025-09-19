@@ -58,8 +58,6 @@ h6 {
 	z-index: 100;
 	background: #fff;
 	@include transition(background);
-	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
-
 	.bi {
 		font-size: 1.5rem;
 		color: $black-main;

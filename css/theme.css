@@ -2007,6 +2007,7 @@ input[type=url],
 input[type=tel],
 input[type=number],
 input[type=email],
+input[type=password],
 textarea {
   display: block;
   width: 100%;
@@ -2031,6 +2032,7 @@ textarea {
   input[type=tel],
   input[type=number],
   input[type=email],
+  input[type=password],
   textarea {
     transition: none;
   }
@@ -2041,6 +2043,7 @@ input[type=file][type=url],
 input[type=file][type=tel],
 input[type=file][type=number],
 input[type=file][type=email],
+input[type=file][type=password],
 textarea[type=file] {
   overflow: hidden;
 }
@@ -2050,6 +2053,7 @@ input[type=file][type=url]:not(:disabled):not([readonly]),
 input[type=file][type=tel]:not(:disabled):not([readonly]),
 input[type=file][type=number]:not(:disabled):not([readonly]),
 input[type=file][type=email]:not(:disabled):not([readonly]),
+input[type=file][type=password]:not(:disabled):not([readonly]),
 textarea[type=file]:not(:disabled):not([readonly]) {
   cursor: pointer;
 }
@@ -2059,6 +2063,7 @@ input[type=url]:focus,
 input[type=tel]:focus,
 input[type=number]:focus,
 input[type=email]:focus,
+input[type=password]:focus,
 textarea:focus {
   color: #212529;
   background-color: #fff;
@@ -2072,10 +2077,11 @@ input[type=url]::-webkit-date-and-time-value,
 input[type=tel]::-webkit-date-and-time-value,
 input[type=number]::-webkit-date-and-time-value,
 input[type=email]::-webkit-date-and-time-value,
+input[type=password]::-webkit-date-and-time-value,
 textarea::-webkit-date-and-time-value {
   height: 1.5em;
 }
-.form-control::-moz-placeholder, input[type=text]::-moz-placeholder, input[type=search]::-moz-placeholder, input[type=url]::-moz-placeholder, input[type=tel]::-moz-placeholder, input[type=number]::-moz-placeholder, input[type=email]::-moz-placeholder, textarea::-moz-placeholder {
+.form-control::-moz-placeholder, input[type=text]::-moz-placeholder, input[type=search]::-moz-placeholder, input[type=url]::-moz-placeholder, input[type=tel]::-moz-placeholder, input[type=number]::-moz-placeholder, input[type=email]::-moz-placeholder, input[type=password]::-moz-placeholder, textarea::-moz-placeholder {
   color: #6c757d;
   opacity: 1;
 }
@@ -2085,6 +2091,7 @@ input[type=url]::placeholder,
 input[type=tel]::placeholder,
 input[type=number]::placeholder,
 input[type=email]::placeholder,
+input[type=password]::placeholder,
 textarea::placeholder {
   color: #6c757d;
   opacity: 1;
@@ -2095,11 +2102,12 @@ input[type=url]:disabled,
 input[type=tel]:disabled,
 input[type=number]:disabled,
 input[type=email]:disabled,
+input[type=password]:disabled,
 textarea:disabled {
   background-color: #e9ecef;
   opacity: 1;
 }
-.form-control::-webkit-file-upload-button, input[type=text]::-webkit-file-upload-button, input[type=search]::-webkit-file-upload-button, input[type=url]::-webkit-file-upload-button, input[type=tel]::-webkit-file-upload-button, input[type=number]::-webkit-file-upload-button, input[type=email]::-webkit-file-upload-button, textarea::-webkit-file-upload-button {
+.form-control::-webkit-file-upload-button, input[type=text]::-webkit-file-upload-button, input[type=search]::-webkit-file-upload-button, input[type=url]::-webkit-file-upload-button, input[type=tel]::-webkit-file-upload-button, input[type=number]::-webkit-file-upload-button, input[type=email]::-webkit-file-upload-button, input[type=password]::-webkit-file-upload-button, textarea::-webkit-file-upload-button {
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
   -webkit-margin-end: 0.75rem;
@@ -2121,6 +2129,7 @@ input[type=url]::file-selector-button,
 input[type=tel]::file-selector-button,
 input[type=number]::file-selector-button,
 input[type=email]::file-selector-button,
+input[type=password]::file-selector-button,
 textarea::file-selector-button {
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
@@ -2137,7 +2146,7 @@ textarea::file-selector-button {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 @media (prefers-reduced-motion: reduce) {
-  .form-control::-webkit-file-upload-button, input[type=text]::-webkit-file-upload-button, input[type=search]::-webkit-file-upload-button, input[type=url]::-webkit-file-upload-button, input[type=tel]::-webkit-file-upload-button, input[type=number]::-webkit-file-upload-button, input[type=email]::-webkit-file-upload-button, textarea::-webkit-file-upload-button {
+  .form-control::-webkit-file-upload-button, input[type=text]::-webkit-file-upload-button, input[type=search]::-webkit-file-upload-button, input[type=url]::-webkit-file-upload-button, input[type=tel]::-webkit-file-upload-button, input[type=number]::-webkit-file-upload-button, input[type=email]::-webkit-file-upload-button, input[type=password]::-webkit-file-upload-button, textarea::-webkit-file-upload-button {
     -webkit-transition: none;
     transition: none;
   }
@@ -2147,11 +2156,12 @@ textarea::file-selector-button {
   input[type=tel]::file-selector-button,
   input[type=number]::file-selector-button,
   input[type=email]::file-selector-button,
+  input[type=password]::file-selector-button,
   textarea::file-selector-button {
     transition: none;
   }
 }
-.form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, input[type=text]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, input[type=search]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, input[type=url]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, input[type=tel]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, input[type=number]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, input[type=email]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, textarea:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
+.form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, input[type=text]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, input[type=search]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, input[type=url]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, input[type=tel]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, input[type=number]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, input[type=email]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, input[type=password]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button, textarea:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
   background-color: #dde0e3;
 }
 .form-control:hover:not(:disabled):not([readonly])::file-selector-button, input[type=text]:hover:not(:disabled):not([readonly])::file-selector-button,
@@ -2160,6 +2170,7 @@ input[type=url]:hover:not(:disabled):not([readonly])::file-selector-button,
 input[type=tel]:hover:not(:disabled):not([readonly])::file-selector-button,
 input[type=number]:hover:not(:disabled):not([readonly])::file-selector-button,
 input[type=email]:hover:not(:disabled):not([readonly])::file-selector-button,
+input[type=password]:hover:not(:disabled):not([readonly])::file-selector-button,
 textarea:hover:not(:disabled):not([readonly])::file-selector-button {
   background-color: #dde0e3;
 }
@@ -2433,7 +2444,7 @@ textarea.form-control-lg {
   clip: rect(0, 0, 0, 0);
   pointer-events: none;
 }
-.btn-check[disabled] + .btn, .btn-check[disabled] + .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-check[disabled] + a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-check[disabled] + a.button, .wc-block-components-totals-coupon__content .btn-check[disabled] + button[type=submit], .btn-check[disabled] + input[type=submit], .btn-check:disabled + .btn, .btn-check:disabled + .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-check:disabled + a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-check:disabled + a.button, .wc-block-components-totals-coupon__content .btn-check:disabled + button[type=submit], .btn-check:disabled + input[type=submit] {
+.btn-check[disabled] + .btn, .btn-check[disabled] + .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-check[disabled] + a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-check[disabled] + a.button, .btn-check[disabled] + .woocommerce-form-login__submit, .wc-block-components-totals-coupon__content .btn-check[disabled] + button[type=submit], .btn-check[disabled] + input[type=submit], .btn-check:disabled + .btn, .btn-check:disabled + .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-check:disabled + a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-check:disabled + a.button, .btn-check:disabled + .woocommerce-form-login__submit, .wc-block-components-totals-coupon__content .btn-check:disabled + button[type=submit], .btn-check:disabled + input[type=submit] {
   pointer-events: none;
   filter: none;
   opacity: 0.65;
@@ -2538,6 +2549,7 @@ textarea.form-control-lg {
 .form-floating > input[type=tel],
 .form-floating > input[type=number],
 .form-floating > input[type=email],
+.form-floating > input[type=password],
 .form-floating > textarea,
 .form-floating > .form-control-plaintext,
 .form-floating > .form-select {
@@ -2571,11 +2583,12 @@ textarea.form-control-lg {
 .form-floating > input[type=tel],
 .form-floating > input[type=number],
 .form-floating > input[type=email],
+.form-floating > input[type=password],
 .form-floating > textarea,
 .form-floating > .form-control-plaintext {
   padding: 1rem 0.75rem;
 }
-.form-floating > .form-control::-moz-placeholder, .form-floating > input[type=text]::-moz-placeholder, .form-floating > input[type=search]::-moz-placeholder, .form-floating > input[type=url]::-moz-placeholder, .form-floating > input[type=tel]::-moz-placeholder, .form-floating > input[type=number]::-moz-placeholder, .form-floating > input[type=email]::-moz-placeholder, .form-floating > textarea::-moz-placeholder, .form-floating > .form-control-plaintext::-moz-placeholder {
+.form-floating > .form-control::-moz-placeholder, .form-floating > input[type=text]::-moz-placeholder, .form-floating > input[type=search]::-moz-placeholder, .form-floating > input[type=url]::-moz-placeholder, .form-floating > input[type=tel]::-moz-placeholder, .form-floating > input[type=number]::-moz-placeholder, .form-floating > input[type=email]::-moz-placeholder, .form-floating > input[type=password]::-moz-placeholder, .form-floating > textarea::-moz-placeholder, .form-floating > .form-control-plaintext::-moz-placeholder {
   color: transparent;
 }
 .form-floating > .form-control::placeholder, .form-floating > input[type=text]::placeholder,
@@ -2584,11 +2597,12 @@ textarea.form-control-lg {
 .form-floating > input[type=tel]::placeholder,
 .form-floating > input[type=number]::placeholder,
 .form-floating > input[type=email]::placeholder,
+.form-floating > input[type=password]::placeholder,
 .form-floating > textarea::placeholder,
 .form-floating > .form-control-plaintext::placeholder {
   color: transparent;
 }
-.form-floating > .form-control:not(:-moz-placeholder-shown), .form-floating > input[type=text]:not(:-moz-placeholder-shown), .form-floating > input[type=search]:not(:-moz-placeholder-shown), .form-floating > input[type=url]:not(:-moz-placeholder-shown), .form-floating > input[type=tel]:not(:-moz-placeholder-shown), .form-floating > input[type=number]:not(:-moz-placeholder-shown), .form-floating > input[type=email]:not(:-moz-placeholder-shown), .form-floating > textarea:not(:-moz-placeholder-shown), .form-floating > .form-control-plaintext:not(:-moz-placeholder-shown) {
+.form-floating > .form-control:not(:-moz-placeholder-shown), .form-floating > input[type=text]:not(:-moz-placeholder-shown), .form-floating > input[type=search]:not(:-moz-placeholder-shown), .form-floating > input[type=url]:not(:-moz-placeholder-shown), .form-floating > input[type=tel]:not(:-moz-placeholder-shown), .form-floating > input[type=number]:not(:-moz-placeholder-shown), .form-floating > input[type=email]:not(:-moz-placeholder-shown), .form-floating > input[type=password]:not(:-moz-placeholder-shown), .form-floating > textarea:not(:-moz-placeholder-shown), .form-floating > .form-control-plaintext:not(:-moz-placeholder-shown) {
   padding-top: 1.625rem;
   padding-bottom: 0.625rem;
 }
@@ -2598,12 +2612,14 @@ textarea.form-control-lg {
 .form-floating > input[type=tel]:focus,
 .form-floating > input[type=number]:focus,
 .form-floating > input[type=email]:focus,
+.form-floating > input[type=password]:focus,
 .form-floating > textarea:focus, .form-floating > .form-control:not(:placeholder-shown), .form-floating > input[type=text]:not(:placeholder-shown),
 .form-floating > input[type=search]:not(:placeholder-shown),
 .form-floating > input[type=url]:not(:placeholder-shown),
 .form-floating > input[type=tel]:not(:placeholder-shown),
 .form-floating > input[type=number]:not(:placeholder-shown),
 .form-floating > input[type=email]:not(:placeholder-shown),
+.form-floating > input[type=password]:not(:placeholder-shown),
 .form-floating > textarea:not(:placeholder-shown),
 .form-floating > .form-control-plaintext:focus,
 .form-floating > .form-control-plaintext:not(:placeholder-shown) {
@@ -2616,6 +2632,7 @@ textarea.form-control-lg {
 .form-floating > input[type=tel]:-webkit-autofill,
 .form-floating > input[type=number]:-webkit-autofill,
 .form-floating > input[type=email]:-webkit-autofill,
+.form-floating > input[type=password]:-webkit-autofill,
 .form-floating > textarea:-webkit-autofill,
 .form-floating > .form-control-plaintext:-webkit-autofill {
   padding-top: 1.625rem;
@@ -2625,7 +2642,7 @@ textarea.form-control-lg {
   padding-top: 1.625rem;
   padding-bottom: 0.625rem;
 }
-.form-floating > .form-control:not(:-moz-placeholder-shown) ~ label, .form-floating > input[type=text]:not(:-moz-placeholder-shown) ~ label, .form-floating > input[type=search]:not(:-moz-placeholder-shown) ~ label, .form-floating > input[type=url]:not(:-moz-placeholder-shown) ~ label, .form-floating > input[type=tel]:not(:-moz-placeholder-shown) ~ label, .form-floating > input[type=number]:not(:-moz-placeholder-shown) ~ label, .form-floating > input[type=email]:not(:-moz-placeholder-shown) ~ label, .form-floating > textarea:not(:-moz-placeholder-shown) ~ label {
+.form-floating > .form-control:not(:-moz-placeholder-shown) ~ label, .form-floating > input[type=text]:not(:-moz-placeholder-shown) ~ label, .form-floating > input[type=search]:not(:-moz-placeholder-shown) ~ label, .form-floating > input[type=url]:not(:-moz-placeholder-shown) ~ label, .form-floating > input[type=tel]:not(:-moz-placeholder-shown) ~ label, .form-floating > input[type=number]:not(:-moz-placeholder-shown) ~ label, .form-floating > input[type=email]:not(:-moz-placeholder-shown) ~ label, .form-floating > input[type=password]:not(:-moz-placeholder-shown) ~ label, .form-floating > textarea:not(:-moz-placeholder-shown) ~ label {
   opacity: 0.65;
   transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
 }
@@ -2635,6 +2652,7 @@ textarea.form-control-lg {
 .form-floating > input[type=tel]:focus ~ label,
 .form-floating > input[type=number]:focus ~ label,
 .form-floating > input[type=email]:focus ~ label,
+.form-floating > input[type=password]:focus ~ label,
 .form-floating > textarea:focus ~ label,
 .form-floating > .form-control:not(:placeholder-shown) ~ label,
 .form-floating > input[type=text]:not(:placeholder-shown) ~ label,
@@ -2643,6 +2661,7 @@ textarea.form-control-lg {
 .form-floating > input[type=tel]:not(:placeholder-shown) ~ label,
 .form-floating > input[type=number]:not(:placeholder-shown) ~ label,
 .form-floating > input[type=email]:not(:placeholder-shown) ~ label,
+.form-floating > input[type=password]:not(:placeholder-shown) ~ label,
 .form-floating > textarea:not(:placeholder-shown) ~ label,
 .form-floating > .form-control-plaintext ~ label,
 .form-floating > .form-select ~ label {
@@ -2655,6 +2674,7 @@ textarea.form-control-lg {
 .form-floating > input[type=tel]:-webkit-autofill ~ label,
 .form-floating > input[type=number]:-webkit-autofill ~ label,
 .form-floating > input[type=email]:-webkit-autofill ~ label,
+.form-floating > input[type=password]:-webkit-autofill ~ label,
 .form-floating > textarea:-webkit-autofill ~ label {
   opacity: 0.65;
   transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
@@ -2676,6 +2696,7 @@ textarea.form-control-lg {
 .input-group > input[type=tel],
 .input-group > input[type=number],
 .input-group > input[type=email],
+.input-group > input[type=password],
 .input-group > textarea,
 .input-group > .form-select,
 .input-group > .form-floating {
@@ -2690,16 +2711,17 @@ textarea.form-control-lg {
 .input-group > input[type=tel]:focus,
 .input-group > input[type=number]:focus,
 .input-group > input[type=email]:focus,
+.input-group > input[type=password]:focus,
 .input-group > textarea:focus,
 .input-group > .form-select:focus,
 .input-group > .form-floating:focus-within {
   z-index: 5;
 }
-.input-group .btn, .input-group .wc-block-components-checkout-return-to-cart-button, .input-group .woocommerce-info a.button, .woocommerce-info .input-group a.button, .input-group .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-notices-wrapper .woocommerce-message .input-group a.button, .input-group .wc-block-components-totals-coupon__content button[type=submit], .wc-block-components-totals-coupon__content .input-group button[type=submit], .input-group input[type=submit] {
+.input-group .btn, .input-group .wc-block-components-checkout-return-to-cart-button, .input-group .woocommerce-info a.button, .woocommerce-info .input-group a.button, .input-group .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-notices-wrapper .woocommerce-message .input-group a.button, .input-group .woocommerce-form-login__submit, .input-group .wc-block-components-totals-coupon__content button[type=submit], .wc-block-components-totals-coupon__content .input-group button[type=submit], .input-group input[type=submit] {
   position: relative;
   z-index: 2;
 }
-.input-group .btn:focus, .input-group .wc-block-components-checkout-return-to-cart-button:focus, .input-group .woocommerce-info a.button:focus, .woocommerce-info .input-group a.button:focus, .input-group .woocommerce-notices-wrapper .woocommerce-message a.button:focus, .woocommerce-notices-wrapper .woocommerce-message .input-group a.button:focus, .input-group .wc-block-components-totals-coupon__content button[type=submit]:focus, .wc-block-components-totals-coupon__content .input-group button[type=submit]:focus, .input-group input[type=submit]:focus {
+.input-group .btn:focus, .input-group .wc-block-components-checkout-return-to-cart-button:focus, .input-group .woocommerce-info a.button:focus, .woocommerce-info .input-group a.button:focus, .input-group .woocommerce-notices-wrapper .woocommerce-message a.button:focus, .woocommerce-notices-wrapper .woocommerce-message .input-group a.button:focus, .input-group .woocommerce-form-login__submit:focus, .input-group .wc-block-components-totals-coupon__content button[type=submit]:focus, .wc-block-components-totals-coupon__content .input-group button[type=submit]:focus, .input-group input[type=submit]:focus {
   z-index: 5;
 }
 
@@ -2724,6 +2746,7 @@ textarea.form-control-lg {
 .input-group-lg > input[type=tel],
 .input-group-lg > input[type=number],
 .input-group-lg > input[type=email],
+.input-group-lg > input[type=password],
 .input-group-lg > textarea,
 .input-group-lg > .form-select,
 .input-group-lg > .input-group-text,
@@ -2731,6 +2754,7 @@ textarea.form-control-lg {
 .input-group-lg > .wc-block-components-checkout-return-to-cart-button,
 .woocommerce-info .input-group-lg > a.button,
 .woocommerce-notices-wrapper .woocommerce-message .input-group-lg > a.button,
+.input-group-lg > .woocommerce-form-login__submit,
 .wc-block-components-totals-coupon__content .input-group-lg > button[type=submit],
 .input-group-lg > input[type=submit] {
   padding: 0.5rem 1rem;
@@ -2744,6 +2768,7 @@ textarea.form-control-lg {
 .input-group-sm > input[type=tel],
 .input-group-sm > input[type=number],
 .input-group-sm > input[type=email],
+.input-group-sm > input[type=password],
 .input-group-sm > textarea,
 .input-group-sm > .form-select,
 .input-group-sm > .input-group-text,
@@ -2751,6 +2776,7 @@ textarea.form-control-lg {
 .input-group-sm > .wc-block-components-checkout-return-to-cart-button,
 .woocommerce-info .input-group-sm > a.button,
 .woocommerce-notices-wrapper .woocommerce-message .input-group-sm > a.button,
+.input-group-sm > .woocommerce-form-login__submit,
 .wc-block-components-totals-coupon__content .input-group-sm > button[type=submit],
 .input-group-sm > input[type=submit] {
   padding: 0.25rem 0.5rem;
@@ -2772,6 +2798,7 @@ textarea.form-control-lg {
 .input-group:not(.has-validation) > .form-floating:not(:last-child) > input[type=tel],
 .input-group:not(.has-validation) > .form-floating:not(:last-child) > input[type=number],
 .input-group:not(.has-validation) > .form-floating:not(:last-child) > input[type=email],
+.input-group:not(.has-validation) > .form-floating:not(:last-child) > input[type=password],
 .input-group:not(.has-validation) > .form-floating:not(:last-child) > textarea,
 .input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-select {
   border-top-right-radius: 0;
@@ -2786,6 +2813,7 @@ textarea.form-control-lg {
 .input-group.has-validation > .form-floating:nth-last-child(n+3) > input[type=tel],
 .input-group.has-validation > .form-floating:nth-last-child(n+3) > input[type=number],
 .input-group.has-validation > .form-floating:nth-last-child(n+3) > input[type=email],
+.input-group.has-validation > .form-floating:nth-last-child(n+3) > input[type=password],
 .input-group.has-validation > .form-floating:nth-last-child(n+3) > textarea,
 .input-group.has-validation > .form-floating:nth-last-child(n+3) > .form-select {
   border-top-right-radius: 0;
@@ -2802,6 +2830,7 @@ textarea.form-control-lg {
 .input-group > .form-floating:not(:first-child) > input[type=tel],
 .input-group > .form-floating:not(:first-child) > input[type=number],
 .input-group > .form-floating:not(:first-child) > input[type=email],
+.input-group > .form-floating:not(:first-child) > input[type=password],
 .input-group > .form-floating:not(:first-child) > textarea,
 .input-group > .form-floating:not(:first-child) > .form-select {
   border-top-left-radius: 0;
@@ -2843,12 +2872,14 @@ textarea.form-control-lg {
 .was-validated input[type=tel]:valid,
 .was-validated input[type=number]:valid,
 .was-validated input[type=email]:valid,
+.was-validated input[type=password]:valid,
 .was-validated textarea:valid, .form-control.is-valid, input.is-valid[type=text],
 input.is-valid[type=search],
 input.is-valid[type=url],
 input.is-valid[type=tel],
 input.is-valid[type=number],
 input.is-valid[type=email],
+input.is-valid[type=password],
 textarea.is-valid {
   border-color: #198754;
   padding-right: calc(1.5em + 0.75rem);
@@ -2863,12 +2894,14 @@ textarea.is-valid {
 .was-validated input[type=tel]:valid:focus,
 .was-validated input[type=number]:valid:focus,
 .was-validated input[type=email]:valid:focus,
+.was-validated input[type=password]:valid:focus,
 .was-validated textarea:valid:focus, .form-control.is-valid:focus, input.is-valid[type=text]:focus,
 input.is-valid[type=search]:focus,
 input.is-valid[type=url]:focus,
 input.is-valid[type=tel]:focus,
 input.is-valid[type=number]:focus,
 input.is-valid[type=email]:focus,
+input.is-valid[type=password]:focus,
 textarea.is-valid:focus {
   border-color: #198754;
   box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
@@ -2922,12 +2955,14 @@ textarea.is-valid {
 .was-validated .input-group > input[type=tel]:not(:focus):valid,
 .was-validated .input-group > input[type=number]:not(:focus):valid,
 .was-validated .input-group > input[type=email]:not(:focus):valid,
+.was-validated .input-group > input[type=password]:not(:focus):valid,
 .was-validated .input-group > textarea:not(:focus):valid, .input-group > .form-control:not(:focus).is-valid, .input-group > input[type=text]:not(:focus).is-valid,
 .input-group > input[type=search]:not(:focus).is-valid,
 .input-group > input[type=url]:not(:focus).is-valid,
 .input-group > input[type=tel]:not(:focus).is-valid,
 .input-group > input[type=number]:not(:focus).is-valid,
 .input-group > input[type=email]:not(:focus).is-valid,
+.input-group > input[type=password]:not(:focus).is-valid,
 .input-group > textarea:not(:focus).is-valid,
 .was-validated .input-group > .form-select:not(:focus):valid,
 .input-group > .form-select:not(:focus).is-valid,
@@ -2971,12 +3006,14 @@ textarea.is-valid {
 .was-validated input[type=tel]:invalid,
 .was-validated input[type=number]:invalid,
 .was-validated input[type=email]:invalid,
+.was-validated input[type=password]:invalid,
 .was-validated textarea:invalid, .form-control.is-invalid, input.is-invalid[type=text],
 input.is-invalid[type=search],
 input.is-invalid[type=url],
 input.is-invalid[type=tel],
 input.is-invalid[type=number],
 input.is-invalid[type=email],
+input.is-invalid[type=password],
 textarea.is-invalid {
   border-color: #dc3545;
   padding-right: calc(1.5em + 0.75rem);
@@ -2991,12 +3028,14 @@ textarea.is-invalid {
 .was-validated input[type=tel]:invalid:focus,
 .was-validated input[type=number]:invalid:focus,
 .was-validated input[type=email]:invalid:focus,
+.was-validated input[type=password]:invalid:focus,
 .was-validated textarea:invalid:focus, .form-control.is-invalid:focus, input.is-invalid[type=text]:focus,
 input.is-invalid[type=search]:focus,
 input.is-invalid[type=url]:focus,
 input.is-invalid[type=tel]:focus,
 input.is-invalid[type=number]:focus,
 input.is-invalid[type=email]:focus,
+input.is-invalid[type=password]:focus,
 textarea.is-invalid:focus {
   border-color: #dc3545;
   box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
@@ -3050,12 +3089,14 @@ textarea.is-invalid {
 .was-validated .input-group > input[type=tel]:not(:focus):invalid,
 .was-validated .input-group > input[type=number]:not(:focus):invalid,
 .was-validated .input-group > input[type=email]:not(:focus):invalid,
+.was-validated .input-group > input[type=password]:not(:focus):invalid,
 .was-validated .input-group > textarea:not(:focus):invalid, .input-group > .form-control:not(:focus).is-invalid, .input-group > input[type=text]:not(:focus).is-invalid,
 .input-group > input[type=search]:not(:focus).is-invalid,
 .input-group > input[type=url]:not(:focus).is-invalid,
 .input-group > input[type=tel]:not(:focus).is-invalid,
 .input-group > input[type=number]:not(:focus).is-invalid,
 .input-group > input[type=email]:not(:focus).is-invalid,
+.input-group > input[type=password]:not(:focus).is-invalid,
 .input-group > textarea:not(:focus).is-invalid,
 .was-validated .input-group > .form-select:not(:focus):invalid,
 .input-group > .form-select:not(:focus).is-invalid,
@@ -3064,7 +3105,7 @@ textarea.is-invalid {
   z-index: 4;
 }
 
-.btn, .wc-block-components-checkout-return-to-cart-button, .woocommerce-info a.button, .woocommerce-notices-wrapper .woocommerce-message a.button, .wc-block-components-totals-coupon__content button[type=submit], input[type=submit] {
+.btn, .wc-block-components-checkout-return-to-cart-button, .woocommerce-info a.button, .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-form-login__submit, .wc-block-components-totals-coupon__content button[type=submit], input[type=submit] {
   --bs-btn-padding-x: 0.75rem;
   --bs-btn-padding-y: 0.375rem;
   --bs-btn-font-family: ;
@@ -3100,41 +3141,41 @@ textarea.is-invalid {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 @media (prefers-reduced-motion: reduce) {
-  .btn, .wc-block-components-checkout-return-to-cart-button, .woocommerce-info a.button, .woocommerce-notices-wrapper .woocommerce-message a.button, .wc-block-components-totals-coupon__content button[type=submit], input[type=submit] {
+  .btn, .wc-block-components-checkout-return-to-cart-button, .woocommerce-info a.button, .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-form-login__submit, .wc-block-components-totals-coupon__content button[type=submit], input[type=submit] {
     transition: none;
   }
 }
-.btn:hover, .wc-block-components-checkout-return-to-cart-button:hover, .woocommerce-info a.button:hover, .woocommerce-notices-wrapper .woocommerce-message a.button:hover, .wc-block-components-totals-coupon__content button[type=submit]:hover, input[type=submit]:hover {
+.btn:hover, .wc-block-components-checkout-return-to-cart-button:hover, .woocommerce-info a.button:hover, .woocommerce-notices-wrapper .woocommerce-message a.button:hover, .woocommerce-form-login__submit:hover, .wc-block-components-totals-coupon__content button[type=submit]:hover, input[type=submit]:hover {
   color: var(--bs-btn-hover-color);
   background-color: var(--bs-btn-hover-bg);
   border-color: var(--bs-btn-hover-border-color);
 }
-.btn-check + .btn:hover, .btn-check + .wc-block-components-checkout-return-to-cart-button:hover, .woocommerce-info .btn-check + a.button:hover, .woocommerce-notices-wrapper .woocommerce-message .btn-check + a.button:hover, .wc-block-components-totals-coupon__content .btn-check + button[type=submit]:hover, .btn-check + input[type=submit]:hover {
+.btn-check + .btn:hover, .btn-check + .wc-block-components-checkout-return-to-cart-button:hover, .woocommerce-info .btn-check + a.button:hover, .woocommerce-notices-wrapper .woocommerce-message .btn-check + a.button:hover, .btn-check + .woocommerce-form-login__submit:hover, .wc-block-components-totals-coupon__content .btn-check + button[type=submit]:hover, .btn-check + input[type=submit]:hover {
   color: var(--bs-btn-color);
   background-color: var(--bs-btn-bg);
   border-color: var(--bs-btn-border-color);
 }
-.btn:focus-visible, .wc-block-components-checkout-return-to-cart-button:focus-visible, .woocommerce-info a.button:focus-visible, .woocommerce-notices-wrapper .woocommerce-message a.button:focus-visible, .wc-block-components-totals-coupon__content button[type=submit]:focus-visible, input[type=submit]:focus-visible {
+.btn:focus-visible, .wc-block-components-checkout-return-to-cart-button:focus-visible, .woocommerce-info a.button:focus-visible, .woocommerce-notices-wrapper .woocommerce-message a.button:focus-visible, .woocommerce-form-login__submit:focus-visible, .wc-block-components-totals-coupon__content button[type=submit]:focus-visible, input[type=submit]:focus-visible {
   color: var(--bs-btn-hover-color);
   background-color: var(--bs-btn-hover-bg);
   border-color: var(--bs-btn-hover-border-color);
   outline: 0;
   box-shadow: var(--bs-btn-focus-box-shadow);
 }
-.btn-check:focus-visible + .btn, .btn-check:focus-visible + .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-check:focus-visible + a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-check:focus-visible + a.button, .wc-block-components-totals-coupon__content .btn-check:focus-visible + button[type=submit], .btn-check:focus-visible + input[type=submit] {
+.btn-check:focus-visible + .btn, .btn-check:focus-visible + .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-check:focus-visible + a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-check:focus-visible + a.button, .btn-check:focus-visible + .woocommerce-form-login__submit, .wc-block-components-totals-coupon__content .btn-check:focus-visible + button[type=submit], .btn-check:focus-visible + input[type=submit] {
   border-color: var(--bs-btn-hover-border-color);
   outline: 0;
   box-shadow: var(--bs-btn-focus-box-shadow);
 }
-.btn-check:checked + .btn, .btn-check:checked + .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-check:checked + a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-check:checked + a.button, .wc-block-components-totals-coupon__content .btn-check:checked + button[type=submit], .btn-check:checked + input[type=submit], :not(.btn-check) + .btn:active, :not(.btn-check) + .wc-block-components-checkout-return-to-cart-button:active, .woocommerce-info :not(.btn-check) + a.button:active, .woocommerce-notices-wrapper .woocommerce-message :not(.btn-check) + a.button:active, .wc-block-components-totals-coupon__content :not(.btn-check) + button[type=submit]:active, :not(.btn-check) + input[type=submit]:active, .btn:first-child:active, .wc-block-components-checkout-return-to-cart-button:first-child:active, .woocommerce-info a.button:first-child:active, .woocommerce-notices-wrapper .woocommerce-message a.button:first-child:active, .wc-block-components-totals-coupon__content button[type=submit]:first-child:active, input[type=submit]:first-child:active, .btn.active, .active.wc-block-components-checkout-return-to-cart-button, .woocommerce-info a.active.button, .woocommerce-notices-wrapper .woocommerce-message a.active.button, .wc-block-components-totals-coupon__content button.active[type=submit], input.active[type=submit], .btn.show, .show.wc-block-components-checkout-return-to-cart-button, .woocommerce-info a.show.button, .woocommerce-notices-wrapper .woocommerce-message a.show.button, .wc-block-components-totals-coupon__content button.show[type=submit], input.show[type=submit] {
+.btn-check:checked + .btn, .btn-check:checked + .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-check:checked + a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-check:checked + a.button, .btn-check:checked + .woocommerce-form-login__submit, .wc-block-components-totals-coupon__content .btn-check:checked + button[type=submit], .btn-check:checked + input[type=submit], :not(.btn-check) + .btn:active, :not(.btn-check) + .wc-block-components-checkout-return-to-cart-button:active, .woocommerce-info :not(.btn-check) + a.button:active, .woocommerce-notices-wrapper .woocommerce-message :not(.btn-check) + a.button:active, :not(.btn-check) + .woocommerce-form-login__submit:active, .wc-block-components-totals-coupon__content :not(.btn-check) + button[type=submit]:active, :not(.btn-check) + input[type=submit]:active, .btn:first-child:active, .wc-block-components-checkout-return-to-cart-button:first-child:active, .woocommerce-info a.button:first-child:active, .woocommerce-notices-wrapper .woocommerce-message a.button:first-child:active, .woocommerce-form-login__submit:first-child:active, .wc-block-components-totals-coupon__content button[type=submit]:first-child:active, input[type=submit]:first-child:active, .btn.active, .active.wc-block-components-checkout-return-to-cart-button, .woocommerce-info a.active.button, .woocommerce-notices-wrapper .woocommerce-message a.active.button, .active.woocommerce-form-login__submit, .wc-block-components-totals-coupon__content button.active[type=submit], input.active[type=submit], .btn.show, .show.wc-block-components-checkout-return-to-cart-button, .woocommerce-info a.show.button, .woocommerce-notices-wrapper .woocommerce-message a.show.button, .show.woocommerce-form-login__submit, .wc-block-components-totals-coupon__content button.show[type=submit], input.show[type=submit] {
   color: var(--bs-btn-active-color);
   background-color: var(--bs-btn-active-bg);
   border-color: var(--bs-btn-active-border-color);
 }
-.btn-check:checked + .btn:focus-visible, .btn-check:checked + .wc-block-components-checkout-return-to-cart-button:focus-visible, .woocommerce-info .btn-check:checked + a.button:focus-visible, .woocommerce-notices-wrapper .woocommerce-message .btn-check:checked + a.button:focus-visible, .wc-block-components-totals-coupon__content .btn-check:checked + button[type=submit]:focus-visible, .btn-check:checked + input[type=submit]:focus-visible, :not(.btn-check) + .btn:active:focus-visible, :not(.btn-check) + .wc-block-components-checkout-return-to-cart-button:active:focus-visible, .woocommerce-info :not(.btn-check) + a.button:active:focus-visible, .woocommerce-notices-wrapper .woocommerce-message :not(.btn-check) + a.button:active:focus-visible, .wc-block-components-totals-coupon__content :not(.btn-check) + button[type=submit]:active:focus-visible, :not(.btn-check) + input[type=submit]:active:focus-visible, .btn:first-child:active:focus-visible, .wc-block-components-checkout-return-to-cart-button:first-child:active:focus-visible, .woocommerce-info a.button:first-child:active:focus-visible, .woocommerce-notices-wrapper .woocommerce-message a.button:first-child:active:focus-visible, .wc-block-components-totals-coupon__content button[type=submit]:first-child:active:focus-visible, input[type=submit]:first-child:active:focus-visible, .btn.active:focus-visible, .active.wc-block-components-checkout-return-to-cart-button:focus-visible, .woocommerce-info a.active.button:focus-visible, .woocommerce-notices-wrapper .woocommerce-message a.active.button:focus-visible, .wc-block-components-totals-coupon__content button.active[type=submit]:focus-visible, input.active[type=submit]:focus-visible, .btn.show:focus-visible, .show.wc-block-components-checkout-return-to-cart-button:focus-visible, .woocommerce-info a.show.button:focus-visible, .woocommerce-notices-wrapper .woocommerce-message a.show.button:focus-visible, .wc-block-components-totals-coupon__content button.show[type=submit]:focus-visible, input.show[type=submit]:focus-visible {
+.btn-check:checked + .btn:focus-visible, .btn-check:checked + .wc-block-components-checkout-return-to-cart-button:focus-visible, .woocommerce-info .btn-check:checked + a.button:focus-visible, .woocommerce-notices-wrapper .woocommerce-message .btn-check:checked + a.button:focus-visible, .btn-check:checked + .woocommerce-form-login__submit:focus-visible, .wc-block-components-totals-coupon__content .btn-check:checked + button[type=submit]:focus-visible, .btn-check:checked + input[type=submit]:focus-visible, :not(.btn-check) + .btn:active:focus-visible, :not(.btn-check) + .wc-block-components-checkout-return-to-cart-button:active:focus-visible, .woocommerce-info :not(.btn-check) + a.button:active:focus-visible, .woocommerce-notices-wrapper .woocommerce-message :not(.btn-check) + a.button:active:focus-visible, :not(.btn-check) + .woocommerce-form-login__submit:active:focus-visible, .wc-block-components-totals-coupon__content :not(.btn-check) + button[type=submit]:active:focus-visible, :not(.btn-check) + input[type=submit]:active:focus-visible, .btn:first-child:active:focus-visible, .wc-block-components-checkout-return-to-cart-button:first-child:active:focus-visible, .woocommerce-info a.button:first-child:active:focus-visible, .woocommerce-notices-wrapper .woocommerce-message a.button:first-child:active:focus-visible, .woocommerce-form-login__submit:first-child:active:focus-visible, .wc-block-components-totals-coupon__content button[type=submit]:first-child:active:focus-visible, input[type=submit]:first-child:active:focus-visible, .btn.active:focus-visible, .active.wc-block-components-checkout-return-to-cart-button:focus-visible, .woocommerce-info a.active.button:focus-visible, .woocommerce-notices-wrapper .woocommerce-message a.active.button:focus-visible, .active.woocommerce-form-login__submit:focus-visible, .wc-block-components-totals-coupon__content button.active[type=submit]:focus-visible, input.active[type=submit]:focus-visible, .btn.show:focus-visible, .show.wc-block-components-checkout-return-to-cart-button:focus-visible, .woocommerce-info a.show.button:focus-visible, .woocommerce-notices-wrapper .woocommerce-message a.show.button:focus-visible, .show.woocommerce-form-login__submit:focus-visible, .wc-block-components-totals-coupon__content button.show[type=submit]:focus-visible, input.show[type=submit]:focus-visible {
   box-shadow: var(--bs-btn-focus-box-shadow);
 }
-.btn:disabled, .wc-block-components-checkout-return-to-cart-button:disabled, .woocommerce-info a.button:disabled, .woocommerce-notices-wrapper .woocommerce-message a.button:disabled, .wc-block-components-totals-coupon__content button[type=submit]:disabled, input[type=submit]:disabled, .btn.disabled, .disabled.wc-block-components-checkout-return-to-cart-button, .woocommerce-info a.disabled.button, .woocommerce-notices-wrapper .woocommerce-message a.disabled.button, .wc-block-components-totals-coupon__content button.disabled[type=submit], input.disabled[type=submit], fieldset:disabled .btn, fieldset:disabled .wc-block-components-checkout-return-to-cart-button, fieldset:disabled .woocommerce-info a.button, .woocommerce-info fieldset:disabled a.button, fieldset:disabled .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-notices-wrapper .woocommerce-message fieldset:disabled a.button, fieldset:disabled .wc-block-components-totals-coupon__content button[type=submit], .wc-block-components-totals-coupon__content fieldset:disabled button[type=submit], fieldset:disabled input[type=submit] {
+.btn:disabled, .wc-block-components-checkout-return-to-cart-button:disabled, .woocommerce-info a.button:disabled, .woocommerce-notices-wrapper .woocommerce-message a.button:disabled, .woocommerce-form-login__submit:disabled, .wc-block-components-totals-coupon__content button[type=submit]:disabled, input[type=submit]:disabled, .btn.disabled, .disabled.wc-block-components-checkout-return-to-cart-button, .woocommerce-info a.disabled.button, .woocommerce-notices-wrapper .woocommerce-message a.disabled.button, .disabled.woocommerce-form-login__submit, .wc-block-components-totals-coupon__content button.disabled[type=submit], input.disabled[type=submit], fieldset:disabled .btn, fieldset:disabled .wc-block-components-checkout-return-to-cart-button, fieldset:disabled .woocommerce-info a.button, .woocommerce-info fieldset:disabled a.button, fieldset:disabled .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-notices-wrapper .woocommerce-message fieldset:disabled a.button, fieldset:disabled .woocommerce-form-login__submit, fieldset:disabled .wc-block-components-totals-coupon__content button[type=submit], .wc-block-components-totals-coupon__content fieldset:disabled button[type=submit], fieldset:disabled input[type=submit] {
   color: var(--bs-btn-disabled-color);
   pointer-events: none;
   background-color: var(--bs-btn-disabled-bg);
@@ -3572,14 +3613,14 @@ textarea.is-invalid {
   color: var(--bs-btn-hover-color);
 }
 
-.btn-lg, .btn-group-lg > .btn, .btn-group-lg > .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group-lg > a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-lg > a.button, .wc-block-components-totals-coupon__content .btn-group-lg > button[type=submit], .btn-group-lg > input[type=submit] {
+.btn-lg, .btn-group-lg > .btn, .btn-group-lg > .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group-lg > a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-lg > a.button, .btn-group-lg > .woocommerce-form-login__submit, .wc-block-components-totals-coupon__content .btn-group-lg > button[type=submit], .btn-group-lg > input[type=submit] {
   --bs-btn-padding-y: 0.5rem;
   --bs-btn-padding-x: 1rem;
   --bs-btn-font-size: 1.25rem;
   --bs-btn-border-radius: 0.5rem;
 }
 
-.btn-sm, .btn-group-sm > .btn, .btn-group-sm > .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group-sm > a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-sm > a.button, .wc-block-components-totals-coupon__content .btn-group-sm > button[type=submit], .btn-group-sm > input[type=submit] {
+.btn-sm, .btn-group-sm > .btn, .btn-group-sm > .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group-sm > a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-sm > a.button, .btn-group-sm > .woocommerce-form-login__submit, .wc-block-components-totals-coupon__content .btn-group-sm > button[type=submit], .btn-group-sm > input[type=submit] {
   --bs-btn-padding-y: 0.25rem;
   --bs-btn-padding-x: 0.5rem;
   --bs-btn-font-size: 0.875rem;
@@ -3945,81 +3986,93 @@ textarea.is-invalid {
   display: inline-flex;
   vertical-align: middle;
 }
-.btn-group > .btn, .btn-group > .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group > a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group > a.button, .wc-block-components-totals-coupon__content .btn-group > button[type=submit], .btn-group > input[type=submit],
+.btn-group > .btn, .btn-group > .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group > a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group > a.button, .btn-group > .woocommerce-form-login__submit, .wc-block-components-totals-coupon__content .btn-group > button[type=submit], .btn-group > input[type=submit],
 .btn-group-vertical > .btn,
 .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button,
 .woocommerce-info .btn-group-vertical > a.button,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button,
+.btn-group-vertical > .woocommerce-form-login__submit,
 .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit],
 .btn-group-vertical > input[type=submit] {
   position: relative;
   flex: 1 1 auto;
 }
-.btn-group > .btn-check:checked + .btn, .btn-group > .btn-check:checked + .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group > .btn-check:checked + a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group > .btn-check:checked + a.button, .wc-block-components-totals-coupon__content .btn-group > .btn-check:checked + button[type=submit], .btn-group > .btn-check:checked + input[type=submit],
+.btn-group > .btn-check:checked + .btn, .btn-group > .btn-check:checked + .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group > .btn-check:checked + a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group > .btn-check:checked + a.button, .btn-group > .btn-check:checked + .woocommerce-form-login__submit, .wc-block-components-totals-coupon__content .btn-group > .btn-check:checked + button[type=submit], .btn-group > .btn-check:checked + input[type=submit],
 .btn-group > .btn-check:focus + .btn,
 .btn-group > .btn-check:focus + .wc-block-components-checkout-return-to-cart-button,
 .woocommerce-info .btn-group > .btn-check:focus + a.button,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group > .btn-check:focus + a.button,
+.btn-group > .btn-check:focus + .woocommerce-form-login__submit,
 .wc-block-components-totals-coupon__content .btn-group > .btn-check:focus + button[type=submit],
 .btn-group > .btn-check:focus + input[type=submit],
 .btn-group > .btn:hover,
 .btn-group > .wc-block-components-checkout-return-to-cart-button:hover,
 .woocommerce-info .btn-group > a.button:hover,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group > a.button:hover,
+.btn-group > .woocommerce-form-login__submit:hover,
 .wc-block-components-totals-coupon__content .btn-group > button[type=submit]:hover,
 .btn-group > input[type=submit]:hover,
 .btn-group > .btn:focus,
 .btn-group > .wc-block-components-checkout-return-to-cart-button:focus,
 .woocommerce-info .btn-group > a.button:focus,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group > a.button:focus,
+.btn-group > .woocommerce-form-login__submit:focus,
 .wc-block-components-totals-coupon__content .btn-group > button[type=submit]:focus,
 .btn-group > input[type=submit]:focus,
 .btn-group > .btn:active,
 .btn-group > .wc-block-components-checkout-return-to-cart-button:active,
 .woocommerce-info .btn-group > a.button:active,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group > a.button:active,
+.btn-group > .woocommerce-form-login__submit:active,
 .wc-block-components-totals-coupon__content .btn-group > button[type=submit]:active,
 .btn-group > input[type=submit]:active,
 .btn-group > .btn.active,
 .btn-group > .active.wc-block-components-checkout-return-to-cart-button,
 .woocommerce-info .btn-group > a.active.button,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group > a.active.button,
+.btn-group > .active.woocommerce-form-login__submit,
 .wc-block-components-totals-coupon__content .btn-group > button.active[type=submit],
 .btn-group > input.active[type=submit],
 .btn-group-vertical > .btn-check:checked + .btn,
 .btn-group-vertical > .btn-check:checked + .wc-block-components-checkout-return-to-cart-button,
 .woocommerce-info .btn-group-vertical > .btn-check:checked + a.button,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > .btn-check:checked + a.button,
+.btn-group-vertical > .btn-check:checked + .woocommerce-form-login__submit,
 .wc-block-components-totals-coupon__content .btn-group-vertical > .btn-check:checked + button[type=submit],
 .btn-group-vertical > .btn-check:checked + input[type=submit],
 .btn-group-vertical > .btn-check:focus + .btn,
 .btn-group-vertical > .btn-check:focus + .wc-block-components-checkout-return-to-cart-button,
 .woocommerce-info .btn-group-vertical > .btn-check:focus + a.button,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > .btn-check:focus + a.button,
+.btn-group-vertical > .btn-check:focus + .woocommerce-form-login__submit,
 .wc-block-components-totals-coupon__content .btn-group-vertical > .btn-check:focus + button[type=submit],
 .btn-group-vertical > .btn-check:focus + input[type=submit],
 .btn-group-vertical > .btn:hover,
 .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button:hover,
 .woocommerce-info .btn-group-vertical > a.button:hover,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button:hover,
+.btn-group-vertical > .woocommerce-form-login__submit:hover,
 .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit]:hover,
 .btn-group-vertical > input[type=submit]:hover,
 .btn-group-vertical > .btn:focus,
 .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button:focus,
 .woocommerce-info .btn-group-vertical > a.button:focus,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button:focus,
+.btn-group-vertical > .woocommerce-form-login__submit:focus,
 .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit]:focus,
 .btn-group-vertical > input[type=submit]:focus,
 .btn-group-vertical > .btn:active,
 .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button:active,
 .woocommerce-info .btn-group-vertical > a.button:active,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button:active,
+.btn-group-vertical > .woocommerce-form-login__submit:active,
 .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit]:active,
 .btn-group-vertical > input[type=submit]:active,
 .btn-group-vertical > .btn.active,
 .btn-group-vertical > .active.wc-block-components-checkout-return-to-cart-button,
 .woocommerce-info .btn-group-vertical > a.active.button,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.active.button,
+.btn-group-vertical > .active.woocommerce-form-login__submit,
 .wc-block-components-totals-coupon__content .btn-group-vertical > button.active[type=submit],
 .btn-group-vertical > input.active[type=submit] {
   z-index: 1;
@@ -4037,37 +4090,41 @@ textarea.is-invalid {
 .btn-group {
   border-radius: 0.375rem;
 }
-.btn-group > :not(.btn-check:first-child) + .btn, .btn-group > :not(.btn-check:first-child) + .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group > :not(.btn-check:first-child) + a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group > :not(.btn-check:first-child) + a.button, .wc-block-components-totals-coupon__content .btn-group > :not(.btn-check:first-child) + button[type=submit], .btn-group > :not(.btn-check:first-child) + input[type=submit],
+.btn-group > :not(.btn-check:first-child) + .btn, .btn-group > :not(.btn-check:first-child) + .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group > :not(.btn-check:first-child) + a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group > :not(.btn-check:first-child) + a.button, .btn-group > :not(.btn-check:first-child) + .woocommerce-form-login__submit, .wc-block-components-totals-coupon__content .btn-group > :not(.btn-check:first-child) + button[type=submit], .btn-group > :not(.btn-check:first-child) + input[type=submit],
 .btn-group > .btn-group:not(:first-child) {
   margin-left: -1px;
 }
-.btn-group > .btn:not(:last-child):not(.dropdown-toggle), .btn-group > .wc-block-components-checkout-return-to-cart-button:not(:last-child):not(.dropdown-toggle), .woocommerce-info .btn-group > a.button:not(:last-child):not(.dropdown-toggle), .woocommerce-notices-wrapper .woocommerce-message .btn-group > a.button:not(:last-child):not(.dropdown-toggle), .wc-block-components-totals-coupon__content .btn-group > button[type=submit]:not(:last-child):not(.dropdown-toggle), .btn-group > input[type=submit]:not(:last-child):not(.dropdown-toggle),
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle), .btn-group > .wc-block-components-checkout-return-to-cart-button:not(:last-child):not(.dropdown-toggle), .woocommerce-info .btn-group > a.button:not(:last-child):not(.dropdown-toggle), .woocommerce-notices-wrapper .woocommerce-message .btn-group > a.button:not(:last-child):not(.dropdown-toggle), .btn-group > .woocommerce-form-login__submit:not(:last-child):not(.dropdown-toggle), .wc-block-components-totals-coupon__content .btn-group > button[type=submit]:not(:last-child):not(.dropdown-toggle), .btn-group > input[type=submit]:not(:last-child):not(.dropdown-toggle),
 .btn-group > .btn.dropdown-toggle-split:first-child,
 .btn-group > .dropdown-toggle-split.wc-block-components-checkout-return-to-cart-button:first-child,
 .woocommerce-info .btn-group > a.dropdown-toggle-split.button:first-child,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group > a.dropdown-toggle-split.button:first-child,
+.btn-group > .dropdown-toggle-split.woocommerce-form-login__submit:first-child,
 .wc-block-components-totals-coupon__content .btn-group > button.dropdown-toggle-split[type=submit]:first-child,
 .btn-group > input.dropdown-toggle-split[type=submit]:first-child,
 .btn-group > .btn-group:not(:last-child) > .btn,
 .btn-group > .btn-group:not(:last-child) > .wc-block-components-checkout-return-to-cart-button,
 .woocommerce-info .btn-group > .btn-group:not(:last-child) > a.button,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group > .btn-group:not(:last-child) > a.button,
+.btn-group > .btn-group:not(:last-child) > .woocommerce-form-login__submit,
 .wc-block-components-totals-coupon__content .btn-group > .btn-group:not(:last-child) > button[type=submit],
 .btn-group > .btn-group:not(:last-child) > input[type=submit] {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.btn-group > .btn:nth-child(n+3), .btn-group > .wc-block-components-checkout-return-to-cart-button:nth-child(n+3), .woocommerce-info .btn-group > a.button:nth-child(n+3), .woocommerce-notices-wrapper .woocommerce-message .btn-group > a.button:nth-child(n+3), .wc-block-components-totals-coupon__content .btn-group > button[type=submit]:nth-child(n+3), .btn-group > input[type=submit]:nth-child(n+3),
+.btn-group > .btn:nth-child(n+3), .btn-group > .wc-block-components-checkout-return-to-cart-button:nth-child(n+3), .woocommerce-info .btn-group > a.button:nth-child(n+3), .woocommerce-notices-wrapper .woocommerce-message .btn-group > a.button:nth-child(n+3), .btn-group > .woocommerce-form-login__submit:nth-child(n+3), .wc-block-components-totals-coupon__content .btn-group > button[type=submit]:nth-child(n+3), .btn-group > input[type=submit]:nth-child(n+3),
 .btn-group > :not(.btn-check) + .btn,
 .btn-group > :not(.btn-check) + .wc-block-components-checkout-return-to-cart-button,
 .woocommerce-info .btn-group > :not(.btn-check) + a.button,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group > :not(.btn-check) + a.button,
+.btn-group > :not(.btn-check) + .woocommerce-form-login__submit,
 .wc-block-components-totals-coupon__content .btn-group > :not(.btn-check) + button[type=submit],
 .btn-group > :not(.btn-check) + input[type=submit],
 .btn-group > .btn-group:not(:first-child) > .btn,
 .btn-group > .btn-group:not(:first-child) > .wc-block-components-checkout-return-to-cart-button,
 .woocommerce-info .btn-group > .btn-group:not(:first-child) > a.button,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group > .btn-group:not(:first-child) > a.button,
+.btn-group > .btn-group:not(:first-child) > .woocommerce-form-login__submit,
 .wc-block-components-totals-coupon__content .btn-group > .btn-group:not(:first-child) > button[type=submit],
 .btn-group > .btn-group:not(:first-child) > input[type=submit] {
   border-top-left-radius: 0;
@@ -4085,12 +4142,12 @@ textarea.is-invalid {
   margin-right: 0;
 }
 
-.btn-sm + .dropdown-toggle-split, .btn-group-sm > .btn + .dropdown-toggle-split, .btn-group-sm > .wc-block-components-checkout-return-to-cart-button + .dropdown-toggle-split, .woocommerce-info .btn-group-sm > a.button + .dropdown-toggle-split, .woocommerce-notices-wrapper .woocommerce-message .btn-group-sm > a.button + .dropdown-toggle-split, .wc-block-components-totals-coupon__content .btn-group-sm > button[type=submit] + .dropdown-toggle-split, .btn-group-sm > input[type=submit] + .dropdown-toggle-split {
+.btn-sm + .dropdown-toggle-split, .btn-group-sm > .btn + .dropdown-toggle-split, .btn-group-sm > .wc-block-components-checkout-return-to-cart-button + .dropdown-toggle-split, .woocommerce-info .btn-group-sm > a.button + .dropdown-toggle-split, .woocommerce-notices-wrapper .woocommerce-message .btn-group-sm > a.button + .dropdown-toggle-split, .btn-group-sm > .woocommerce-form-login__submit + .dropdown-toggle-split, .wc-block-components-totals-coupon__content .btn-group-sm > button[type=submit] + .dropdown-toggle-split, .btn-group-sm > input[type=submit] + .dropdown-toggle-split {
   padding-right: 0.375rem;
   padding-left: 0.375rem;
 }
 
-.btn-lg + .dropdown-toggle-split, .btn-group-lg > .btn + .dropdown-toggle-split, .btn-group-lg > .wc-block-components-checkout-return-to-cart-button + .dropdown-toggle-split, .woocommerce-info .btn-group-lg > a.button + .dropdown-toggle-split, .woocommerce-notices-wrapper .woocommerce-message .btn-group-lg > a.button + .dropdown-toggle-split, .wc-block-components-totals-coupon__content .btn-group-lg > button[type=submit] + .dropdown-toggle-split, .btn-group-lg > input[type=submit] + .dropdown-toggle-split {
+.btn-lg + .dropdown-toggle-split, .btn-group-lg > .btn + .dropdown-toggle-split, .btn-group-lg > .wc-block-components-checkout-return-to-cart-button + .dropdown-toggle-split, .woocommerce-info .btn-group-lg > a.button + .dropdown-toggle-split, .woocommerce-notices-wrapper .woocommerce-message .btn-group-lg > a.button + .dropdown-toggle-split, .btn-group-lg > .woocommerce-form-login__submit + .dropdown-toggle-split, .wc-block-components-totals-coupon__content .btn-group-lg > button[type=submit] + .dropdown-toggle-split, .btn-group-lg > input[type=submit] + .dropdown-toggle-split {
   padding-right: 0.75rem;
   padding-left: 0.75rem;
 }
@@ -4100,29 +4157,31 @@ textarea.is-invalid {
   align-items: flex-start;
   justify-content: center;
 }
-.btn-group-vertical > .btn, .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group-vertical > a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button, .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit], .btn-group-vertical > input[type=submit],
+.btn-group-vertical > .btn, .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group-vertical > a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button, .btn-group-vertical > .woocommerce-form-login__submit, .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit], .btn-group-vertical > input[type=submit],
 .btn-group-vertical > .btn-group {
   width: 100%;
 }
-.btn-group-vertical > .btn:not(:first-child), .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button:not(:first-child), .woocommerce-info .btn-group-vertical > a.button:not(:first-child), .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button:not(:first-child), .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit]:not(:first-child), .btn-group-vertical > input[type=submit]:not(:first-child),
+.btn-group-vertical > .btn:not(:first-child), .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button:not(:first-child), .woocommerce-info .btn-group-vertical > a.button:not(:first-child), .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button:not(:first-child), .btn-group-vertical > .woocommerce-form-login__submit:not(:first-child), .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit]:not(:first-child), .btn-group-vertical > input[type=submit]:not(:first-child),
 .btn-group-vertical > .btn-group:not(:first-child) {
   margin-top: -1px;
 }
-.btn-group-vertical > .btn:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button:not(:last-child):not(.dropdown-toggle), .woocommerce-info .btn-group-vertical > a.button:not(:last-child):not(.dropdown-toggle), .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button:not(:last-child):not(.dropdown-toggle), .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit]:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > input[type=submit]:not(:last-child):not(.dropdown-toggle),
+.btn-group-vertical > .btn:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button:not(:last-child):not(.dropdown-toggle), .woocommerce-info .btn-group-vertical > a.button:not(:last-child):not(.dropdown-toggle), .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > .woocommerce-form-login__submit:not(:last-child):not(.dropdown-toggle), .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit]:not(:last-child):not(.dropdown-toggle), .btn-group-vertical > input[type=submit]:not(:last-child):not(.dropdown-toggle),
 .btn-group-vertical > .btn-group:not(:last-child) > .btn,
 .btn-group-vertical > .btn-group:not(:last-child) > .wc-block-components-checkout-return-to-cart-button,
 .woocommerce-info .btn-group-vertical > .btn-group:not(:last-child) > a.button,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > .btn-group:not(:last-child) > a.button,
+.btn-group-vertical > .btn-group:not(:last-child) > .woocommerce-form-login__submit,
 .wc-block-components-totals-coupon__content .btn-group-vertical > .btn-group:not(:last-child) > button[type=submit],
 .btn-group-vertical > .btn-group:not(:last-child) > input[type=submit] {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-.btn-group-vertical > .btn ~ .btn, .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button ~ .btn, .btn-group-vertical > .btn ~ .wc-block-components-checkout-return-to-cart-button, .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button ~ .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group-vertical > a.button ~ .btn, .woocommerce-info .btn-group-vertical > a.button ~ .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group-vertical > .btn ~ a.button, .woocommerce-info .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button ~ a.button, .woocommerce-info .btn-group-vertical > a.button ~ a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button ~ .btn, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button ~ .wc-block-components-checkout-return-to-cart-button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > .btn ~ a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button ~ a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button ~ a.button, .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit] ~ .btn, .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit] ~ .wc-block-components-checkout-return-to-cart-button, .wc-block-components-totals-coupon__content .woocommerce-info .btn-group-vertical > button[type=submit] ~ a.button, .woocommerce-info .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit] ~ a.button, .wc-block-components-totals-coupon__content .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > button[type=submit] ~ a.button, .woocommerce-notices-wrapper .woocommerce-message .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit] ~ a.button, .wc-block-components-totals-coupon__content .btn-group-vertical > .btn ~ button[type=submit], .wc-block-components-totals-coupon__content .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button ~ button[type=submit], .wc-block-components-totals-coupon__content .woocommerce-info .btn-group-vertical > a.button ~ button[type=submit], .woocommerce-info .wc-block-components-totals-coupon__content .btn-group-vertical > a.button ~ button[type=submit], .wc-block-components-totals-coupon__content .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button ~ button[type=submit], .woocommerce-notices-wrapper .woocommerce-message .wc-block-components-totals-coupon__content .btn-group-vertical > a.button ~ button[type=submit], .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit] ~ button[type=submit], .btn-group-vertical > input[type=submit] ~ .btn, .btn-group-vertical > input[type=submit] ~ .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group-vertical > input[type=submit] ~ a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > input[type=submit] ~ a.button, .wc-block-components-totals-coupon__content .btn-group-vertical > input[type=submit] ~ button[type=submit], .btn-group-vertical > .btn ~ input[type=submit], .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button ~ input[type=submit], .woocommerce-info .btn-group-vertical > a.button ~ input[type=submit], .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button ~ input[type=submit], .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit] ~ input[type=submit], .btn-group-vertical > input[type=submit] ~ input[type=submit],
+.btn-group-vertical > .btn ~ .btn, .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button ~ .btn, .btn-group-vertical > .btn ~ .wc-block-components-checkout-return-to-cart-button, .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button ~ .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group-vertical > a.button ~ .btn, .woocommerce-info .btn-group-vertical > a.button ~ .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group-vertical > .btn ~ a.button, .woocommerce-info .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button ~ a.button, .woocommerce-info .btn-group-vertical > a.button ~ a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button ~ .btn, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button ~ .wc-block-components-checkout-return-to-cart-button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > .btn ~ a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button ~ a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button ~ a.button, .btn-group-vertical > .woocommerce-form-login__submit ~ .btn, .btn-group-vertical > .woocommerce-form-login__submit ~ .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group-vertical > .woocommerce-form-login__submit ~ a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > .woocommerce-form-login__submit ~ a.button, .btn-group-vertical > .btn ~ .woocommerce-form-login__submit, .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button ~ .woocommerce-form-login__submit, .woocommerce-info .btn-group-vertical > a.button ~ .woocommerce-form-login__submit, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button ~ .woocommerce-form-login__submit, .btn-group-vertical > .woocommerce-form-login__submit ~ .woocommerce-form-login__submit, .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit] ~ .btn, .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit] ~ .wc-block-components-checkout-return-to-cart-button, .wc-block-components-totals-coupon__content .woocommerce-info .btn-group-vertical > button[type=submit] ~ a.button, .woocommerce-info .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit] ~ a.button, .wc-block-components-totals-coupon__content .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > button[type=submit] ~ a.button, .woocommerce-notices-wrapper .woocommerce-message .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit] ~ a.button, .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit] ~ .woocommerce-form-login__submit, .wc-block-components-totals-coupon__content .btn-group-vertical > .btn ~ button[type=submit], .wc-block-components-totals-coupon__content .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button ~ button[type=submit], .wc-block-components-totals-coupon__content .woocommerce-info .btn-group-vertical > a.button ~ button[type=submit], .woocommerce-info .wc-block-components-totals-coupon__content .btn-group-vertical > a.button ~ button[type=submit], .wc-block-components-totals-coupon__content .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button ~ button[type=submit], .woocommerce-notices-wrapper .woocommerce-message .wc-block-components-totals-coupon__content .btn-group-vertical > a.button ~ button[type=submit], .wc-block-components-totals-coupon__content .btn-group-vertical > .woocommerce-form-login__submit ~ button[type=submit], .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit] ~ button[type=submit], .btn-group-vertical > input[type=submit] ~ .btn, .btn-group-vertical > input[type=submit] ~ .wc-block-components-checkout-return-to-cart-button, .woocommerce-info .btn-group-vertical > input[type=submit] ~ a.button, .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > input[type=submit] ~ a.button, .btn-group-vertical > input[type=submit] ~ .woocommerce-form-login__submit, .wc-block-components-totals-coupon__content .btn-group-vertical > input[type=submit] ~ button[type=submit], .btn-group-vertical > .btn ~ input[type=submit], .btn-group-vertical > .wc-block-components-checkout-return-to-cart-button ~ input[type=submit], .woocommerce-info .btn-group-vertical > a.button ~ input[type=submit], .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > a.button ~ input[type=submit], .btn-group-vertical > .woocommerce-form-login__submit ~ input[type=submit], .wc-block-components-totals-coupon__content .btn-group-vertical > button[type=submit] ~ input[type=submit], .btn-group-vertical > input[type=submit] ~ input[type=submit],
 .btn-group-vertical > .btn-group:not(:first-child) > .btn,
 .btn-group-vertical > .btn-group:not(:first-child) > .wc-block-components-checkout-return-to-cart-button,
 .woocommerce-info .btn-group-vertical > .btn-group:not(:first-child) > a.button,
 .woocommerce-notices-wrapper .woocommerce-message .btn-group-vertical > .btn-group:not(:first-child) > a.button,
+.btn-group-vertical > .btn-group:not(:first-child) > .woocommerce-form-login__submit,
 .wc-block-components-totals-coupon__content .btn-group-vertical > .btn-group:not(:first-child) > button[type=submit],
 .btn-group-vertical > .btn-group:not(:first-child) > input[type=submit] {
   border-top-left-radius: 0;
@@ -5138,7 +5197,7 @@ textarea.is-invalid {
   display: none;
 }
 
-.btn .badge, .wc-block-components-checkout-return-to-cart-button .badge, .woocommerce-info a.button .badge, .woocommerce-notices-wrapper .woocommerce-message a.button .badge, .wc-block-components-totals-coupon__content button[type=submit] .badge, input[type=submit] .badge {
+.btn .badge, .wc-block-components-checkout-return-to-cart-button .badge, .woocommerce-info a.button .badge, .woocommerce-notices-wrapper .woocommerce-message a.button .badge, .woocommerce-form-login__submit .badge, .wc-block-components-totals-coupon__content button[type=submit] .badge, input[type=submit] .badge {
   position: relative;
   top: -1px;
 }
@@ -7176,7 +7235,7 @@ textarea.is-invalid {
   background-color: currentcolor;
   opacity: 0.5;
 }
-.placeholder.btn::before, .placeholder.wc-block-components-checkout-return-to-cart-button::before, .woocommerce-info a.placeholder.button::before, .woocommerce-notices-wrapper .woocommerce-message a.placeholder.button::before, .wc-block-components-totals-coupon__content button.placeholder[type=submit]::before, input.placeholder[type=submit]::before {
+.placeholder.btn::before, .placeholder.wc-block-components-checkout-return-to-cart-button::before, .woocommerce-info a.placeholder.button::before, .woocommerce-notices-wrapper .woocommerce-message a.placeholder.button::before, .placeholder.woocommerce-form-login__submit::before, .wc-block-components-totals-coupon__content button.placeholder[type=submit]::before, input.placeholder[type=submit]::before {
   display: inline-block;
   content: "";
 }
@@ -11889,6 +11948,7 @@ input[type=email],
 input[type=tel],
 input[type=search],
 input[type=url],
+input[type=password],
 select,
 textarea,
 .wc-blocks-components-select__select,
@@ -11915,6 +11975,7 @@ textarea {
 /* Focus : haute spécificité pour écraser Bootstrap */
 input.form-control:focus,
 input[type=number]:focus,
+input[type=password]:focus,
 textarea.form-control:focus,
 select.form-control:focus,
 input[type=text]:focus,
@@ -12027,12 +12088,17 @@ form.wpcf7-form {
   /* selector très spécifique pour surpasser Bootstrap */
   /* focus/hover states */
 }
-.wpcf7 .view-all-link, .wpcf7 .wc-block-cart__submit-button,
+.wpcf7 .view-all-link, .wpcf7 .woocommerce-info a, .woocommerce-info .wpcf7 a, .wpcf7 .woocommerce-form-login__submit, .wpcf7 .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .wpcf7 .wc-block-components-checkout-return-to-cart-button, .wpcf7 .wc-block-cart__submit-button,
 .wpcf7 .wc-block-components-checkout-place-order-button,
 .wpcf7 button.view-all-link,
 .wpcf7 input[type=submit].view-all-link,
 .wpcf7 .wpcf7-submit.view-all-link,
 form.wpcf7-form .view-all-link,
+form.wpcf7-form .woocommerce-info a,
+.woocommerce-info form.wpcf7-form a,
+form.wpcf7-form .woocommerce-form-login__submit,
+form.wpcf7-form .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row form.wpcf7-form .wc-block-components-checkout-return-to-cart-button,
 form.wpcf7-form .wc-block-cart__submit-button,
 form.wpcf7-form .wc-block-components-checkout-place-order-button,
 form.wpcf7-form button.view-all-link,
@@ -12055,12 +12121,17 @@ form.wpcf7-form .wpcf7-submit.view-all-link {
   box-shadow: none !important;
   transition: all 0.3s !important;
 }
-.wpcf7 .view-all-link:hover, .wpcf7 .wc-block-cart__submit-button:hover,
+.wpcf7 .view-all-link:hover, .wpcf7 .woocommerce-info a:hover, .woocommerce-info .wpcf7 a:hover, .wpcf7 .woocommerce-form-login__submit:hover, .wpcf7 .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover, .wc-block-checkout__actions_row .wpcf7 .wc-block-components-checkout-return-to-cart-button:hover, .wpcf7 .wc-block-cart__submit-button:hover,
 .wpcf7 .wc-block-components-checkout-place-order-button:hover,
 .wpcf7 button.view-all-link:hover,
 .wpcf7 input[type=submit].view-all-link:hover,
 .wpcf7 .wpcf7-submit.view-all-link:hover,
 form.wpcf7-form .view-all-link:hover,
+form.wpcf7-form .woocommerce-info a:hover,
+.woocommerce-info form.wpcf7-form a:hover,
+form.wpcf7-form .woocommerce-form-login__submit:hover,
+form.wpcf7-form .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover,
+.wc-block-checkout__actions_row form.wpcf7-form .wc-block-components-checkout-return-to-cart-button:hover,
 form.wpcf7-form .wc-block-cart__submit-button:hover,
 form.wpcf7-form .wc-block-components-checkout-place-order-button:hover,
 form.wpcf7-form button.view-all-link:hover,
@@ -12072,12 +12143,17 @@ form.wpcf7-form .wpcf7-submit.view-all-link:hover {
   outline: none !important;
   box-shadow: none !important;
 }
-.wpcf7 .view-all-link:focus, .wpcf7 .wc-block-cart__submit-button:focus,
+.wpcf7 .view-all-link:focus, .wpcf7 .woocommerce-info a:focus, .woocommerce-info .wpcf7 a:focus, .wpcf7 .woocommerce-form-login__submit:focus, .wpcf7 .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:focus, .wc-block-checkout__actions_row .wpcf7 .wc-block-components-checkout-return-to-cart-button:focus, .wpcf7 .wc-block-cart__submit-button:focus,
 .wpcf7 .wc-block-components-checkout-place-order-button:focus,
 .wpcf7 button.view-all-link:focus,
 .wpcf7 input[type=submit].view-all-link:focus,
 .wpcf7 .wpcf7-submit.view-all-link:focus,
 form.wpcf7-form .view-all-link:focus,
+form.wpcf7-form .woocommerce-info a:focus,
+.woocommerce-info form.wpcf7-form a:focus,
+form.wpcf7-form .woocommerce-form-login__submit:focus,
+form.wpcf7-form .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:focus,
+.wc-block-checkout__actions_row form.wpcf7-form .wc-block-components-checkout-return-to-cart-button:focus,
 form.wpcf7-form .wc-block-cart__submit-button:focus,
 form.wpcf7-form .wc-block-components-checkout-place-order-button:focus,
 form.wpcf7-form button.view-all-link:focus,
@@ -12121,6 +12197,37 @@ form.cart input[type=number]::-webkit-inner-spin-button {
 
 .wc-block-components-totals-coupon__form {
   gap: 0 !important;
+}
+
+.wc-block-checkout__actions_row {
+  gap: 1rem;
+}
+.wc-block-checkout__actions_row .wc-block-components-checkout-place-order-button {
+  padding: 0.75rem 1.5rem !important;
+}
+.wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button {
+  flex-basis: 50%;
+}
+.wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button svg {
+  display: none;
+}
+.wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover {
+  color: #272727 !important;
+  background: #fbd2da !important;
+  border-color: #fbd2da !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.wc-block-components-validation-error {
+  color: #bc3365 !important;
+}
+
+.wc-block-components-form .wc-block-components-checkout-step {
+  box-shadow: 0 2px 8px 0 rgba(188, 51, 101, 0.08) !important;
+  border: 0.0625rem solid #bc3365 !important;
+  padding: 1rem !important;
+  border-radius: 0.3125rem;
 }
 
 .woocommerce-input-wrapper {
@@ -12293,8 +12400,8 @@ figure.woocommerce-product-gallery__wrapper {
 .siklane-product-inner h1, .siklane-product-inner .h1 {
   font-size: 1.5625rem;
 }
-.siklane-product-inner .view-all-link, .siklane-product-inner .wc-block-cart__submit-button,
-.siklane-product-inner .wc-block-components-checkout-place-order-button {
+.siklane-product-inner .view-all-link, .siklane-product-inner .woocommerce-info a, .woocommerce-info .siklane-product-inner a, .siklane-product-inner .wc-block-cart__submit-button,
+.siklane-product-inner .wc-block-components-checkout-place-order-button, .siklane-product-inner .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .siklane-product-inner .wc-block-components-checkout-return-to-cart-button, .siklane-product-inner .woocommerce-form-login__submit {
   font-size: 0.875rem;
 }
 .siklane-product-inner .woocommerce-Price-amount {
@@ -16006,7 +16113,6 @@ h6,
   z-index: 100;
   background: #fff;
   transition: background 0.3s ease;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
 }
 #wrapper-navbar .bi {
   font-size: 1.5rem;
@@ -16308,8 +16414,8 @@ h6,
   opacity: 0.8;
 }
 
-.view-all-link, .wc-block-cart__submit-button,
-.wc-block-components-checkout-place-order-button {
+.view-all-link, .woocommerce-info a, .wc-block-cart__submit-button,
+.wc-block-components-checkout-place-order-button, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button, .woocommerce-form-login__submit {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -16324,62 +16430,77 @@ h6,
   transition: all 0.3s ease;
   font-weight: bold;
 }
-.view-all-link svg, .wc-block-cart__submit-button svg,
-.wc-block-components-checkout-place-order-button svg {
+.view-all-link svg, .woocommerce-info a svg, .wc-block-cart__submit-button svg,
+.wc-block-components-checkout-place-order-button svg, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button svg, .woocommerce-form-login__submit svg {
   margin-left: 0.5rem;
   transition: transform 0.3s ease;
 }
-.view-all-link .bi-bag-heart, .wc-block-cart__submit-button .bi-bag-heart,
-.wc-block-components-checkout-place-order-button .bi-bag-heart {
+.view-all-link .bi-bag-heart, .woocommerce-info a .bi-bag-heart, .wc-block-cart__submit-button .bi-bag-heart,
+.wc-block-components-checkout-place-order-button .bi-bag-heart, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button .bi-bag-heart, .woocommerce-form-login__submit .bi-bag-heart {
   display: inline-block;
   opacity: 0;
   transform: translateY(100%);
   transition: opacity transform 0.3s ease;
 }
-.view-all-link:hover, .wc-block-cart__submit-button:hover,
-.wc-block-components-checkout-place-order-button:hover, .view-all-link:focus, .wc-block-cart__submit-button:focus,
-.wc-block-components-checkout-place-order-button:focus {
+.view-all-link:hover, .woocommerce-info a:hover, .wc-block-cart__submit-button:hover,
+.wc-block-components-checkout-place-order-button:hover, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover, .woocommerce-form-login__submit:hover, .view-all-link:focus, .woocommerce-info a:focus, .wc-block-cart__submit-button:focus,
+.wc-block-components-checkout-place-order-button:focus, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:focus, .woocommerce-form-login__submit:focus {
   background-color: #fbd2da;
   color: #272727;
   border-color: #fbd2da;
 }
-.view-all-link:hover svg, .wc-block-cart__submit-button:hover svg,
-.wc-block-components-checkout-place-order-button:hover svg, .view-all-link:focus svg, .wc-block-cart__submit-button:focus svg,
-.wc-block-components-checkout-place-order-button:focus svg {
+.view-all-link:hover svg, .woocommerce-info a:hover svg, .wc-block-cart__submit-button:hover svg,
+.wc-block-components-checkout-place-order-button:hover svg, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover svg, .woocommerce-form-login__submit:hover svg, .view-all-link:focus svg, .woocommerce-info a:focus svg, .wc-block-cart__submit-button:focus svg,
+.wc-block-components-checkout-place-order-button:focus svg, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:focus svg, .woocommerce-form-login__submit:focus svg {
   transform: translateX(4px);
 }
-.view-all-link:hover .bi-bag-heart, .wc-block-cart__submit-button:hover .bi-bag-heart,
-.wc-block-components-checkout-place-order-button:hover .bi-bag-heart, .view-all-link:focus .bi-bag-heart, .wc-block-cart__submit-button:focus .bi-bag-heart,
-.wc-block-components-checkout-place-order-button:focus .bi-bag-heart {
+.view-all-link:hover .bi-bag-heart, .woocommerce-info a:hover .bi-bag-heart, .wc-block-cart__submit-button:hover .bi-bag-heart,
+.wc-block-components-checkout-place-order-button:hover .bi-bag-heart, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover .bi-bag-heart, .woocommerce-form-login__submit:hover .bi-bag-heart, .view-all-link:focus .bi-bag-heart, .woocommerce-info a:focus .bi-bag-heart, .wc-block-cart__submit-button:focus .bi-bag-heart,
+.wc-block-components-checkout-place-order-button:focus .bi-bag-heart, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:focus .bi-bag-heart, .woocommerce-form-login__submit:focus .bi-bag-heart {
   opacity: 1;
   transform: translateY(0);
 }
 
-.selection_moment .view-all-link, .selection_moment .wc-block-cart__submit-button,
-.selection_moment .wc-block-components-checkout-place-order-button,
+.selection_moment .view-all-link, .selection_moment .woocommerce-info a, .woocommerce-info .selection_moment a, .selection_moment .wc-block-cart__submit-button,
+.selection_moment .wc-block-components-checkout-place-order-button, .selection_moment .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .selection_moment .wc-block-components-checkout-return-to-cart-button, .selection_moment .woocommerce-form-login__submit,
 .charte_rse .view-all-link,
+.charte_rse .woocommerce-info a,
+.woocommerce-info .charte_rse a,
 .charte_rse .wc-block-cart__submit-button,
-.charte_rse .wc-block-components-checkout-place-order-button {
+.charte_rse .wc-block-components-checkout-place-order-button,
+.charte_rse .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .charte_rse .wc-block-components-checkout-return-to-cart-button,
+.charte_rse .woocommerce-form-login__submit {
   background: transparent !important;
   border: 1px solid #fff !important;
   color: #fff !important;
 }
-.selection_moment .view-all-link:hover, .selection_moment .wc-block-cart__submit-button:hover,
-.selection_moment .wc-block-components-checkout-place-order-button:hover, .selection_moment .view-all-link:focus, .selection_moment .wc-block-cart__submit-button:focus,
-.selection_moment .wc-block-components-checkout-place-order-button:focus,
+.selection_moment .view-all-link:hover, .selection_moment .woocommerce-info a:hover, .woocommerce-info .selection_moment a:hover, .selection_moment .wc-block-cart__submit-button:hover,
+.selection_moment .wc-block-components-checkout-place-order-button:hover, .selection_moment .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover, .wc-block-checkout__actions_row .selection_moment .wc-block-components-checkout-return-to-cart-button:hover, .selection_moment .woocommerce-form-login__submit:hover, .selection_moment .view-all-link:focus, .selection_moment .woocommerce-info a:focus, .woocommerce-info .selection_moment a:focus, .selection_moment .wc-block-cart__submit-button:focus,
+.selection_moment .wc-block-components-checkout-place-order-button:focus, .selection_moment .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:focus, .wc-block-checkout__actions_row .selection_moment .wc-block-components-checkout-return-to-cart-button:focus, .selection_moment .woocommerce-form-login__submit:focus,
 .charte_rse .view-all-link:hover,
+.charte_rse .woocommerce-info a:hover,
+.woocommerce-info .charte_rse a:hover,
 .charte_rse .wc-block-cart__submit-button:hover,
 .charte_rse .wc-block-components-checkout-place-order-button:hover,
+.charte_rse .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover,
+.wc-block-checkout__actions_row .charte_rse .wc-block-components-checkout-return-to-cart-button:hover,
+.charte_rse .woocommerce-form-login__submit:hover,
 .charte_rse .view-all-link:focus,
+.charte_rse .woocommerce-info a:focus,
+.woocommerce-info .charte_rse a:focus,
 .charte_rse .wc-block-cart__submit-button:focus,
-.charte_rse .wc-block-components-checkout-place-order-button:focus {
+.charte_rse .wc-block-components-checkout-place-order-button:focus,
+.charte_rse .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:focus,
+.wc-block-checkout__actions_row .charte_rse .wc-block-components-checkout-return-to-cart-button:focus,
+.charte_rse .woocommerce-form-login__submit:focus {
   background: #fbd2da !important;
   color: #272727 !important;
   border-color: #fbd2da !important;
 }
 
-.slider_container .view-all-link, .slider_container .wc-block-cart__submit-button,
-.slider_container .wc-block-components-checkout-place-order-button {
+.slider_container .view-all-link, .slider_container .woocommerce-info a, .woocommerce-info .slider_container a, .slider_container .wc-block-cart__submit-button,
+.slider_container .wc-block-components-checkout-place-order-button, .slider_container .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .slider_container .wc-block-components-checkout-return-to-cart-button, .slider_container .woocommerce-form-login__submit {
   background: transparent;
   border: 1px solid #fff;
   color: #fff;
@@ -16389,21 +16510,21 @@ h6,
   display: inline-flex;
   align-items: center;
 }
-.slider_container .view-all-link svg, .slider_container .wc-block-cart__submit-button svg,
-.slider_container .wc-block-components-checkout-place-order-button svg {
+.slider_container .view-all-link svg, .slider_container .woocommerce-info a svg, .woocommerce-info .slider_container a svg, .slider_container .wc-block-cart__submit-button svg,
+.slider_container .wc-block-components-checkout-place-order-button svg, .slider_container .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button svg, .wc-block-checkout__actions_row .slider_container .wc-block-components-checkout-return-to-cart-button svg, .slider_container .woocommerce-form-login__submit svg {
   margin-left: 0.5rem;
   transition: transform 0.3s ease;
 }
-.slider_container .view-all-link:hover, .slider_container .wc-block-cart__submit-button:hover,
-.slider_container .wc-block-components-checkout-place-order-button:hover, .slider_container .view-all-link:focus, .slider_container .wc-block-cart__submit-button:focus,
-.slider_container .wc-block-components-checkout-place-order-button:focus {
+.slider_container .view-all-link:hover, .slider_container .woocommerce-info a:hover, .woocommerce-info .slider_container a:hover, .slider_container .wc-block-cart__submit-button:hover,
+.slider_container .wc-block-components-checkout-place-order-button:hover, .slider_container .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover, .wc-block-checkout__actions_row .slider_container .wc-block-components-checkout-return-to-cart-button:hover, .slider_container .woocommerce-form-login__submit:hover, .slider_container .view-all-link:focus, .slider_container .woocommerce-info a:focus, .woocommerce-info .slider_container a:focus, .slider_container .wc-block-cart__submit-button:focus,
+.slider_container .wc-block-components-checkout-place-order-button:focus, .slider_container .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:focus, .wc-block-checkout__actions_row .slider_container .wc-block-components-checkout-return-to-cart-button:focus, .slider_container .woocommerce-form-login__submit:focus {
   background: #272727;
   color: #fff;
   border-color: #272727;
 }
-.slider_container .view-all-link:hover svg, .slider_container .wc-block-cart__submit-button:hover svg,
-.slider_container .wc-block-components-checkout-place-order-button:hover svg, .slider_container .view-all-link:focus svg, .slider_container .wc-block-cart__submit-button:focus svg,
-.slider_container .wc-block-components-checkout-place-order-button:focus svg {
+.slider_container .view-all-link:hover svg, .slider_container .woocommerce-info a:hover svg, .woocommerce-info .slider_container a:hover svg, .slider_container .wc-block-cart__submit-button:hover svg,
+.slider_container .wc-block-components-checkout-place-order-button:hover svg, .slider_container .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:hover svg, .wc-block-checkout__actions_row .slider_container .wc-block-components-checkout-return-to-cart-button:hover svg, .slider_container .woocommerce-form-login__submit:hover svg, .slider_container .view-all-link:focus svg, .slider_container .woocommerce-info a:focus svg, .woocommerce-info .slider_container a:focus svg, .slider_container .wc-block-cart__submit-button:focus svg,
+.slider_container .wc-block-components-checkout-place-order-button:focus svg, .slider_container .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button:focus svg, .wc-block-checkout__actions_row .slider_container .wc-block-components-checkout-return-to-cart-button:focus svg, .slider_container .woocommerce-form-login__submit:focus svg {
   transform: translateX(4px);
   color: #fff;
 }
@@ -16629,6 +16750,7 @@ h6,
 .footer .input-group input[type=tel],
 .footer .input-group input[type=number],
 .footer .input-group input[type=email],
+.footer .input-group input[type=password],
 .footer .input-group textarea {
   border-radius: 0;
 }
@@ -16638,6 +16760,7 @@ h6,
 .footer input[type=tel]:focus,
 .footer input[type=number]:focus,
 .footer input[type=email]:focus,
+.footer input[type=password]:focus,
 .footer textarea:focus {
   border-color: #bc3365;
   box-shadow: 0 0 0 0.2rem rgba(188, 51, 101, 0.25);
@@ -17298,6 +17421,7 @@ header,
 .wc-block-components-checkout-return-to-cart-button,
 input[type=submit],
 .wc-block-components-totals-coupon__content button[type=submit],
+.woocommerce-form-login__submit,
 .woocommerce-notices-wrapper .woocommerce-message a.button,
 .woocommerce-info a.button,
 .container,
@@ -17893,10 +18017,11 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
 .product_item:hover .btn-overlay .logo-bg-overlay, .product_item:focus .btn-overlay .logo-bg-overlay {
   opacity: 0.18;
 }
-.product_item .btn i, .product_item .wc-block-components-checkout-return-to-cart-button i, .product_item input[type=submit] i, .product_item .wc-block-components-totals-coupon__content button[type=submit] i, .wc-block-components-totals-coupon__content .product_item button[type=submit] i, .product_item .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item a.button i, .product_item .woocommerce-info a.button i, .woocommerce-info .product_item a.button i,
+.product_item .btn i, .product_item .wc-block-components-checkout-return-to-cart-button i, .product_item input[type=submit] i, .product_item .wc-block-components-totals-coupon__content button[type=submit] i, .wc-block-components-totals-coupon__content .product_item button[type=submit] i, .product_item .woocommerce-form-login__submit i, .product_item .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item a.button i, .product_item .woocommerce-info a.button i, .woocommerce-info .product_item a.button i,
 .product_item .btn .bi,
 .product_item .wc-block-components-checkout-return-to-cart-button .bi,
 .product_item input[type=submit] .bi,
+.product_item .woocommerce-form-login__submit .bi,
 .product_item .woocommerce-notices-wrapper .woocommerce-message a.button .bi,
 .woocommerce-notices-wrapper .woocommerce-message .product_item a.button .bi,
 .product_item .woocommerce-info a.button .bi,
@@ -17914,12 +18039,13 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   transform: translateY(14px);
   opacity: 0;
 }
-.product_item:hover .btn i, .product_item:hover .wc-block-components-checkout-return-to-cart-button i, .product_item:hover input[type=submit] i, .product_item:hover .wc-block-components-totals-coupon__content button[type=submit] i, .wc-block-components-totals-coupon__content .product_item:hover button[type=submit] i, .product_item:hover .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item:hover a.button i, .product_item:hover .woocommerce-info a.button i, .woocommerce-info .product_item:hover a.button i, .product_item:focus-within .btn i, .product_item:focus-within .wc-block-components-checkout-return-to-cart-button i, .product_item:focus-within input[type=submit] i, .product_item:focus-within .wc-block-components-totals-coupon__content button[type=submit] i, .wc-block-components-totals-coupon__content .product_item:focus-within button[type=submit] i, .product_item:focus-within .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item:focus-within a.button i, .product_item:focus-within .woocommerce-info a.button i, .woocommerce-info .product_item:focus-within a.button i,
+.product_item:hover .btn i, .product_item:hover .wc-block-components-checkout-return-to-cart-button i, .product_item:hover input[type=submit] i, .product_item:hover .wc-block-components-totals-coupon__content button[type=submit] i, .wc-block-components-totals-coupon__content .product_item:hover button[type=submit] i, .product_item:hover .woocommerce-form-login__submit i, .product_item:hover .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item:hover a.button i, .product_item:hover .woocommerce-info a.button i, .woocommerce-info .product_item:hover a.button i, .product_item:focus-within .btn i, .product_item:focus-within .wc-block-components-checkout-return-to-cart-button i, .product_item:focus-within input[type=submit] i, .product_item:focus-within .wc-block-components-totals-coupon__content button[type=submit] i, .wc-block-components-totals-coupon__content .product_item:focus-within button[type=submit] i, .product_item:focus-within .woocommerce-form-login__submit i, .product_item:focus-within .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item:focus-within a.button i, .product_item:focus-within .woocommerce-info a.button i, .woocommerce-info .product_item:focus-within a.button i,
 .product_item .btn:hover i,
 .product_item .wc-block-components-checkout-return-to-cart-button:hover i,
 .product_item input[type=submit]:hover i,
 .product_item .wc-block-components-totals-coupon__content button[type=submit]:hover i,
 .wc-block-components-totals-coupon__content .product_item button[type=submit]:hover i,
+.product_item .woocommerce-form-login__submit:hover i,
 .product_item .woocommerce-notices-wrapper .woocommerce-message a.button:hover i,
 .woocommerce-notices-wrapper .woocommerce-message .product_item a.button:hover i,
 .product_item .woocommerce-info a.button:hover i,
@@ -17929,6 +18055,7 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
 .product_item input[type=submit]:focus i,
 .product_item .wc-block-components-totals-coupon__content button[type=submit]:focus i,
 .wc-block-components-totals-coupon__content .product_item button[type=submit]:focus i,
+.product_item .woocommerce-form-login__submit:focus i,
 .product_item .woocommerce-notices-wrapper .woocommerce-message a.button:focus i,
 .woocommerce-notices-wrapper .woocommerce-message .product_item a.button:focus i,
 .product_item .woocommerce-info a.button:focus i,
@@ -17945,7 +18072,7 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   pointer-events: auto;
 }
 @media (prefers-reduced-motion: reduce) {
-  .product_item .btn i, .product_item .wc-block-components-checkout-return-to-cart-button i, .product_item input[type=submit] i, .product_item .wc-block-components-totals-coupon__content button[type=submit] i, .wc-block-components-totals-coupon__content .product_item button[type=submit] i, .product_item .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item a.button i, .product_item .woocommerce-info a.button i, .woocommerce-info .product_item a.button i,
+  .product_item .btn i, .product_item .wc-block-components-checkout-return-to-cart-button i, .product_item input[type=submit] i, .product_item .wc-block-components-totals-coupon__content button[type=submit] i, .wc-block-components-totals-coupon__content .product_item button[type=submit] i, .product_item .woocommerce-form-login__submit i, .product_item .woocommerce-notices-wrapper .woocommerce-message a.button i, .woocommerce-notices-wrapper .woocommerce-message .product_item a.button i, .product_item .woocommerce-info a.button i, .woocommerce-info .product_item a.button i,
   .product_item .btn-overlay button i {
     transition: none !important;
     transform: none !important;
@@ -18362,6 +18489,24 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
 .wp-block-woocommerce-checkout-order-summary-block,
 .wp-block-woocommerce-checkout-order-summary-block {
   border-color: #bc3365 !important;
+  box-shadow: 0 2px 8px 0 rgba(188, 51, 101, 0.08) !important;
+}
+
+.woocommerce-info {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background: rgba(188, 51, 101, 0.05) !important;
+  border: 0.0625rem solid rgba(188, 51, 101, 0.1) !important;
+  color: #bc3365 !important;
+  font-weight: 600 !important;
+  padding: 0.75rem 1rem !important;
+  margin-bottom: 1.5rem !important;
+  border-radius: 0.3125rem !important;
+}
+.woocommerce-info::before {
+  position: initial;
+  color: #bc3365;
 }
 
 /*# sourceMappingURL=theme.css.map */
