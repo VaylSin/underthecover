@@ -1,97 +1,117 @@
 <?php
 /**
- * The Template for displaying product archives, including the main shop page which is a post type archive
- *
- * This template can be overridden by copying it to yourtheme/woocommerce/archive-product.php.
- *
- * HOWEVER, on occasion WooCommerce will need to update template files and you
- * (the theme developer) will need to copy the new files to your theme to
- * maintain compatibility. We try to do this as little as possible, but it does
- * happen. When this occurs the version of the template file will be bumped and
- * the readme will list any important changes.
- *
- * @see https://woocommerce.com/document/template-structure/
- * @package WooCommerce\Templates
- * @version 8.6.0
+ * Ajoute une banderole en haut de la boutique avec image ACF + overlay velvet,
+ * titre dynamique (catégorie ou "Tous nos produits") et description catégorie.
  */
 
-defined( 'ABSPATH' ) || exit;
-
-get_header( 'shop' );
-
-/**
- * Hook: woocommerce_before_main_content.
- *
- * @hooked woocommerce_output_content_wrapper - 10 (outputs opening divs for the content)
- * @hooked woocommerce_breadcrumb - 20
- * @hooked WC_Structured_Data::generate_website_data() - 30
- */
-do_action( 'woocommerce_before_main_content' );
-
-/**
- * Hook: woocommerce_shop_loop_header.
- *
- * @since 8.6.0
- *
- * @hooked woocommerce_product_taxonomy_archive_header - 10
- */
-do_action( 'woocommerce_shop_loop_header' );
-
-if ( woocommerce_product_loop() ) {
-
-	/**
-	 * Hook: woocommerce_before_shop_loop.
-	 *
-	 * @hooked woocommerce_output_all_notices - 10
-	 * @hooked woocommerce_result_count - 20
-	 * @hooked woocommerce_catalog_ordering - 30
-	 */
-	do_action( 'woocommerce_before_shop_loop' );
-
-	woocommerce_product_loop_start();
-
-	if ( wc_get_loop_prop( 'total' ) ) {
-		while ( have_posts() ) {
-			the_post();
-
-			/**
-			 * Hook: woocommerce_shop_loop.
-			 */
-			do_action( 'woocommerce_shop_loop' );
-
-			wc_get_template_part( 'content', 'product' );
-		}
-	}
-
-	woocommerce_product_loop_end();
-
-	/**
-	 * Hook: woocommerce_after_shop_loop.
-	 *
-	 * @hooked woocommerce_pagination - 10
-	 */
-	do_action( 'woocommerce_after_shop_loop' );
-} else {
-	/**
-	 * Hook: woocommerce_no_products_found.
-	 *
-	 * @hooked wc_no_products_found - 10
-	 */
-	do_action( 'woocommerce_no_products_found' );
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
 }
 
-/**
- * Hook: woocommerce_after_main_content.
- *
- * @hooked woocommerce_output_content_wrapper_end - 10 (outputs closing divs for the content)
- */
-do_action( 'woocommerce_after_main_content' );
+get_header( 'shop' );
+remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
+// Récupérer l'image de bannière depuis les options ACF
+$banner = get_field( 'banniere_entete', 'option' );
+if ( is_array( $banner ) && isset( $banner['url'] ) ) {
+    $banner_url = $banner['url'];
+} elseif ( is_string( $banner ) ) {
+    $banner_url = $banner;
+} else {
+    $banner_url = get_template_directory_uri() . '/assets/img/default-banner.jpg';
+}
 
-/**
- * Hook: woocommerce_sidebar.
- *
- * @hooked woocommerce_get_sidebar - 10
- */
-do_action( 'woocommerce_sidebar' );
+if ( is_product_category() ) {
+    $current_cat = get_queried_object();
+    $cat_title = single_cat_title( '', false );
+    $cat_desc  = term_description();
+} else {
+    $cat_title = __( 'Tous nos produits', 'siklane' );
+    $cat_desc  = get_field( 'texte_entete_par_defaut_tous_nos_produits', 'option' );
+}
+?>
 
-get_footer( 'shop' );
+<div class="shop-banner" style="background-image: url('<?php echo esc_url( $banner_url ); ?>');">
+  <div class="shop-banner-overlay"></div>
+  <div class="container shop-banner-content">
+    <div class="col-md-6">
+		<h1><?php echo esc_html( $cat_title ); ?></h1>
+    <?php if ( $cat_desc ) : ?>
+      <div class="shop-banner-desc"><?php echo wp_kses_post( $cat_desc ); ?></div>
+    <?php endif; ?>
+	</div>
+  </div>
+</div>
+
+<div class="container my-5">
+
+    <?php
+    // Affichage des catégories comme boutons centrés
+    $product_categories = get_terms( array(
+        'taxonomy'   => 'product_cat',
+        'hide_empty' => true,
+    ) );
+    $current_cat = is_product_category() ? get_queried_object() : null;
+    ?>
+    <?php if ( ! empty( $product_categories ) && ! is_wp_error( $product_categories ) ) : ?>
+        <div class="shop-categories mb-5 d-flex flex-wrap justify-content-center gap-2">
+            <!-- Bouton "Tous les produits" -->
+            <a href="<?php echo esc_url( get_permalink( wc_get_page_id( 'shop' ) ) ); ?>"
+               class="btn btn-outline-dark<?php if ( ! is_product_category() ) echo ' active'; ?>">
+                Tous les produits
+            </a>
+            <?php foreach ( $product_categories as $cat ) : ?>
+                <a href="<?php echo esc_url( get_term_link( $cat ) ); ?>"
+                   class="btn btn-outline-dark<?php if ( is_product_category( $cat->slug ) ) echo ' active'; ?>">
+                    <?php echo esc_html( $cat->name ); ?>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
+    <?php do_action( 'woocommerce_before_main_content' ); ?>
+
+    <?php if ( woocommerce_product_loop() ) : ?>
+        <div class="row g-4">
+            <?php
+            if ( wc_get_loop_prop( 'total' ) ) {
+                while ( have_posts() ) {
+                    the_post();
+                    if ( get_post_type() === 'product' ) {
+                        global $product;
+                        if ( has_post_thumbnail() ) {
+                            $image_html = woocommerce_get_product_thumbnail();
+                        } else {
+                            $image_html = '<img src="' . esc_url( get_template_directory_uri() . '/assets/img/default-product.jpg' ) . '" alt="' . esc_attr__( 'Image produit par défaut', 'siklane' ) . '" class="img-fluid" />';
+                        }
+                        $args = array(
+                            'product_id'    => $product->get_id(),
+                            'product'       => $product,
+                            'title'         => get_the_title(),
+                            'price_html'    => $product->get_price_html(),
+                            'permalink'     => get_permalink(),
+                            'image_html'    => $image_html,
+                            'is_on_sale'    => $product->is_on_sale(),
+                            'is_in_stock'   => $product->is_in_stock(),
+                        );
+                        ?>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <?php get_template_part( 'components/card-product-item', null, $args ); ?>
+                        </div>
+                        <?php
+                    }
+                }
+            }
+            ?>
+        </div>
+
+        <?php woocommerce_pagination(); ?>
+
+    <?php else : ?>
+        <?php do_action( 'woocommerce_no_products_found' ); ?>
+    <?php endif; ?>
+
+    <?php do_action( 'woocommerce_after_main_content' ); ?>
+
+</div>
+
+<?php get_footer( 'shop' ); ?>
