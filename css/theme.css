@@ -18736,4 +18736,153 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   border-radius: 0.3125rem;
 }
 
+.about-banner {
+  position: relative;
+  min-height: 450px;
+  height: 450px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.about-banner .about-banner-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(188, 51, 101, 0.5);
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+.about-banner .about-banner-content {
+  position: relative;
+  z-index: 2;
+  min-height: 31.25rem;
+  height: 31.25rem;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem;
+}
+.about-banner .about-banner-content .about-banner-inner {
+  max-width: 600px;
+}
+.about-banner .about-banner-content .about-banner-inner h1, .about-banner .about-banner-content .about-banner-inner .h1 {
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  font-size: 2.5rem;
+  width: 100%;
+}
+.about-banner .about-banner-content .about-banner-inner .about-banner-desc {
+  color: #fff;
+  margin-bottom: 0;
+  white-space: normal;
+  word-break: break-word;
+  width: 100%;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.about-citation {
+  background: #bc3365;
+  color: #fff;
+  font-size: 1.3rem;
+  margin-top: 0 !important;
+}
+.about-citation blockquote {
+  margin: 0;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.about-damier-row {
+  position: relative;
+  align-items: stretch;
+  margin-bottom: 0 !important;
+  gap: 0;
+}
+
+.about-damier-photo {
+  display: flex;
+  align-items: stretch;
+}
+.about-damier-photo .about-damier-img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  height: auto;
+  background-size: cover;
+  background-position: center;
+  border-radius: 0 !important;
+  display: block;
+}
+
+.about-damier-texte {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.about-damier-texte .about-damier-wysiwyg {
+  width: 100%;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  padding: 0;
+  background: #f8f8f8;
+}
+.about-damier-texte .about-damier-wysiwyg.no-bg {
+  background: none;
+}
+.about-damier-texte .about-damier-wysiwyg.velvet-bg {
+  background: #bc3365;
+  color: #fff;
+}
+.about-damier-texte .about-damier-wysiwyg .about-damier-inner-container {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem 1.5rem;
+  text-align: left;
+}
+
+.about-banner,
+.about-banner-content,
+.about-banner-content h1,
+.about-banner-content .h1,
+.about-citation,
+.about-damier-photo .about-damier-img,
+.about-damier-texte .about-damier-wysiwyg,
+.about-damier-texte .about-damier-wysiwyg .about-damier-inner-container {
+  border-radius: 0 !important;
+}
+
+.about-damier-row {
+  align-items: stretch;
+  margin-bottom: 0 !important;
+  gap: 0;
+}
+
+.about-damier-photo {
+  display: flex;
+  align-items: stretch;
+}
+.about-damier-photo .about-damier-img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  height: auto;
+  background-size: cover;
+  background-position: center;
+  border-radius: 0 !important;
+  display: block;
+}
+
+@media (min-width: 992px) {
+  .about-damier-row:nth-of-type(2) .about-damier-texte {
+    position: relative;
+    left: 100px;
+    z-index: 2;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  }
+}
+
 /*# sourceMappingURL=theme.css.map */
