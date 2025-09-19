@@ -1,4 +1,20 @@
-.woocommerce-info {
+.login_form_container {
+	padding: 1.5rem;
+	border-radius: 0.5rem;
+	border: 1px solid rgba($velvet, 0.1);
+	box-shadow: 0 2px 8px 0 rgba($velvet, 0.08);
+}
+.woocommerce-privacy-policy-text {
+	font-size: 0.875rem !important;
+	color: rgba($black-main, 0.7) !important;
+	margin-top: 0.5rem !important;
+	a {
+		color: $velvet !important;
+		text-decoration: underline !important;
+	}
+}
+.woocommerce-info,
+.woocommerce-message {
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
@@ -16,4 +32,66 @@
 		position: initial;
 		color: $velvet;
 	}
+}
+.woocommerce-message {
+	justify-content: space-between;
+}
+.woocommerce form.login,
+.woocommerce form.register {
+	border: 0;
+}
+.woocommerce-MyAccount-content {
+	fieldset {
+		margin-top: 2rem;
+	}
+}
+#my-account-menu .myaccount-menu li > a {
+	text-decoration: none;
+}
+#load-avatar {
+	background-color: rgba($velvet, 0.5);
+}
+.user-info {
+	.username {
+		font-size: 1.5rem;
+	}
+	.logout {
+		display: none;
+	}
+}
+.myaccount-menu {
+	li {
+		a {
+			display: flex !important;
+			flex-direction: row-reverse;
+			justify-content: space-between;
+			align-items: center;
+			padding: 1rem !important;
+			font-weight: bold;
+			.fa {
+				font-size: 1.45rem;
+			}
+			span {
+				font-weight: bold;
+			}
+		}
+	}
+}
+.woocommerce-Button {
+	@extend .view-all-link;
+}
+.wcmp-myaccount-template-inner,
+.woocommerce-MyAccount-content {
+	border: 1px solid rgba($velvet, 0.1) !important;
+	box-shadow: 0 2px 8px 0 rgba($velvet, 0.08) !important;
+	p {
+		a {
+			color: $velvet;
+			text-decoration: none;
+		}
+	}
+}
+#my-account-menu.position-left .myaccount-menu:before {
+	border-bottom: 1px solid rgba($velvet, 0.1);
+	box-shadow: 0 2px 8px 0 rgba($velvet, 0.08);
 }
