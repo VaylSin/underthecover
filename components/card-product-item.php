@@ -36,7 +36,7 @@ if ( empty( $image_html ) ) {
             <h3 class="card-title h6 mb-0"><?php echo esc_html( get_the_title( $post_id ) ); ?></h3>
 
             <?php if ( $product && is_object( $product ) ) : ?>
-                <div class="d-flex align-items-center justify-content-between w-100">
+                <div class="d-flex flex-column flex-xl-row align-items-start align-items-xl-center justify-content-between w-100">
                     <p class="price mb-0"><?php echo wp_kses_post( $price_html ); ?></p>
 
                     <div class="product-rating">

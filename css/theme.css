@@ -16232,8 +16232,8 @@ h6,
   color: #272727;
 }
 #wrapper-navbar a {
-  color: #222 !important;
-  font-size: 0.85rem !important;
+  color: #222;
+  font-size: 0.85rem;
   font-weight: 600 !important;
   text-decoration: none !important;
   padding: 0.3rem 0.8rem !important;
@@ -17017,138 +17017,6 @@ h6,
   text-decoration: none;
 }
 
-/* Barre de recherche avec effet de glissé fondu */
-.search-dropdown {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.97);
-  z-index: 1050;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center; /* centre verticalement et horizontalement */
-  opacity: 0;
-  transform: translateY(-20px);
-  visibility: hidden;
-  pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-.search-dropdown.open {
-  opacity: 1;
-  transform: translateY(0);
-  visibility: visible;
-  pointer-events: auto;
-}
-.search-dropdown .close-search {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: #bc3365;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-.search-dropdown .close-search:hover {
-  color: #94284f;
-}
-.search-dropdown .search-form-container {
-  width: 100%;
-  max-width: 640px; /* un peu plus large si nécessaire */
-  margin: 0 auto; /* centre horizontalement */
-  padding: 0 1rem;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.search-dropdown .search-form-container .widget_product_search {
-  width: 100%;
-}
-.search-dropdown .search-form-container .widget_product_search form {
-  width: 100%;
-  max-width: 640px;
-  display: block;
-  position: relative; /* nécessaire pour le bouton absolute */
-}
-.search-dropdown .search-field {
-  background: transparent;
-  width: 100%;
-  padding: 0.75rem;
-  padding-right: 56px; /* laisser de la place pour le bouton absolu (>= bouton width + gap) */
-  border: none;
-  border-bottom: 2px solid #fbd2da;
-  font-size: 1.2rem;
-  outline: none;
-  transition: border-color 0.3s ease;
-  /* masquer la croix native */
-}
-.search-dropdown .search-field::-webkit-search-cancel-button, .search-dropdown .search-field::-webkit-search-decoration {
-  -webkit-appearance: none;
-  appearance: none;
-  display: none;
-}
-.search-dropdown .search-field::-ms-clear, .search-dropdown .search-field::-ms-reveal {
-  display: none;
-  width: 0;
-  height: 0;
-}
-.search-dropdown .search-field:focus {
-  border-color: #bc3365;
-}
-.search-dropdown button[type=submit] {
-  position: absolute;
-  right: 8px; /* petit padding depuis le bord du form */
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  z-index: 2;
-}
-.search-dropdown button[type=submit] i.bi {
-  font-size: 1.4rem;
-  line-height: 1;
-  color: #fbd2da !important;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: color 0.3s ease, transform 0.2s ease;
-}
-.search-dropdown button[type=submit]:hover i.bi, .search-dropdown button[type=submit]:focus i.bi {
-  color: #bc3365 !important;
-}
-
-/* Fix overlay search quand détaché ou pas : couvrir viewport sans dépasser */
-.search-dropdown,
-#searchDropdown {
-  position: fixed !important;
-  inset: 0 !important; /* top:0; right:0; bottom:0; left:0; */
-  width: 100% !important;
-  max-height: 100vh !important; /* éviter de dépasser la hauteur de la fenêtre */
-  overflow: auto !important; /* si contenu plus grand, permettre scroll interne */
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  background: rgba(255, 255, 255, 0.97) !important;
-  z-index: 9999 !important;
-}
-
-/* style optionnel pour debug / trace */
-.overlay-detached {
-  /* pas nécessaire, utile pour debug visuel */
-  /* outline: 1px dashed rgba(0,0,0,0.05); */
-}
-
 .bandeau_deroulant {
   background-color: white;
   overflow: hidden;
@@ -17602,13 +17470,15 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   flex-shrink: 0;
 }
 
-#page .logo_h3_content {
+#page .logo_h3_content,
+#searchDropdown .logo_h3_content {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.7rem;
 }
-#page .logo_h3_content::before {
+#page .logo_h3_content::before,
+#searchDropdown .logo_h3_content::before {
   content: "";
   display: inline-block;
   width: 2rem;
@@ -18113,12 +17983,9 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
 }
 
 .product_item {
-  /* Restauration : effet "glissé depuis le bas" pour l'icône dans les boutons (ajouter au panier) */
-  /* overlay button (structure existante : .btn-overlay > button) */
-  /* état visible : au survol, focus-within, ou quand le bouton est survolé */
-  /* cas spécifique : si tu veux que l'icône apparaisse uniquement quand l'overlay est visible */
-  /* leave overlay logic to existing rules */
-  /* respect reduced-motion */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .product_item.card,
 .product_item .card {
@@ -18140,12 +18007,47 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   background: #f8f8f8;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.product_item h3, .product_item .h3 {
+.product_item h3, .product_item .h3,
+.product_item .product-title {
   font-weight: 600;
   text-transform: uppercase;
+  margin: 0 0 0.5rem;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 2.1em;
+  max-height: 2.1em;
 }
 .product_item .price {
   color: #272727 !important;
+}
+.product_item .card_infos,
+.product_item .card-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.product_item .add_to_cart_button,
+.product_item .button,
+.product_item .view-all-link,
+.product_item .woocommerce-Button,
+.product_item .woocommerce-info a,
+.woocommerce-info .product_item a,
+.product_item .woocommerce-message a,
+.woocommerce-message .product_item a,
+.product_item .wc-block-cart__submit-button,
+.product_item .wc-block-components-checkout-place-order-button,
+.product_item .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .product_item .wc-block-components-checkout-return-to-cart-button,
+.product_item .woocommerce-form-login__submit {
+  margin-top: auto;
+  width: 100%;
+  display: block;
 }
 .product_item:hover .card-img-top, .product_item:focus .card-img-top {
   transform: scale(1.06);
@@ -18599,6 +18501,141 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
     height: 48px;
   }
 }
+/* Barre de recherche avec effet de glissé fondu */
+.search-dropdown {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.97);
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* centre verticalement et horizontalement */
+  opacity: 0;
+  transform: translateY(-20px);
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.search-dropdown.open {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  pointer-events: auto;
+}
+.search-dropdown .close-search {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #bc3365;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.search-dropdown .close-search:hover {
+  color: #94284f;
+}
+.search-dropdown .search-form-container {
+  width: 100%;
+  margin: 0 auto; /* centre horizontalement */
+  padding: 0 1rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-dropdown .search-form-container .widget_product_search {
+  width: 100%;
+}
+.search-dropdown .search-form-container .widget_product_search form {
+  width: 100%;
+  display: block;
+  position: relative; /* nécessaire pour le bouton absolute */
+}
+.search-dropdown .search-form-container button[type=submit] {
+  position: absolute;
+  right: 8px; /* petit padding depuis le bord du form */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  z-index: 2;
+}
+.search-dropdown .search-form-container button[type=submit] i.bi {
+  font-size: 1.4rem;
+  line-height: 1;
+  color: #fbd2da !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+.search-dropdown .search-form-container button[type=submit]:hover i.bi, .search-dropdown .search-form-container button[type=submit]:focus i.bi {
+  color: #bc3365 !important;
+}
+.search-dropdown .search-field {
+  background: transparent;
+  width: 100%;
+  padding: 0.75rem;
+  padding-right: 56px; /* laisser de la place pour le bouton absolu (>= bouton width + gap) */
+  border: none;
+  border-bottom: 2px solid #fbd2da;
+  font-size: 1.75rem !important;
+  outline: none;
+  transition: border-color 0.3s ease;
+  height: 4rem;
+  /* masquer la croix native */
+}
+.search-dropdown .search-field::-moz-placeholder {
+  font-size: 1.75rem !important;
+  color: #bbb;
+  opacity: 1;
+}
+.search-dropdown .search-field::placeholder {
+  font-size: 1.75rem !important;
+  color: #bbb;
+  opacity: 1;
+}
+.search-dropdown .search-field::-webkit-search-cancel-button, .search-dropdown .search-field::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+.search-dropdown .search-field::-ms-clear, .search-dropdown .search-field::-ms-reveal {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.search-dropdown .search-field:focus {
+  border-color: #bc3365;
+}
+
+/* Fix overlay search quand détaché ou pas : couvrir viewport sans dépasser */
+.search-dropdown,
+#searchDropdown {
+  position: fixed !important;
+  inset: 0 !important; /* top:0; right:0; bottom:0; left:0; */
+  width: 100% !important;
+  max-height: 100vh !important; /* éviter de dépasser la hauteur de la fenêtre */
+  overflow: auto !important; /* si contenu plus grand, permettre scroll interne */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: rgba(255, 255, 255, 0.97) !important;
+  z-index: 9999 !important;
+}
+
 .wc-block-components-product-name {
   font-size: 1.2rem !important;
   text-transform: uppercase;
@@ -18785,15 +18822,32 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
 }
 
 .about-citation {
-  background: #bc3365;
-  color: #fff;
+  color: #272727;
   font-size: 1.3rem;
   margin-top: 0 !important;
 }
 .about-citation blockquote {
+  position: relative;
   margin: 0;
   font-style: italic;
   font-weight: 500;
+}
+.about-citation blockquote::before, .about-citation blockquote::after {
+  font-family: serif;
+  font-size: 2.5rem;
+  color: #bc3365;
+  line-height: 1;
+  opacity: 0.7;
+}
+.about-citation blockquote::before {
+  content: '"';
+  left: 0.2rem;
+  top: 0.1rem;
+}
+.about-citation blockquote::after {
+  content: '"';
+  right: 0.2rem;
+  bottom: 0.1rem;
 }
 
 .about-damier-row {

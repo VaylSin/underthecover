@@ -37,9 +37,9 @@ $damier = get_field('mise_en_page_en_damier');
 </div>
 
 <?php if ( $citation ) : ?>
-    <div class="about-citation py-5">
+    <div class="about-citation py-4">
         <div class="container text-center">
-            <blockquote class="mb-0"><?php echo esc_html($citation); ?></blockquote>
+            <blockquote class="mb-0 fs-4"><?php echo esc_html($citation); ?></blockquote>
         </div>
     </div>
 <?php endif; ?>

@@ -1,0 +1,140 @@
+/* Barre de recherche avec effet de glissé fondu */
+.search-dropdown {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255, 255, 255, 0.97);
+	z-index: 1050;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center; /* centre verticalement et horizontalement */
+	opacity: 0;
+	transform: translateY(-20px);
+	visibility: hidden;
+	pointer-events: none;
+	transition: opacity 0.4s ease, transform 0.4s ease;
+
+	&.open {
+		opacity: 1;
+		transform: translateY(0);
+		visibility: visible;
+		pointer-events: auto;
+	}
+
+	.close-search {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		background: none;
+		border: none;
+		font-size: 2rem;
+		color: $velvet;
+		cursor: pointer;
+		transition: color 0.3s ease;
+
+		&:hover {
+			color: darken($velvet, 10%);
+		}
+	}
+
+	.search-form-container {
+		width: 100%;
+		margin: 0 auto; /* centre horizontalement */
+		padding: 0 1rem;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		.widget_product_search {
+			width: 100%;
+			form {
+				width: 100%;
+				display: block;
+				position: relative; /* nécessaire pour le bouton absolute */
+			}
+		}
+		button[type="submit"] {
+			position: absolute;
+			right: 8px; /* petit padding depuis le bord du form */
+			top: 50%;
+			transform: translateY(-50%);
+			width: 40px;
+			height: 40px;
+			background: none;
+			border: none;
+			cursor: pointer;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0;
+			z-index: 2;
+
+			i.bi {
+				font-size: 1.4rem;
+				line-height: 1;
+				color: $bloom !important;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+				transition: color 0.3s ease, transform 0.2s ease;
+			}
+
+			&:hover i.bi,
+			&:focus i.bi {
+				color: $velvet !important;
+			}
+		}
+	}
+
+	.search-field {
+		background: transparent;
+		width: 100%;
+		padding: 0.75rem;
+		padding-right: 56px; /* laisser de la place pour le bouton absolu (>= bouton width + gap) */
+		border: none;
+		border-bottom: 2px solid $bloom;
+		font-size: 1.75rem !important;
+		outline: none;
+		transition: border-color 0.3s ease;
+		height: 4rem;
+		&::placeholder {
+			font-size: 1.75rem !important;
+			color: #bbb;
+			opacity: 1;
+		}
+
+		/* masquer la croix native */
+		&::-webkit-search-cancel-button,
+		&::-webkit-search-decoration {
+			-webkit-appearance: none;
+			appearance: none;
+			display: none;
+		}
+		&::-ms-clear,
+		&::-ms-reveal {
+			display: none;
+			width: 0;
+			height: 0;
+		}
+		&:focus {
+			border-color: $velvet;
+		}
+	}
+}
+
+/* Fix overlay search quand détaché ou pas : couvrir viewport sans dépasser */
+.search-dropdown,
+#searchDropdown {
+	position: fixed !important;
+	inset: 0 !important; /* top:0; right:0; bottom:0; left:0; */
+	width: 100% !important;
+	max-height: 100vh !important; /* éviter de dépasser la hauteur de la fenêtre */
+	overflow: auto !important; /* si contenu plus grand, permettre scroll interne */
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	background: rgba(255, 255, 255, 0.97) !important;
+	z-index: 9999 !important;
+}

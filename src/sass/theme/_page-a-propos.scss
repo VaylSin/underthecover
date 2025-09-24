@@ -52,15 +52,36 @@
 }
 
 .about-citation {
-	background: $velvet;
-	color: #fff;
+	color: $black-main;
 	font-size: 1.3rem;
 	margin-top: 0 !important;
 
 	blockquote {
+		position: relative;
 		margin: 0;
 		font-style: italic;
 		font-weight: 500;
+		&::before,
+		&::after {
+			font-family: serif;
+			font-size: 2.5rem;
+			color: $velvet;
+			// position: absolute;
+			line-height: 1;
+			opacity: 0.7;
+		}
+
+		&::before {
+			content: '"';
+			left: 0.2rem;
+			top: 0.1rem;
+		}
+
+		&::after {
+			content: '"';
+			right: 0.2rem;
+			bottom: 0.1rem;
+		}
 	}
 }
 

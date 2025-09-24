@@ -41,9 +41,9 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
         <a href="https://tiktok.com" target="_blank" class="social-icon"><i class="bi bi-tiktok"></i></a>
     </div>
     <?php if ( get_field('texte_banderolle', 'option') ) : ?>
-        <div class="promo-banner text-center bg-velvet text-white py-2">
-            <?php echo esc_html( get_field('texte_banderolle', 'option') ); ?>
-        </div>
+		<div class="promo-banner text-center bg-velvet text-white py-1 small">
+			<?php echo esc_html( get_field('texte_banderolle', 'option') ); ?>
+		</div>
     <?php endif; ?>
 
     <header id="wrapper-navbar" class="bg-white w-100" style="z-index:100;">
@@ -112,6 +112,14 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                         <div class="submenu-inner">
                             <div class="container-fluid">
                                 <div class="row">
+                                    <!-- Bouton "Tous les produits" -->
+                                    <div class="col-12 d-inline-block mb-4">
+                                        <div class="category-title text-uppercase fw-bold">
+                                            <a href="<?php echo esc_url( get_permalink( wc_get_page_id( 'shop' ) ) ); ?>" class="fs-6 text-velvet">
+                                                Tous les produits
+                                            </a>
+                                        </div>
+                                    </div>
                                     <?php
                                     $product_categories = get_terms([
                                         'taxonomy' => 'product_cat',
@@ -121,8 +129,10 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                                         $products = wc_get_products(['category' => [$category->slug], 'limit' => -1]);
                                     ?>
                                     <div class="col-12 col-md-3 mb-4">
-                                        <div class="category-title text-uppercase">
-											<?php echo ucfirst(esc_html($category->name)); ?>
+                                        <div class="category-title text-uppercase fw-bold">
+                                            <a href="<?php echo esc_url( get_term_link( $category ) ); ?>" class="fs-6  text-velvet">
+                                                <?php echo ucfirst(esc_html($category->name)); ?>
+                                            </a>
                                         </div>
                                         <ul class="list-unstyled mt-2">
                                             <?php foreach ($products as $product) : ?>
@@ -172,9 +182,50 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
             <button type="button" class="close-search" id="closeSearch" aria-label="Fermer">
                 &times;
             </button>
-            <div class="search-form-container">
+            <div class="search-form-container container mb-4">
                 <?php the_widget('WC_Widget_Product_Search'); ?>
             </div>
+
+            <?php
+            // Récupérer les 4 produits les plus recherchés (par popularité WooCommerce)
+            $args = array(
+                'post_type'      => 'product',
+                'posts_per_page' => 4,
+                'meta_key'       => 'total_sales',
+                'orderby'        => 'meta_value_num',
+                'order'          => 'DESC',
+                'post_status'    => 'publish',
+            );
+            $popular_products = new WP_Query($args);
+            if ( $popular_products->have_posts() ) : ?>
+                <div class="popular-products col col-md-8  mt-4">
+					<h4 class=" logo_h3_content maj_title my-4">Nos recherches les plus populaires</h4>
+                    <div class="row popular-products-row g-3">
+                        <?php while ( $popular_products->have_posts() ) : $popular_products->the_post(); global $product;
+                            // Préparer les $args pour le composant
+                            if ( has_post_thumbnail() ) {
+                                $image_html = woocommerce_get_product_thumbnail();
+                            } else {
+                                $image_html = '<img src="' . esc_url( get_site_url() . '/wp-content/uploads/woocommerce-placeholder-350x350.webp' ) . '" alt="' . esc_attr__( 'Image produit par défaut', 'siklane' ) . '" class="img-fluid" />';
+                            }
+                            $args = array(
+                                'product_id'    => $product->get_id(),
+                                'product'       => $product,
+                                'title'         => get_the_title(),
+                                'price_html'    => $product->get_price_html(),
+                                'permalink'     => get_permalink(),
+                                'image_html'    => $image_html,
+                                'is_on_sale'    => $product->is_on_sale(),
+                                'is_in_stock'   => $product->is_in_stock(),
+                            );
+                        ?>
+                            <div class="col-6 col-md-3">
+                                <?php get_template_part( 'components/card-product-item', null, $args ); ?>
+                            </div>
+                        <?php endwhile; wp_reset_postdata(); ?>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
 
     </header><!-- #wrapper-navbar -->
