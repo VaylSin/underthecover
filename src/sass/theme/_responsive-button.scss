@@ -1,0 +1,68 @@
+/* =============================================
+   BOUTON RESPONSIVE "AJOUTER" / "AJOUTER AU PANIER"
+   ============================================= */
+
+/* Optimisation du bouton pour mobile uniquement */
+@media (max-width: 767.98px) {
+	.view-all-link {
+		/* S'assurer que le bouton reste bien dimensionné */
+		min-height: 40px;
+		font-size: 0.9rem;
+
+		/* Espacement optimal entre le texte et l'icône */
+		gap: 0.5rem;
+
+		/* Rendre le texte "ajouter" plus visible */
+		.d-inline.d-md-none {
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+	}
+}
+
+/* =============================================
+   OVERLAY "VOIR LE PRODUIT" - MOBILE
+   ============================================= */
+
+/* Masquer le texte et les bordures sur mobile, garder l'overlay tactile */
+@media (max-width: 767.98px) {
+	.product_item {
+		.btn-overlay {
+			/* Garder l'overlay fonctionnel mais invisible */
+			.btn {
+				/* Masquer le texte */
+				font-size: 0 !important;
+				text-indent: -9999px;
+
+				/* Supprimer les bordures */
+				border: none !important;
+				background: transparent !important;
+				box-shadow: none !important;
+
+				/* Garder la zone tactile */
+				min-width: 100%;
+				min-height: 100%;
+				padding: 0;
+
+				/* S'assurer que le lien reste accessible */
+				opacity: 0;
+				cursor: pointer;
+			}
+
+			/* Masquer aussi le logo sur mobile si souhaité */
+			.logo-bg-overlay {
+				opacity: 0.1; /* Très discret sur mobile */
+			}
+		}
+
+		/* S'assurer que l'overlay reste fonctionnel au touch */
+		&:active .btn-overlay {
+			.btn {
+				opacity: 0.1; /* Léger feedback visuel au touch */
+			}
+		}
+	}
+}
+
+/* Version desktop - garde le comportement normal existant */

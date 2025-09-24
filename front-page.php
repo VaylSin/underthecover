@@ -100,7 +100,7 @@ get_header();
 </section>
 <div class="spacer-10"></div>
 <section class="best_sellers container-xxl px-lg-5rem" data-aos="fade-up" data-aos-duration="1000" data-aos-ease="ease-in">
-    <h3 class="maj_title mb-4 logo_before"><span class="logo_h3_content">Nos Best Sellers</span></h3>
+    <h3 class=" maj_title mb-4 logo_before"><span class="h3 logo_h3_content">Nos Best Sellers</span></h3>
     <div class="row g-4" >
         <?php
         // Query pour les 3 meilleures ventes
@@ -116,7 +116,7 @@ get_header();
             while ($best_sellers->have_posts()) : $best_sellers->the_post();
                 global $product;
                 ?>
-                <div class="col-12 col-md-3">
+                <div class="col-6 col-md-4 col-lg-3">
                     <?php
                     // build args for the product card component
                     $card_args = array(
@@ -181,7 +181,7 @@ get_header();
 <div class="spacer-10"></div>
 <section class="boutique_categories py-5">
     <div class="container-xxl px-lg-5rem">
-        <h3 class="maj_title mb-4 logo_before"><span class="logo_h3_content">Nos produits par catégorie</span></h3>
+        <h3 class=" maj_title mb-4 logo_before"><span class="h3 logo_h3_content">Nos produits par catégorie</span></h3>
         <div id="categories-carousel" class="carousel slide categories-carousel" data-bs-ride="false" data-bs-interval="false">
             <div class="carousel-inner">
                 <div class="carousel-row">
@@ -289,16 +289,16 @@ get_header();
                 ));
                 ?>
                 <div class="col-12">
-                    <h3 class="maj_title mb-4 logo_before"><span class="logo_h3_content">Le mieux noté</span></h3>
+                    <h3 class="maj_title mb-4 logo_before"><span class="h3 logo_h3_content">Le mieux noté</span></h3>
                 </div>
-                <div class="col-md-6">
+                <div class="col-6">
                     <div class="product-image-container" >
                         <?php echo get_the_post_thumbnail(get_the_ID(), 'large', ['style' => 'width:100%; height:100%; object-fit:cover;']); ?>
                     </div>
                 </div>
-                <div class="col-md-6 d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-duration="750">
+                <div class="col-6 d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-duration="750">
                     <div class="w-100 px-4">
-                        <h3 class="mb-3 text-uppercase logo_before fw-bold"><span class="logo_h3_content"><?php the_title(); ?></span></h3>
+                        <h3 class="mb-3  text-uppercase logo_before fw-bold"><span class="h3 logo_h3_content"><?php the_title(); ?></span></h3>
                         <div class="mb-3">
                             <?php echo silklane_get_star_rating_html($product->get_average_rating(), $product->get_rating_count()); ?>
                             <span class="rating-count small text-muted">(<?php echo $product->get_rating_count(); ?> avis)</span>
@@ -306,7 +306,7 @@ get_header();
                                 <?php
                                 $note = number_format((float)$product->get_average_rating(), 2, ',', ' ');
                                 $nb_avis = $product->get_rating_count();
-                                echo "<h3>Note de {$note} / 5</h3>
+                                echo "<h3class='h3'>Note de {$note} / 5</h3class=>
                                 <p>par {$nb_avis} client" . ($nb_avis > 1 ? "s" : "") . "</p>";
                                 ?>
                             </div>

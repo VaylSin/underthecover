@@ -63,7 +63,9 @@ if ( empty( $image_html ) ) {
                 <form method="post" class="add-to-cart-form mt-2">
                     <input type="hidden" name="add-to-cart" value="<?php echo esc_attr( $product ? $product->get_id() : $post_id ); ?>">
                     <button type="submit" class="view-all-link d-flex justify-content-center align-items-center w-100">
-                        ajouter au panier&nbsp;&nbsp;<i class="bi bi-bag-heart"></i>
+                        <span class="d-none d-md-inline">ajouter au panier</span>
+                        <span class="d-inline d-md-none">ajouter</span>
+                        &nbsp;&nbsp;<i class="bi bi-bag-heart"></i>
                     </button>
                 </form>
             <?php endif; ?>

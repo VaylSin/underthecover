@@ -138,3 +138,47 @@
 	background: rgba(255, 255, 255, 0.97) !important;
 	z-index: 9999 !important;
 }
+
+/* Produits populaires responsive */
+.search-dropdown {
+	.popular-products {
+		width: 100%;
+		max-width: 1200px;
+		margin: 2rem auto 0;
+		padding: 0 1rem;
+
+		.popular-products-row {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 1rem;
+
+			// Sur mobile : 2 colonnes (2x2)
+			@media (max-width: 767.98px) {
+				.col-6 {
+					flex: 0 0 calc(50% - 0.5rem);
+					max-width: calc(50% - 0.5rem);
+				}
+			}
+
+			// Sur tablette et desktop : 4 colonnes
+			@media (min-width: 768px) {
+				.col-md-3 {
+					flex: 0 0 calc(25% - 0.75rem);
+					max-width: calc(25% - 0.75rem);
+				}
+			}
+		}
+
+		h4 {
+			text-align: center;
+			color: #333;
+			font-size: 1.5rem;
+			margin-bottom: 1.5rem;
+
+			@media (max-width: 576px) {
+				font-size: 1.25rem;
+				margin-bottom: 1rem;
+			}
+		}
+	}
+}

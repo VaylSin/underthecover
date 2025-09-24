@@ -84,6 +84,15 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 			null,
 			true // charge dans le footer
 		);
+
+		// Menu mobile
+		wp_enqueue_script(
+			'mobile-menu',
+			get_template_directory_uri() . '/js/mobile-menu.js',
+			array(), // Pas de dépendance
+			$theme_version,
+			true // charge dans le footer
+		);
 	}
 } // End of if function_exists( 'understrap_scripts' ).
 
