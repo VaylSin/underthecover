@@ -409,15 +409,15 @@ body.mobile-menu-open {
 	}
 }
 
-@media (max-width: 768px) {
-	.desktop-header {
-		display: none !important;
-	}
+// @media (max-width: 768px) {
+// 	.desktop-header {
+// 		display: none !important;
+// 	}
 
-	.mobile-header {
-		display: block !important;
-	}
-}
+// 	.mobile-header {
+// 		display: block !important;
+// 	}
+// }
 
 /* Header mobile avec logo, recherche et burger */
 .mobile-header {

@@ -35,11 +35,11 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 	<?php endif; ?>
     <!-- Site content (existant) -->
     <div class="site" id="page">
-	    <div class="social-sticky">
-        <a href="https://facebook.com" target="_blank" class="social-icon"><i class="bi bi-facebook"></i></a>
-        <a href="https://instagram.com" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
-        <a href="https://tiktok.com" target="_blank" class="social-icon"><i class="bi bi-tiktok"></i></a>
-    </div>
+	    <div class="social-sticky d-none d-lg-flex">
+			<a href="https://facebook.com" target="_blank" class="social-icon"><i class="bi bi-facebook"></i></a>
+			<a href="https://instagram.com" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
+			<a href="https://tiktok.com" target="_blank" class="social-icon"><i class="bi bi-tiktok"></i></a>
+		</div>
     <?php if ( get_field('texte_banderolle', 'option') ) : ?>
 		<div class="promo-banner text-center bg-velvet text-white py-1 small">
 			<?php echo esc_html( get_field('texte_banderolle', 'option') ); ?>
@@ -48,7 +48,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 
     <header id="wrapper-navbar" class="bg-white w-100" style="z-index:100;">
         <!-- Desktop Header -->
-        <div class="desktop-header d-none d-lg-block">
+        <div class="desktop-header d-none d-lg-block ">
             <div class="container-1600 h-100">
                 <div class="row align-items-center justify-content-between" style="min-height: 3.2rem;">
                     <!-- Logo à gauche -->
@@ -86,14 +86,14 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                 <!-- Menu principal centré -->
                 <div class="col-4 d-flex align-items-center justify-content-center h-100">
                     <div class="boutique-container"> <!-- wrapper du trigger -->
-                        <nav class="menu_container gap-4">
+                        <nav class="menu_container d-flex align-items-center justify-content-center gap-xxl-4">
 						<?php
 							$shop_id = wc_get_page_id( 'shop' );
 							$shop_url = $shop_id ? get_permalink( $shop_id ) : home_url( '/' );
 							$shop_title = $shop_id ? get_the_title( $shop_id ) : __( 'Boutique', 'siklane' );
 						?>
 						<a href="<?php echo esc_url( $shop_url ); ?>"
-						class="nav-link menu-item-boutique d-flex align-items-center text-uppercase px-3 fw-semibold"
+						class="nav-link menu-item-boutique d-flex align-items-center text-uppercase px-3 fw-semibold "
 						aria-haspopup="true" aria-expanded="false">
 						<?php echo esc_html( $shop_title ); ?>
 						</a>
@@ -101,7 +101,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                             <?php
                             wp_nav_menu( array(
                                 'theme_location' => 'left-menu',
-                                'menu_class'     => 'nav justify-content-center gap-4 align-items-center',
+                                'menu_class'     => 'nav d-flex flex-row align-items-center gap-xxl-4',
                                 'container'      => false,
                                 'fallback_cb'    => false,
                             ) );
@@ -187,7 +187,19 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
             <div class="search-form-container container mb-4">
                 <?php the_widget('WC_Widget_Product_Search'); ?>
             </div>
-
+			<!-- Recherche Mobile cachée -->
+			<div id="mobileSearchDropdown" class="mobile-search-dropdown">
+				<div class="container">
+					<div class="d-flex align-items-center justify-content-between">
+						<div class="search-form-container flex-grow-1">
+							<?php the_widget('WC_Widget_Product_Search'); ?>
+						</div>
+						<button type="button" class="mobile-close-search" id="mobileCloseSearch" aria-label="Fermer">
+							&times;
+						</button>
+					</div>
+				</div>
+			</div>
             <?php
             // Récupérer les 4 produits les plus recherchés (par popularité WooCommerce)
             $args = array(

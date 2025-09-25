@@ -16185,6 +16185,11 @@ figure.woocommerce-product-gallery__wrapper {
 html {
   overflow-x: hidden;
 }
+@media screen and (max-width: 768px) {
+  html {
+    font-size: 90%;
+  }
+}
 
 body {
   font-family: "Plus Jakarta Sans", sans-serif;
@@ -16334,6 +16339,13 @@ h6,
 .fullscreen-slider .carousel-item > .container-xxl [class^=col-] a {
   font-size: 1.2rem;
   letter-spacing: 1px;
+}
+@media screen and (max-width: 768px) {
+  .fullscreen-slider .carousel-item > .container-xxl [class^=col-] a {
+    font-size: 0.75rem !important;
+    padding: 0.625rem 1.25rem !important;
+    margin: 0 !important;
+  }
 }
 .fullscreen-slider .carousel-item.active .container-xxl [class^=col-] {
   opacity: 1;
@@ -16528,11 +16540,11 @@ h6,
   justify-content: center;
   background-color: #272727;
   color: #fff;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   text-decoration: none;
-  letter-spacing: 0.5px;
-  padding: 0.75rem 1.5rem;
+  letter-spacing: 1.5px;
+  padding: 0.625rem 1.25rem;
   border: 2px solid #272727;
   transition: all 0.3s ease;
   font-weight: bold;
@@ -17422,6 +17434,11 @@ header,
 .maj_title.h2::after {
   border-color: #fff;
 }
+@media screen and (max-width: 768px) {
+  .maj_title {
+    font-size: 1.75rem !important;
+  }
+}
 
 .card,
 .card-img-top,
@@ -18172,8 +18189,9 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   background-color: transparent;
   border: 1px solid #fff;
   font-weight: bold;
-  font-size: 1rem;
-  letter-spacing: 1px;
+  font-size: 0.75rem;
+  padding: 0.625rem 1.25rem;
+  letter-spacing: 1.5px;
 }
 .btn-overlay button:hover, .btn-overlay button:focus {
   background-color: transparent !important;
@@ -19321,14 +19339,6 @@ body.mobile-menu-open {
     max-width: 90vw;
   }
 }
-@media (max-width: 768px) {
-  .desktop-header {
-    display: none !important;
-  }
-  .mobile-header {
-    display: block !important;
-  }
-}
 /* Header mobile avec logo, recherche et burger */
 .mobile-header {
   position: relative;
@@ -19400,6 +19410,77 @@ body.mobile-menu-open .mobile-search-toggle {
 }
 
 /* =============================================
+   MENU DE GAUCHE - FORCER INLINE
+   ============================================= */
+/* Forcer les éléments du menu de gauche à rester inline */
+.menu_container ul.nav {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+}
+.menu_container ul.nav li {
+  display: flex !important;
+  align-items: center !important;
+  white-space: nowrap !important;
+}
+.menu_container ul.nav li a {
+  display: inline-block !important;
+  white-space: nowrap !important;
+}
+
+/* =============================================
+   BREAKPOINTS CRITIQUES - GESTION FINE
+   ============================================= */
+/* Entre 992px et 768px - réduire l'espacement */
+@media (max-width: 991.98px) and (min-width: 768px) {
+  .menu_container {
+    gap: 0.75rem !important; /* Réduire de gap-4 à gap-3 */
+  }
+  .menu_container .nav-link {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    font-size: 0.9rem !important;
+  }
+  .menu_container ul.nav {
+    gap: 0.75rem !important;
+  }
+}
+/* Entre 850px et 768px - espacement minimal */
+@media (max-width: 849.98px) and (min-width: 768px) {
+  .menu_container {
+    gap: 0.5rem !important; /* Gap minimal */
+  }
+  .menu_container .nav-link {
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+    font-size: 0.85rem !important;
+  }
+  .menu_container ul.nav {
+    gap: 0.5rem !important;
+  }
+  .menu_container ul.nav li a {
+    font-size: 0.85rem !important;
+  }
+}
+/* Entre 800px et 768px - version ultra-compacte */
+@media (max-width: 799.98px) and (min-width: 768px) {
+  .menu_container {
+    gap: 0.25rem !important;
+  }
+  .menu_container .nav-link {
+    padding-left: 0.125rem !important;
+    padding-right: 0.125rem !important;
+    font-size: 0.8rem !important;
+  }
+  .menu_container ul.nav {
+    gap: 0.25rem !important;
+  }
+  .menu_container ul.nav li a {
+    font-size: 0.8rem !important;
+    padding: 0.25rem !important;
+  }
+}
+/* =============================================
    BOUTON RESPONSIVE "AJOUTER" / "AJOUTER AU PANIER"
    ============================================= */
 /* Optimisation du bouton pour mobile uniquement */
@@ -19455,6 +19536,24 @@ body.mobile-menu-open .mobile-search-toggle {
   }
   .product_item:active .btn-overlay .btn, .product_item:active .btn-overlay input[type=submit], .product_item:active .btn-overlay .wc-block-components-totals-coupon__content button[type=submit], .wc-block-components-totals-coupon__content .product_item:active .btn-overlay button[type=submit], .product_item:active .btn-overlay .woocommerce-form-login__submit, .product_item:active .btn-overlay .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-notices-wrapper .woocommerce-message .product_item:active .btn-overlay a.button, .product_item:active .btn-overlay .woocommerce-info a.button, .woocommerce-info .product_item:active .btn-overlay a.button, .product_item:active .btn-overlay .wc-block-components-checkout-return-to-cart-button {
     opacity: 0.1; /* Léger feedback visuel au touch */
+  }
+}
+/* =============================================
+   CAROUSEL CATÉGORIES - MOBILE RESPONSIVE
+   ============================================= */
+/* Overlay tactile sur mobile pour les catégories */
+@media (max-width: 767.98px) {
+  .category-item .category-link {
+    /* Touch feedback sur mobile */
+    /* Overlay tactile sur mobile */
+  }
+  .category-item .category-link:active .category-image {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+  .category-item .category-link:active .category-name-mobile {
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    transition: background-color 0.1s ease;
   }
 }
 /* Version desktop - garde le comportement normal existant */

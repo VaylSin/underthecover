@@ -187,8 +187,9 @@
 		background-color: transparent;
 		border: 1px solid #fff;
 		font-weight: bold;
-		font-size: 1rem;
-		letter-spacing: 1px;
+		font-size: 0.75rem;
+		padding: 0.625rem 1.25rem;
+		letter-spacing: 1.5px;
 
 		@include hover-focus {
 			background-color: transparent !important;

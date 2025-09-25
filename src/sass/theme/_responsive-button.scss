@@ -1,4 +1,92 @@
 /* =============================================
+   MENU DE GAUCHE - FORCER INLINE
+   ============================================= */
+
+/* Forcer les éléments du menu de gauche à rester inline */
+.menu_container {
+	ul.nav {
+		display: flex !important;
+		flex-direction: row !important;
+		align-items: center !important;
+
+		li {
+			display: flex !important;
+			align-items: center !important;
+			white-space: nowrap !important;
+
+			a {
+				display: inline-block !important;
+				white-space: nowrap !important;
+			}
+		}
+	}
+}
+
+/* =============================================
+   BREAKPOINTS CRITIQUES - GESTION FINE
+   ============================================= */
+
+/* Entre 992px et 768px - réduire l'espacement */
+@media (max-width: 991.98px) and (min-width: 768px) {
+	.menu_container {
+		gap: 0.75rem !important; /* Réduire de gap-4 à gap-3 */
+
+		.nav-link {
+			padding-left: 0.5rem !important;
+			padding-right: 0.5rem !important;
+			font-size: 0.9rem !important;
+		}
+
+		ul.nav {
+			gap: 0.75rem !important;
+		}
+	}
+}
+
+/* Entre 850px et 768px - espacement minimal */
+@media (max-width: 849.98px) and (min-width: 768px) {
+	.menu_container {
+		gap: 0.5rem !important; /* Gap minimal */
+
+		.nav-link {
+			padding-left: 0.25rem !important;
+			padding-right: 0.25rem !important;
+			font-size: 0.85rem !important;
+		}
+
+		ul.nav {
+			gap: 0.5rem !important;
+
+			li a {
+				font-size: 0.85rem !important;
+			}
+		}
+	}
+}
+
+/* Entre 800px et 768px - version ultra-compacte */
+@media (max-width: 799.98px) and (min-width: 768px) {
+	.menu_container {
+		gap: 0.25rem !important;
+
+		.nav-link {
+			padding-left: 0.125rem !important;
+			padding-right: 0.125rem !important;
+			font-size: 0.8rem !important;
+		}
+
+		ul.nav {
+			gap: 0.25rem !important;
+
+			li a {
+				font-size: 0.8rem !important;
+				padding: 0.25rem !important;
+			}
+		}
+	}
+}
+
+/* =============================================
    BOUTON RESPONSIVE "AJOUTER" / "AJOUTER AU PANIER"
    ============================================= */
 
@@ -60,6 +148,29 @@
 		&:active .btn-overlay {
 			.btn {
 				opacity: 0.1; /* Léger feedback visuel au touch */
+			}
+		}
+	}
+}
+
+/* =============================================
+   CAROUSEL CATÉGORIES - MOBILE RESPONSIVE
+   ============================================= */
+
+/* Overlay tactile sur mobile pour les catégories */
+@media (max-width: 767.98px) {
+	.category-item {
+		.category-link {
+			/* Touch feedback sur mobile */
+			&:active .category-image {
+				transform: scale(0.98);
+				transition: transform 0.1s ease;
+			}
+
+			/* Overlay tactile sur mobile */
+			&:active .category-name-mobile {
+				background-color: rgba(0, 0, 0, 0.9) !important;
+				transition: background-color 0.1s ease;
 			}
 		}
 	}

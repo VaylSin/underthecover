@@ -26,8 +26,9 @@ if ( empty( $image_html ) ) {
                 <span class="logo-bg-overlay">
                     <img src="<?php echo esc_url( get_template_directory_uri() . '/images/utc-logomark-blanc.svg' ); ?>" alt="Logo UTC" />
                 </span>
-                <button class="btn py-2 px-4 text-uppercase font-weight-bolder">
-                    Voir le produit
+                <button class="btn text-uppercase font-weight-bolder">
+					<span class="d-none d-xl-inline">Voir le produit</span>
+					<span class="d-inline d-xl-none">Voir</span>
                 </button>
             </div>
         </div>
@@ -63,9 +64,9 @@ if ( empty( $image_html ) ) {
                 <form method="post" class="add-to-cart-form mt-2">
                     <input type="hidden" name="add-to-cart" value="<?php echo esc_attr( $product ? $product->get_id() : $post_id ); ?>">
                     <button type="submit" class="view-all-link d-flex justify-content-center align-items-center w-100">
-                        <span class="d-none d-md-inline">ajouter au panier</span>
-                        <span class="d-inline d-md-none">ajouter</span>
-                        &nbsp;&nbsp;<i class="bi bi-bag-heart"></i>
+                        <span class="d-none d-xl-inline">ajouter au panier</span>
+                        <span class="d-inline d-xl-none">ajouter</span>
+                        &nbsp;&nbsp;<i class="d-none d-xl-inline bi bi-bag-heart"></i>
                     </button>
                 </form>
             <?php endif; ?>

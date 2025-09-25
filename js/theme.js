@@ -6455,26 +6455,28 @@
       });
     }
 
-    /* ----- Main slider (bootstrap) ----- */
-    function initMainSlider() {
-      const slider = document.getElementById("main-slider");
-      if (!slider) return;
-      const dots = slider.querySelectorAll(".slider-dot");
-      if (typeof bootstrap !== "undefined" && bootstrap.Carousel) {
-        const carousel = new bootstrap.Carousel(slider);
-        if (dots.length) {
-          dots.forEach((dot, idx) => on(dot, "click", () => {
-            carousel.to(idx);
-            dots.forEach(d => d.classList.remove("active"));
-            dot.classList.add("active");
-          }));
-          on(slider, "slid.bs.carousel", e => {
-            const active = e.to;
-            dots.forEach((d, i) => d.classList.toggle("active", i === active));
-          });
-        }
-      }
-    }
+    // /* ----- Main slider (bootstrap) ----- */
+    // function initMainSlider() {
+    // 	const slider = document.getElementById("main-slider");
+    // 	if (!slider) return;
+    // 	const dots = slider.querySelectorAll(".slider-dot");
+    // 	if (typeof bootstrap !== "undefined" && bootstrap.Carousel) {
+    // 		const carousel = new bootstrap.Carousel(slider);
+    // 		if (dots.length) {
+    // 			dots.forEach((dot, idx) =>
+    // 				on(dot, "click", () => {
+    // 					carousel.to(idx);
+    // 					dots.forEach((d) => d.classList.remove("active"));
+    // 					dot.classList.add("active");
+    // 				})
+    // 			);
+    // 			on(slider, "slid.bs.carousel", (e) => {
+    // 				const active = e.to;
+    // 				dots.forEach((d, i) => d.classList.toggle("active", i === active));
+    // 			});
+    // 		}
+    // 	}
+    // }
 
     /* ----- Boutique submenu ----- */
     function initBoutiqueMenu() {

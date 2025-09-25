@@ -3,7 +3,7 @@ get_header();
 ?>
 <section class="slider_container">
 <?php if( have_rows('slider') ) : ?>
-<div id="main-slider" class="carousel slide carousel-fade fullscreen-slider" data-bs-ride="carousel" data-bs-interval="5000">
+<div id="main-slider" class="carousel slide carousel-fade fullscreen-slider" >  <!--data-bs-interval="5000" data-bs-ride="carousel" -->
     <div class="carousel-inner">
         <?php $i = 0; while( have_rows('slider') ) : the_row();
             $image = get_sub_field('image');
@@ -24,19 +24,19 @@ get_header();
                 <div class="slider-overlay"></div>
             <?php endif; ?>
             <div class="container-xxl px-lg-5rem h-100">
-                <div class="row h-100 align-items-center"  >
-                    <div class="col-md-4 offest-md-1 offset-lg-2 text-start text-white">
+                <div class="row h-100 align-items-center justify-content-center justify-content-md-start">
+                    <div class="col-8 col-md-6 col-xxl-4 offset-md-2 text-start text-white">
                         <?php if($phrase): ?>
-                            <h5 class="fw-bold text-uppercase"><?php echo esc_html($phrase); ?></h5>
+                            <h5 class="fw-bold text-uppercase fs-6 fs-md-5"><?php echo esc_html($phrase); ?></h5>
                         <?php endif; ?>
                         <?php if($titre_slide): ?>
-                            <h2 class="maj_title fw-bold text-uppercase"><?php echo esc_html($titre_slide); ?></h2>
+                            <h2 class="maj_title fw-bold text-uppercase fs-5 fs-md-3 fs-lg-2"><?php echo esc_html($titre_slide); ?></h2>
                         <?php endif; ?>
                         <?php if($description_produit): ?>
-                            <p class="mb-4"><?php echo esc_html($description_produit); ?></p>
+                            <p class="mb-4 fs-6 fs-md-5"><?php echo esc_html($description_produit); ?></p>
                         <?php endif; ?>
                         <?php if($lien && $texte_bouton): ?>
-                            <a href="<?php echo esc_url($url); ?>" class="btn view-all-link fw-bold px-4 py-2 text-uppercase mt-3">
+                            <a href="<?php echo esc_url($url); ?>" class="btn view-all-link fw-bold px-3 px-md-4 py-2 text-uppercase mt-3 fs-6">
                                 <?php echo esc_html($texte_bouton); ?>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
@@ -100,7 +100,7 @@ get_header();
 </section>
 <div class="spacer-10"></div>
 <section class="best_sellers container-xxl px-lg-5rem" data-aos="fade-up" data-aos-duration="1000" data-aos-ease="ease-in">
-    <h3 class=" maj_title mb-4 logo_before"><span class="h3 logo_h3_content">Nos Best Sellers</span></h3>
+    <h3 class=" maj_title mb-4 logo_before"><span class=" logo_h3_content">Nos Best Sellers</span></h3>
     <div class="row g-4" >
         <?php
         // Query pour les 3 meilleures ventes
@@ -116,7 +116,7 @@ get_header();
             while ($best_sellers->have_posts()) : $best_sellers->the_post();
                 global $product;
                 ?>
-                <div class="col-6 col-md-4 col-lg-3">
+                <div class="col-6 col-md-3">
                     <?php
                     // build args for the product card component
                     $card_args = array(
@@ -181,7 +181,7 @@ get_header();
 <div class="spacer-10"></div>
 <section class="boutique_categories py-5">
     <div class="container-xxl px-lg-5rem">
-        <h3 class=" maj_title mb-4 logo_before"><span class="h3 logo_h3_content">Nos produits par catégorie</span></h3>
+        <h3 class="maj_title mb-4 logo_before fs-4 fs-md-3"><span class=" logo_h3_content">Nos produits par catégorie</span></h3>
         <div id="categories-carousel" class="carousel slide categories-carousel" data-bs-ride="false" data-bs-interval="false">
             <div class="carousel-inner">
                 <div class="carousel-row">
@@ -203,8 +203,13 @@ get_header();
                             <div class="category-item">
                                 <a href="<?php echo get_term_link($category); ?>" class="category-link">
                                     <div class="category-image" style="background-image: url('<?php echo esc_url($image); ?>')">
-                                        <div class="category-overlay">
+                                        <!-- Nom visible sur mobile, overlay au survol sur desktop -->
+                                        <div class="category-overlay d-none d-md-flex">
                                             <h4 class="category-name"><?php echo esc_html($category->name); ?></h4>
+                                        </div>
+                                        <!-- Nom toujours visible sur mobile -->
+                                        <div class="category-name-mobile d-flex d-md-none position-absolute bottom-0 start-0 end-0 p-3 bg-velvet bg-opacity-75">
+                                            <h4 class="text-white fs-6 mb-0"><?php echo esc_html($category->name); ?></h4>
                                         </div>
                                     </div>
                                 </a>
@@ -289,7 +294,7 @@ get_header();
                 ));
                 ?>
                 <div class="col-12">
-                    <h3 class="maj_title mb-4 logo_before"><span class="h3 logo_h3_content">Le mieux noté</span></h3>
+                    <h3 class="maj_title mb-4 logo_before"><span class=" logo_h3_content">Le mieux noté</span></h3>
                 </div>
                 <div class="col-6">
                     <div class="product-image-container" >
@@ -298,7 +303,7 @@ get_header();
                 </div>
                 <div class="col-6 d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-duration="750">
                     <div class="w-100 px-4">
-                        <h3 class="mb-3  text-uppercase logo_before fw-bold"><span class="h3 logo_h3_content"><?php the_title(); ?></span></h3>
+                        <h3 class="mb-3  text-uppercase logo_before fw-bold"><span class=" logo_h3_content"><?php the_title(); ?></span></h3>
                         <div class="mb-3">
                             <?php echo silklane_get_star_rating_html($product->get_average_rating(), $product->get_rating_count()); ?>
                             <span class="rating-count small text-muted">(<?php echo $product->get_rating_count(); ?> avis)</span>
