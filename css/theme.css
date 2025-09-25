@@ -13384,7 +13384,6 @@ figure.woocommerce-product-gallery__wrapper {
 /* Section produits similaires "Ils pourraient aussi vous faire de l'oeil" */
 .related.products .products {
   display: flex;
-  flex-wrap: wrap;
   gap: 1rem;
   align-items: stretch; /* Force les items à avoir la même hauteur */
   /* Card produit - hauteur et layout uniforme */
@@ -16469,17 +16468,6 @@ body {
 /* =============================================
    FIX DÉBORDEMENT HORIZONTAL MOBILE
    ============================================= */
-/* Empêcher tous les conteneurs de dépasser */
-.container,
-.container-fluid,
-.container-sm,
-.container-md,
-.container-lg,
-.container-xl,
-.container-xxl {
-  overflow-x: hidden;
-}
-
 /* Fix spécifique pour les rows Bootstrap */
 .row {
   margin-left: 0;
@@ -16502,11 +16490,7 @@ iframe {
 
 /* Fix spécifique mobile et tablette */
 @media (max-width: 991.98px) {
-  * {
-    max-width: 100vw;
-    box-sizing: border-box;
-  }
-  /* Conteneurs spécifiques */
+  /* Conteneurs spécifiques seulement - pas de règle globale * */
   .site,
   #page,
   .slider_container,
@@ -17456,7 +17440,7 @@ header,
   transform: translateY(-12px);
   pointer-events: none;
   will-change: opacity, transform, visibility;
-  transition: opacity 0.36s cubic-bezier(0.2, 0.8, 0.2, 1) transform 0.36s cubic-bezier(0.2, 0.8, 0.2, 1) visibility 0s linear 0.36s;
+  transition: opacity 0.36s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.36s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.36s;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   /* Stagger des items : chaque li a un délai progressif */
 }
@@ -17481,7 +17465,7 @@ header,
   opacity: 0;
   transform: translateX(-12px);
   will-change: opacity, transform;
-  transition: opacity 0.42s ease transform 0.42s ease ease;
+  transition: opacity 0.42s ease, transform 0.42s ease;
 }
 
 /* Montrer le sous-menu quand .boutique-container a la classe .open */
