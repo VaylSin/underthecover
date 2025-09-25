@@ -94,7 +94,7 @@ if ( is_product_category() ) {
                             'is_in_stock'   => $product->is_in_stock(),
                         );
                         ?>
-                        <div class="col-6 col-md-4 col-lg-3">
+                        <div class="col-6 col-md-3">
                             <?php get_template_part( 'components/card-product-item', null, $args ); ?>
                         </div>
                         <?php

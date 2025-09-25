@@ -157,7 +157,7 @@ get_header();
     <div class="overlay"></div>
     <div class="container-xxl px-lg-5remrem position-relative d-flex align-items-center" >
         <div class="row w-100 ms-3 align-items-center">
-            <div class="col-md-5 text-start text-white parallax-content" >
+            <div class="col-md-9 col-lg-6 text-start text-white parallax-content" >
                 <?php if($pre_titre = get_field('pre_titre')): ?>
                     <p class="text-uppercase fw-lighter"><?php echo esc_html($pre_titre); ?></p>
                 <?php endif; ?>
@@ -263,7 +263,7 @@ get_header();
     </div>
 </section>
 <div class="spacer-10"></div>
-<section class="best_advice col-md-8 mx-auto py-5">
+<section class="best_advice col-md-11 col-lg-8 mx-auto py-5">
     <div class="row align-items-center">
         <?php
         $args = array(
