@@ -44,11 +44,28 @@
 	height: 5rem;
 	background-color: $lips;
 }
+/* Tablette et mobile */
+@media screen and (max-width: 991.98px) {
+	.spacer-10 {
+		margin-bottom: 2rem; /* réduit l'espace énorme sur tablette */
+	}
+}
+
 @media screen and (max-width: 768px) {
 	.spacer-10-lips {
-		height: 2.5rem;
+		height: 1.5rem; /* encore plus petit sur mobile */
 	}
 	.spacer-10 {
-		margin-bottom: 2.5rem;
+		margin-bottom: 1rem; /* encore plus petit sur mobile */
+	}
+}
+
+/* Mobile très petit - encore moins d'espace */
+@media screen and (max-width: 480px) {
+	.spacer-10-lips {
+		height: 0.8rem;
+	}
+	.spacer-10 {
+		margin-bottom: 0.8rem; /* très petit sur petits mobiles */
 	}
 }
