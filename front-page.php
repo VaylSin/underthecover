@@ -235,7 +235,7 @@ get_header();
 </section>
 <div class="spacer-10"></div>
 <section class="charte_rse container-fluid" style="background-image: url('<?php echo esc_url(get_field('image_rse')['url'] ?? ''); ?>');">
-    <div class="container-xxl px-lg-5rem d-flex justify-content-center align-items-center" style="min-height: 500px;">
+    <div class="container-xxl p-5 d-flex justify-content-center align-items-center" >
         <div class="text-center col-md-8 mx-auto text-white" >
             <?php if($texte_accroche = get_field('phrase_daccroche_bloc_charte')): ?>
                 <h2 class="mb-4 text-uppercase fw-bold" ><?php echo $texte_accroche; ?></h2>
