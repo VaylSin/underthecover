@@ -44,3 +44,11 @@
 	height: 5rem;
 	background-color: $lips;
 }
+@media screen and (max-width: 768px) {
+	.spacer-10-lips {
+		height: 2.5rem;
+	}
+	.spacer-10 {
+		margin-bottom: 2.5rem;
+	}
+}

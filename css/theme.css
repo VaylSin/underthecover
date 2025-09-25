@@ -16185,16 +16185,71 @@ figure.woocommerce-product-gallery__wrapper {
 html {
   overflow-x: hidden;
 }
-@media screen and (max-width: 768px) {
-  html {
-    font-size: 90%;
-  }
-}
 
 body {
   font-family: "Plus Jakarta Sans", sans-serif;
+  overflow-x: hidden; /* Empêcher le scroll horizontal */
+  max-width: 100vw; /* Limiter à la largeur de l'écran */
 }
 
+/* =============================================
+   FIX DÉBORDEMENT HORIZONTAL MOBILE
+   ============================================= */
+/* Empêcher tous les conteneurs de dépasser */
+.container,
+.container-fluid,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl,
+.container-xxl {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Fix spécifique pour les rows Bootstrap */
+.row {
+  margin-left: 0;
+  margin-right: 0;
+  max-width: 100%;
+}
+.row > [class*=col-] {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+/* Fix pour les éléments qui peuvent déborder */
+img,
+svg,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fix spécifique mobile et tablette */
+@media (max-width: 991.98px) {
+  * {
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+  /* Conteneurs spécifiques */
+  .site,
+  #page,
+  .slider_container,
+  .carousel-inner,
+  .carousel-item {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  /* Headers et navbars */
+  header,
+  .navbar,
+  #wrapper-navbar {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+}
 h1, .h1,
 h2,
 .h2,
@@ -16515,19 +16570,20 @@ h6,
   background: #bc3365;
 }
 
-.product-rating .star-rating-custom {
+.star-rating-custom {
   display: inline-flex;
   align-items: center;
 }
-.product-rating .star-rating-custom .star {
+.star-rating-custom .star {
   color: #bc3365;
   font-size: 1rem;
   margin-right: 0.1rem;
 }
-.product-rating .star-rating-custom .star-empty {
+.star-rating-custom .star-empty {
   opacity: 0.5;
 }
-.product-rating .rating-count {
+
+.rating-count {
   font-size: 0.75rem;
   opacity: 0.8;
 }
@@ -16985,8 +17041,8 @@ h6,
 .search-offcanvas {
   position: fixed;
   top: 0;
-  right: -100vw;
-  width: 100vw;
+  right: -100%;
+  width: 100%;
   max-width: 500px;
   height: 100vh;
   background: #fff;
@@ -17116,7 +17172,7 @@ header,
   position: absolute;
   top: calc(100% - 2px);
   left: 0;
-  width: 100vw;
+  width: 100%;
   box-sizing: border-box;
   background: #fff;
   z-index: 9999;
@@ -17998,6 +18054,14 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   background-color: #ea6676;
 }
 
+@media screen and (max-width: 768px) {
+  .spacer-10-lips {
+    height: 2.5rem;
+  }
+  .spacer-10 {
+    margin-bottom: 2.5rem;
+  }
+}
 .product_item {
   display: flex;
   flex-direction: column;
@@ -19001,7 +19065,7 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1050;
@@ -19409,6 +19473,88 @@ body.mobile-menu-open .mobile-search-toggle {
 }
 
 /* =============================================
+   RECHERCHE MOBILE DROPDOWN
+   ============================================= */
+.mobile-search-dropdown {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #ffffff;
+  z-index: 1060;
+  transform: translateY(-100%);
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  flex-direction: column;
+  padding-top: 80px;
+}
+.mobile-search-dropdown.open {
+  transform: translateY(0);
+}
+.mobile-search-dropdown .container {
+  flex: 1;
+  padding: 2rem 1rem;
+}
+.mobile-search-dropdown .search-form-container .woocommerce-product-search {
+  position: relative;
+}
+.mobile-search-dropdown .search-form-container .woocommerce-product-search .search-field {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  border: 2px solid #e5e5e5;
+  border-radius: 10px;
+  background-color: #f8f9fa;
+  transition: border-color 0.3s ease;
+}
+.mobile-search-dropdown .search-form-container .woocommerce-product-search .search-field:focus {
+  outline: none;
+  border-color: #007cba;
+  background-color: #ffffff;
+}
+.mobile-search-dropdown .search-form-container .woocommerce-product-search input[type=submit] {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #007cba;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+.mobile-search-dropdown .search-form-container .woocommerce-product-search input[type=submit]:hover {
+  background-color: #f0f0f0;
+}
+.mobile-search-dropdown .mobile-close-search {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #333;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+.mobile-search-dropdown .mobile-close-search:hover {
+  background-color: #f5f5f5;
+}
+
+@media (min-width: 992px) {
+  .mobile-search-dropdown {
+    display: none !important;
+  }
+}
+/* =============================================
    MENU DE GAUCHE - FORCER INLINE
    ============================================= */
 /* Forcer les éléments du menu de gauche à rester inline */
@@ -19487,11 +19633,6 @@ body.mobile-menu-open .mobile-search-toggle {
   .view-all-link, .wc-block-cart__submit-button,
   .wc-block-components-checkout-place-order-button, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button, .woocommerce-form-login__submit, .woocommerce-info a,
   .woocommerce-message a, .woocommerce-Button {
-    /* S'assurer que le bouton reste bien dimensionné */
-    min-height: 40px;
-    font-size: 0.9rem;
-    /* Espacement optimal entre le texte et l'icône */
-    gap: 0.5rem;
     /* Rendre le texte "ajouter" plus visible */
   }
   .view-all-link .d-inline.d-md-none, .wc-block-cart__submit-button .d-inline.d-md-none,
@@ -19555,6 +19696,69 @@ body.mobile-menu-open .mobile-search-toggle {
     transition: background-color 0.1s ease;
   }
 }
-/* Version desktop - garde le comportement normal existant */
+/* =============================================
+   FOOTER ACCORDÉON RESPONSIVE
+   ============================================= */
+/* Footer accordéon sur mobile et tablette */
+@media (max-width: 767.98px) {
+  .footer-accordion-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+  .footer-accordion-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+  .footer-accordion-header {
+    cursor: pointer;
+    margin-bottom: 0 !important;
+    padding: 0.75rem 0;
+    transition: all 0.3s ease;
+  }
+  .footer-accordion-header:hover {
+    color: #f8f9fa !important;
+  }
+  .footer-accordion-header.active .footer-accordion-icon {
+    transform: rotate(180deg);
+  }
+  .footer-accordion-icon {
+    transition: transform 0.3s ease;
+    font-size: 0.9rem;
+  }
+  .footer-accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    opacity: 0;
+    /* S'assurer que les liens et le contenu sont visibles quand ouvert */
+  }
+  .footer-accordion-content.show {
+    max-height: 500px;
+    opacity: 1;
+    padding-top: 0.5rem;
+  }
+  .footer-accordion-content ul,
+  .footer-accordion-content li,
+  .footer-accordion-content a {
+    transition: opacity 0.3s ease;
+  }
+  .footer-accordion-content.show ul, .footer-accordion-content.show li, .footer-accordion-content.show a {
+    opacity: 1;
+  }
+}
+/* Desktop - comportement normal */
+@media (min-width: 768px) {
+  .footer-accordion-header {
+    cursor: default;
+  }
+  .footer-accordion-header .footer-accordion-icon {
+    display: none !important;
+  }
+  .footer-accordion-content {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+} /* Version desktop - garde le comportement normal existant */
 
 /*# sourceMappingURL=theme.css.map */

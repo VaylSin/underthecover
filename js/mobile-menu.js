@@ -62,11 +62,15 @@
 		// Gestion de l'icône de recherche mobile (même comportement que desktop)
 		initMobileSearchToggle();
 
+		// Gestion du bouton de fermeture de la recherche mobile
+		initMobileSearchClose();
+
 		// Réessayer l'initialisation de la recherche mobile après 500ms au cas où les éléments ne sont pas encore disponibles
 		setTimeout(() => {
 			if (!document.getElementById("mobileSearchToggle")?.onclick) {
 				console.log("Réinitialisation de la recherche mobile...");
 				initMobileSearchToggle();
+				initMobileSearchClose();
 			}
 		}, 500);
 
@@ -192,31 +196,53 @@
 		console.log("Initialisation de la recherche mobile...");
 
 		const mobileSearchToggle = document.getElementById("mobileSearchToggle");
-		const searchDropdown = document.getElementById("searchDropdown");
+		const mobileSearchDropdown = document.getElementById(
+			"mobileSearchDropdown"
+		);
 
 		console.log("Éléments de recherche mobile trouvés:", {
 			mobileSearchToggle: !!mobileSearchToggle,
-			searchDropdown: !!searchDropdown,
+			mobileSearchDropdown: !!mobileSearchDropdown,
 			mobileSearchToggleElement: mobileSearchToggle,
-			searchDropdownElement: searchDropdown,
+			mobileSearchDropdownElement: mobileSearchDropdown,
 		});
 
-		if (mobileSearchToggle && searchDropdown) {
-			// Retirer tout event listener existant
-			mobileSearchToggle.removeEventListener("click", handleMobileSearchClick);
+		if (mobileSearchToggle && mobileSearchDropdown) {
+			// Méthode alternative : utiliser onclick directement pour éviter les conflits
+			mobileSearchToggle.onclick = function (e) {
+				console.log("=== CLIC SUR RECHERCHE MOBILE (onclick) ===", e);
+				e.preventDefault();
+				e.stopPropagation();
+				e.stopImmediatePropagation();
 
-			// Ajouter le nouvel event listener
-			mobileSearchToggle.addEventListener(
-				"click",
-				handleMobileSearchClick,
-				true
-			);
+				// Toggle du dropdown
+				if (mobileSearchDropdown.classList.contains("open")) {
+					console.log("Fermeture de la recherche mobile");
+					mobileSearchDropdown.classList.remove("open");
+					document.body.style.overflow = "";
+				} else {
+					console.log("Ouverture de la recherche mobile");
+					mobileSearchDropdown.classList.add("open");
+					document.body.style.overflow = "hidden";
 
-			console.log("Event listener ajouté sur l'icône de recherche mobile");
+					// Focus sur le champ de recherche
+					setTimeout(() => {
+						const searchInput =
+							mobileSearchDropdown.querySelector(".search-field");
+						if (searchInput) {
+							console.log("Focus sur le champ de recherche mobile");
+							searchInput.focus();
+						}
+					}, 300);
+				}
+				return false;
+			};
+
+			console.log("Onclick handler ajouté sur l'icône de recherche mobile");
 		} else {
 			console.error("Éléments de recherche mobile manquants:", {
 				mobileSearchToggle: !!mobileSearchToggle,
-				searchDropdown: !!searchDropdown,
+				mobileSearchDropdown: !!mobileSearchDropdown,
 			});
 		}
 	}
@@ -227,33 +253,64 @@
 		e.stopPropagation();
 		e.stopImmediatePropagation();
 
-		const searchDropdown = document.getElementById("searchDropdown");
-		if (!searchDropdown) {
-			console.error("searchDropdown non trouvé");
+		const mobileSearchDropdown = document.getElementById(
+			"mobileSearchDropdown"
+		);
+		if (!mobileSearchDropdown) {
+			console.error("mobileSearchDropdown non trouvé");
 			return;
 		}
 
 		// Utiliser la même logique que le toggle de recherche desktop (classe "open")
-		if (searchDropdown.classList.contains("open")) {
-			console.log("Fermeture de la recherche");
-			searchDropdown.classList.remove("open");
+		if (mobileSearchDropdown.classList.contains("open")) {
+			console.log("Fermeture de la recherche mobile");
+			mobileSearchDropdown.classList.remove("open");
 			// Réactiver le scroll de la page
 			document.body.style.overflow = "";
 		} else {
-			console.log("Ouverture de la recherche");
-			searchDropdown.classList.add("open");
+			console.log("Ouverture de la recherche mobile");
+			mobileSearchDropdown.classList.add("open");
 			// Désactiver le scroll de la page
 			document.body.style.overflow = "hidden";
 
 			// Focus sur le champ de recherche
 			setTimeout(() => {
-				const searchInput = searchDropdown.querySelector(".search-field");
+				const searchInput = mobileSearchDropdown.querySelector(".search-field");
 				if (searchInput) {
-					console.log("Focus sur le champ de recherche");
+					console.log("Focus sur le champ de recherche mobile");
 					searchInput.focus();
 				}
 			}, 300);
 		}
+	}
+
+	function initMobileSearchClose() {
+		const mobileCloseSearch = document.getElementById("mobileCloseSearch");
+		const mobileSearchDropdown = document.getElementById(
+			"mobileSearchDropdown"
+		);
+
+		if (mobileCloseSearch && mobileSearchDropdown) {
+			mobileCloseSearch.addEventListener("click", function (e) {
+				e.preventDefault();
+				console.log("Fermeture de la recherche mobile via bouton");
+				mobileSearchDropdown.classList.remove("open");
+				document.body.style.overflow = "";
+			});
+		}
+
+		// Fermeture avec Escape
+		document.addEventListener("keydown", function (e) {
+			if (
+				e.key === "Escape" &&
+				mobileSearchDropdown &&
+				mobileSearchDropdown.classList.contains("open")
+			) {
+				console.log("Fermeture de la recherche mobile via Escape");
+				mobileSearchDropdown.classList.remove("open");
+				document.body.style.overflow = "";
+			}
+		});
 	}
 
 	function initMobileCart() {
@@ -389,4 +446,50 @@
 
 	// Lancer l'initialisation
 	init();
+
+	// Debug functions pour les tests
+	window.debugMobileMenu = function () {
+		console.log("=== DEBUG MOBILE MENU ===");
+		console.log("Mobile menu found:", !!mobileMenu);
+		console.log("Mobile burger found:", !!mobileMenuBurger);
+		console.log("Mobile close found:", !!mobileMenuClose);
+		console.log("Is initialized:", isInitialized);
+	};
+
+	// Debug function spécifique pour la recherche mobile
+	window.debugMobileSearch = function () {
+		console.log("=== DEBUG RECHERCHE MOBILE ===");
+		const toggle = document.getElementById("mobileSearchToggle");
+		const dropdown = document.getElementById("mobileSearchDropdown");
+
+		console.log("Elements found:", {
+			toggle: !!toggle,
+			dropdown: !!dropdown,
+			toggleElement: toggle,
+			dropdownElement: dropdown,
+		});
+
+		if (toggle) {
+			console.log("Toggle classes:", toggle.className);
+			console.log("Toggle onclick:", !!toggle.onclick);
+		}
+
+		if (dropdown) {
+			console.log("Dropdown classes:", dropdown.className);
+			console.log(
+				"Dropdown has 'open' class:",
+				dropdown.classList.contains("open")
+			);
+		}
+	};
+
+	// Test direct de l'event handler
+	window.testMobileSearchClick = function () {
+		console.log("Test direct du clic recherche mobile");
+		const dropdown = document.getElementById("mobileSearchDropdown");
+		if (dropdown) {
+			dropdown.classList.toggle("open");
+			console.log("Toggle effectué, classes:", dropdown.className);
+		}
+	};
 })();

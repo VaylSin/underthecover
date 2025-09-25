@@ -48,7 +48,7 @@ if ($page_id == 58) {
                         }
                     }
                 ?>
-                    <div class="col-6 col-sm-4 col-md-3">
+                    <div class="col-12 col-sm-4 col-md-3">
                         <?php if ( $link_url ) : ?>
                             <a href="<?php echo esc_url( $link_url ); ?>"
                                class="d-block insta-item">

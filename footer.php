@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
     <div class="container-xxl">
         <div class="row gy-4">
             <!-- Colonne 1 : Présentation -->
-            <div class="col-12 col-md-3 mb-4 mb-md-0">
+            <div class="col-12 col-md-3 ">
                 <?php
                 $titre_footer = get_field('titre', 'option');
                 $texte_footer = get_field('contenu_texte', 'option');
@@ -29,32 +29,48 @@ defined( 'ABSPATH' ) || exit;
                 <?php endif; ?>
             </div>
             <!-- Colonne 2 : Catégories produits -->
-            <div class="col-12 col-md-3 mb-4 mb-md-0">
-                <h5 class="mb-3 text-uppercase">Catégories</h5>
-                <ul class="list-unstyled">
-                    <?php
-                    $product_categories = get_terms([
-                        'taxonomy' => 'product_cat',
-                        'hide_empty' => false
-                    ]);
-                    foreach ($product_categories as $cat): ?>
-                        <li>
-                            <a href="<?php echo get_term_link($cat); ?>" class="text-white text-decoration-none small">
-                                <?php echo esc_html($cat->name); ?>
-                            </a>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+            <div class="col-12 col-md-3 ">
+                <div class="footer-accordion-item">
+                    <h5 class="mb-3 text-uppercase footer-accordion-header d-flex justify-content-between align-items-center d-md-block"
+                        data-footer-toggle="footer-categories">
+                        Catégories
+                        <i class="bi bi-chevron-down footer-accordion-icon d-md-none"></i>
+                    </h5>
+                    <div class="footer-accordion-content d-md-block" id="footer-categories">
+                        <ul class="list-unstyled">
+                            <?php
+                            $product_categories = get_terms([
+                                'taxonomy' => 'product_cat',
+                                'hide_empty' => false
+                            ]);
+                            foreach ($product_categories as $cat): ?>
+                                <li>
+                                    <a href="<?php echo get_term_link($cat); ?>" class="text-white text-decoration-none small">
+                                        <?php echo esc_html($cat->name); ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <!-- Colonne 3 : Pages infos -->
-            <div class="col-12 col-md-3 mb-4 mb-md-0">
-                <h5 class="mb-3 text-uppercase">Informations</h5>
-                <ul class="list-unstyled">
-                    <li><a href="/mentions-legales" class="text-white text-decoration-none small">Mentions légales</a></li>
-                    <li><a href="/politique-de-confidentialite" class="text-white text-decoration-none small">Politique de confidentialité</a></li>
-                    <li><a href="/conditions-de-vente" class="text-white text-decoration-none small">Conditions de vente</a></li>
-                    <li><a href="/nous-contacter" class="text-white text-decoration-none small">Nous contacter</a></li>
-                </ul>
+            <div class="col-12 col-md-3 ">
+                <div class="footer-accordion-item">
+                    <h5 class="mb-3 text-uppercase footer-accordion-header d-flex justify-content-between align-items-center d-md-block"
+                        data-footer-toggle="footer-informations">
+                        Informations
+                        <i class="bi bi-chevron-down footer-accordion-icon d-md-none"></i>
+                    </h5>
+                    <div class="footer-accordion-content d-md-block" id="footer-informations">
+                        <ul class="list-unstyled">
+                            <li><a href="/mentions-legales" class="text-white text-decoration-none small">Mentions légales</a></li>
+                            <li><a href="/politique-de-confidentialite" class="text-white text-decoration-none small">Politique de confidentialité</a></li>
+                            <li><a href="/conditions-de-vente" class="text-white text-decoration-none small">Conditions de vente</a></li>
+                            <li><a href="/nous-contacter" class="text-white text-decoration-none small">Nous contacter</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <!-- Colonne 4 : Réseaux sociaux + Newsletter -->
             <div class="col-12 col-md-3 d-flex flex-column justify-content-between ">

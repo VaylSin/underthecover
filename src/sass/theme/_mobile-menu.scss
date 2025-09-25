@@ -7,7 +7,7 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 100vw;
+	width: 100%;
 	height: 100vh;
 	background-color: rgba(0, 0, 0, 0.5);
 	z-index: 1050;
@@ -498,4 +498,100 @@ body.mobile-menu-open {
 body.mobile-menu-open .mobile-search-toggle {
 	opacity: 0;
 	pointer-events: none;
+}
+
+/* =============================================
+   RECHERCHE MOBILE DROPDOWN
+   ============================================= */
+
+.mobile-search-dropdown {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background-color: #ffffff;
+	z-index: 1060;
+	transform: translateY(-100%);
+	transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+	display: flex;
+	flex-direction: column;
+	padding-top: 80px; // Espace pour le header
+
+	&.open {
+		transform: translateY(0);
+	}
+
+	.container {
+		flex: 1;
+		padding: 2rem 1rem;
+	}
+
+	.search-form-container {
+		.woocommerce-product-search {
+			position: relative;
+
+			.search-field {
+				width: 100%;
+				padding: 1rem;
+				font-size: 1.1rem;
+				border: 2px solid #e5e5e5;
+				border-radius: 10px;
+				background-color: #f8f9fa;
+				transition: border-color 0.3s ease;
+
+				&:focus {
+					outline: none;
+					border-color: #007cba;
+					background-color: #ffffff;
+				}
+			}
+
+			input[type="submit"] {
+				position: absolute;
+				right: 10px;
+				top: 50%;
+				transform: translateY(-50%);
+				background: none;
+				border: none;
+				font-size: 1.2rem;
+				color: #007cba;
+				cursor: pointer;
+				padding: 0.5rem;
+				border-radius: 5px;
+				transition: background-color 0.2s ease;
+
+				&:hover {
+					background-color: #f0f0f0;
+				}
+			}
+		}
+	}
+
+	.mobile-close-search {
+		background: none;
+		border: none;
+		font-size: 2rem;
+		color: #333;
+		cursor: pointer;
+		padding: 0.5rem;
+		border-radius: 50%;
+		width: 50px;
+		height: 50px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: background-color 0.2s ease;
+
+		&:hover {
+			background-color: #f5f5f5;
+		}
+	}
+}
+
+// Masquer le dropdown mobile sur desktop
+@media (min-width: 992px) {
+	.mobile-search-dropdown {
+		display: none !important;
+	}
 }

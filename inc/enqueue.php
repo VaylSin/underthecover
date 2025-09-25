@@ -93,6 +93,15 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 			$theme_version,
 			true // charge dans le footer
 		);
+
+		// Footer accordéon
+		wp_enqueue_script(
+			'footer-accordion',
+			get_template_directory_uri() . '/js/footer-accordion.js',
+			array(), // Pas de dépendance
+			$theme_version,
+			true // charge dans le footer
+		);
 	}
 } // End of if function_exists( 'understrap_scripts' ).
 
