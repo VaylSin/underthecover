@@ -182,3 +182,175 @@
 		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 	}
 }
+
+/* =============================================
+   RESPONSIVE - MOBILE ET TABLETTE
+   ============================================= */
+
+/* Tablette (768px - 991px) */
+@media (max-width: 991.98px) {
+	.about-banner {
+		min-height: 300px;
+		height: 300px;
+
+		.about-banner-content {
+			min-height: 300px;
+			height: 300px;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			padding: 1.5rem;
+
+			.about-banner-inner {
+				max-width: 500px;
+
+				h1 {
+					font-size: 2rem;
+					margin-bottom: 1rem;
+				}
+
+				.about-banner-desc {
+					font-size: 1rem;
+					line-height: 1.6;
+				}
+			}
+		}
+	}
+
+	.about-citation {
+		padding: 2rem 1rem;
+		font-size: 1.1rem;
+
+		blockquote {
+			max-width: 600px;
+			margin: 0 auto;
+			font-size: 1.1rem;
+		}
+	}
+
+	.about-damier-row {
+		margin-bottom: 2rem !important;
+	}
+
+	.about-damier-texte .about-damier-wysiwyg .about-damier-inner-container {
+		padding: 1.5rem;
+		text-align: center;
+		font-size: 1rem;
+		line-height: 1.6;
+	}
+
+	// Supprimer le décalage sur tablette
+	.about-damier-row:nth-of-type(2) .about-damier-texte {
+		position: static;
+		left: auto;
+		box-shadow: none;
+	}
+}
+
+/* Mobile (jusqu'à 767px) */
+@media (max-width: 767.98px) {
+	.about-banner {
+		min-height: 250px;
+		height: 250px;
+
+		.about-banner-content {
+			min-height: 250px;
+			height: 250px;
+			padding: 1rem;
+
+			.about-banner-inner {
+				max-width: 100%;
+
+				h1 {
+					font-size: 1.75rem;
+					margin-bottom: 0.75rem;
+					line-height: 1.2;
+				}
+
+				.about-banner-desc {
+					font-size: 0.95rem;
+					line-height: 1.5;
+
+					p {
+						margin-bottom: 0.5rem;
+					}
+				}
+			}
+		}
+	}
+
+	.about-citation {
+		padding: 1.5rem 1rem;
+		font-size: 1rem;
+
+		blockquote {
+			font-size: 1rem;
+			line-height: 1.5;
+
+			&::before,
+			&::after {
+				font-size: 2rem;
+			}
+		}
+	}
+
+	.about-damier-row {
+		margin-bottom: 1.5rem !important;
+
+		// Forcer l'ordre image puis texte sur mobile
+		.about-damier-photo {
+			order: 1;
+			margin-bottom: 1rem;
+		}
+
+		.about-damier-texte {
+			order: 2;
+		}
+	}
+
+	.about-damier-photo .about-damier-img {
+		aspect-ratio: 4 / 3; // Moins carré sur mobile
+	}
+
+	.about-damier-texte .about-damier-wysiwyg {
+		.about-damier-inner-container {
+			padding: 1.25rem;
+			text-align: center;
+			font-size: 0.95rem;
+			line-height: 1.6;
+
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				text-align: center;
+				margin-bottom: 0.75rem;
+				font-size: 1.25rem;
+			}
+
+			p {
+				margin-bottom: 0.75rem;
+				text-align: center;
+			}
+
+			ul,
+			ol {
+				text-align: left;
+				max-width: 300px;
+				margin: 0 auto 0.75rem;
+			}
+		}
+	}
+
+	// Ajuster les espacements généraux
+	.about-damier {
+		margin-top: 2rem !important;
+		margin-bottom: 2rem !important;
+	}
+
+	.spacer-10 {
+		height: 1rem; // Réduire l'espacement sur mobile
+	}
+}

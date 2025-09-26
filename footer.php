@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
     <div class="container-xxl">
         <div class="row gy-4">
             <!-- Colonne 1 : Présentation -->
-            <div class="col-12 col-md-3 ">
+            <div class="col-12 col-lg-3 ">
                 <?php
                 $titre_footer = get_field('titre', 'option');
                 $texte_footer = get_field('contenu_texte', 'option');
@@ -29,14 +29,14 @@ defined( 'ABSPATH' ) || exit;
                 <?php endif; ?>
             </div>
             <!-- Colonne 2 : Catégories produits -->
-            <div class="col-12 col-md-3 ">
+            <div class="col-12 col-lg-3 ">
                 <div class="footer-accordion-item">
-                    <h5 class="mb-3 text-uppercase footer-accordion-header d-flex justify-content-between align-items-center d-md-block"
+                    <h5 class="mb-3 text-uppercase footer-accordion-header d-flex justify-content-between align-items-center d-lg-block"
                         data-footer-toggle="footer-categories">
                         Catégories
-                        <i class="bi bi-chevron-down footer-accordion-icon d-md-none"></i>
+                        <i class="bi bi-chevron-down footer-accordion-icon d-lg-none"></i>
                     </h5>
-                    <div class="footer-accordion-content d-md-block" id="footer-categories">
+                    <div class="footer-accordion-content d-lg-block" id="footer-categories">
                         <ul class="list-unstyled">
                             <?php
                             $product_categories = get_terms([
@@ -55,14 +55,14 @@ defined( 'ABSPATH' ) || exit;
                 </div>
             </div>
             <!-- Colonne 3 : Pages infos -->
-            <div class="col-12 col-md-3 ">
+            <div class="col-12 col-lg-3 ">
                 <div class="footer-accordion-item">
-                    <h5 class="mb-3 text-uppercase footer-accordion-header d-flex justify-content-between align-items-center d-md-block"
+                    <h5 class="mb-3 text-uppercase footer-accordion-header d-flex justify-content-between align-items-center d-lg-block"
                         data-footer-toggle="footer-informations">
                         Informations
-                        <i class="bi bi-chevron-down footer-accordion-icon d-md-none"></i>
+                        <i class="bi bi-chevron-down footer-accordion-icon d-lg-none"></i>
                     </h5>
-                    <div class="footer-accordion-content d-md-block" id="footer-informations">
+                    <div class="footer-accordion-content d-lg-block" id="footer-informations">
                         <ul class="list-unstyled">
                             <li><a href="/mentions-legales" class="text-white text-decoration-none small">Mentions légales</a></li>
                             <li><a href="/politique-de-confidentialite" class="text-white text-decoration-none small">Politique de confidentialité</a></li>
@@ -73,7 +73,7 @@ defined( 'ABSPATH' ) || exit;
                 </div>
             </div>
             <!-- Colonne 4 : Réseaux sociaux + Newsletter -->
-            <div class="col-12 col-md-3 d-flex flex-column justify-content-between ">
+            <div class="col-12 col-lg-3 d-flex flex-column justify-content-between ">
                 <div class="mb-4">
                     <h5 class="mb-3 text-uppercase">Suivez-nous</h5>
                     <div class="d-flex gap-3 align-items-center">
@@ -95,10 +95,10 @@ defined( 'ABSPATH' ) || exit;
         </div>
         <hr class="border-white opacity-25 my-4">
         <div class="row pb-4 align-items-center">
-            <div class="col-md-6 text-center text-md-start small opacity-75">
+            <div class="col-lg-6 text-center text-lg-start small opacity-75">
                 Design by <a href="https://skdigit.com" target="_blank" rel="noopener" class="text-white text-decoration-underline">Skdigit</a>
             </div>
-            <div class="col-md-6 text-center text-md-end small opacity-75">
+            <div class="col-lg-6 text-center text-lg-end small opacity-75">
                 &copy; <?php echo date('Y'); ?> Silklane. Tous droits réservés.
             </div>
         </div>

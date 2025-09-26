@@ -1,0 +1,92 @@
+/* =============================================
+   FILTRES BOUTIQUE - BOUTONS CATEGORIES
+   ============================================= */
+
+.shop-categories {
+	.btn {
+		// Reset des styles Bootstrap par défaut
+		border: none !important;
+		background: transparent !important;
+		color: $velvet !important;
+		padding: 0.5rem 1rem;
+		font-weight: 500;
+		text-decoration: none;
+		position: relative;
+		transition: color 0.3s ease;
+
+		// Bordure bottom animée (initialement cachée)
+		&::after {
+			content: "";
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			width: 0;
+			height: 2px;
+			background-color: $velvet;
+			transition: all 0.3s ease;
+			transform: translateX(-50%);
+		}
+
+		// État hover - animation de la bordure
+		&:hover {
+			color: $velvet !important;
+			background: transparent !important;
+
+			&::after {
+				width: 100%;
+			}
+		}
+
+		// État actif (catégorie sélectionnée)
+		&.active {
+			color: $velvet !important;
+			background: transparent !important;
+
+			&::after {
+				width: 100%;
+			}
+		}
+
+		// Retirer tous les outlines et borders au focus/clic
+		&:focus,
+		&:focus-visible,
+		&:active {
+			outline: none !important;
+			box-shadow: none !important;
+			border: none !important;
+		}
+	}
+}
+
+/* =============================================
+   RESPONSIVE - MOBILE ET TABLETTE
+   ============================================= */
+
+@media (max-width: 767.98px) {
+	.shop-categories {
+		gap: 0.5rem !important;
+
+		.btn {
+			padding: 0.4rem 0.75rem;
+			font-size: 0.9rem;
+
+			&::after {
+				height: 1.5px;
+			}
+		}
+	}
+}
+
+@media (max-width: 575.98px) {
+	.shop-categories {
+		justify-content: flex-start !important;
+		overflow-x: auto;
+		flex-wrap: nowrap !important;
+		padding-bottom: 0.5rem;
+
+		.btn {
+			white-space: nowrap;
+			flex-shrink: 0;
+		}
+	}
+}

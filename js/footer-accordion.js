@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		headers.forEach((header) => {
 			header.addEventListener("click", function () {
-				// Seulement sur mobile (< 768px)
-				if (window.innerWidth < 768) {
+				// Seulement sur mobile et tablette (< 992px)
+				if (window.innerWidth < 992) {
 					const targetId = this.getAttribute("data-footer-toggle");
 					const content = document.getElementById(targetId);
 					const icon = this.querySelector(".footer-accordion-icon");
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		const contents = document.querySelectorAll(".footer-accordion-content");
 		const headers = document.querySelectorAll(".footer-accordion-header");
 
-		if (window.innerWidth >= 768) {
+		if (window.innerWidth >= 992) {
 			// Desktop : tout ouvert
 			contents.forEach((content) => {
 				content.classList.remove("show");
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function debugFooterAccordion() {
 	console.log("=== DEBUG FOOTER ACCORDION ===");
 	console.log("Screen width:", window.innerWidth);
-	console.log("Is mobile:", window.innerWidth < 768);
+	console.log("Is mobile/tablet:", window.innerWidth < 992);
 
 	const headers = document.querySelectorAll("[data-footer-toggle]");
 	console.log("Found headers:", headers.length);

@@ -12,20 +12,11 @@
 	function initMobileMenu() {
 		if (isInitialized) return;
 
-		console.log("Initialisation du menu mobile...");
-
 		// Sélection des éléments
 		mobileMenu = document.getElementById("mobileMenu");
 		mobileMenuOverlay = document.getElementById("mobileMenuOverlay");
 		mobileMenuBurger = document.getElementById("mobileMenuBurger");
 		mobileMenuClose = document.getElementById("mobileMenuClose");
-
-		console.log("Éléments trouvés:", {
-			mobileMenu: !!mobileMenu,
-			mobileMenuOverlay: !!mobileMenuOverlay,
-			mobileMenuBurger: !!mobileMenuBurger,
-			mobileMenuClose: !!mobileMenuClose,
-		});
 
 		if (
 			!mobileMenu ||
@@ -39,19 +30,16 @@
 
 		// Event listeners avec logs
 		mobileMenuBurger.addEventListener("click", function (e) {
-			console.log("Clic sur burger");
 			e.preventDefault();
 			openMobileMenu();
 		});
 
 		mobileMenuClose.addEventListener("click", function (e) {
-			console.log("Clic sur fermer");
 			e.preventDefault();
 			closeMobileMenu();
 		});
 
 		mobileMenuOverlay.addEventListener("click", function (e) {
-			console.log("Clic sur overlay");
 			e.preventDefault();
 			closeMobileMenu();
 		});
@@ -68,7 +56,6 @@
 		// Réessayer l'initialisation de la recherche mobile après 500ms au cas où les éléments ne sont pas encore disponibles
 		setTimeout(() => {
 			if (!document.getElementById("mobileSearchToggle")?.onclick) {
-				console.log("Réinitialisation de la recherche mobile...");
 				initMobileSearchToggle();
 				initMobileSearchClose();
 			}
@@ -78,11 +65,9 @@
 		initMobileCart();
 
 		isInitialized = true;
-		console.log("Menu mobile initialisé");
 	}
 
 	function openMobileMenu() {
-		console.log("Ouverture du menu mobile");
 		mobileMenu.classList.add("active");
 		mobileMenuOverlay.classList.add("active");
 		mobileMenuBurger.classList.add("active");
@@ -100,7 +85,6 @@
 	}
 
 	function closeMobileMenu() {
-		console.log("Fermeture du menu mobile");
 		mobileMenu.classList.remove("active");
 		mobileMenuOverlay.classList.remove("active");
 		mobileMenuBurger.classList.remove("active");
@@ -158,17 +142,12 @@
 	}
 
 	function toggleSubmenu(trigger, submenu) {
-		console.log("Toggle submenu:", trigger, submenu);
 		const isExpanded = trigger.getAttribute("aria-expanded") === "true";
 
 		if (isExpanded) {
-			// Fermer
-			console.log("Fermeture du sous-menu");
 			trigger.setAttribute("aria-expanded", "false");
 			submenu.classList.remove("active");
 		} else {
-			// Ouvrir
-			console.log("Ouverture du sous-menu");
 			trigger.setAttribute("aria-expanded", "true");
 			submenu.classList.add("active");
 		}
@@ -193,19 +172,10 @@
 	}
 
 	function initMobileSearchToggle() {
-		console.log("Initialisation de la recherche mobile...");
-
 		const mobileSearchToggle = document.getElementById("mobileSearchToggle");
 		const mobileSearchDropdown = document.getElementById(
 			"mobileSearchDropdown"
 		);
-
-		console.log("Éléments de recherche mobile trouvés:", {
-			mobileSearchToggle: !!mobileSearchToggle,
-			mobileSearchDropdown: !!mobileSearchDropdown,
-			mobileSearchToggleElement: mobileSearchToggle,
-			mobileSearchDropdownElement: mobileSearchDropdown,
-		});
 
 		if (mobileSearchToggle && mobileSearchDropdown) {
 			// Méthode alternative : utiliser onclick directement pour éviter les conflits
@@ -237,8 +207,6 @@
 				}
 				return false;
 			};
-
-			console.log("Onclick handler ajouté sur l'icône de recherche mobile");
 		} else {
 			console.error("Éléments de recherche mobile manquants:", {
 				mobileSearchToggle: !!mobileSearchToggle,
@@ -248,7 +216,6 @@
 	}
 
 	function handleMobileSearchClick(e) {
-		console.log("=== CLIC SUR RECHERCHE MOBILE ===", e);
 		e.preventDefault();
 		e.stopPropagation();
 		e.stopImmediatePropagation();
@@ -263,12 +230,10 @@
 
 		// Utiliser la même logique que le toggle de recherche desktop (classe "open")
 		if (mobileSearchDropdown.classList.contains("open")) {
-			console.log("Fermeture de la recherche mobile");
 			mobileSearchDropdown.classList.remove("open");
 			// Réactiver le scroll de la page
 			document.body.style.overflow = "";
 		} else {
-			console.log("Ouverture de la recherche mobile");
 			mobileSearchDropdown.classList.add("open");
 			// Désactiver le scroll de la page
 			document.body.style.overflow = "hidden";
@@ -306,7 +271,6 @@
 				mobileSearchDropdown &&
 				mobileSearchDropdown.classList.contains("open")
 			) {
-				console.log("Fermeture de la recherche mobile via Escape");
 				mobileSearchDropdown.classList.remove("open");
 				document.body.style.overflow = "";
 			}

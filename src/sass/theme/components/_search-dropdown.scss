@@ -182,3 +182,52 @@
 		}
 	}
 }
+
+/* Ajustements spécifiques mobile */
+@media (max-width: 767.98px) {
+	.search-dropdown,
+	#searchDropdown {
+		/* Ajuster l'alignement vertical : moins centré, plus haut */
+		align-items: flex-start !important;
+		padding: 20vh 0 2rem !important; /* Padding haut réduit + padding bottom pour scroll */
+		overflow-y: auto !important; /* Forcer le scroll vertical */
+		-webkit-overflow-scrolling: touch !important; /* Scroll fluide sur iOS */
+
+		.close-search {
+			top: 10px !important; /* Plus proche du haut */
+			right: 15px !important; /* Un peu plus à droite */
+			z-index: 10 !important; /* Au-dessus du contenu */
+			width: 44px !important; /* Zone de touch plus grande */
+			height: 44px !important;
+			display: flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+			background: rgba(
+				255,
+				255,
+				255,
+				0.9
+			) !important; /* Fond léger pour visibilité */
+			border-radius: 50% !important;
+			font-size: 1.8rem !important;
+		}
+
+		.search-form-container {
+			margin-top: 0 !important; /* Pas de marge supplémentaire */
+
+			.search-field {
+				font-size: 1.5rem !important; /* Légèrement plus petit en mobile */
+				height: 3.5rem !important;
+
+				&::placeholder {
+					font-size: 1.5rem !important;
+				}
+			}
+		}
+
+		.popular-products {
+			margin-top: 1.5rem !important; /* Moins d'espace au-dessus des produits */
+			padding-bottom: 2rem !important; /* Espace en bas pour que tous les boutons soient accessibles */
+		}
+	}
+}

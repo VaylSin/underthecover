@@ -481,6 +481,9 @@ figure.woocommerce-product-gallery__wrapper {
 	overflow: hidden !important;
 	text-overflow: ellipsis !important;
 	margin: 0 !important; /* utiliser gap du parent, pas de margin-left */
+	@media screen {
+		max-width: 8.5rem !important;
+	}
 }
 
 .product-specs-grid .spec-icon {
@@ -506,6 +509,7 @@ figure.woocommerce-product-gallery__wrapper {
 	.product-specs-grid .specs-grid {
 		grid-template-columns: repeat(2, 1fr);
 		gap: 0.5rem;
+		padding-block: 1rem;
 	}
 }
 
@@ -587,11 +591,85 @@ figure.woocommerce-product-gallery__wrapper {
    RESPONSIVE MOBILE - FICHE PRODUIT
    ============================================= */
 
-/* Tablette - layout en colonne */
+/* Tablette - layout en colonne comme mobile */
 @media (max-width: 991.98px) {
 	.single-product .siklane-product-inner {
 		grid-template-columns: 1fr; /* une seule colonne */
 		gap: 2rem;
+	}
+
+	/* Réorganiser la galerie comme sur mobile : image au-dessus, thumbnails en bas */
+	.siklane-swiper-gallery {
+		display: flex;
+		flex-direction: column; /* Colonne : image puis thumbnails */
+		gap: 1rem;
+		order: 1; /* s'assurer que la galerie soit en premier */
+	}
+
+	.single-product .summary.entry-summary {
+		order: 2; /* résumé produit en second */
+	}
+
+	/* Thumbnails en bas, horizontaux comme mobile */
+	.siklane-swiper-thumbs {
+		flex-direction: row !important;
+		width: 100% !important;
+		flex: 0 0 auto !important;
+		padding: 0.3rem 0;
+		justify-content: flex-start;
+		order: 2; /* Thumbnails après l'image principale */
+
+		.swiper-slide {
+			width: 60px !important;
+			height: 60px !important;
+			margin-right: 0.5rem;
+		}
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+
+	/* Image principale au-dessus */
+	.siklane-swiper-main {
+		order: 1; /* Image en premier */
+		width: 100% !important;
+		aspect-ratio: 1 / 1;
+		max-height: 60vh;
+		min-height: 300px;
+		display: flex !important;
+		align-items: center;
+		justify-content: center;
+
+		.swiper-wrapper,
+		.swiper-slide {
+			display: flex !important;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 100%;
+		}
+
+		.swiper-slide img {
+			display: block !important;
+			max-width: 100%;
+			max-height: 100%;
+			width: auto;
+			height: auto;
+			object-fit: contain;
+			opacity: 1 !important;
+		}
+
+		/* Override Swiper fade effect */
+		.swiper-slide:not(.swiper-slide-active) {
+			opacity: 0 !important;
+		}
+
+		.swiper-slide.swiper-slide-active {
+			opacity: 1 !important;
+		}
 	}
 }
 
@@ -861,6 +939,9 @@ figure.woocommerce-product-gallery__wrapper {
 	.siklane-accordion-body p {
 		margin: 0.5rem 0;
 		font-size: 0.9rem;
+		@media screen and (max-width: 767.98px) {
+			font-size: 1rem;
+		}
 	}
 	.siklane-accordion-body ul,
 	.siklane-accordion-body ol {
@@ -891,7 +972,7 @@ figure.woocommerce-product-gallery__wrapper {
 	/* Mobile très petit - optimisations extrêmes */
 	@media (max-width: 480px) {
 		.siklane-accordion-title {
-			font-size: 0.65rem !important; /* très petit pour les petits écrans */
+			font-size: 1rem !important; /* très petit pour les petits écrans */
 			line-height: 1.15;
 		}
 		.siklane-accordion-summary {
@@ -1263,72 +1344,56 @@ figure.woocommerce-product-gallery__wrapper {
    ============================================= */
 
 /* Section produits similaires "Ils pourraient aussi vous faire de l'oeil" */
-.related.products {
-	.products {
+.related.products,
+.up-sells.upsells.products {
+	/* Bootstrap Grid se charge de la mise en page responsive */
+	/* 2 colonnes sur mobile (col-6), 4 colonnes sur desktop (col-lg-3) */
+
+	.product-item-wrapper {
+		height: 100%; /* Container de même hauteur */
+	}
+
+	.card.product_item {
+		height: 100%; /* Cartes de même hauteur */
 		display: flex;
-		gap: 1rem;
-		align-items: stretch; /* Force les items à avoir la même hauteur */
+		flex-direction: column;
 
-		li {
-			flex: 1 1 calc(25% - 0.75rem); /* 4 colonnes avec gap */
-			display: flex;
-
-			@media (max-width: 991.98px) {
-				flex: 1 1 calc(50% - 0.5rem); /* 2 colonnes sur tablette */
-			}
-
-			@media (max-width: 767.98px) {
-				flex: 1 1 calc(50% - 0.5rem); /* 2 colonnes sur mobile */
-			}
-
-			@media (max-width: 480px) {
-				flex: 1 1 100%; /* 1 colonne sur très petit mobile */
-			}
+		.img-container {
+			flex-shrink: 0;
 		}
 
-		/* Card produit - hauteur et layout uniforme */
-		.card.product_item {
+		.card-body.card_infos {
+			flex: 1;
 			display: flex;
 			flex-direction: column;
-			height: 100%; /* Prend toute la hauteur du conteneur parent */
+			justify-content: space-between;
 
-			.img-container {
-				flex-shrink: 0; /* L'image garde sa taille */
+			.card-title {
+				/* Hauteur minimum pour 2 lignes de texte */
+				min-height: 2.4em; /* environ 2 lignes */
+				line-height: 1.2;
+				margin-bottom: 0.5rem;
+				display: flex;
+				align-items: flex-start;
+
+				/* Empêcher le débordement et gérer les textes longs */
+				overflow: hidden;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				line-clamp: 2;
+				-webkit-box-orient: vertical;
+				word-break: break-word;
 			}
 
-			.card-body.card_infos {
-				flex: 1; /* Le contenu s'étend pour remplir l'espace */
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
+			/* Section prix/rating */
+			.d-flex.flex-column.flex-xl-row {
+				margin-top: auto; /* Pousse vers le bas */
+				margin-bottom: 0.5rem;
+			}
 
-				.card-title {
-					/* Hauteur minimum pour 2 lignes de texte */
-					min-height: 2.4em; /* environ 2 lignes */
-					line-height: 1.2;
-					margin-bottom: 0.5rem;
-					display: flex;
-					align-items: flex-start;
-
-					/* Empêcher le débordement et gérer les textes longs */
-					overflow: hidden;
-					display: -webkit-box;
-					-webkit-line-clamp: 2;
-					line-clamp: 2;
-					-webkit-box-orient: vertical;
-					word-break: break-word;
-				}
-
-				/* Section prix/rating */
-				.d-flex.flex-column.flex-xl-row {
-					margin-top: auto; /* Pousse vers le bas */
-					margin-bottom: 0.5rem;
-				}
-
-				/* Bouton ajouter au panier */
-				.add-to-cart-form {
-					margin-top: auto; /* Toujours en bas */
-				}
+			/* Bouton ajouter au panier */
+			.add-to-cart-form {
+				margin-top: auto; /* Toujours en bas */
 			}
 		}
 	}

@@ -6134,11 +6134,19 @@
    * Siklane Theme JavaScript
    * Version refactorisée - Septembre 2025
    */
+
+  console.log("=== JS FILE LOADED ===");
   (function () {
 
+    console.log("=== INSIDE IIFE ===");
+
     // Éviter la double exécution
-    if (window.__siklane_js_initialized) return;
+    if (window.__siklane_js_initialized) {
+      console.log("=== ALREADY INITIALIZED ===");
+      return;
+    }
     window.__siklane_js_initialized = true;
+    console.log("=== SETTING INITIALIZED FLAG ===");
 
     // ==========================================================================
     // UTILITAIRES
@@ -6147,7 +6155,7 @@
     const $ = (sel, ctx = document) => ctx.querySelector(sel);
     const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
     const on = (el, ev, fn, opts = false) => el && el.addEventListener(ev, fn, opts);
-    const isHomePage = () => document.body.classList.contains('home') || document.body.classList.contains('front-page') || location.pathname === '/' || location.pathname === '/index.html';
+    const isHomePage = () => document.body.classList.contains("home") || document.body.classList.contains("front-page") || location.pathname === "/" || location.pathname === "/index.html";
 
     // ==========================================================================
     // GESTION DU SCROLL (Lock/Unlock)
@@ -6162,34 +6170,48 @@
     function lockScroll() {
       if (scrollLocked) return;
       scrollLocked = true;
-      document.documentElement.style.overflow = 'hidden';
-      document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
-      window.addEventListener('wheel', preventDefault, {
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+      window.addEventListener("wheel", preventDefault, {
         passive: false
       });
-      window.addEventListener('touchmove', preventDefault, {
+      window.addEventListener("touchmove", preventDefault, {
         passive: false
       });
-      window.addEventListener('keydown', preventKeys, {
+      window.addEventListener("keydown", preventKeys, {
         passive: false
       });
 
       // Classes CSS pour les hooks
-      document.documentElement.classList.add('scroll-locked');
-      document.body.classList.add('scroll-locked');
+      document.documentElement.classList.add("scroll-locked");
+      document.body.classList.add("scroll-locked");
     }
     function unlockScroll() {
       if (!scrollLocked) return;
       scrollLocked = false;
-      document.documentElement.style.overflow = '';
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
-      window.removeEventListener('wheel', preventDefault);
-      window.removeEventListener('touchmove', preventDefault);
-      window.removeEventListener('keydown', preventKeys);
-      document.documentElement.classList.remove('scroll-locked');
-      document.body.classList.remove('scroll-locked');
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+      window.removeEventListener("wheel", preventDefault);
+      window.removeEventListener("touchmove", preventDefault);
+      window.removeEventListener("keydown", preventKeys);
+      document.documentElement.classList.remove("scroll-locked");
+      document.body.classList.remove("scroll-locked");
+    }
+
+    // Nettoyage des overlays de recherche en doublon
+    function cleanupSearchOverlays() {
+      const desktopOverlay = $("#searchDropdown");
+      const duplicateSelectors = ["#mobileSearchDropdown", ".mobile-search-dropdown", ".search-dropdown:not(#searchDropdown)", "[class*='mobile'][class*='search'][class*='dropdown']"];
+      duplicateSelectors.forEach(selector => {
+        $$(selector).forEach(element => {
+          if (element !== desktopOverlay) {
+            console.debug("[cleanup] Suppression overlay recherche dupliqué:", selector);
+            element.remove();
+          }
+        });
+      });
     }
 
     // ==========================================================================
@@ -6197,20 +6219,20 @@
     // ==========================================================================
 
     function initLoader() {
-      const loader = $('#site-loader');
-      const site = $('.site');
+      const loader = $("#site-loader");
+      const site = $(".site");
       if (!site) return;
 
       // Pages non-accueil : suppression immédiate
       if (!isHomePage()) {
         if (loader) {
-          loader.classList.add('hidden');
+          loader.classList.add("hidden");
           setTimeout(() => loader.remove(), 100);
         }
-        site.classList.add('loaded');
+        site.classList.add("loaded");
         return;
       }
-      const bar = loader.querySelector('.loader-bar');
+      const bar = loader.querySelector(".loader-bar");
       let progress = 0;
       let finished = false;
 
@@ -6219,18 +6241,18 @@
         if (finished || !bar) return;
         progress += Math.random() * 8 + 2;
         progress = Math.min(progress, 90);
-        bar.style.width = progress + '%';
+        bar.style.width = progress + "%";
         setTimeout(updateProgress, 200);
       };
       updateProgress();
 
       // Finalisation au chargement
-      on(window, 'load', () => {
+      on(window, "load", () => {
         finished = true;
-        if (bar) bar.style.width = '100%';
+        if (bar) bar.style.width = "100%";
         setTimeout(() => {
-          loader.classList.add('hidden');
-          site.classList.add('loaded');
+          loader.classList.add("hidden");
+          site.classList.add("loaded");
           setTimeout(() => loader.remove(), 600);
         }, 300);
       }, {
@@ -6241,8 +6263,8 @@
       setTimeout(() => {
         if (!finished) {
           finished = true;
-          loader.classList.add('hidden');
-          site.classList.add('loaded');
+          loader.classList.add("hidden");
+          site.classList.add("loaded");
           setTimeout(() => loader.remove(), 600);
         }
       }, 8000);
@@ -6253,80 +6275,80 @@
     // ==========================================================================
 
     function initBoutiqueMenu() {
-      const link = $('.menu-item-boutique');
-      const container = link == null ? void 0 : link.closest('.boutique-container');
-      const submenu = $('#submenu-boutique');
+      const link = $(".menu-item-boutique");
+      const container = link == null ? void 0 : link.closest(".boutique-container");
+      const submenu = $("#submenu-boutique");
       if (!link || !container || !submenu) return;
 
       // Nettoyage des styles inline
-      submenu.removeAttribute('style');
+      submenu.removeAttribute("style");
 
       // Observer pour empêcher la ré-application de styles
       const observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
-          if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+          if (mutation.type === "attributes" && mutation.attributeName === "style") {
             if (submenu.style.display) {
-              submenu.style.removeProperty('display');
+              submenu.style.removeProperty("display");
             }
           }
         });
       });
       observer.observe(submenu, {
         attributes: true,
-        attributeFilter: ['style']
+        attributeFilter: ["style"]
       });
 
       // Accessibilité
-      link.setAttribute('aria-haspopup', 'true');
-      link.setAttribute('aria-expanded', 'false');
+      link.setAttribute("aria-haspopup", "true");
+      link.setAttribute("aria-expanded", "false");
       let closeTimer = null;
       const DELAY = 120;
       const openSubmenu = () => {
         clearTimeout(closeTimer);
-        container.classList.add('open');
-        link.setAttribute('aria-expanded', 'true');
+        container.classList.add("open");
+        link.setAttribute("aria-expanded", "true");
       };
       const closeSubmenu = () => {
         clearTimeout(closeTimer);
-        container.classList.remove('open');
-        link.setAttribute('aria-expanded', 'false');
+        container.classList.remove("open");
+        link.setAttribute("aria-expanded", "false");
       };
 
       // Détection des capacités hover
-      const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      const hasHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
       if (hasHover) {
         // Desktop : événements hover
-        on(link, 'mouseenter', openSubmenu);
-        on(link, 'mouseleave', () => {
+        on(link, "mouseenter", openSubmenu);
+        on(link, "mouseleave", () => {
           closeTimer = setTimeout(() => {
-            if (!submenu.matches(':hover')) closeSubmenu();
+            if (!submenu.matches(":hover")) closeSubmenu();
           }, DELAY);
         });
-        on(submenu, 'mouseenter', () => {
+        on(submenu, "mouseenter", () => {
           clearTimeout(closeTimer);
           openSubmenu();
         });
-        on(submenu, 'mouseleave', () => {
+        on(submenu, "mouseleave", () => {
           closeTimer = setTimeout(closeSubmenu, DELAY);
         });
       } else {
         // Mobile : événements click
-        on(link, 'click', e => {
+        on(link, "click", e => {
           e.preventDefault();
-          container.classList.toggle('open');
-          link.setAttribute('aria-expanded', container.classList.contains('open') ? 'true' : 'false');
+          container.classList.toggle("open");
+          link.setAttribute("aria-expanded", container.classList.contains("open") ? "true" : "false");
         });
-        on(document, 'click', e => {
+        on(document, "click", e => {
           if (!container.contains(e.target) && !submenu.contains(e.target)) {
             closeSubmenu();
           }
         });
-        on(window, 'scroll', closeSubmenu);
+        on(window, "scroll", closeSubmenu);
       }
 
       // Fermeture avec Echap
-      on(document, 'keydown', e => {
-        if (e.key === 'Escape') closeSubmenu();
+      on(document, "keydown", e => {
+        if (e.key === "Escape") closeSubmenu();
       });
     }
 
@@ -6335,43 +6357,66 @@
     // ==========================================================================
 
     function initSearch() {
-      const toggle = $('#searchToggle');
-      const dropdown = $('#searchDropdown') || $('.search-dropdown');
-      const closeBtn = $('#closeSearch');
-      if (!toggle || !dropdown || !closeBtn) return;
+      const toggle = $("#searchToggle");
+      const mobileToggle = $("#mobileSearchToggle");
+      const dropdown = $("#searchDropdown");
+      const closeBtn = $("#closeSearch");
+
+      // Supprimer tout overlay mobile en doublon s'il existe
+      const mobileDropdown = $("#mobileSearchDropdown") || $(".mobile-search-dropdown");
+      if (mobileDropdown && mobileDropdown !== dropdown) {
+        mobileDropdown.remove();
+      }
+      if (!toggle && !mobileToggle || !dropdown || !closeBtn) return;
       const openSearch = () => {
-        dropdown.classList.add('open');
-        lockScroll();
+        dropdown.classList.add("open");
+
+        // Scroll-lock spécial : bloquer le body mais permettre scroll dans l'overlay
+        document.body.style.overflow = "hidden";
+        document.documentElement.style.overflow = "hidden";
+        dropdown.style.overflow = "auto"; // Permettre scroll interne
 
         // Focus sur le champ de recherche
-        const input = dropdown.querySelector('.search-field');
+        const input = dropdown.querySelector(".search-field");
         if (input) setTimeout(() => input.focus(), 300);
       };
       const closeSearch = () => {
-        dropdown.classList.remove('open');
-        unlockScroll();
+        dropdown.classList.remove("open");
+
+        // Restaurer le scroll normal
+        document.body.style.overflow = "";
+        document.documentElement.style.overflow = "";
+        dropdown.style.overflow = "";
       };
 
-      // Événements
-      on(toggle, 'click', e => {
-        e.preventDefault();
-        openSearch();
-      });
-      on(closeBtn, 'click', e => {
+      // Événements pour les deux boutons (desktop + mobile) -> même overlay
+      if (toggle) {
+        on(toggle, "click", e => {
+          e.preventDefault();
+          openSearch();
+        });
+      }
+      if (mobileToggle) {
+        on(mobileToggle, "click", e => {
+          e.preventDefault();
+          openSearch();
+        });
+      }
+      on(closeBtn, "click", e => {
         e.preventDefault();
         closeSearch();
       });
 
       // Fermeture avec Echap
-      on(document, 'keydown', e => {
-        if (e.key === 'Escape' && dropdown.classList.contains('open')) {
+      on(document, "keydown", e => {
+        if (e.key === "Escape" && dropdown.classList.contains("open")) {
           closeSearch();
         }
       });
 
       // Fermeture en cliquant à l'extérieur
-      on(document, 'click', e => {
-        if (!dropdown.contains(e.target) && !toggle.contains(e.target) && dropdown.classList.contains('open')) {
+      on(document, "click", e => {
+        if (!dropdown.contains(e.target) && (!toggle || !toggle.contains(e.target)) && (!mobileToggle || !mobileToggle.contains(e.target)) && dropdown.classList.contains("open")) {
           closeSearch();
         }
       });
@@ -6381,8 +6426,8 @@
         const btn = dropdown.querySelector('form button[type="submit"]');
         if (!btn || btn.dataset.iconified) return;
         btn.innerHTML = '<i class="bi bi-search" aria-hidden="true"></i><span class="visually-hidden">Rechercher</span>';
-        btn.setAttribute('aria-label', 'Rechercher');
-        btn.dataset.iconified = '1';
+        btn.setAttribute("aria-label", "Rechercher");
+        btn.dataset.iconified = "1";
       };
       replaceSubmitIcon();
       new MutationObserver(replaceSubmitIcon).observe(dropdown, {
@@ -6396,10 +6441,10 @@
     // ==========================================================================
 
     function initSmoothScroll() {
-      if ($('.smooth-scroll-wrapper')) return;
+      if ($(".smooth-scroll-wrapper")) return;
 
       // Éléments à préserver
-      const preserveSelectors = ['#site-loader', '#searchDropdown', '.search-dropdown'];
+      const preserveSelectors = ["#site-loader", "#searchDropdown", ".search-dropdown"];
       const preserved = [];
       preserveSelectors.forEach(sel => {
         $$(sel).forEach(el => {
@@ -6411,8 +6456,8 @@
       });
 
       // Créer le wrapper
-      const wrapper = document.createElement('div');
-      wrapper.className = 'smooth-scroll-wrapper';
+      const wrapper = document.createElement("div");
+      wrapper.className = "smooth-scroll-wrapper";
 
       // Déplacer le contenu dans le wrapper
       Array.from(document.body.childNodes).forEach(node => {
@@ -6424,11 +6469,11 @@
 
       // Styles du wrapper
       Object.assign(wrapper.style, {
-        position: 'fixed',
-        width: '100%',
-        top: '0',
-        left: '0',
-        willChange: 'transform'
+        position: "fixed",
+        width: "100%",
+        top: "0",
+        left: "0",
+        willChange: "transform"
       });
 
       // État du scroll
@@ -6439,13 +6484,13 @@
 
       // Mise à jour de la hauteur
       const updateHeight = () => {
-        document.body.style.height = wrapper.scrollHeight + 'px';
+        document.body.style.height = wrapper.scrollHeight + "px";
       };
-      document.body.style.overflowY = 'auto';
+      document.body.style.overflowY = "auto";
       updateHeight();
 
       // Observer les changements de taille
-      if ('ResizeObserver' in window) {
+      if ("ResizeObserver" in window) {
         new ResizeObserver(updateHeight).observe(wrapper);
       }
 
@@ -6461,13 +6506,13 @@
       };
 
       // Gestion du scroll
-      on(window, 'scroll', () => {
+      on(window, "scroll", () => {
         targetY = window.scrollY;
         if (!rafId) rafId = requestAnimationFrame(render);
       }, {
         passive: true
       });
-      on(window, 'resize', updateHeight, {
+      on(window, "resize", updateHeight, {
         passive: true
       });
 
@@ -6475,7 +6520,7 @@
       if (location.hash) {
         const target = $(location.hash);
         if (target) setTimeout(() => target.scrollIntoView({
-          behavior: 'smooth'
+          behavior: "smooth"
         }), 500);
       }
 
@@ -6483,7 +6528,7 @@
       detachProblematicElements(wrapper);
     }
     function detachProblematicElements(wrapper) {
-      const selectors = ['.search-dropdown', '#searchDropdown', '#site-loader'];
+      const selectors = [".search-dropdown", "#searchDropdown", "#site-loader"];
       selectors.forEach(sel => {
         const el = wrapper.querySelector(sel);
         if (!el) return;
@@ -6492,12 +6537,12 @@
         document.body.appendChild(el);
 
         // Appliquer les styles fixes
-        if (sel.includes('search') || sel === '#site-loader') {
+        if (sel.includes("search") || sel === "#site-loader") {
           Object.assign(el.style, {
-            position: 'fixed',
-            inset: '0',
-            width: '100%',
-            zIndex: '9999'
+            position: "fixed",
+            inset: "0",
+            width: "100%",
+            zIndex: "9999"
           });
         }
       });
@@ -6508,10 +6553,10 @@
     // ==========================================================================
 
     function initCategoriesCarousel() {
-      const container = $('#categories-carousel');
+      const container = $("#categories-carousel");
       if (!container) return;
-      const row = container.querySelector('.carousel-row');
-      const items = $$('.category-item', container);
+      const row = container.querySelector(".carousel-row");
+      const items = $$(".category-item", container);
       if (!row || !items.length) return;
       let itemsPerView = window.innerWidth > 768 ? 4 : 1;
       let current = 0;
@@ -6522,17 +6567,17 @@
         row.style.transform = `translateX(${-current * itemWidth}px)`;
 
         // Mise à jour des boutons
-        const prev = container.querySelector('.carousel-control-prev');
-        const next = container.querySelector('.carousel-control-next');
-        if (prev) prev.classList.toggle('disabled', current <= 0);
-        if (next) next.classList.toggle('disabled', current >= items.length - itemsPerView);
+        const prev = container.querySelector(".carousel-control-prev");
+        const next = container.querySelector(".carousel-control-next");
+        if (prev) prev.classList.toggle("disabled", current <= 0);
+        if (next) next.classList.toggle("disabled", current >= items.length - itemsPerView);
       };
 
       // Boutons de navigation
-      const prevBtn = container.querySelector('.carousel-control-prev');
-      const nextBtn = container.querySelector('.carousel-control-next');
+      const prevBtn = container.querySelector(".carousel-control-prev");
+      const nextBtn = container.querySelector(".carousel-control-next");
       if (prevBtn) {
-        on(prevBtn, 'click', e => {
+        on(prevBtn, "click", e => {
           e.preventDefault();
           if (current > 0) {
             current--;
@@ -6541,7 +6586,7 @@
         });
       }
       if (nextBtn) {
-        on(nextBtn, 'click', e => {
+        on(nextBtn, "click", e => {
           e.preventDefault();
           if (current < items.length - itemsPerView) {
             current++;
@@ -6551,7 +6596,7 @@
       }
 
       // Responsive
-      on(window, 'resize', () => {
+      on(window, "resize", () => {
         const newItemsPerView = window.innerWidth > 768 ? 4 : 1;
         if (newItemsPerView !== itemsPerView) {
           itemsPerView = newItemsPerView;
@@ -6569,50 +6614,50 @@
     // ==========================================================================
 
     function initCartDrawer() {
-      const triggers = $$('.cart-toggle');
-      const drawer = $('#cartDrawer');
+      const triggers = $$(".cart-toggle");
+      const drawer = $("#cartDrawer");
       if (!drawer || !triggers.length) return;
-      const closeElements = $$('[data-cart-drawer-close]', drawer);
+      const closeElements = $$("[data-cart-drawer-close]", drawer);
       const openDrawer = () => {
-        drawer.classList.add('active');
-        drawer.setAttribute('aria-hidden', 'false');
+        drawer.classList.add("active");
+        drawer.setAttribute("aria-hidden", "false");
         lockScroll();
 
         // Reset scroll et focus
-        const content = drawer.querySelector('.drawer-content');
+        const content = drawer.querySelector(".drawer-content");
         if (content) content.scrollTop = 0;
-        const firstFocusable = drawer.querySelector('button, a, input, [tabindex]');
+        const firstFocusable = drawer.querySelector("button, a, input, [tabindex]");
         if (firstFocusable) firstFocusable.focus();
       };
       const closeDrawer = () => {
-        drawer.classList.remove('active');
-        drawer.setAttribute('aria-hidden', 'true');
+        drawer.classList.remove("active");
+        drawer.setAttribute("aria-hidden", "true");
         unlockScroll();
       };
 
       // Événements
-      triggers.forEach(btn => on(btn, 'click', e => {
+      triggers.forEach(btn => on(btn, "click", e => {
         e.preventDefault();
         openDrawer();
       }));
-      closeElements.forEach(el => on(el, 'click', e => {
+      closeElements.forEach(el => on(el, "click", e => {
         e.preventDefault();
         closeDrawer();
       }));
 
       // Fermeture avec Echap
-      on(document, 'keydown', e => {
-        if (e.key === 'Escape') closeDrawer();
+      on(document, "keydown", e => {
+        if (e.key === "Escape") closeDrawer();
       });
 
       // Fermeture sur backdrop
-      const backdrop = drawer.querySelector('.cart-drawer-backdrop');
-      if (backdrop) on(backdrop, 'click', closeDrawer);
+      const backdrop = drawer.querySelector(".cart-drawer-backdrop");
+      if (backdrop) on(backdrop, "click", closeDrawer);
 
       // Auto-ouverture sur ajout produit
-      on(document.body, 'added_to_cart', () => {
+      on(document.body, "added_to_cart", () => {
         setTimeout(() => {
-          if (!drawer.classList.contains('active')) openDrawer();
+          if (!drawer.classList.contains("active")) openDrawer();
         }, 200);
       });
     }
@@ -6623,9 +6668,71 @@
 
     function initAOS() {
       var _AOS;
-      if (typeof AOS !== 'undefined' && (_AOS = AOS) != null && _AOS.init) {
+      if (typeof AOS !== "undefined" && (_AOS = AOS) != null && _AOS.init) {
         AOS.init();
       }
+    }
+
+    // ==========================================================================
+    // ACCORDÉONS PRODUITS
+    // ==========================================================================
+
+    function initProductAccordions() {
+      console.log("[accordions] Fonction appelée");
+      const accordion = $(".siklane-accordion");
+      console.log("[accordions] Élément trouvé:", accordion);
+      if (!accordion) {
+        console.log("[accordions] Aucun accordéon trouvé, sortie");
+        return;
+      }
+      console.log("[accordions] Initialisation des accordéons...");
+
+      // Approche différente : écouter les événements Bootstrap
+      on(accordion, "show.bs.collapse", e => {
+        // Un accordéon va s'ouvrir
+        const targetButton = $(`[data-bs-target="#${e.target.id}"]`);
+        if (targetButton) {
+          console.debug("[accordions] Ouverture de:", e.target.id);
+        }
+      });
+
+      // Gérer chaque bouton
+      $$(".accordion-button", accordion).forEach(button => {
+        on(button, "click", e => {
+          const target = button.getAttribute("data-bs-target");
+          const collapseElement = $(target);
+          if (!collapseElement) return;
+
+          // Vérifier l'état actuel AVANT le clic
+          const isCurrentlyOpen = collapseElement.classList.contains("show");
+          console.debug("[accordions] Clic sur bouton, état ouvert:", isCurrentlyOpen);
+          if (isCurrentlyOpen) {
+            // Empêcher Bootstrap de rouvrir
+            e.preventDefault();
+            e.stopPropagation();
+            console.debug("[accordions] Fermeture manuelle de:", target);
+
+            // Utiliser l'API Bootstrap si disponible
+            if (typeof window.bootstrap !== "undefined" && window.bootstrap.Collapse) {
+              const collapseInstance = window.bootstrap.Collapse.getInstance(collapseElement);
+              if (collapseInstance) {
+                collapseInstance.hide();
+              } else {
+                // Fermeture manuelle
+                button.classList.add("collapsed");
+                button.setAttribute("aria-expanded", "false");
+                collapseElement.classList.remove("show");
+              }
+            } else {
+              // Fermeture manuelle fallback
+              button.classList.add("collapsed");
+              button.setAttribute("aria-expanded", "false");
+              collapseElement.classList.remove("show");
+            }
+          }
+          // Si fermé, laisser Bootstrap faire son travail
+        });
+      });
     }
 
     // ==========================================================================
@@ -6633,14 +6740,19 @@
     // ==========================================================================
 
     function initialize() {
+      console.log("=== INITIALIZE CALLED ===");
+
+      // Nettoyage des doublons avant tout
+      cleanupSearchOverlays();
+
       // Initialisation de base
       initAOS();
       initLoader();
 
       // Assurer que le site a la classe loaded
-      const site = $('.site');
+      const site = $(".site");
       if (site && !isHomePage()) {
-        site.classList.add('loaded');
+        site.classList.add("loaded");
       }
 
       // Fonctionnalités principales
@@ -6648,13 +6760,14 @@
       initBoutiqueMenu();
       initCategoriesCarousel();
       initCartDrawer();
+      initProductAccordions();
 
       // Smooth scroll après un délai
-      const loader = $('#site-loader');
+      const loader = $("#site-loader");
       if (loader && isHomePage()) {
         // Attendre que le loader se cache
         const checkLoader = setInterval(() => {
-          if (!$('#site-loader') || $('#site-loader').classList.contains('hidden')) {
+          if (!$("#site-loader") || $("#site-loader").classList.contains("hidden")) {
             clearInterval(checkLoader);
             setTimeout(initSmoothScroll, 100);
           }
@@ -6666,7 +6779,7 @@
       // Smooth scroll natif en fallback
       setTimeout(() => {
         try {
-          document.documentElement.style.scrollBehavior = 'smooth';
+          document.documentElement.style.scrollBehavior = "smooth";
         } catch (e) {}
       }, 200);
     }
@@ -6675,8 +6788,8 @@
     // POINT D'ENTRÉE
     // ==========================================================================
 
-    if (document.readyState === 'loading') {
-      on(document, 'DOMContentLoaded', initialize);
+    if (document.readyState === "loading") {
+      on(document, "DOMContentLoaded", initialize);
     } else {
       initialize();
     }

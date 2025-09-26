@@ -54,12 +54,12 @@ $damier = get_field('mise_en_page_en_damier');
                 ?>
                 <div class="row about-damier-row align-items-center mb-5 flex-md-nowrap flex-wrap">
                     <?php if ($is_even) : ?>
-                        <div class="col-12 col-md-6 about-damier-photo p-0 mb-3 mb-md-0">
+                        <div class="col-12 col-md-6 about-damier-photo p-0 mb-3 mb-md-0 ">
                             <?php if ($photo) : ?>
                                 <div class="about-damier-img" style="background-image:url('<?php echo esc_url(is_array($photo) ? $photo['url'] : $photo); ?>');"></div>
                             <?php endif; ?>
                         </div>
-                        <div class="col-12 col-md-6 about-damier-texte">
+                        <div class="col-12 col-md-6 about-damier-texte ">
                             <div class="about-damier-wysiwyg<?php echo ($index === 0 || $index === 2) ? ' no-bg' : (($index === 1) ? ' velvet-bg' : ''); ?>">
                                 <div class="about-damier-inner-container">
                                     <?php echo $texte; ?>

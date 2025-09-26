@@ -102,9 +102,9 @@ textarea:focus,
 	box-shadow: none !important;
 }
 
-/* submit/button */
+/* submit/button - exclure le burger menu */
 input[type="submit"],
-button,
+button:not(.mobile-menu-burger),
 .wpcf7-submit {
 	border-radius: 2px;
 	&:focus {
@@ -289,4 +289,87 @@ form.cart input[type="number"]::-webkit-inner-spin-button {
 }
 .woocommerce-form-login__submit {
 	@extend .view-all-link, .btn;
+}
+
+/* =============================================
+   RESPONSIVE - HAUTEUR DES CHAMPS MOBILE/TABLETTE
+   ============================================= */
+
+/* Augmenter la hauteur des champs sur mobile et tablette pour une meilleure ergonomie tactile */
+@media (max-width: 991.98px) {
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	input[type="search"],
+	input[type="url"],
+	input[type="password"],
+	input[type="number"],
+	select,
+	.wc-blocks-components-select__select,
+	.wpcf7-form-control:not(textarea) {
+		min-height: 48px !important; /* Hauteur minimum pour touch-friendly */
+		padding: 12px 16px !important; /* Padding plus généreux */
+		font-size: 1rem !important; /* Taille de police légèrement plus grande */
+		line-height: 1.5 !important;
+	}
+
+	/* Textarea avec hauteur plus importante */
+	textarea,
+	.wpcf7-form-control.wpcf7-textarea {
+		min-height: 120px !important; /* Plus haut pour faciliter la saisie */
+		padding: 16px !important;
+		font-size: 1rem !important;
+		line-height: 1.6 !important;
+	}
+
+	/* Boutons plus hauts également - SAUF le burger menu */
+	input[type="submit"],
+	button:not(.mobile-menu-burger),
+	.wpcf7-submit,
+	.view-all-link {
+		min-height: 48px !important;
+		padding: 12px 20px !important;
+		font-size: 1rem !important;
+	}
+
+	/* Placeholder avec taille ajustée */
+	input::placeholder,
+	textarea::placeholder,
+	select::placeholder {
+		font-size: 1rem !important;
+	}
+}
+
+/* Mobile uniquement - optimisations supplémentaires */
+@media (max-width: 767.98px) {
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	input[type="search"],
+	input[type="url"],
+	input[type="password"],
+	input[type="number"],
+	select,
+	.wc-blocks-components-select__select,
+	.wpcf7-form-control:not(textarea) {
+		min-height: 52px !important; /* Encore plus haut sur mobile */
+		padding: 14px 18px !important;
+	}
+
+	textarea,
+	.wpcf7-form-control.wpcf7-textarea {
+		min-height: 140px !important;
+		padding: 18px !important;
+	}
+
+	/* Boutons optimisés pour mobile - SAUF le burger menu */
+	input[type="submit"],
+	button:not(.mobile-menu-burger),
+	.wpcf7-submit,
+	.view-all-link {
+		min-height: 52px !important;
+		padding: 14px 24px !important;
+		font-size: 1.1rem !important;
+		font-weight: 600 !important;
+	}
 }

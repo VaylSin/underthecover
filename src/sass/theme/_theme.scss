@@ -1282,13 +1282,29 @@ h3.logo_before {
 @media (max-width: 576px) {
 	.boutique_categories {
 		.carousel-controls {
-			left: 0;
-			right: 0;
+			display: none; // Masquer les contrôles de carrousel
+		}
+
+		.categories-carousel {
+			overflow: visible; // Permettre l'affichage de tous les éléments
+		}
+
+		.carousel-inner {
+			overflow: visible; // Permettre l'affichage de tous les éléments
+		}
+
+		.carousel-row {
+			flex-direction: column; // Affichage vertical
+			transform: none !important; // Désactiver les transformations de carrousel
+			gap: 1rem; // Espacement entre les catégories
 		}
 
 		.category-item {
-			flex: 0 0 100%;
-			min-width: 100%;
+			flex: none; // Supprimer les contraintes flex du carrousel
+			min-width: auto;
+			width: 100%; // Pleine largeur
+			margin-bottom: 0; // Reset margin
+			padding: 0; // Reset padding
 		}
 	}
 }
