@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Test des fonctionnalités</title>
+		<style>
+			/* Test du sous-menu */
+			.boutique-container {
+				position: relative;
+				display: inline-block;
+				border: 1px solid red;
+				padding: 10px;
+			}
+
+			#submenu-boutique {
+				position: absolute;
+				top: 100%;
+				left: 0;
+				width: 200px;
+				background: white;
+				border: 1px solid black;
+				padding: 10px;
+				visibility: hidden;
+				opacity: 0;
+				transform: translateY(-10px);
+				transition: all 0.3s ease;
+			}
+
+			.boutique-container.open + #submenu-boutique {
+				visibility: visible;
+				opacity: 1;
+				transform: translateY(0);
+			}
+
+			/* Test de la recherche */
+			.search-dropdown {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(255, 255, 255, 0.9);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				opacity: 0;
+				visibility: hidden;
+				transition: all 0.3s ease;
+			}
+
+			.search-dropdown.open {
+				opacity: 1;
+				visibility: visible;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Test des fonctionnalités</h1>
+
+		<h2>1. Test du sous-menu boutique</h2>
+		<div class="boutique-container">
+			<a href="#" class="menu-item-boutique">BOUTIQUE (hover moi)</a>
+		</div>
+		<div id="submenu-boutique">
+			<p>Contenu du sous-menu</p>
+		</div>
+
+		<h2>2. Test de la recherche</h2>
+		<button class="search-toggle">Ouvrir la recherche</button>
+
+		<div class="search-dropdown">
+			<div>
+				<h3>Recherche</h3>
+				<button class="close-search">X</button>
+			</div>
+		</div>
+
+		<h2>3. Test du smooth scroll</h2>
+		<div style="height: 2000px; background: linear-gradient(red, blue)">
+			<p>Contenu long pour le scroll</p>
+		</div>
+
+		<script>
+			// Test sous-menu
+			const boutiqueContainer = document.querySelector(".boutique-container");
+			const submenu = document.getElementById("submenu-boutique");
+			const link = document.querySelector(".menu-item-boutique");
+
+			if (link && boutiqueContainer) {
+				link.addEventListener("mouseenter", () => {
+					boutiqueContainer.classList.add("open");
+					console.log("Sous-menu ouvert");
+				});
+
+				link.addEventListener("mouseleave", () => {
+					setTimeout(() => {
+						if (!submenu.matches(":hover")) {
+							boutiqueContainer.classList.remove("open");
+							console.log("Sous-menu fermé");
+						}
+					}, 100);
+				});
+
+				if (submenu) {
+					submenu.addEventListener("mouseenter", () => {
+						boutiqueContainer.classList.add("open");
+					});
+
+					submenu.addEventListener("mouseleave", () => {
+						boutiqueContainer.classList.remove("open");
+						console.log("Sous-menu fermé via submenu");
+					});
+				}
+			}
+
+			// Test recherche
+			const searchToggle = document.querySelector(".search-toggle");
+			const searchDropdown = document.querySelector(".search-dropdown");
+			const closeSearch = document.querySelector(".close-search");
+
+			if (searchToggle && searchDropdown) {
+				searchToggle.addEventListener("click", (e) => {
+					e.preventDefault();
+					searchDropdown.classList.add("open");
+					console.log("Recherche ouverte");
+				});
+			}
+
+			if (closeSearch && searchDropdown) {
+				closeSearch.addEventListener("click", (e) => {
+					e.preventDefault();
+					searchDropdown.classList.remove("open");
+					console.log("Recherche fermée");
+				});
+			}
+
+			// Test smooth scroll simple
+			let isScrolling = false;
+			window.addEventListener("scroll", () => {
+				if (!isScrolling) {
+					console.log("Scroll détecté");
+					isScrolling = true;
+					setTimeout(() => {
+						isScrolling = false;
+					}, 100);
+				}
+			});
+
+			console.log("Tests initialisés");
+		</script>
+	</body>
+</html>

@@ -6130,833 +6130,561 @@
     }
   })();
 
+  /**
+   * Siklane Theme JavaScript
+   * Version refactorisée - Septembre 2025
+   */
   (function () {
 
-    // Guard pour éviter double exécution
+    // Éviter la double exécution
     if (window.__siklane_js_initialized) return;
     window.__siklane_js_initialized = true;
 
-    /* Helpers */
-    const $ = (sel, ctx = document) => ctx.querySelector(sel);
-    const $$ = (sel, ctx = document) => Array.from((ctx || document).querySelectorAll(sel));
-    const on = (el, ev, fn, opts) => el && el.addEventListener(ev, fn, opts || false);
-    const isHomePath = () => document.body.classList.contains("home") || document.body.classList.contains("front-page") || location.pathname === "/" || location.pathname === "/index.html";
+    // ==========================================================================
+    // UTILITAIRES
+    // ==========================================================================
 
-    /* ----- Scroll lock helpers ----- */
-    let __siklane_scroll_locked = false;
-    function preventDefault(e) {
-      e.preventDefault();
-    }
-    function preventKeys(e) {
+    const $ = (sel, ctx = document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+    const on = (el, ev, fn, opts = false) => el && el.addEventListener(ev, fn, opts);
+    const isHomePage = () => document.body.classList.contains('home') || document.body.classList.contains('front-page') || location.pathname === '/' || location.pathname === '/index.html';
+
+    // ==========================================================================
+    // GESTION DU SCROLL (Lock/Unlock)
+    // ==========================================================================
+
+    let scrollLocked = false;
+    const preventDefault = e => e.preventDefault();
+    const preventKeys = e => {
       const keys = [32, 33, 34, 35, 36, 37, 38, 39, 40];
       if (keys.includes(e.keyCode)) e.preventDefault();
+    };
+    function lockScroll() {
+      if (scrollLocked) return;
+      scrollLocked = true;
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+      window.addEventListener('wheel', preventDefault, {
+        passive: false
+      });
+      window.addEventListener('touchmove', preventDefault, {
+        passive: false
+      });
+      window.addEventListener('keydown', preventKeys, {
+        passive: false
+      });
+
+      // Classes CSS pour les hooks
+      document.documentElement.classList.add('scroll-locked');
+      document.body.classList.add('scroll-locked');
     }
-    function disablePageScroll() {
-      if (__siklane_scroll_locked) return;
-      __siklane_scroll_locked = true;
-      // lock native scroll
-      try {
-        document.documentElement.style.overflow = "hidden";
-      } catch (e) {}
-      try {
-        document.body.style.overflow = "hidden";
-      } catch (e) {}
-      document.body.style.touchAction = "none";
-      // prevent wheel/touch keys
-      window.addEventListener("wheel", preventDefault, {
-        passive: false
-      });
-      window.addEventListener("touchmove", preventDefault, {
-        passive: false
-      });
-      window.addEventListener("keydown", preventKeys, {
-        passive: false
-      });
-      // if external smooth scrollbar exists, stop it
-      if (window.__smoothScrollbar && typeof window.__smoothScrollbar.stop === "function") {
-        try {
-          window.__smoothScrollbar.stop();
-        } catch (e) {
-          /* silent */
-        }
-      }
-      // add class hooks for CSS fallback
-      document.documentElement.classList.add("cart-drawer-open");
-      document.body.classList.add("cart-drawer-open");
-    }
-    function enablePageScroll() {
-      if (!__siklane_scroll_locked) return;
-      __siklane_scroll_locked = false;
-      try {
-        document.documentElement.style.overflow = "";
-      } catch (e) {}
-      try {
-        document.body.style.overflow = "";
-      } catch (e) {}
-      document.body.style.touchAction = "";
-      window.removeEventListener("wheel", preventDefault, {
-        passive: false
-      });
-      window.removeEventListener("touchmove", preventDefault, {
-        passive: false
-      });
-      window.removeEventListener("keydown", preventKeys, {
-        passive: false
-      });
-      if (window.__smoothScrollbar && typeof window.__smoothScrollbar.update === "function") {
-        try {
-          window.__smoothScrollbar.update();
-        } catch (e) {
-          /* silent */
-        }
-      }
-      // remove class hooks
-      document.documentElement.classList.remove("cart-drawer-open");
-      document.body.classList.remove("cart-drawer-open");
+    function unlockScroll() {
+      if (!scrollLocked) return;
+      scrollLocked = false;
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+      window.removeEventListener('wheel', preventDefault);
+      window.removeEventListener('touchmove', preventDefault);
+      window.removeEventListener('keydown', preventKeys);
+      document.documentElement.classList.remove('scroll-locked');
+      document.body.classList.remove('scroll-locked');
     }
 
-    /* ----- AOS ----- */
-    function initAOS() {
-      if (typeof AOS !== "undefined" && AOS && typeof AOS.init === "function") {
-        AOS.init();
-      }
-    }
+    // ==========================================================================
+    // LOADER
+    // ==========================================================================
 
-    /* ----- Loader ----- */
     function initLoader() {
-      const siteLoader = document.getElementById("site-loader");
-      const siteContent = document.querySelector(".site");
-      if (!siteContent) return;
+      const loader = $('#site-loader');
+      const site = $('.site');
+      if (!site) return;
 
-      // Non-home : remove immediately (prevent overlay)
-      if (!isHomePath()) {
-        if (siteLoader) {
-          siteLoader.classList.add("hidden");
-          siteLoader.dataset.removed = "1";
-          window.__siklane_loader_removed = true;
-          try {
-            siteLoader.parentNode && siteLoader.parentNode.removeChild(siteLoader);
-          } catch (e) {
-            /* silent */
-          }
+      // Pages non-accueil : suppression immédiate
+      if (!isHomePage()) {
+        if (loader) {
+          loader.classList.add('hidden');
+          setTimeout(() => loader.remove(), 100);
         }
-        siteContent.classList.add("loaded");
+        site.classList.add('loaded');
         return;
       }
-
-      // Home: orchestrate fake progress then hide on load
-      if (!siteLoader) {
-        siteContent.classList.add("loaded");
-        return;
-      }
-      const bar = siteLoader.querySelector(".loader-bar");
+      const bar = loader.querySelector('.loader-bar');
       let progress = 0;
-      let interval = null;
       let finished = false;
-      const setWidth = n => {
-        progress = Math.max(progress, n);
-        if (bar) bar.style.width = Math.min(100, progress) + "%";
+
+      // Animation de progression
+      const updateProgress = () => {
+        if (finished || !bar) return;
+        progress += Math.random() * 8 + 2;
+        progress = Math.min(progress, 90);
+        bar.style.width = progress + '%';
+        setTimeout(updateProgress, 200);
       };
-      const startFakeProgress = () => {
-        if (!bar || interval) return;
-        interval = setInterval(() => {
-          if (finished) {
-            clearInterval(interval);
-            interval = null;
-            return;
-          }
-          const step = Math.random() * 6 + 1;
-          progress = Math.min(90, progress + step);
-          bar.style.width = progress + "%";
-        }, 180);
-      };
-      setWidth(6);
-      startFakeProgress();
-      on(window, "load", () => {
+      updateProgress();
+
+      // Finalisation au chargement
+      on(window, 'load', () => {
         finished = true;
-        if (interval) {
-          clearInterval(interval);
-          interval = null;
-        }
-        if (bar) requestAnimationFrame(() => bar.style.width = "100%");
+        if (bar) bar.style.width = '100%';
         setTimeout(() => {
-          siteLoader.classList.add("hidden");
-          siteContent.classList.add("loaded");
-          setTimeout(() => {
-            try {
-              siteLoader.parentNode && siteLoader.parentNode.removeChild(siteLoader);
-            } catch (e) {}
-          }, 600);
-        }, 450);
+          loader.classList.add('hidden');
+          site.classList.add('loaded');
+          setTimeout(() => loader.remove(), 600);
+        }, 300);
       }, {
         once: true
       });
 
-      // Safety fallback
+      // Sécurité après 8 secondes
       setTimeout(() => {
         if (!finished) {
-          siteLoader.classList.add("hidden");
-          siteContent.classList.add("loaded");
-          try {
-            siteLoader.parentNode && siteLoader.parentNode.removeChild(siteLoader);
-          } catch (e) {}
+          finished = true;
+          loader.classList.add('hidden');
+          site.classList.add('loaded');
+          setTimeout(() => loader.remove(), 600);
         }
-      }, 9000);
+      }, 8000);
     }
 
-    /* ----- Ensure .site.loaded class across pages ----- */
-    function ensureSiteLoadedClass() {
-      const site = document.querySelector(".site");
-      if (!site) return;
-      if (!isHomePath()) {
-        site.classList.add("loaded");
-        return;
-      }
-      // Home: wait for loader hide or load event
-      const loader = document.getElementById("site-loader");
-      if (!loader) {
-        site.classList.add("loaded");
-        return;
-      }
-      const mo = new MutationObserver((mutations, obs) => {
-        if (loader.classList.contains("hidden")) {
-          site.classList.add("loaded");
-          try {
-            obs.disconnect();
-          } catch (e) {}
-        }
+    // ==========================================================================
+    // SOUS-MENU BOUTIQUE
+    // ==========================================================================
+
+    function initBoutiqueMenu() {
+      const link = $('.menu-item-boutique');
+      const container = link == null ? void 0 : link.closest('.boutique-container');
+      const submenu = $('#submenu-boutique');
+      if (!link || !container || !submenu) return;
+
+      // Nettoyage des styles inline
+      submenu.removeAttribute('style');
+
+      // Observer pour empêcher la ré-application de styles
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+            if (submenu.style.display) {
+              submenu.style.removeProperty('display');
+            }
+          }
+        });
       });
-      mo.observe(loader, {
+      observer.observe(submenu, {
         attributes: true,
-        attributeFilter: ["class"]
+        attributeFilter: ['style']
       });
-      on(window, "load", () => {
-        site.classList.add("loaded");
-        try {
-          mo.disconnect();
-        } catch (e) {}
-      }, {
-        once: true
-      });
-      setTimeout(() => {
-        if (!site.classList.contains("loaded")) site.classList.add("loaded");
-        try {
-          mo.disconnect();
-        } catch (e) {}
-      }, 9000);
-    }
 
-    /* ----- Search overlay toggle ----- */
-    function initSearchToggle() {
-      const searchToggle = document.getElementById("searchToggle");
-      const searchDropdown = document.getElementById("searchDropdown") || $(".search-dropdown");
-      const closeSearch = document.getElementById("closeSearch");
-      if (!searchToggle || !searchDropdown || !closeSearch) return;
-      on(searchToggle, "click", e => {
-        e.preventDefault();
-        searchDropdown.classList.add("open");
-        disablePageScroll();
-        const input = searchDropdown.querySelector(".search-field");
-        if (input) setTimeout(() => input.focus(), 300);
-      });
-      on(closeSearch, "click", e => {
-        e.preventDefault();
-        searchDropdown.classList.remove("open");
-        enablePageScroll();
-      });
-      on(document, "keydown", e => {
-        if (e.key === "Escape" && searchDropdown.classList.contains("open")) {
-          searchDropdown.classList.remove("open");
-          enablePageScroll();
-        }
-      });
-      on(document, "click", e => {
-        if (!searchDropdown.contains(e.target) && !searchToggle.contains(e.target) && searchDropdown.classList.contains("open")) {
-          searchDropdown.classList.remove("open");
-          enablePageScroll();
-        }
-      });
-      // if already open at init
-      if (searchDropdown.classList.contains("open")) disablePageScroll();
-    }
-
-    /* ----- Replace search submit with icon ----- */
-    function replaceSearchButtonWithIcon() {
-      const doReplace = () => {
-        const btn = document.querySelector('.search-dropdown form button[type="submit"], #searchDropdown form button[type="submit"]');
-        if (!btn || btn.dataset.iconified === "1") return;
-        if (!btn.getAttribute("aria-label")) btn.setAttribute("aria-label", "Rechercher");
-        btn.innerHTML = "";
-        const icon = document.createElement("i");
-        icon.className = "bi bi-search";
-        icon.setAttribute("aria-hidden", "true");
-        icon.style.fontSize = "1.4rem";
-        icon.style.lineHeight = "1";
-        const sr = document.createElement("span");
-        sr.className = "visually-hidden";
-        sr.textContent = "Rechercher";
-        btn.appendChild(icon);
-        btn.appendChild(sr);
-        btn.dataset.iconified = "1";
+      // Accessibilité
+      link.setAttribute('aria-haspopup', 'true');
+      link.setAttribute('aria-expanded', 'false');
+      let closeTimer = null;
+      const DELAY = 120;
+      const openSubmenu = () => {
+        clearTimeout(closeTimer);
+        container.classList.add('open');
+        link.setAttribute('aria-expanded', 'true');
       };
-      doReplace();
-      const mo = new MutationObserver(doReplace);
-      mo.observe(document.body, {
+      const closeSubmenu = () => {
+        clearTimeout(closeTimer);
+        container.classList.remove('open');
+        link.setAttribute('aria-expanded', 'false');
+      };
+
+      // Détection des capacités hover
+      const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (hasHover) {
+        // Desktop : événements hover
+        on(link, 'mouseenter', openSubmenu);
+        on(link, 'mouseleave', () => {
+          closeTimer = setTimeout(() => {
+            if (!submenu.matches(':hover')) closeSubmenu();
+          }, DELAY);
+        });
+        on(submenu, 'mouseenter', () => {
+          clearTimeout(closeTimer);
+          openSubmenu();
+        });
+        on(submenu, 'mouseleave', () => {
+          closeTimer = setTimeout(closeSubmenu, DELAY);
+        });
+      } else {
+        // Mobile : événements click
+        on(link, 'click', e => {
+          e.preventDefault();
+          container.classList.toggle('open');
+          link.setAttribute('aria-expanded', container.classList.contains('open') ? 'true' : 'false');
+        });
+        on(document, 'click', e => {
+          if (!container.contains(e.target) && !submenu.contains(e.target)) {
+            closeSubmenu();
+          }
+        });
+        on(window, 'scroll', closeSubmenu);
+      }
+
+      // Fermeture avec Echap
+      on(document, 'keydown', e => {
+        if (e.key === 'Escape') closeSubmenu();
+      });
+    }
+
+    // ==========================================================================
+    // MOTEUR DE RECHERCHE
+    // ==========================================================================
+
+    function initSearch() {
+      const toggle = $('#searchToggle');
+      const dropdown = $('#searchDropdown') || $('.search-dropdown');
+      const closeBtn = $('#closeSearch');
+      if (!toggle || !dropdown || !closeBtn) return;
+      const openSearch = () => {
+        dropdown.classList.add('open');
+        lockScroll();
+
+        // Focus sur le champ de recherche
+        const input = dropdown.querySelector('.search-field');
+        if (input) setTimeout(() => input.focus(), 300);
+      };
+      const closeSearch = () => {
+        dropdown.classList.remove('open');
+        unlockScroll();
+      };
+
+      // Événements
+      on(toggle, 'click', e => {
+        e.preventDefault();
+        openSearch();
+      });
+      on(closeBtn, 'click', e => {
+        e.preventDefault();
+        closeSearch();
+      });
+
+      // Fermeture avec Echap
+      on(document, 'keydown', e => {
+        if (e.key === 'Escape' && dropdown.classList.contains('open')) {
+          closeSearch();
+        }
+      });
+
+      // Fermeture en cliquant à l'extérieur
+      on(document, 'click', e => {
+        if (!dropdown.contains(e.target) && !toggle.contains(e.target) && dropdown.classList.contains('open')) {
+          closeSearch();
+        }
+      });
+
+      // Remplacer le bouton submit par une icône
+      const replaceSubmitIcon = () => {
+        const btn = dropdown.querySelector('form button[type="submit"]');
+        if (!btn || btn.dataset.iconified) return;
+        btn.innerHTML = '<i class="bi bi-search" aria-hidden="true"></i><span class="visually-hidden">Rechercher</span>';
+        btn.setAttribute('aria-label', 'Rechercher');
+        btn.dataset.iconified = '1';
+      };
+      replaceSubmitIcon();
+      new MutationObserver(replaceSubmitIcon).observe(dropdown, {
         childList: true,
         subtree: true
       });
     }
 
-    /* ----- Categories carousel (light) ----- */
+    // ==========================================================================
+    // SMOOTH SCROLL
+    // ==========================================================================
+
+    function initSmoothScroll() {
+      if ($('.smooth-scroll-wrapper')) return;
+
+      // Éléments à préserver
+      const preserveSelectors = ['#site-loader', '#searchDropdown', '.search-dropdown'];
+      const preserved = [];
+      preserveSelectors.forEach(sel => {
+        $$(sel).forEach(el => {
+          if (el.parentNode !== document.body && !preserved.includes(el)) {
+            preserved.push(el);
+            document.body.appendChild(el);
+          }
+        });
+      });
+
+      // Créer le wrapper
+      const wrapper = document.createElement('div');
+      wrapper.className = 'smooth-scroll-wrapper';
+
+      // Déplacer le contenu dans le wrapper
+      Array.from(document.body.childNodes).forEach(node => {
+        if (!preserved.includes(node) && node !== wrapper) {
+          wrapper.appendChild(node);
+        }
+      });
+      document.body.appendChild(wrapper);
+
+      // Styles du wrapper
+      Object.assign(wrapper.style, {
+        position: 'fixed',
+        width: '100%',
+        top: '0',
+        left: '0',
+        willChange: 'transform'
+      });
+
+      // État du scroll
+      let scrollY = window.scrollY || 0;
+      let targetY = scrollY;
+      let rafId = null;
+      const SMOOTH_FACTOR = 0.08;
+
+      // Mise à jour de la hauteur
+      const updateHeight = () => {
+        document.body.style.height = wrapper.scrollHeight + 'px';
+      };
+      document.body.style.overflowY = 'auto';
+      updateHeight();
+
+      // Observer les changements de taille
+      if ('ResizeObserver' in window) {
+        new ResizeObserver(updateHeight).observe(wrapper);
+      }
+
+      // Animation du scroll
+      const render = () => {
+        scrollY += (targetY - scrollY) * SMOOTH_FACTOR;
+        wrapper.style.transform = `translate3d(0, ${-scrollY}px, 0)`;
+        if (Math.abs(targetY - scrollY) > 0.5) {
+          rafId = requestAnimationFrame(render);
+        } else {
+          rafId = null;
+        }
+      };
+
+      // Gestion du scroll
+      on(window, 'scroll', () => {
+        targetY = window.scrollY;
+        if (!rafId) rafId = requestAnimationFrame(render);
+      }, {
+        passive: true
+      });
+      on(window, 'resize', updateHeight, {
+        passive: true
+      });
+
+      // Gestion des ancres
+      if (location.hash) {
+        const target = $(location.hash);
+        if (target) setTimeout(() => target.scrollIntoView({
+          behavior: 'smooth'
+        }), 500);
+      }
+
+      // Détacher les éléments problématiques
+      detachProblematicElements(wrapper);
+    }
+    function detachProblematicElements(wrapper) {
+      const selectors = ['.search-dropdown', '#searchDropdown', '#site-loader'];
+      selectors.forEach(sel => {
+        const el = wrapper.querySelector(sel);
+        if (!el) return;
+
+        // Déplacer vers le body
+        document.body.appendChild(el);
+
+        // Appliquer les styles fixes
+        if (sel.includes('search') || sel === '#site-loader') {
+          Object.assign(el.style, {
+            position: 'fixed',
+            inset: '0',
+            width: '100%',
+            zIndex: '9999'
+          });
+        }
+      });
+    }
+
+    // ==========================================================================
+    // CARROUSEL CATÉGORIES
+    // ==========================================================================
+
     function initCategoriesCarousel() {
-      const container = document.getElementById("categories-carousel");
+      const container = $('#categories-carousel');
       if (!container) return;
-      const row = container.querySelector(".carousel-row");
-      const items = container.querySelectorAll(".category-item");
-      if (!row || items.length === 0) return;
+      const row = container.querySelector('.carousel-row');
+      const items = $$('.category-item', container);
+      if (!row || !items.length) return;
       let itemsPerView = window.innerWidth > 768 ? 4 : 1;
       let current = 0;
-      function update() {
+      const update = () => {
         var _items$;
-        const w = ((_items$ = items[0]) == null ? void 0 : _items$.offsetWidth) || 0;
-        if (!w) return;
-        row.style.transform = `translateX(${-current * w}px)`;
-        const prev = container.querySelector(".carousel-control-prev");
-        const next = container.querySelector(".carousel-control-next");
-        if (prev) prev.classList.toggle("disabled", current <= 0);
-        if (next) next.classList.toggle("disabled", current >= items.length - itemsPerView);
+        const itemWidth = ((_items$ = items[0]) == null ? void 0 : _items$.offsetWidth) || 0;
+        if (!itemWidth) return;
+        row.style.transform = `translateX(${-current * itemWidth}px)`;
+
+        // Mise à jour des boutons
+        const prev = container.querySelector('.carousel-control-prev');
+        const next = container.querySelector('.carousel-control-next');
+        if (prev) prev.classList.toggle('disabled', current <= 0);
+        if (next) next.classList.toggle('disabled', current >= items.length - itemsPerView);
+      };
+
+      // Boutons de navigation
+      const prevBtn = container.querySelector('.carousel-control-prev');
+      const nextBtn = container.querySelector('.carousel-control-next');
+      if (prevBtn) {
+        on(prevBtn, 'click', e => {
+          e.preventDefault();
+          if (current > 0) {
+            current--;
+            update();
+          }
+        });
       }
-      update();
-      const prevBtn = container.querySelector(".carousel-control-prev");
-      if (prevBtn) on(prevBtn, "click", e => {
-        e.preventDefault();
-        if (current > 0) {
-          current--;
-          update();
-        }
-      });
-      const nextBtn = container.querySelector(".carousel-control-next");
-      if (nextBtn) on(nextBtn, "click", e => {
-        e.preventDefault();
-        if (current < items.length - itemsPerView) {
-          current++;
-          update();
-        }
-      });
-      on(window, "resize", () => {
-        const npv = window.innerWidth > 768 ? 4 : 1;
-        if (npv !== itemsPerView) {
-          itemsPerView = npv;
+      if (nextBtn) {
+        on(nextBtn, 'click', e => {
+          e.preventDefault();
+          if (current < items.length - itemsPerView) {
+            current++;
+            update();
+          }
+        });
+      }
+
+      // Responsive
+      on(window, 'resize', () => {
+        const newItemsPerView = window.innerWidth > 768 ? 4 : 1;
+        if (newItemsPerView !== itemsPerView) {
+          itemsPerView = newItemsPerView;
           current = Math.min(current, items.length - itemsPerView);
           update();
         }
       }, {
         passive: true
       });
+      update();
     }
 
-    // /* ----- Main slider (bootstrap) ----- */
-    // function initMainSlider() {
-    // 	const slider = document.getElementById("main-slider");
-    // 	if (!slider) return;
-    // 	const dots = slider.querySelectorAll(".slider-dot");
-    // 	if (typeof bootstrap !== "undefined" && bootstrap.Carousel) {
-    // 		const carousel = new bootstrap.Carousel(slider);
-    // 		if (dots.length) {
-    // 			dots.forEach((dot, idx) =>
-    // 				on(dot, "click", () => {
-    // 					carousel.to(idx);
-    // 					dots.forEach((d) => d.classList.remove("active"));
-    // 					dot.classList.add("active");
-    // 				})
-    // 			);
-    // 			on(slider, "slid.bs.carousel", (e) => {
-    // 				const active = e.to;
-    // 				dots.forEach((d, i) => d.classList.toggle("active", i === active));
-    // 			});
-    // 		}
-    // 	}
-    // }
+    // ==========================================================================
+    // PANIER DRAWER
+    // ==========================================================================
 
-    /* ----- Boutique submenu ----- */
-    function initBoutiqueMenu() {
-      const trigger = document.querySelector(".menu-item-boutique");
-      const boutiqueWrap = trigger ? trigger.closest(".boutique-container") : null;
-      const submenu = document.getElementById("submenu-boutique");
-      if (!trigger || !boutiqueWrap || !submenu) return;
-      let closeTimer = null;
-      const open = () => {
-        clearTimeout(closeTimer);
-        boutiqueWrap.classList.add("open");
-        trigger.setAttribute("aria-expanded", "true");
-      };
-      const close = () => {
-        clearTimeout(closeTimer);
-        closeTimer = setTimeout(() => {
-          boutiqueWrap.classList.remove("open");
-          trigger.setAttribute("aria-expanded", "false");
-        }, 120);
-      };
-      on(trigger, "mouseenter", open);
-      on(trigger, "focus", open);
-      on(trigger, "mouseleave", close);
-      on(trigger, "blur", close);
-      on(submenu, "mouseenter", open);
-      on(submenu, "mouseleave", close);
-      on(trigger, "click", e => {
-        if (window.innerWidth < 992) {
-          e.preventDefault();
-          boutiqueWrap.classList.contains("open") ? close() : open();
-        }
-      });
-      on(document, "keyup", e => {
-        if (e.key === "Escape") close();
-      });
-      on(document, "click", e => {
-        if (!boutiqueWrap.contains(e.target) && !submenu.contains(e.target)) close();
-      });
-    }
-
-    /* ----- Smooth libraries fallback ----- */
-    function initSmoothLibraries() {
-      if (window.__smooth_libs_initialized) return;
-      window.__smooth_libs_initialized = true;
-      const wrapper = document.querySelector(".smooth-scroll-wrapper") || document.querySelector(".site");
-      if (typeof Scrollbar !== "undefined" && wrapper) {
-        try {
-          const sb = Scrollbar.init(wrapper, {
-            damping: 0.07,
-            thumbMinSize: 20
-          });
-          window.__smoothScrollbar = sb;
-          return;
-        } catch (e) {
-          /* fallback */
-        }
-      }
-      try {
-        document.documentElement.style.scrollBehavior = "smooth";
-      } catch (e) {}
-      document.querySelectorAll('a[href^="#"]').forEach(a => on(a, "click", function (ev) {
-        const href = this.getAttribute("href");
-        if (!href || href === "#" || href === "#!") return;
-        const target = document.querySelector(href);
-        if (!target) return;
-        ev.preventDefault();
-        target.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-        history.pushState(null, "", href);
-      }));
-    }
-
-    /* ----- detachAfterWrap ----- */
-    function detachAfterWrap(optionalWrapper) {
-      const wrapper = optionalWrapper || document.querySelector(".smooth-scroll-wrapper");
-      if (!wrapper) return;
-      const selectors = [".search-dropdown", "#searchDropdown", ".social-sticky", ".social-links", "#site-loader"];
-      selectors.forEach(sel => {
-        const el = wrapper.querySelector(sel);
-        if (!el) return;
-
-        // If loader already marked removed, clean placeholder and skip
-        if (sel === "#site-loader" && (el.classList.contains("hidden") || el.dataset.removed === "1" || window.__siklane_loader_removed)) {
-          const phClass = `${sel.replace(/[^a-z0-9]/gi, "_")}_placeholder`;
-          const ph = wrapper.querySelector(`.${phClass}`);
-          if (ph && ph.parentNode) ph.parentNode.removeChild(ph);
-          try {
-            if (el.parentNode) el.parentNode.removeChild(el);
-          } catch (e) {}
-          return;
-        }
-
-        // placeholder to preserve layout if needed
-        try {
-          const placeholder = document.createElement("div");
-          placeholder.className = `${sel.replace(/[^a-z0-9]/gi, "_")}_placeholder`;
-          placeholder.style.width = el.offsetWidth + "px";
-          placeholder.style.height = el.offsetHeight + "px";
-          placeholder.style.display = getComputedStyle(el).display || "block";
-          el.parentNode.insertBefore(placeholder, el);
-        } catch (e) {
-          /* ignore */
-        }
-
-        // move element to body
-        document.body.appendChild(el);
-
-        // apply inline styles appropriate to element
-        if (sel.includes("search") || sel === "#site-loader") {
-          Object.assign(el.style, {
-            position: "fixed",
-            inset: "0",
-            width: "100%",
-            maxHeight: "100vh",
-            zIndex: "9999",
-            pointerEvents: el.classList.contains("hidden") ? "none" : "auto",
-            visibility: el.classList.contains("hidden") ? "hidden" : "visible"
-          });
-        } else if (sel.includes("social")) {
-          Object.assign(el.style, {
-            position: "fixed",
-            left: "0",
-            top: "50%",
-            transform: "translateY(-50%)",
-            zIndex: "3000",
-            pointerEvents: "auto"
-          });
-        }
-      });
-    }
-
-    /* ----- Custom smooth scroller (lightweight) ----- */
-    function initScroller() {
-      if (document.querySelector(".smooth-scroll-wrapper")) return;
-
-      // Preserve nodes that must stay direct children of body
-      const preserveSelectors = ["#site-loader", "#searchDropdown", ".search-dropdown", ".social-sticky", ".social-links"];
-      const preserved = [];
-      preserveSelectors.forEach(sel => $$(sel).forEach(el => {
-        if (el.parentNode !== document.body && !preserved.includes(el)) {
-          preserved.push(el);
-          document.body.appendChild(el);
-        }
-      }));
-
-      // Create wrapper and move remaining nodes inside it
-      const wrapper = document.createElement("div");
-      wrapper.className = "smooth-scroll-wrapper";
-      const bodyNodes = Array.from(document.body.childNodes).slice();
-      bodyNodes.forEach(node => {
-        if (preserved.includes(node)) return;
-        if (node === wrapper) return;
-        wrapper.appendChild(node);
-      });
-      document.body.appendChild(wrapper);
-
-      // wrapper styles
-      Object.assign(wrapper.style, {
-        position: "fixed",
-        width: "100%",
-        top: "0",
-        left: "0",
-        willChange: "transform"
-      });
-
-      // scroller state
-      let scrollY = window.scrollY || 0;
-      let scrollTarget = scrollY;
-      let rafId = null;
-      const cfg = {
-        speed: 0.06
-      };
-      function updateHeight() {
-        const h = wrapper.scrollHeight || document.documentElement.clientHeight;
-        document.body.style.height = `${h}px`;
-      }
-      document.body.style.overflowY = "auto";
-      document.body.style.position = "relative";
-      updateHeight();
-
-      // initial transform
-      scrollTarget = scrollY = window.scrollY || 0;
-      wrapper.style.transform = `translate3d(0,${-scrollY}px,0)`;
-
-      // ResizeObserver to keep height updated
-      if ("ResizeObserver" in window) {
-        try {
-          new ResizeObserver(updateHeight).observe(wrapper);
-        } catch (e) {
-          /* silent */
-        }
-      }
-      function render() {
-        scrollY += (scrollTarget - scrollY) * cfg.speed;
-        wrapper.style.transform = `translate3d(0,${-scrollY}px,0)`;
-        if (Math.abs(scrollTarget - scrollY) < 0.1) {
-          rafId = null;
-          return;
-        }
-        rafId = requestAnimationFrame(render);
-      }
-      function onScroll() {
-        scrollTarget = window.scrollY;
-        if (!rafId) rafId = requestAnimationFrame(render);
-      }
-      on(window, "scroll", onScroll, {
-        passive: true
-      });
-      on(window, "resize", updateHeight, {
-        passive: true
-      });
-
-      // handle hash jumping after init
-      if (window.location.hash) {
-        const t = document.querySelector(window.location.hash);
-        if (t) setTimeout(() => t.scrollIntoView(), 500);
-      }
-
-      // detach problematic UI elements that ended in wrapper
-      detachAfterWrap(wrapper);
-
-      // si AOS est présent, forcer un refresh après la création du wrapper
-      if (typeof AOS !== "undefined" && AOS && typeof AOS.refresh === "function") {
-        try {
-          setTimeout(() => {
-            AOS.refresh();
-            console.debug("[aos] refreshed after initScroller");
-          }, 60);
-        } catch (e) {
-          /* silent */
-        }
-      }
-    }
-
-    /* ----- Watcher to detach after wrapper appears ----- */
-    function watchWrapperThenDetach() {
-      if (document.querySelector(".smooth-scroll-wrapper")) {
-        detachAfterWrap();
-        return;
-      }
-      const mo = new MutationObserver((mutations, obs) => {
-        if (document.querySelector(".smooth-scroll-wrapper")) {
-          obs.disconnect();
-          detachAfterWrap();
-        }
-      });
-      mo.observe(document.body, {
-        childList: true,
-        subtree: false
-      });
-    }
-
-    /* ----- Cart drawer (slide-in) ----- */
     function initCartDrawer() {
-      const openButtons = Array.from(document.querySelectorAll(".cart-toggle"));
-      const drawer = document.getElementById("cartDrawer");
-      if (!drawer) return;
-      const closeEls = drawer.querySelectorAll("[data-cart-drawer-close]");
-      function open() {
-        drawer.classList.add("active");
-        drawer.setAttribute("aria-hidden", "false");
-        disablePageScroll();
-        // ensure internal scrollable area is reset to top
-        const inner = drawer.querySelector(".drawer-content");
-        if (inner) inner.scrollTop = 0;
-        // put focus in drawer for accessibility
-        const firstFocusable = drawer.querySelector("button, a, input, [tabindex]");
+      const triggers = $$('.cart-toggle');
+      const drawer = $('#cartDrawer');
+      if (!drawer || !triggers.length) return;
+      const closeElements = $$('[data-cart-drawer-close]', drawer);
+      const openDrawer = () => {
+        drawer.classList.add('active');
+        drawer.setAttribute('aria-hidden', 'false');
+        lockScroll();
+
+        // Reset scroll et focus
+        const content = drawer.querySelector('.drawer-content');
+        if (content) content.scrollTop = 0;
+        const firstFocusable = drawer.querySelector('button, a, input, [tabindex]');
         if (firstFocusable) firstFocusable.focus();
-      }
-      function close() {
-        drawer.classList.remove("active");
-        drawer.setAttribute("aria-hidden", "true");
-        enablePageScroll();
-      }
-      openButtons.forEach(btn => btn.addEventListener("click", function (e) {
+      };
+      const closeDrawer = () => {
+        drawer.classList.remove('active');
+        drawer.setAttribute('aria-hidden', 'true');
+        unlockScroll();
+      };
+
+      // Événements
+      triggers.forEach(btn => on(btn, 'click', e => {
         e.preventDefault();
-        open();
+        openDrawer();
       }));
-      closeEls.forEach(el => el.addEventListener("click", function (e) {
+      closeElements.forEach(el => on(el, 'click', e => {
         e.preventDefault();
-        close();
+        closeDrawer();
       }));
-      document.addEventListener("keyup", e => {
-        if (e.key === "Escape") close();
+
+      // Fermeture avec Echap
+      on(document, 'keydown', e => {
+        if (e.key === 'Escape') closeDrawer();
       });
 
-      // delegate clicks outside panel (backdrop closes)
-      const backdrop = drawer.querySelector(".cart-drawer-backdrop");
-      if (backdrop) backdrop.addEventListener("click", close);
+      // Fermeture sur backdrop
+      const backdrop = drawer.querySelector('.cart-drawer-backdrop');
+      if (backdrop) on(backdrop, 'click', closeDrawer);
 
-      // optional: reopen drawer automatically when product added via AJAX
-      document.body.addEventListener("added_to_cart", function () {
-        // small delay to let fragments update
-        setTimeout(function () {
-          // if drawer not visible, open it
-          if (!drawer.classList.contains("active")) open();
+      // Auto-ouverture sur ajout produit
+      on(document.body, 'added_to_cart', () => {
+        setTimeout(() => {
+          if (!drawer.classList.contains('active')) openDrawer();
         }, 200);
       });
-
-      // Allow external code to open/close drawer via events
-      document.addEventListener("open-cart-drawer", () => open());
-      document.addEventListener("close-cart-drawer", () => close());
     }
 
-    /* ----- Single DOMContentLoaded orchestration ----- */
-    on(document, "DOMContentLoaded", function () {
+    // ==========================================================================
+    // INITIALISATION AOS
+    // ==========================================================================
+
+    function initAOS() {
+      var _AOS;
+      if (typeof AOS !== 'undefined' && (_AOS = AOS) != null && _AOS.init) {
+        AOS.init();
+      }
+    }
+
+    // ==========================================================================
+    // INITIALISATION PRINCIPALE
+    // ==========================================================================
+
+    function initialize() {
+      // Initialisation de base
       initAOS();
       initLoader();
-      ensureSiteLoadedClass();
-      initSearchToggle();
-      replaceSearchButtonWithIcon();
-      initCategoriesCarousel();
-      initMainSlider();
+
+      // Assurer que le site a la classe loaded
+      const site = $('.site');
+      if (site && !isHomePage()) {
+        site.classList.add('loaded');
+      }
+
+      // Fonctionnalités principales
+      initSearch();
       initBoutiqueMenu();
+      initCategoriesCarousel();
+      initCartDrawer();
 
-      // Initialize scroller: wait loader hide on home, else init immediately
-      const loader = document.getElementById("site-loader");
-      if (loader && isHomePath()) {
-        const check = setInterval(() => {
-          const l = document.getElementById("site-loader");
-          if (!l || l.classList.contains("hidden")) {
-            clearInterval(check);
-            try {
-              initScroller();
-            } catch (e) {
-              console.warn("[smooth] initScroller failed:", e);
-            }
+      // Smooth scroll après un délai
+      const loader = $('#site-loader');
+      if (loader && isHomePage()) {
+        // Attendre que le loader se cache
+        const checkLoader = setInterval(() => {
+          if (!$('#site-loader') || $('#site-loader').classList.contains('hidden')) {
+            clearInterval(checkLoader);
+            setTimeout(initSmoothScroll, 100);
           }
-        }, 120);
+        }, 100);
       } else {
+        setTimeout(initSmoothScroll, 100);
+      }
+
+      // Smooth scroll natif en fallback
+      setTimeout(() => {
         try {
-          initScroller();
-        } catch (e) {
-          console.warn("[smooth] initScroller failed:", e);
-        }
-      }
-      setTimeout(initSmoothLibraries, 120);
-      watchWrapperThenDetach();
-
-      // Initialise drawer après tout (binding idempotent si absent)
-      try {
-        initCartDrawer();
-      } catch (e) {
-        console.warn("initCartDrawer failed:", e);
-      }
-    });
-
-    /* Expose debug hooks */
-    window.__siklane_detachAfterWrap = detachAfterWrap;
-    window.__siklane_initScroller = initScroller;
-    window.__siklane_initSmoothLibraries = initSmoothLibraries;
-
-    // smooth details accordion for my-account
-    function initAccountAccordion() {
-      const items = document.querySelectorAll(".siklane-account-item");
-      if (!items.length) return;
-      items.forEach(detail => {
-        const body = detail.querySelector(".siklane-account-body");
-        const summary = detail.querySelector(".siklane-account-summary");
-
-        // set initial styles
-        body.style.overflow = "hidden";
-        body.style.transition = "max-height .36s ease, opacity .28s ease";
-        body.style.maxHeight = detail.hasAttribute("open") ? body.scrollHeight + "px" : "0px";
-        body.style.opacity = detail.hasAttribute("open") ? "1" : "0";
-        summary.addEventListener("click", function (e) {
-          // default summary toggling is fine; we manage smooth height animation
-          // prevent following if nested link exists (we removed links)
-          e.preventDefault();
-          const isOpen = detail.hasAttribute("open");
-          if (isOpen) {
-            // close
-            body.style.maxHeight = body.scrollHeight + "px"; // set to current to allow transition
-            requestAnimationFrame(() => {
-              body.style.maxHeight = "0px";
-              body.style.opacity = "0";
-            });
-            detail.removeAttribute("open");
-            // optional: update URL to base account (remove endpoint)
-            if (history && history.replaceState) {
-              window.location.pathname.replace(/\/[^\/]*\/?$/, "/");
-              // do not force replace if you prefer keep url unchanged
-              // history.replaceState(null, '', base);
-            }
-          } else {
-            // open
-            detail.setAttribute("open", "");
-            // ensure we compute scrollHeight after open
-            requestAnimationFrame(() => {
-              body.style.maxHeight = body.scrollHeight + "px";
-              body.style.opacity = "1";
-              // remove maxHeight after transition to allow dynamic content
-              setTimeout(() => {
-                if (detail.hasAttribute("open")) body.style.maxHeight = "";
-              }, 400);
-            });
-
-            // optional: push endpoint url to address bar without reload
-            const url = detail.getAttribute("data-endpoint-url");
-            if (url && history && history.pushState) {
-              history.replaceState(null, "", url);
-            }
-          }
-        }, {
-          passive: false
-        });
-      });
+          document.documentElement.style.scrollBehavior = 'smooth';
+        } catch (e) {}
+      }, 200);
     }
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", initAccountAccordion);
+
+    // ==========================================================================
+    // POINT D'ENTRÉE
+    // ==========================================================================
+
+    if (document.readyState === 'loading') {
+      on(document, 'DOMContentLoaded', initialize);
     } else {
-      initAccountAccordion();
+      initialize();
     }
-    (function () {
-      // lazy load endpoint content into Bootstrap accordion-body when opened
-      function initAccountLazyLoad() {
-        const accordion = document.querySelector(".siklane-account-accordion");
-        if (!accordion || typeof window.bootstrap === "undefined") return;
-        accordion.addEventListener("shown.bs.collapse", async function (ev) {
-          const collapse = ev.target; // .accordion-collapse
-          if (!collapse) return;
-          const body = collapse.querySelector(".siklane-account-body");
-          if (!body) return;
 
-          // already loaded or has content -> skip
-          if (body.dataset.loaded === "1" || body.innerHTML.trim().length > 8) {
-            body.dataset.loaded = "1";
-            return;
-          }
-          const url = collapse.getAttribute("data-endpoint-url");
-          if (!url) return;
-          try {
-            const res = await fetch(url, {
-              credentials: "same-origin"
-            });
-            if (!res.ok) return;
-            const text = await res.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(text, "text/html");
-
-            // selectors to try (first match with meaningful HTML)
-            const selectors = [".woocommerce-MyAccount-content", ".woocommerce-account .woocommerce-MyAccount-content", ".woocommerce-account",
-            // fallback
-            "#primary",
-            // generic fallback
-            "main"];
-            let fragmentHtml = "";
-            for (const sel of selectors) {
-              const node = doc.querySelector(sel);
-              if (node && node.innerHTML.trim().length > 20) {
-                fragmentHtml = node.innerHTML;
-                break;
-              }
-            }
-            if (!fragmentHtml) {
-              // fallback: take main content of response
-              fragmentHtml = doc.body ? doc.body.innerHTML : text;
-            }
-            body.innerHTML = fragmentHtml;
-            body.dataset.loaded = "1";
-          } catch (err) {
-            // silent fail
-            // console.error('accordion lazy load error', err);
-          }
-        });
-
-        // optional: mark collapsed bodies as not loaded on page load if empty
-        accordion.querySelectorAll(".accordion-collapse").forEach(c => {
-          const b = c.querySelector(".siklane-account-body");
-          if (b && b.innerHTML.trim().length > 8) b.dataset.loaded = "1";
-        });
-      }
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initAccountLazyLoad);
-      } else {
-        initAccountLazyLoad();
-      }
-    })();
+    // Exposition des fonctions pour debug
+    window.__siklane_initScroller = initSmoothScroll;
+    window.__siklane_lockScroll = lockScroll;
+    window.__siklane_unlockScroll = unlockScroll;
   })();
 
   exports.Alert = Alert;
