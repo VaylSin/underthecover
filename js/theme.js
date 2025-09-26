@@ -6130,23 +6130,11 @@
     }
   })();
 
-  /**
-   * Siklane Theme JavaScript
-   * Version refactorisée - Septembre 2025
-   */
-
-  console.log("=== JS FILE LOADED ===");
   (function () {
 
-    console.log("=== INSIDE IIFE ===");
-
     // Éviter la double exécution
-    if (window.__siklane_js_initialized) {
-      console.log("=== ALREADY INITIALIZED ===");
-      return;
-    }
+    if (window.__siklane_js_initialized) return;
     window.__siklane_js_initialized = true;
-    console.log("=== SETTING INITIALIZED FLAG ===");
 
     // ==========================================================================
     // UTILITAIRES
@@ -6198,20 +6186,6 @@
       window.removeEventListener("keydown", preventKeys);
       document.documentElement.classList.remove("scroll-locked");
       document.body.classList.remove("scroll-locked");
-    }
-
-    // Nettoyage des overlays de recherche en doublon
-    function cleanupSearchOverlays() {
-      const desktopOverlay = $("#searchDropdown");
-      const duplicateSelectors = ["#mobileSearchDropdown", ".mobile-search-dropdown", ".search-dropdown:not(#searchDropdown)", "[class*='mobile'][class*='search'][class*='dropdown']"];
-      duplicateSelectors.forEach(selector => {
-        $$(selector).forEach(element => {
-          if (element !== desktopOverlay) {
-            console.debug("[cleanup] Suppression overlay recherche dupliqué:", selector);
-            element.remove();
-          }
-        });
-      });
     }
 
     // ==========================================================================
@@ -6357,69 +6331,133 @@
     // ==========================================================================
 
     function initSearch() {
+      console.log("=== INIT SEARCH DEBUG ===");
+
+      // Desktop elements
       const toggle = $("#searchToggle");
-      const mobileToggle = $("#mobileSearchToggle");
-      const dropdown = $("#searchDropdown");
+      const dropdown = $("#searchDropdown") || $(".search-dropdown");
       const closeBtn = $("#closeSearch");
 
-      // Supprimer tout overlay mobile en doublon s'il existe
-      const mobileDropdown = $("#mobileSearchDropdown") || $(".mobile-search-dropdown");
-      if (mobileDropdown && mobileDropdown !== dropdown) {
-        mobileDropdown.remove();
-      }
-      if (!toggle && !mobileToggle || !dropdown || !closeBtn) return;
-      const openSearch = () => {
-        dropdown.classList.add("open");
-
-        // Scroll-lock spécial : bloquer le body mais permettre scroll dans l'overlay
-        document.body.style.overflow = "hidden";
-        document.documentElement.style.overflow = "hidden";
-        dropdown.style.overflow = "auto"; // Permettre scroll interne
-
-        // Focus sur le champ de recherche
-        const input = dropdown.querySelector(".search-field");
-        if (input) setTimeout(() => input.focus(), 300);
-      };
-      const closeSearch = () => {
-        dropdown.classList.remove("open");
-
-        // Restaurer le scroll normal
-        document.body.style.overflow = "";
-        document.documentElement.style.overflow = "";
-        dropdown.style.overflow = "";
-      };
-
-      // Événements pour les deux boutons (desktop + mobile) -> même overlay
-      if (toggle) {
-        on(toggle, "click", e => {
-          e.preventDefault();
-          openSearch();
-        });
-      }
-      if (mobileToggle) {
-        on(mobileToggle, "click", e => {
-          e.preventDefault();
-          openSearch();
-        });
-      }
-      on(closeBtn, "click", e => {
-        e.preventDefault();
-        closeSearch();
+      // Mobile elements
+      const mobileToggle = $("#mobileSearchToggle");
+      const mobileDropdown = $("#mobileSearchDropdown");
+      const mobileCloseBtn = $("#mobileCloseSearch");
+      console.log("Desktop:", {
+        toggle,
+        dropdown,
+        closeBtn
       });
+      console.log("Mobile:", {
+        mobileToggle,
+        mobileDropdown,
+        mobileCloseBtn
+      });
+
+      // Au moins un système doit être présent
+      if ((!toggle || !dropdown || !closeBtn) && (!mobileToggle || !mobileDropdown || !mobileCloseBtn)) {
+        console.error("Aucun système de recherche trouvé !");
+        return;
+      }
+      const openSearch = (isMobile = false) => {
+        console.log(`=== OPEN SEARCH ${isMobile ? "MOBILE" : "DESKTOP"} ===`);
+        const targetDropdown = isMobile ? mobileDropdown : dropdown;
+        console.log("Target dropdown:", targetDropdown);
+        if (targetDropdown) {
+          // S'assurer que l'autre dropdown est fermé d'abord
+          if (dropdown && !isMobile) dropdown.classList.remove("open");
+          if (mobileDropdown && isMobile) mobileDropdown.classList.remove("open");
+          targetDropdown.classList.add("open");
+          console.log("Classe 'open' ajoutée à:", targetDropdown);
+
+          // Force display block aussi au cas où
+          targetDropdown.style.display = "block";
+          console.log("Style display: block ajouté");
+
+          // Focus sur le champ de recherche
+          const input = targetDropdown.querySelector(".search-field");
+          console.log("Input trouvé:", input);
+          if (input) setTimeout(() => input.focus(), 300);
+        } else {
+          console.error("Pas de targetDropdown trouvé !");
+        }
+      };
+      const closeSearch = (isMobile = false) => {
+        const targetDropdown = isMobile ? mobileDropdown : dropdown;
+        if (targetDropdown) {
+          targetDropdown.classList.remove("open");
+        }
+        // Pas besoin d'unlockScroll() puisqu'on ne lock plus
+      };
+
+      // Fonction de fermeture simple
+      const forceCloseSearch = () => {
+        if (dropdown) dropdown.classList.remove("open");
+        if (mobileDropdown) mobileDropdown.classList.remove("open");
+      };
+
+      // Événements Desktop
+      if (toggle && dropdown && closeBtn) {
+        console.log("Événements DESKTOP attachés");
+        on(toggle, "click", e => {
+          console.log("CLICK DESKTOP TOGGLE");
+          e.preventDefault();
+          openSearch(false);
+        });
+        on(closeBtn, "click", e => {
+          console.log("CLICK DESKTOP CLOSE");
+          e.preventDefault();
+          closeSearch(false);
+        });
+      } else {
+        console.log("Desktop non initialisé:", {
+          toggle,
+          dropdown,
+          closeBtn
+        });
+      }
+
+      // Événements Mobile
+      if (mobileToggle && mobileDropdown && mobileCloseBtn) {
+        console.log("Événements MOBILE attachés");
+        on(mobileToggle, "click", e => {
+          console.log("CLICK MOBILE TOGGLE");
+          e.preventDefault();
+          openSearch(true);
+        });
+        on(mobileCloseBtn, "click", e => {
+          console.log("CLICK MOBILE CLOSE");
+          e.preventDefault();
+          closeSearch(true);
+        });
+      } else {
+        console.log("Mobile non initialisé:", {
+          mobileToggle,
+          mobileDropdown,
+          mobileCloseBtn
+        });
+      }
 
       // Fermeture avec Echap
       on(document, "keydown", e => {
-        if (e.key === "Escape" && dropdown.classList.contains("open")) {
-          closeSearch();
+        if (e.key === "Escape") {
+          forceCloseSearch();
         }
       });
 
       // Fermeture en cliquant à l'extérieur
       on(document, "click", e => {
-        if (!dropdown.contains(e.target) && (!toggle || !toggle.contains(e.target)) && (!mobileToggle || !mobileToggle.contains(e.target)) && dropdown.classList.contains("open")) {
-          closeSearch();
+        // Desktop
+        if (dropdown && toggle && dropdown.classList.contains("open") && !dropdown.contains(e.target) && !toggle.contains(e.target)) {
+          closeSearch(false);
+        }
+
+        // Mobile
+        if (mobileDropdown && mobileToggle && mobileDropdown.classList.contains("open") && !mobileDropdown.contains(e.target) && !mobileToggle.contains(e.target)) {
+          closeSearch(true);
         }
       });
+
+      // Version simplifiée sans lockScroll - pas de timer nécessaire
 
       // Remplacer le bouton submit par une icône
       const replaceSubmitIcon = () => {
@@ -6444,7 +6482,7 @@
       if ($(".smooth-scroll-wrapper")) return;
 
       // Éléments à préserver
-      const preserveSelectors = ["#site-loader", "#searchDropdown", ".search-dropdown"];
+      const preserveSelectors = ["#site-loader", "#searchDropdown", ".search-dropdown", ".social-sticky", ".social-links"];
       const preserved = [];
       preserveSelectors.forEach(sel => {
         $$(sel).forEach(el => {
@@ -6528,7 +6566,7 @@
       detachProblematicElements(wrapper);
     }
     function detachProblematicElements(wrapper) {
-      const selectors = [".search-dropdown", "#searchDropdown", "#site-loader"];
+      const selectors = [".search-dropdown", "#searchDropdown", "#site-loader", ".social-sticky", ".social-links"];
       selectors.forEach(sel => {
         const el = wrapper.querySelector(sel);
         if (!el) return;
@@ -6536,13 +6574,23 @@
         // Déplacer vers le body
         document.body.appendChild(el);
 
-        // Appliquer les styles fixes
+        // Appliquer les styles fixes selon le type d'élément
         if (sel.includes("search") || sel === "#site-loader") {
           Object.assign(el.style, {
             position: "fixed",
             inset: "0",
             width: "100%",
             zIndex: "9999"
+          });
+        } else if (sel.includes("social")) {
+          // Restaurer le positionnement social sticky
+          Object.assign(el.style, {
+            position: "fixed",
+            left: "0",
+            top: "50%",
+            transform: "translateY(-50%)",
+            zIndex: "9999",
+            pointerEvents: "auto"
           });
         }
       });
@@ -6674,77 +6722,10 @@
     }
 
     // ==========================================================================
-    // ACCORDÉONS PRODUITS
-    // ==========================================================================
-
-    function initProductAccordions() {
-      console.log("[accordions] Fonction appelée");
-      const accordion = $(".siklane-accordion");
-      console.log("[accordions] Élément trouvé:", accordion);
-      if (!accordion) {
-        console.log("[accordions] Aucun accordéon trouvé, sortie");
-        return;
-      }
-      console.log("[accordions] Initialisation des accordéons...");
-
-      // Approche différente : écouter les événements Bootstrap
-      on(accordion, "show.bs.collapse", e => {
-        // Un accordéon va s'ouvrir
-        const targetButton = $(`[data-bs-target="#${e.target.id}"]`);
-        if (targetButton) {
-          console.debug("[accordions] Ouverture de:", e.target.id);
-        }
-      });
-
-      // Gérer chaque bouton
-      $$(".accordion-button", accordion).forEach(button => {
-        on(button, "click", e => {
-          const target = button.getAttribute("data-bs-target");
-          const collapseElement = $(target);
-          if (!collapseElement) return;
-
-          // Vérifier l'état actuel AVANT le clic
-          const isCurrentlyOpen = collapseElement.classList.contains("show");
-          console.debug("[accordions] Clic sur bouton, état ouvert:", isCurrentlyOpen);
-          if (isCurrentlyOpen) {
-            // Empêcher Bootstrap de rouvrir
-            e.preventDefault();
-            e.stopPropagation();
-            console.debug("[accordions] Fermeture manuelle de:", target);
-
-            // Utiliser l'API Bootstrap si disponible
-            if (typeof window.bootstrap !== "undefined" && window.bootstrap.Collapse) {
-              const collapseInstance = window.bootstrap.Collapse.getInstance(collapseElement);
-              if (collapseInstance) {
-                collapseInstance.hide();
-              } else {
-                // Fermeture manuelle
-                button.classList.add("collapsed");
-                button.setAttribute("aria-expanded", "false");
-                collapseElement.classList.remove("show");
-              }
-            } else {
-              // Fermeture manuelle fallback
-              button.classList.add("collapsed");
-              button.setAttribute("aria-expanded", "false");
-              collapseElement.classList.remove("show");
-            }
-          }
-          // Si fermé, laisser Bootstrap faire son travail
-        });
-      });
-    }
-
-    // ==========================================================================
     // INITIALISATION PRINCIPALE
     // ==========================================================================
 
     function initialize() {
-      console.log("=== INITIALIZE CALLED ===");
-
-      // Nettoyage des doublons avant tout
-      cleanupSearchOverlays();
-
       // Initialisation de base
       initAOS();
       initLoader();
@@ -6760,7 +6741,6 @@
       initBoutiqueMenu();
       initCategoriesCarousel();
       initCartDrawer();
-      initProductAccordions();
 
       // Smooth scroll après un délai
       const loader = $("#site-loader");

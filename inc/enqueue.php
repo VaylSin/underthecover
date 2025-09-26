@@ -96,6 +96,17 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 			$theme_version,
 			true // charge dans le footer
 		);
+
+		// Transition de pages (sauf homepage)
+		if ( ! is_front_page() ) {
+			wp_enqueue_script(
+				'page-transition',
+				get_template_directory_uri() . '/js/page-transition.js',
+				array(), // Pas de dépendance
+				$theme_version,
+				true // charge dans le footer
+			);
+		}
 	}
 } // End of if function_exists( 'understrap_scripts' ).
 

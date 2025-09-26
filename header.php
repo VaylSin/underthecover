@@ -32,6 +32,11 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
             <div class="loader-progress"><div class="loader-bar"></div></div>
         </div>
     </div>
+	<?php else : ?>
+    <!-- Transition velvet pour les autres pages -->
+    <div id="page-transition">
+        <div class="transition-overlay"></div>
+    </div>
 	<?php endif; ?>
     <!-- Site content (existant) -->
     <div class="site" id="page">
