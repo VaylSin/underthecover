@@ -29,6 +29,10 @@ if ( $product->is_in_stock() ) : ?>
         <?php
         $min_qty = apply_filters( 'woocommerce_quantity_input_min', $product->get_min_purchase_quantity(), $product );
         $max_qty = apply_filters( 'woocommerce_quantity_input_max', $product->get_max_purchase_quantity(), $product );
+
+        // CORRECTION : Si max_qty est -1 (pas de limite), ne pas l'afficher dans l'attribut max
+        $max_qty_attr = ( $max_qty == -1 ) ? '' : $max_qty;
+
         $input_value = isset( $_POST['quantity'] ) ? wc_stock_amount( wp_unslash( $_POST['quantity'] ) ) : $product->get_min_purchase_quantity();
 
         // prix unitaire pour calcul total JS
@@ -50,7 +54,7 @@ if ( $product->is_in_stock() ) : ?>
                     class="border-0 p-0 form-control text-center"
                     step="1"
                     min="<?php echo esc_attr( $min_qty ); ?>"
-                    max="<?php echo esc_attr( $max_qty ); ?>"
+                    <?php if ( $max_qty_attr !== '' ) : ?>max="<?php echo esc_attr( $max_qty_attr ); ?>"<?php endif; ?>
                     name="quantity"
                     value="<?php echo esc_attr( $input_value ); ?>"
                     aria-label="<?php esc_attr_e( 'Quantity', 'woocommerce' ); ?>"

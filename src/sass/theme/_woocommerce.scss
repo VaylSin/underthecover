@@ -19,6 +19,13 @@
 	color: #fff;
 	font-size: 0.857em;
 	z-index: 9;
+
+	// Position à cheval sur le coin supérieur gauche en mobile et tablette
+	@media (max-width: 1024px) {
+		top: -3rem; // À cheval sur le haut
+		left: -3rem; // À cheval sur la gauche
+		transform: translate(50%, 50%); // Centrer le macaron sur le coin
+	}
 }
 /* Woocommerce product gallery slider width fix */
 figure.woocommerce-product-gallery__wrapper {
@@ -1097,6 +1104,14 @@ figure.woocommerce-product-gallery__wrapper {
 		background-color: rgba(255, 255, 255, 0.55);
 		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 	}
+
+	// Supprimer le border-radius sur mobile et tablette pour éviter les boutons ovales
+	@media (max-width: 1024px) {
+		.carousel-control-prev-icon,
+		.carousel-control-next-icon {
+			border-radius: 0 !important;
+		}
+	}
 	/* use simple chevrons (CSS content) so they are always visible */
 	.carousel-control-prev-icon::after,
 	.carousel-control-next-icon::after {
@@ -1412,6 +1427,166 @@ figure.woocommerce-product-gallery__wrapper {
 	.related.products .card.product_item .card-body .card-title {
 		min-height: 3em; /* Plus d'espace sur très petit mobile */
 		font-size: 0.9rem;
+	}
+}
+
+/* =============================================
+   PANIER VIDE - STYLES
+   ============================================= */
+
+.empty-cart-container {
+	.empty-cart-icon {
+		i {
+			transition: transform 0.3s ease, color 0.3s ease;
+		}
+
+		&:hover i {
+			transform: scale(1.1);
+			color: darken($velvet, 10%) !important;
+		}
+	}
+
+	.empty-cart-products {
+		margin-top: 3rem;
+
+		.row {
+			max-width: 600px;
+			margin: 0 auto;
+		}
+
+		// Ajustements responsive pour la grille 2x2
+		@media (max-width: 576px) {
+			.col-6 {
+				// 2 colonnes sur mobile
+				flex: 0 0 50%;
+				max-width: 50%;
+			}
+		}
+
+		@media (min-width: 768px) {
+			.col-md-3 {
+				// 4 colonnes sur desktop mais limitées à 4 produits max
+				flex: 0 0 25%;
+				max-width: 25%;
+			}
+		}
+	}
+}
+
+// Icône panier dans le header - velvet quand vide
+body.woocommerce-cart {
+	&.cart-empty {
+		.bi-bag-heart {
+			color: $velvet !important;
+		}
+	}
+}
+
+// Style pour l'icône du titre panier vide (WooCommerce Blocks)
+.wp-block-heading.has-text-align-center.with-empty-cart-icon.wc-block-cart__empty-cart__title {
+	font-size: 1.5rem; // Plus grande taille pour le texte
+	font-weight: 600;
+
+	&::before {
+		content: "\f490"; // Code Unicode pour bi-bag-heart
+		font-family: "Bootstrap Icons" !important;
+		color: $velvet !important;
+		font-size: 2rem;
+		display: block;
+		text-align: center;
+		margin-bottom: 1rem;
+		line-height: 1;
+	}
+}
+
+// Style alternatif si la classe est différente
+.wc-block-cart__empty-cart__title::before {
+	content: "\f490"; // Code Unicode pour bi-bag-heart
+	font-family: "Bootstrap Icons" !important;
+	color: $velvet !important;
+	font-size: 2rem;
+	display: inline-block;
+	margin-right: 0.5rem;
+	line-height: 1;
+	vertical-align: middle;
+}
+
+/* =============================================
+   GRILLE PRODUITS - UNIFORMISATION
+   ============================================= */
+
+// S'assurer que toutes les listes de produits utilisent notre grille Bootstrap
+.woocommerce ul.products {
+	&.row {
+		margin: 0;
+
+		li.product {
+			padding-left: 0.75rem;
+			padding-right: 0.75rem;
+			margin-bottom: 1.5rem;
+
+			&.col-6 {
+				flex: 0 0 50%;
+				max-width: 50%;
+			}
+
+			&.col-md-4 {
+				@media (min-width: 768px) {
+					flex: 0 0 33.333333%;
+					max-width: 33.333333%;
+				}
+			}
+
+			&.col-lg-3 {
+				@media (min-width: 992px) {
+					flex: 0 0 25%;
+					max-width: 25%;
+				}
+			}
+		}
+	}
+}
+
+// Style spécifique pour les produits dans le panier vide ou pages similaires
+
+/* =============================================
+   CART TOGGLE - SUPPRESSION TRANSITIONS
+   ============================================= */
+
+// Supprimer les transitions sur les liens cart-toggle car ils ouvrent le drawer, pas une page
+.cart-toggle,
+a.cart-toggle,
+.navbar-nav .cart-toggle,
+.navbar-nav a.cart-toggle {
+	transition: none !important;
+
+	&:hover,
+	&:focus,
+	&:active {
+		transition: none !important;
+		transform: none !important;
+	}
+}
+
+// S'assurer que les icônes du panier n'ont pas de transition non plus
+.cart-toggle .bi-bag,
+.cart-toggle .bi-bag-heart,
+.cart-toggle i[class*="bi-bag"] {
+	transition: none !important;
+
+	&:hover,
+	&:focus,
+	&:active {
+		transition: none !important;
+		transform: none !important;
+	}
+}
+.empty-cart-products,
+.woocommerce-checkout-review-order-table {
+	.products {
+		li.product {
+			list-style: none;
+		}
 	}
 }
 

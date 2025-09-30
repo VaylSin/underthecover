@@ -451,6 +451,40 @@ add_filter( 'woocommerce_add_to_cart_fragments', function( $fragments ) {
     return $fragments;
 } );
 
+/**
+ * Désactiver la notification WooCommerce par défaut et l'ouverture auto du drawer
+ */
+add_action( 'init', 'siklane_disable_wc_notifications_and_auto_drawer' );
+if ( ! function_exists( 'siklane_disable_wc_notifications_and_auto_drawer' ) ) {
+    function siklane_disable_wc_notifications_and_auto_drawer() {
+        // Désactiver les notices WooCommerce sur ajout au panier
+        add_filter( 'wc_add_to_cart_message_html', '__return_false' );
+
+        // Empêcher la redirection après ajout au panier
+        add_filter( 'woocommerce_add_to_cart_redirect', '__return_false' );
+
+        // Ajouter du JavaScript pour empêcher l'ouverture automatique du drawer
+        add_action( 'wp_footer', 'siklane_prevent_auto_drawer_opening' );
+    }
+}
+
+if ( ! function_exists( 'siklane_prevent_auto_drawer_opening' ) ) {
+    function siklane_prevent_auto_drawer_opening() {
+        ?>
+        <script>
+        // Empêcher l'ouverture automatique du cart drawer après ajout au panier
+        document.addEventListener('DOMContentLoaded', function() {
+            // Intercepter les événements d'ajout au panier AJAX
+            jQuery(document.body).on('added_to_cart', function(event, fragments, cart_hash, button) {
+                // Ne rien faire - pas d'ouverture automatique du drawer
+                console.log('SIKLANE: Produit ajouté au panier - drawer non ouvert automatiquement');
+            });
+        });
+        </script>
+        <?php
+    }
+}
+
 
 /**
  * Marque automatiquement le lien du menu qui pointe vers le panier
@@ -468,7 +502,7 @@ add_filter( 'nav_menu_link_attributes', function( $atts, $item, $args ) {
         $atts['class'] = ( isset( $atts['class'] ) ? $atts['class'] . ' ' : '' ) . 'cart-toggle';
         $atts['data-cart-url']   = esc_url( $cart_url );
         $atts['data-cart-count'] = ( function_exists( 'WC' ) && WC()->cart ) ? (int) WC()->cart->get_cart_contents_count() : 0;
-        $atts['aria-label']      = isset( $atts['aria-label'] ) ? $atts['aria-label'] : esc_attr__( 'Ouvrir le panier', 'siklane' );
+        $atts['aria-label']      = isset( $atts['aria-label'] ) ? $atts['aria-label'] : esc_attr__( 'Ouvrir votre panier', 'siklane' );
     }
     return $atts;
 }, 10, 3 );
@@ -482,7 +516,7 @@ add_filter( 'wp_nav_menu_items', function( $items, $args ) {
         $cart_url = untrailingslashit( wc_get_cart_url() );
         if ( false === strpos( $items, esc_url( $cart_url ) ) ) {
             $count = ( function_exists( 'WC' ) && WC()->cart ) ? (int) WC()->cart->get_cart_contents_count() : 0;
-            $cart_link  = '<a href="' . esc_url( $cart_url ) . '" class="nav-link cart-toggle" data-cart-url="' . esc_url( $cart_url ) . '" data-cart-count="' . esc_attr( $count ) . '" aria-label="' . esc_attr__( 'Ouvrir le panier', 'siklane' ) . '">';
+            $cart_link  = '<a href="' . esc_url( $cart_url ) . '" class="nav-link cart-toggle" data-cart-url="' . esc_url( $cart_url ) . '" data-cart-count="' . esc_attr( $count ) . '" aria-label="' . esc_attr__( 'Ouvrir votre panier', 'siklane' ) . '">';
             $cart_link .= '<i class="bi bi-bag"></i>';
             $cart_link .= '</a>';
             $items .= '<li class="menu-item menu-item-cart">' . $cart_link . '</li>';
@@ -697,3 +731,81 @@ add_action( 'init', function() {
         );
     }, 20 );
 } );
+
+/**
+ * Ajouter une classe CSS au body quand le panier est vide
+ */
+add_filter( 'body_class', 'siklane_add_cart_empty_body_class' );
+if ( ! function_exists( 'siklane_add_cart_empty_body_class' ) ) {
+    function siklane_add_cart_empty_body_class( $classes ) {
+        // Vérifier si on est sur une page WooCommerce et si le panier est vide
+        if ( function_exists( 'is_cart' ) && is_cart() && WC()->cart->is_empty() ) {
+            $classes[] = 'cart-empty';
+        }
+        return $classes;
+    }
+}
+
+/**
+ * FORCER l'utilisation de notre template cart-empty.php
+ */
+add_action( 'woocommerce_cart_is_empty', 'siklane_force_custom_empty_cart_template', 5 );
+if ( ! function_exists( 'siklane_force_custom_empty_cart_template' ) ) {
+    function siklane_force_custom_empty_cart_template() {
+        // Supprimer le message par défaut
+        remove_action( 'woocommerce_cart_is_empty', 'wc_empty_cart_message', 10 );
+
+        // Forcer notre template personnalisé
+        echo '<div style="background: red; color: white; padding: 10px;">HOOK SIKLANE FORCE TEMPLATE CART-EMPTY</div>';
+        wc_get_template( 'cart/cart-empty.php' );
+
+        // Empêcher d'autres actions
+        return false;
+    }
+}
+
+/**
+ * Modifier les classes des listes de produits pour une grille responsive
+ */
+add_filter( 'woocommerce_product_loop_start', 'siklane_product_loop_start' );
+if ( ! function_exists( 'siklane_product_loop_start' ) ) {
+    function siklane_product_loop_start( $html ) {
+        return '<ul class="products columns-' . esc_attr( wc_get_loop_prop( 'columns' ) ) . ' row g-3">';
+    }
+}
+
+/**
+ * DEBUG : Intercepter tous les templates WooCommerce pour voir ce qui se passe
+ */
+add_filter( 'wc_get_template', 'siklane_debug_wc_templates', 10, 5 );
+if ( ! function_exists( 'siklane_debug_wc_templates' ) ) {
+    function siklane_debug_wc_templates( $template, $template_name, $args, $template_path, $default_path ) {
+        if ( strpos( $template_name, 'cart' ) !== false ) {
+            error_log( 'SIKLANE DEBUG: Template WooCommerce appelé: ' . $template_name . ' -> ' . $template );
+        }
+        return $template;
+    }
+}
+
+// Hooks de correction de quantité supprimés - correction directe dans le template simple.php// Code nettoyé - les hooks pour la boutique générale fonctionnent déjà bien
+
+/**
+ * Ajouter les classes Bootstrap aux éléments de produits
+ */
+add_filter( 'woocommerce_post_class', 'siklane_add_bootstrap_classes_to_products', 10, 3 );
+if ( ! function_exists( 'siklane_add_bootstrap_classes_to_products' ) ) {
+    function siklane_add_bootstrap_classes_to_products( $classes, $class = '', $post_id = null ) {
+        // Gérer le cas où post_id n'est pas fourni
+        if ( $post_id === null ) {
+            $post_id = get_the_ID();
+        }
+
+        if ( is_shop() || is_product_category() || is_product_tag() ) {
+            $classes[] = 'col-6';
+            $classes[] = 'col-md-4';
+            $classes[] = 'col-lg-3';
+            $classes[] = 'mb-4';
+        }
+        return $classes;
+    }
+}

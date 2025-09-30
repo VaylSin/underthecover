@@ -1,4 +1,4 @@
-<div class="cart-drawer" id="cartDrawer" aria-hidden="true" role="dialog" aria-label="<?php esc_attr_e('Panier','siklane'); ?>">
+<div class="cart-drawer" id="cartDrawer" aria-hidden="true" role="dialog" aria-label="<?php esc_attr_e('Votre panier','siklane'); ?>">
   <div class="cart-drawer-backdrop" data-cart-drawer-close></div>
   <aside class="cart-drawer-panel justify-content-between" role="document">
     <?php
@@ -57,7 +57,7 @@
         <p class="woocommerce-mini-cart__buttons buttons"><?php do_action( 'woocommerce_widget_shopping_cart_buttons' ); ?></p>
 
         <?php do_action( 'woocommerce_widget_shopping_cart_after_buttons' ); ?> -->
-      <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="btn view-all-link"><?php esc_html_e('Voir le panier','siklane'); ?></a>
+      <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="btn view-all-link"><?php esc_html_e('Voir votre panier','siklane'); ?></a>
       <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="view-all-link"><?php esc_html_e('Commander','siklane'); ?></a>
     </div>
   </aside>

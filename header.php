@@ -32,12 +32,9 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
             <div class="loader-progress"><div class="loader-bar"></div></div>
         </div>
     </div>
-	<?php else : ?>
-    <!-- Transition velvet pour les autres pages -->
-    <div id="page-transition">
-        <div class="transition-overlay"></div>
-    </div>
-	<?php endif; ?>
+	<?php endif; // Transition velvet désactivée ?>
+
+    <?php // div page-transition supprimé - pas de transitions de pages ?>
     <!-- Site content (existant) -->
     <div class="site" id="page">
 	    <div class="social-sticky d-none d-lg-flex">
@@ -310,7 +307,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                             </a>
 
                             <!-- Panier -->
-                            <a href="<?php echo wc_get_cart_url(); ?>" class="mobile-cart-link" aria-label="Panier">
+                            <a href="<?php echo wc_get_cart_url(); ?>" class="mobile-cart-link" aria-label="Votre panier">
                                 <i class="bi bi-bag-heart fs-4"></i>
                                 <?php if (WC()->cart->get_cart_contents_count() > 0): ?>
                                     <span class="cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>

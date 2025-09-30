@@ -97,7 +97,8 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 			true // charge dans le footer
 		);
 
-		// Transition de pages (sauf homepage)
+		// Transition de pages (sauf homepage) - DÉSACTIVÉ
+		/*
 		if ( ! is_front_page() ) {
 			wp_enqueue_script(
 				'page-transition',
@@ -107,6 +108,7 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 				true // charge dans le footer
 			);
 		}
+		*/
 	}
 } // End of if function_exists( 'understrap_scripts' ).
 

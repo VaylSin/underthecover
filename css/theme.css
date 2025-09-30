@@ -12335,6 +12335,13 @@ form.cart input[type=number]::-webkit-inner-spin-button {
   font-size: 0.857em;
   z-index: 9;
 }
+@media (max-width: 1024px) {
+  .woocommerce span.onsale {
+    top: -3rem;
+    left: -3rem;
+    transform: translate(50%, 50%);
+  }
+}
 
 /* Woocommerce product gallery slider width fix */
 figure.woocommerce-product-gallery__wrapper {
@@ -13316,6 +13323,12 @@ figure.woocommerce-product-gallery__wrapper {
   background-color: rgba(255, 255, 255, 0.55);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
+@media (max-width: 1024px) {
+  .siklane-reviews .carousel-control-prev-icon,
+  .siklane-reviews .carousel-control-next-icon {
+    border-radius: 0 !important;
+  }
+}
 .siklane-reviews .carousel-control-prev-icon::after,
 .siklane-reviews .carousel-control-next-icon::after {
   content: "";
@@ -13602,6 +13615,138 @@ figure.woocommerce-product-gallery__wrapper {
     font-size: 0.9rem;
   }
 }
+/* =============================================
+   PANIER VIDE - STYLES
+   ============================================= */
+.empty-cart-container .empty-cart-icon i {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+.empty-cart-container .empty-cart-icon:hover i {
+  transform: scale(1.1);
+  color: #94284f !important;
+}
+.empty-cart-container .empty-cart-products {
+  margin-top: 3rem;
+}
+.empty-cart-container .empty-cart-products .row {
+  max-width: 600px;
+  margin: 0 auto;
+}
+@media (max-width: 576px) {
+  .empty-cart-container .empty-cart-products .col-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+@media (min-width: 768px) {
+  .empty-cart-container .empty-cart-products .col-md-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+}
+
+body.woocommerce-cart.cart-empty .bi-bag-heart {
+  color: #bc3365 !important;
+}
+
+.wp-block-heading.has-text-align-center.with-empty-cart-icon.wc-block-cart__empty-cart__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.wp-block-heading.has-text-align-center.with-empty-cart-icon.wc-block-cart__empty-cart__title::before {
+  content: "\f490";
+  font-family: "Bootstrap Icons" !important;
+  color: #bc3365 !important;
+  font-size: 2rem;
+  display: block;
+  text-align: center;
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+
+.wc-block-cart__empty-cart__title::before {
+  content: "\f490";
+  font-family: "Bootstrap Icons" !important;
+  color: #bc3365 !important;
+  font-size: 2rem;
+  display: inline-block;
+  margin-right: 0.5rem;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* =============================================
+   GRILLE PRODUITS - UNIFORMISATION
+   ============================================= */
+.woocommerce ul.products.row {
+  margin: 0;
+}
+.woocommerce ul.products.row li.product {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.woocommerce ul.products.row li.product.col-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+@media (min-width: 768px) {
+  .woocommerce ul.products.row li.product.col-md-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+}
+@media (min-width: 992px) {
+  .woocommerce ul.products.row li.product.col-lg-3 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+}
+
+/* =============================================
+   CART TOGGLE - SUPPRESSION TRANSITIONS
+   ============================================= */
+.cart-toggle,
+a.cart-toggle,
+.navbar-nav .cart-toggle,
+.navbar-nav a.cart-toggle {
+  transition: none !important;
+}
+.cart-toggle:hover, .cart-toggle:focus, .cart-toggle:active,
+a.cart-toggle:hover,
+a.cart-toggle:focus,
+a.cart-toggle:active,
+.navbar-nav .cart-toggle:hover,
+.navbar-nav .cart-toggle:focus,
+.navbar-nav .cart-toggle:active,
+.navbar-nav a.cart-toggle:hover,
+.navbar-nav a.cart-toggle:focus,
+.navbar-nav a.cart-toggle:active {
+  transition: none !important;
+  transform: none !important;
+}
+
+.cart-toggle .bi-bag,
+.cart-toggle .bi-bag-heart,
+.cart-toggle i[class*=bi-bag] {
+  transition: none !important;
+}
+.cart-toggle .bi-bag:hover, .cart-toggle .bi-bag:focus, .cart-toggle .bi-bag:active,
+.cart-toggle .bi-bag-heart:hover,
+.cart-toggle .bi-bag-heart:focus,
+.cart-toggle .bi-bag-heart:active,
+.cart-toggle i[class*=bi-bag]:hover,
+.cart-toggle i[class*=bi-bag]:focus,
+.cart-toggle i[class*=bi-bag]:active {
+  transition: none !important;
+  transform: none !important;
+}
+
+.empty-cart-products .products li.product,
+.woocommerce-checkout-review-order-table .products li.product {
+  list-style: none;
+}
+
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -20539,88 +20684,6 @@ body.mobile-menu-open .mobile-search-toggle {
   .shop-categories .btn, .shop-categories input[type=submit], .shop-categories .wc-block-components-totals-coupon__content button[type=submit], .wc-block-components-totals-coupon__content .shop-categories button[type=submit], .shop-categories .woocommerce-form-login__submit, .shop-categories .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-notices-wrapper .woocommerce-message .shop-categories a.button, .shop-categories .woocommerce-info a.button, .woocommerce-info .shop-categories a.button, .shop-categories .wc-block-components-checkout-return-to-cart-button {
     white-space: nowrap;
     flex-shrink: 0;
-  }
-}
-/* =============================================
-   TRANSITION DE PAGES - FONDU VELVET
-   ============================================= */
-#page-transition {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: 99998;
-  pointer-events: none;
-}
-#page-transition .transition-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #bc3365 0%, rgba(188, 51, 101, 0.9) 100%);
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.8s ease-out, visibility 0s linear 0s;
-  will-change: opacity, visibility;
-}
-#page-transition.fade-out .transition-overlay {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.8s ease-out, visibility 0s linear 0.8s;
-}
-
-body:not(.home) .site {
-  opacity: 0;
-  transition: opacity 0.3s ease-out 0.1s;
-  will-change: opacity;
-}
-body:not(.home) .site.page-loaded {
-  opacity: 1;
-}
-
-.social-sticky {
-  position: fixed !important;
-  top: 50% !important;
-  left: 0 !important;
-  transform: translateY(-50%) !important;
-  opacity: 1 !important;
-  z-index: 99999 !important;
-  visibility: visible !important;
-  transition: none !important;
-  animation: none !important;
-  will-change: auto !important;
-}
-
-body:not(.home) .site {
-  transition: opacity 0.3s ease-out 0.1s, transform 0.3s ease-out 0.1s;
-}
-
-/* =============================================
-   RESPONSIVE - OPTIMISATIONS MOBILE
-   ============================================= */
-@media (max-width: 767.98px) {
-  #page-transition .transition-overlay {
-    transition: opacity 0.2s ease-out, visibility 0s linear 0s;
-  }
-  #page-transition.fade-out .transition-overlay {
-    transition: opacity 0.2s ease-out, visibility 0s linear 0.2s;
-  }
-  .site {
-    transition: opacity 0.2s ease-out 0.1s, transform 0.2s ease-out 0.1s;
-  }
-}
-/* =============================================
-   STYLES POUR REDUCED MOTION
-   ============================================= */
-@media (prefers-reduced-motion: reduce) {
-  #page-transition .transition-overlay {
-    transition: opacity 0.3s ease-out !important;
-  }
-  .site {
-    transform: none !important;
-    transition: opacity 0.3s ease-out !important;
   }
 }
 
