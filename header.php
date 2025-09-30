@@ -255,7 +255,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                 <div class="row align-items-center">
                     <!-- Menu boutique + Recherche à gauche -->
                     <div class="col-auto">
-                        <div class="d-flex align-items-center gap-5">
+                        <div class="d-flex align-items-center" style="gap: 5vw;">
                             <!-- Menu boutique -->
                             <button class="mobile-menu-burger" id="mobileMenuBurger" aria-label="Ouvrir le menu boutique" aria-expanded="false">
                                 <span></span>
@@ -303,7 +303,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
 
                     <!-- Compte + Panier à droite -->
                     <div class="col-auto">
-                        <div class="d-flex align-items-center gap-5">
+                        <div class="d-flex align-items-center" style="gap: 5vw;">
                             <!-- Compte -->
                             <a href="<?php echo wc_get_page_permalink('myaccount'); ?>" aria-label="Mon compte">
                                 <i class="bi bi-person-hearts fs-4"></i>
