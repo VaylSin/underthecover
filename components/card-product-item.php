@@ -61,14 +61,20 @@ if ( empty( $image_html ) ) {
                     </div>
                 </div>
 
-                <form method="post" class="add-to-cart-form mt-2">
-                    <input type="hidden" name="add-to-cart" value="<?php echo esc_attr( $product ? $product->get_id() : $post_id ); ?>">
-                    <button type="submit" class="view-all-link d-flex justify-content-center align-items-center w-100">
+                <?php if ( $product && $product->is_purchasable() && $product->is_in_stock() ) : ?>
+                    <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>"
+                       class="button product_type_simple add_to_cart_button ajax_add_to_cart view-all-link d-flex justify-content-center align-items-center w-100"
+                       data-product_id="<?php echo esc_attr( $product->get_id() ); ?>"
+                       data-product_sku="<?php echo esc_attr( $product->get_sku() ); ?>"
+                       data-quantity="1"
+                       data-from-card="true"
+                       aria-label="<?php echo esc_attr( sprintf( __( 'Ajouter « %s » à votre panier', 'woocommerce' ), $product->get_name() ) ); ?>"
+                       rel="nofollow">
                         <span class="d-none d-xl-inline">ajouter au panier</span>
                         <span class="d-inline d-xl-none">ajouter</span>
                         &nbsp;&nbsp;<i class="d-none d-xl-inline bi bi-bag-heart"></i>
-                    </button>
-                </form>
+                    </a>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
     </a>

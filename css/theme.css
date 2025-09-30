@@ -12088,27 +12088,190 @@ form.wpcf7-form {
   /* selector très spécifique pour surpasser Bootstrap */
   /* focus/hover states */
 }
-.wpcf7 .view-all-link, .wpcf7 .woocommerce-Button, .wpcf7 .woocommerce-info a, .woocommerce-info .wpcf7 a,
+.wpcf7 .view-all-link, .wpcf7 .woocommerce-Button, .wpcf7 .add_to_cart_button.woocommerce-Button,
+.wpcf7 .single_add_to_cart_button.woocommerce-Button,
+.wpcf7 button.add_to_cart_button.woocommerce-Button,
+.wpcf7 a.add_to_cart_button.woocommerce-Button, .wpcf7 .woocommerce-info a, .woocommerce-info .wpcf7 a,
 .wpcf7 .woocommerce-message a,
-.woocommerce-message .wpcf7 a, .wpcf7 .woocommerce-form-login__submit, .wpcf7 .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .wpcf7 .wc-block-components-checkout-return-to-cart-button, .wpcf7 .wc-block-cart__submit-button,
+.woocommerce-message .wpcf7 a, .wpcf7 .woocommerce-info a.add_to_cart_button, .woocommerce-info .wpcf7 a.add_to_cart_button,
+.wpcf7 .woocommerce-message a.add_to_cart_button,
+.woocommerce-message .wpcf7 a.add_to_cart_button,
+.wpcf7 .woocommerce-info a.single_add_to_cart_button,
+.woocommerce-info .wpcf7 a.single_add_to_cart_button,
+.wpcf7 .woocommerce-message a.single_add_to_cart_button,
+.woocommerce-message .wpcf7 a.single_add_to_cart_button, .wpcf7 .add_to_cart_button.view-all-link, .wpcf7 .add_to_cart_button.woocommerce-Button,
+.wpcf7 button.add_to_cart_button.woocommerce-Button,
+.wpcf7 a.add_to_cart_button.woocommerce-Button, .wpcf7 .woocommerce-info a.add_to_cart_button, .woocommerce-info .wpcf7 a.add_to_cart_button,
+.wpcf7 .woocommerce-message a.add_to_cart_button,
+.woocommerce-message .wpcf7 a.add_to_cart_button, .wpcf7 .add_to_cart_button.wc-block-cart__submit-button,
+.wpcf7 .add_to_cart_button.wc-block-components-checkout-place-order-button, .wpcf7 .wc-block-checkout__actions_row .add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .wpcf7 .add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .wpcf7 .add_to_cart_button.woocommerce-form-login__submit,
+.wpcf7 .single_add_to_cart_button.view-all-link,
+.wpcf7 .single_add_to_cart_button.woocommerce-Button,
+.wpcf7 .woocommerce-info a.single_add_to_cart_button,
+.woocommerce-info .wpcf7 a.single_add_to_cart_button,
+.wpcf7 .woocommerce-message a.single_add_to_cart_button,
+.woocommerce-message .wpcf7 a.single_add_to_cart_button,
+.wpcf7 .single_add_to_cart_button.wc-block-cart__submit-button,
+.wpcf7 .single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.wpcf7 .wc-block-checkout__actions_row .single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .wpcf7 .single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wpcf7 .single_add_to_cart_button.woocommerce-form-login__submit,
+.wpcf7 button.add_to_cart_button.view-all-link,
+.wpcf7 button.add_to_cart_button.woocommerce-Button,
+.wpcf7 a.add_to_cart_button.view-all-link,
+.wpcf7 a.add_to_cart_button.woocommerce-Button,
+.wpcf7 .woocommerce-info a.add_to_cart_button,
+.woocommerce-info .wpcf7 a.add_to_cart_button,
+.wpcf7 .woocommerce-message a.add_to_cart_button,
+.woocommerce-message .wpcf7 a.add_to_cart_button, .wpcf7 .woocommerce-form-login__submit, .wpcf7 .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .wpcf7 .wc-block-components-checkout-return-to-cart-button, .wpcf7 .wc-block-cart__submit-button,
 .wpcf7 .wc-block-components-checkout-place-order-button,
 .wpcf7 button.view-all-link,
+.wpcf7 button.woocommerce-Button,
+.wpcf7 button.add_to_cart_button.woocommerce-Button,
+.wpcf7 button.single_add_to_cart_button.woocommerce-Button,
+.wpcf7 button.add_to_cart_button.view-all-link,
+.wpcf7 button.add_to_cart_button.woocommerce-Button,
+.wpcf7 button.add_to_cart_button.wc-block-cart__submit-button,
+.wpcf7 button.add_to_cart_button.wc-block-components-checkout-place-order-button,
+.wpcf7 .wc-block-checkout__actions_row button.add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .wpcf7 button.add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wpcf7 button.add_to_cart_button.woocommerce-form-login__submit,
+.wpcf7 button.single_add_to_cart_button.view-all-link,
+.wpcf7 button.single_add_to_cart_button.woocommerce-Button,
+.wpcf7 button.single_add_to_cart_button.wc-block-cart__submit-button,
+.wpcf7 button.single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.wpcf7 .wc-block-checkout__actions_row button.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .wpcf7 button.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wpcf7 button.single_add_to_cart_button.woocommerce-form-login__submit,
 .wpcf7 input[type=submit].view-all-link,
+.wpcf7 input[type=submit].woocommerce-Button,
+.wpcf7 input[type=submit].add_to_cart_button.wc-block-cart__submit-button,
+.wpcf7 input[type=submit].add_to_cart_button.wc-block-components-checkout-place-order-button,
+.wpcf7 .wc-block-checkout__actions_row input[type=submit].add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .wpcf7 input[type=submit].add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wpcf7 input[type=submit].add_to_cart_button.woocommerce-form-login__submit,
+.wpcf7 input[type=submit].single_add_to_cart_button.wc-block-cart__submit-button,
+.wpcf7 input[type=submit].single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.wpcf7 .wc-block-checkout__actions_row input[type=submit].single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .wpcf7 input[type=submit].single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wpcf7 input[type=submit].single_add_to_cart_button.woocommerce-form-login__submit,
 .wpcf7 .wpcf7-submit.view-all-link,
+.wpcf7 .wpcf7-submit.woocommerce-Button,
+.wpcf7 .woocommerce-info a.wpcf7-submit,
+.woocommerce-info .wpcf7 a.wpcf7-submit,
+.wpcf7 .woocommerce-message a.wpcf7-submit,
+.woocommerce-message .wpcf7 a.wpcf7-submit,
+.wpcf7 .wpcf7-submit.add_to_cart_button.wc-block-cart__submit-button,
+.wpcf7 .wpcf7-submit.add_to_cart_button.wc-block-components-checkout-place-order-button,
+.wpcf7 .wc-block-checkout__actions_row .wpcf7-submit.add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .wpcf7 .wpcf7-submit.add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wpcf7 .wpcf7-submit.add_to_cart_button.woocommerce-form-login__submit,
+.wpcf7 .wpcf7-submit.single_add_to_cart_button.wc-block-cart__submit-button,
+.wpcf7 .wpcf7-submit.single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.wpcf7 .wc-block-checkout__actions_row .wpcf7-submit.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .wpcf7 .wpcf7-submit.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wpcf7 .wpcf7-submit.single_add_to_cart_button.woocommerce-form-login__submit,
 form.wpcf7-form .view-all-link,
 form.wpcf7-form .woocommerce-Button,
+form.wpcf7-form .add_to_cart_button.woocommerce-Button,
+form.wpcf7-form .single_add_to_cart_button.woocommerce-Button,
+form.wpcf7-form button.add_to_cart_button.woocommerce-Button,
+form.wpcf7-form a.add_to_cart_button.woocommerce-Button,
 form.wpcf7-form .woocommerce-info a,
 .woocommerce-info form.wpcf7-form a,
 form.wpcf7-form .woocommerce-message a,
 .woocommerce-message form.wpcf7-form a,
+form.wpcf7-form .woocommerce-info a.add_to_cart_button,
+.woocommerce-info form.wpcf7-form a.add_to_cart_button,
+form.wpcf7-form .woocommerce-message a.add_to_cart_button,
+.woocommerce-message form.wpcf7-form a.add_to_cart_button,
+form.wpcf7-form .woocommerce-info a.single_add_to_cart_button,
+.woocommerce-info form.wpcf7-form a.single_add_to_cart_button,
+form.wpcf7-form .woocommerce-message a.single_add_to_cart_button,
+.woocommerce-message form.wpcf7-form a.single_add_to_cart_button,
+form.wpcf7-form .add_to_cart_button.view-all-link,
+form.wpcf7-form .add_to_cart_button.woocommerce-Button,
+form.wpcf7-form button.add_to_cart_button.woocommerce-Button,
+form.wpcf7-form a.add_to_cart_button.woocommerce-Button,
+form.wpcf7-form .woocommerce-info a.add_to_cart_button,
+.woocommerce-info form.wpcf7-form a.add_to_cart_button,
+form.wpcf7-form .woocommerce-message a.add_to_cart_button,
+.woocommerce-message form.wpcf7-form a.add_to_cart_button,
+form.wpcf7-form .add_to_cart_button.wc-block-cart__submit-button,
+form.wpcf7-form .add_to_cart_button.wc-block-components-checkout-place-order-button,
+form.wpcf7-form .wc-block-checkout__actions_row .add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row form.wpcf7-form .add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+form.wpcf7-form .add_to_cart_button.woocommerce-form-login__submit,
+form.wpcf7-form .single_add_to_cart_button.view-all-link,
+form.wpcf7-form .single_add_to_cart_button.woocommerce-Button,
+form.wpcf7-form .woocommerce-info a.single_add_to_cart_button,
+.woocommerce-info form.wpcf7-form a.single_add_to_cart_button,
+form.wpcf7-form .woocommerce-message a.single_add_to_cart_button,
+.woocommerce-message form.wpcf7-form a.single_add_to_cart_button,
+form.wpcf7-form .single_add_to_cart_button.wc-block-cart__submit-button,
+form.wpcf7-form .single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+form.wpcf7-form .wc-block-checkout__actions_row .single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row form.wpcf7-form .single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+form.wpcf7-form .single_add_to_cart_button.woocommerce-form-login__submit,
+form.wpcf7-form button.add_to_cart_button.view-all-link,
+form.wpcf7-form button.add_to_cart_button.woocommerce-Button,
+form.wpcf7-form a.add_to_cart_button.view-all-link,
+form.wpcf7-form a.add_to_cart_button.woocommerce-Button,
+form.wpcf7-form .woocommerce-info a.add_to_cart_button,
+.woocommerce-info form.wpcf7-form a.add_to_cart_button,
+form.wpcf7-form .woocommerce-message a.add_to_cart_button,
+.woocommerce-message form.wpcf7-form a.add_to_cart_button,
 form.wpcf7-form .woocommerce-form-login__submit,
 form.wpcf7-form .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button,
 .wc-block-checkout__actions_row form.wpcf7-form .wc-block-components-checkout-return-to-cart-button,
 form.wpcf7-form .wc-block-cart__submit-button,
 form.wpcf7-form .wc-block-components-checkout-place-order-button,
 form.wpcf7-form button.view-all-link,
+form.wpcf7-form button.woocommerce-Button,
+form.wpcf7-form button.add_to_cart_button.woocommerce-Button,
+form.wpcf7-form button.single_add_to_cart_button.woocommerce-Button,
+form.wpcf7-form button.add_to_cart_button.view-all-link,
+form.wpcf7-form button.add_to_cart_button.woocommerce-Button,
+form.wpcf7-form button.add_to_cart_button.wc-block-cart__submit-button,
+form.wpcf7-form button.add_to_cart_button.wc-block-components-checkout-place-order-button,
+form.wpcf7-form .wc-block-checkout__actions_row button.add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row form.wpcf7-form button.add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+form.wpcf7-form button.add_to_cart_button.woocommerce-form-login__submit,
+form.wpcf7-form button.single_add_to_cart_button.view-all-link,
+form.wpcf7-form button.single_add_to_cart_button.woocommerce-Button,
+form.wpcf7-form button.single_add_to_cart_button.wc-block-cart__submit-button,
+form.wpcf7-form button.single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+form.wpcf7-form .wc-block-checkout__actions_row button.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row form.wpcf7-form button.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+form.wpcf7-form button.single_add_to_cart_button.woocommerce-form-login__submit,
 form.wpcf7-form input[type=submit].view-all-link,
-form.wpcf7-form .wpcf7-submit.view-all-link {
+form.wpcf7-form input[type=submit].woocommerce-Button,
+form.wpcf7-form input[type=submit].add_to_cart_button.wc-block-cart__submit-button,
+form.wpcf7-form input[type=submit].add_to_cart_button.wc-block-components-checkout-place-order-button,
+form.wpcf7-form .wc-block-checkout__actions_row input[type=submit].add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row form.wpcf7-form input[type=submit].add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+form.wpcf7-form input[type=submit].add_to_cart_button.woocommerce-form-login__submit,
+form.wpcf7-form input[type=submit].single_add_to_cart_button.wc-block-cart__submit-button,
+form.wpcf7-form input[type=submit].single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+form.wpcf7-form .wc-block-checkout__actions_row input[type=submit].single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row form.wpcf7-form input[type=submit].single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+form.wpcf7-form input[type=submit].single_add_to_cart_button.woocommerce-form-login__submit,
+form.wpcf7-form .wpcf7-submit.view-all-link,
+form.wpcf7-form .wpcf7-submit.woocommerce-Button,
+form.wpcf7-form .woocommerce-info a.wpcf7-submit,
+.woocommerce-info form.wpcf7-form a.wpcf7-submit,
+form.wpcf7-form .woocommerce-message a.wpcf7-submit,
+.woocommerce-message form.wpcf7-form a.wpcf7-submit,
+form.wpcf7-form .wpcf7-submit.add_to_cart_button.wc-block-cart__submit-button,
+form.wpcf7-form .wpcf7-submit.add_to_cart_button.wc-block-components-checkout-place-order-button,
+form.wpcf7-form .wc-block-checkout__actions_row .wpcf7-submit.add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row form.wpcf7-form .wpcf7-submit.add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+form.wpcf7-form .wpcf7-submit.add_to_cart_button.woocommerce-form-login__submit,
+form.wpcf7-form .wpcf7-submit.single_add_to_cart_button.wc-block-cart__submit-button,
+form.wpcf7-form .wpcf7-submit.single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+form.wpcf7-form .wc-block-checkout__actions_row .wpcf7-submit.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row form.wpcf7-form .wpcf7-submit.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+form.wpcf7-form .wpcf7-submit.single_add_to_cart_button.woocommerce-form-login__submit {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -12268,7 +12431,7 @@ form.cart input[type=number]::-webkit-inner-spin-button {
   }
   /* Boutons plus hauts également - SAUF le burger menu */
   input[type=submit],
-  button:not(.mobile-menu-burger):not(.view-all-link):not(.woocommerce-Button):not(.wc-block-cart__submit-button):not(.wc-block-components-checkout-place-order-button):not(.woocommerce-form-login__submit),
+  button:not(.mobile-menu-burger):not(.view-all-link):not(.woocommerce-Button):not(.add_to_cart_button.woocommerce-Button):not(.single_add_to_cart_button.woocommerce-Button):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.woocommerce-Button):not(.add_to_cart_button.view-all-link):not(.add_to_cart_button.woocommerce-Button):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.woocommerce-Button):not(.add_to_cart_button.wc-block-cart__submit-button):not(.add_to_cart_button.wc-block-components-checkout-place-order-button):not(.add_to_cart_button.woocommerce-form-login__submit):not(.single_add_to_cart_button.view-all-link):not(.single_add_to_cart_button.woocommerce-Button):not(.single_add_to_cart_button.wc-block-cart__submit-button):not(.single_add_to_cart_button.wc-block-components-checkout-place-order-button):not(.single_add_to_cart_button.woocommerce-form-login__submit):not(button.add_to_cart_button.view-all-link):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.view-all-link):not(a.add_to_cart_button.woocommerce-Button):not(.wc-block-cart__submit-button):not(.wc-block-components-checkout-place-order-button):not(.woocommerce-form-login__submit),
   .wpcf7-submit {
     min-height: 48px !important;
     padding: 12px 20px !important;
@@ -12306,7 +12469,7 @@ form.cart input[type=number]::-webkit-inner-spin-button {
   }
   /* Boutons optimisés pour mobile - SAUF le burger menu */
   input[type=submit],
-  button:not(.mobile-menu-burger):not(.view-all-link):not(.woocommerce-Button):not(.wc-block-cart__submit-button):not(.wc-block-components-checkout-place-order-button):not(.woocommerce-form-login__submit),
+  button:not(.mobile-menu-burger):not(.view-all-link):not(.woocommerce-Button):not(.add_to_cart_button.woocommerce-Button):not(.single_add_to_cart_button.woocommerce-Button):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.woocommerce-Button):not(.add_to_cart_button.view-all-link):not(.add_to_cart_button.woocommerce-Button):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.woocommerce-Button):not(.add_to_cart_button.wc-block-cart__submit-button):not(.add_to_cart_button.wc-block-components-checkout-place-order-button):not(.add_to_cart_button.woocommerce-form-login__submit):not(.single_add_to_cart_button.view-all-link):not(.single_add_to_cart_button.woocommerce-Button):not(.single_add_to_cart_button.wc-block-cart__submit-button):not(.single_add_to_cart_button.wc-block-components-checkout-place-order-button):not(.single_add_to_cart_button.woocommerce-form-login__submit):not(button.add_to_cart_button.view-all-link):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.view-all-link):not(a.add_to_cart_button.woocommerce-Button):not(.wc-block-cart__submit-button):not(.wc-block-components-checkout-place-order-button):not(.woocommerce-form-login__submit),
   .wpcf7-submit {
     min-height: 52px !important;
     font-size: 1.1rem !important;
@@ -13745,6 +13908,66 @@ a.cart-toggle:active,
 .empty-cart-products .products li.product,
 .woocommerce-checkout-review-order-table .products li.product {
   list-style: none;
+}
+
+.add_to_cart_button.view-all-link, .add_to_cart_button.woocommerce-Button,
+button.add_to_cart_button.woocommerce-Button,
+a.add_to_cart_button.woocommerce-Button, .woocommerce-info a.add_to_cart_button,
+.woocommerce-message a.add_to_cart_button, .add_to_cart_button.wc-block-cart__submit-button,
+.add_to_cart_button.wc-block-components-checkout-place-order-button, .wc-block-checkout__actions_row .add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .add_to_cart_button.woocommerce-form-login__submit,
+.single_add_to_cart_button.view-all-link,
+.single_add_to_cart_button.woocommerce-Button,
+.woocommerce-info a.single_add_to_cart_button,
+.woocommerce-message a.single_add_to_cart_button,
+.single_add_to_cart_button.wc-block-cart__submit-button,
+.single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.wc-block-checkout__actions_row .single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.single_add_to_cart_button.woocommerce-form-login__submit,
+button.add_to_cart_button.view-all-link,
+button.add_to_cart_button.wc-block-cart__submit-button,
+button.add_to_cart_button.wc-block-components-checkout-place-order-button,
+button.add_to_cart_button.woocommerce-form-login__submit,
+a.add_to_cart_button.view-all-link,
+a.add_to_cart_button.wc-block-cart__submit-button,
+a.add_to_cart_button.wc-block-components-checkout-place-order-button,
+a.add_to_cart_button.woocommerce-form-login__submit {
+  background-color: #272727 !important;
+  color: #fff !important;
+  border: 2px solid #272727 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.5px !important;
+  font-weight: bold !important;
+  text-decoration: none !important;
+}
+.add_to_cart_button.view-all-link:hover, .add_to_cart_button.woocommerce-Button:hover, .woocommerce-info a.add_to_cart_button:hover,
+.woocommerce-message a.add_to_cart_button:hover, .add_to_cart_button.wc-block-cart__submit-button:hover,
+.add_to_cart_button.wc-block-components-checkout-place-order-button:hover, .wc-block-checkout__actions_row .add_to_cart_button.wc-block-components-checkout-return-to-cart-button:hover, .add_to_cart_button.woocommerce-form-login__submit:hover, .add_to_cart_button.view-all-link:focus, .add_to_cart_button.woocommerce-Button:focus, .woocommerce-info a.add_to_cart_button:focus,
+.woocommerce-message a.add_to_cart_button:focus, .add_to_cart_button.wc-block-cart__submit-button:focus,
+.add_to_cart_button.wc-block-components-checkout-place-order-button:focus, .wc-block-checkout__actions_row .add_to_cart_button.wc-block-components-checkout-return-to-cart-button:focus, .add_to_cart_button.woocommerce-form-login__submit:focus,
+.single_add_to_cart_button.view-all-link:hover,
+.single_add_to_cart_button.woocommerce-Button:hover,
+.woocommerce-info a.single_add_to_cart_button:hover,
+.woocommerce-message a.single_add_to_cart_button:hover,
+.single_add_to_cart_button.wc-block-cart__submit-button:hover,
+.single_add_to_cart_button.wc-block-components-checkout-place-order-button:hover,
+.wc-block-checkout__actions_row .single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button:hover,
+.single_add_to_cart_button.woocommerce-form-login__submit:hover,
+.single_add_to_cart_button.view-all-link:focus,
+.single_add_to_cart_button.woocommerce-Button:focus,
+.woocommerce-info a.single_add_to_cart_button:focus,
+.woocommerce-message a.single_add_to_cart_button:focus,
+.single_add_to_cart_button.wc-block-cart__submit-button:focus,
+.single_add_to_cart_button.wc-block-components-checkout-place-order-button:focus,
+.wc-block-checkout__actions_row .single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button:focus,
+.single_add_to_cart_button.woocommerce-form-login__submit:focus,
+button.add_to_cart_button.view-all-link:hover,
+button.add_to_cart_button.view-all-link:focus,
+a.add_to_cart_button.view-all-link:hover,
+a.add_to_cart_button.view-all-link:focus {
+  background-color: #bc3365 !important;
+  border-color: #bc3365 !important;
+  color: #fff !important;
 }
 
 /*!
@@ -17151,9 +17374,22 @@ h6,
   opacity: 0.8;
 }
 
-.view-all-link, .woocommerce-Button, .woocommerce-info a,
-.woocommerce-message a, .wc-block-cart__submit-button,
-.wc-block-components-checkout-place-order-button, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button, .woocommerce-form-login__submit {
+.view-all-link, .woocommerce-Button, .add_to_cart_button.woocommerce-Button,
+.single_add_to_cart_button.woocommerce-Button,
+button.add_to_cart_button.woocommerce-Button,
+a.add_to_cart_button.woocommerce-Button, .woocommerce-info a,
+.woocommerce-message a, .woocommerce-info a.add_to_cart_button,
+.woocommerce-message a.add_to_cart_button,
+.woocommerce-info a.single_add_to_cart_button,
+.woocommerce-message a.single_add_to_cart_button, .wc-block-cart__submit-button,
+.wc-block-components-checkout-place-order-button, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button, .woocommerce-form-login__submit, .add_to_cart_button.view-all-link, .add_to_cart_button.wc-block-cart__submit-button,
+.add_to_cart_button.wc-block-components-checkout-place-order-button, .add_to_cart_button.woocommerce-form-login__submit,
+.single_add_to_cart_button.view-all-link,
+.single_add_to_cart_button.wc-block-cart__submit-button,
+.single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.single_add_to_cart_button.woocommerce-form-login__submit,
+button.add_to_cart_button.view-all-link,
+a.add_to_cart_button.view-all-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -17168,9 +17404,18 @@ h6,
   transition: all 0.3s ease;
   font-weight: bold;
 }
-.view-all-link svg, .woocommerce-Button svg, .woocommerce-info a svg,
-.woocommerce-message a svg, .wc-block-cart__submit-button svg,
-.wc-block-components-checkout-place-order-button svg, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button svg, .woocommerce-form-login__submit svg {
+.view-all-link svg, .woocommerce-Button svg, .add_to_cart_button.woocommerce-Button svg,
+.single_add_to_cart_button.woocommerce-Button svg, .woocommerce-info a svg,
+.woocommerce-message a svg, .woocommerce-info a.add_to_cart_button svg,
+.woocommerce-message a.add_to_cart_button svg,
+.woocommerce-info a.single_add_to_cart_button svg,
+.woocommerce-message a.single_add_to_cart_button svg, .wc-block-cart__submit-button svg,
+.wc-block-components-checkout-place-order-button svg, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button svg, .woocommerce-form-login__submit svg, .add_to_cart_button.view-all-link svg, .add_to_cart_button.wc-block-cart__submit-button svg,
+.add_to_cart_button.wc-block-components-checkout-place-order-button svg, .add_to_cart_button.woocommerce-form-login__submit svg,
+.single_add_to_cart_button.view-all-link svg,
+.single_add_to_cart_button.wc-block-cart__submit-button svg,
+.single_add_to_cart_button.wc-block-components-checkout-place-order-button svg,
+.single_add_to_cart_button.woocommerce-form-login__submit svg {
   margin-left: 0.5rem;
   transition: transform 0.3s ease;
 }
@@ -19003,44 +19248,75 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   transform: translateY(0);
 }
 
-/* Cart drawer (slide-in right) */
+/* =============================================
+   CART DRAWER - POSITIONED FROM VIEWPORT TOP
+   ESCAPE ALL CONTAINERS AND SMOOTH SCROLL
+   ============================================= */
 .cart-drawer {
-  position: fixed;
-  inset: 0;
-  z-index: 100000;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100vh !important;
+  z-index: 100000 !important;
   pointer-events: none;
-  height: 100vh;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: none !important;
+  contain: layout !important;
+  isolation: isolate !important;
 }
 .cart-drawer .cart-drawer-backdrop {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0, 0, 0, 0.28);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
 }
 .cart-drawer .cart-drawer-panel {
   position: absolute;
-  right: -100%;
   top: 0;
-  height: 100%;
+  right: -100%;
   width: 100vw;
   max-width: 420px;
+  height: 100%;
   background: #fff;
   box-shadow: -2px 0 24px rgba(0, 0, 0, 0.12);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   pointer-events: auto;
-  transition: right 0.36s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: right 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  overflow: hidden;
+  transform: translateX(20px);
+  border-radius: 12px 0 0 12px;
 }
 .cart-drawer.active {
   pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
 }
 .cart-drawer.active .cart-drawer-backdrop {
   opacity: 1;
 }
 .cart-drawer.active .cart-drawer-panel {
   right: 0;
+  transform: translateX(0);
+}
+.cart-drawer .drawer-content {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s;
+}
+.cart-drawer.active .drawer-content {
+  opacity: 1;
+  transform: translateY(0);
 }
 .cart-drawer .cart-drawer-close {
   background: none;
@@ -19212,6 +19488,334 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
     height: 48px;
   }
 }
+/* =============================================
+   MASQUER LES LIENS INDÉSIRABLES
+   ============================================= */
+.cart-drawer .woocommerce-mini-cart__buttons,
+.cart-drawer .mini-cart-buttons {
+  display: none !important;
+}
+.cart-drawer .wc-forward,
+.cart-drawer .mini-cart__view-cart,
+.cart-drawer a[href*="/cart/"]:not(.btn):not(.wc-block-components-checkout-return-to-cart-button):not(input[type=submit]):not(.woocommerce-form-login__submit):not(.view-all-link):not(.woocommerce-Button):not(.add_to_cart_button.woocommerce-Button):not(.single_add_to_cart_button.woocommerce-Button):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.woocommerce-Button):not(.wc-block-cart__submit-button):not(.wc-block-components-checkout-place-order-button):not(.woocommerce-form-login__submit):not(.add_to_cart_button.view-all-link):not(.add_to_cart_button.woocommerce-Button):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.woocommerce-Button):not(.add_to_cart_button.wc-block-cart__submit-button):not(.add_to_cart_button.wc-block-components-checkout-place-order-button):not(.add_to_cart_button.woocommerce-form-login__submit):not(.single_add_to_cart_button.view-all-link):not(.single_add_to_cart_button.woocommerce-Button):not(.single_add_to_cart_button.wc-block-cart__submit-button):not(.single_add_to_cart_button.wc-block-components-checkout-place-order-button):not(.single_add_to_cart_button.woocommerce-form-login__submit):not(button.add_to_cart_button.view-all-link):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.view-all-link):not(a.add_to_cart_button.woocommerce-Button),
+.cart-drawer .added_to_cart {
+  display: none !important;
+}
+.cart-drawer .drawer-actions .btn.view-all-link, .cart-drawer .drawer-actions .btn.woocommerce-Button, .cart-drawer .drawer-actions .woocommerce-info a.btn, .woocommerce-info .cart-drawer .drawer-actions a.btn,
+.cart-drawer .drawer-actions .woocommerce-message a.btn,
+.woocommerce-message .cart-drawer .drawer-actions a.btn, .cart-drawer .drawer-actions .view-all-link.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .wc-block-components-checkout-return-to-cart-button.woocommerce-Button, .cart-drawer .drawer-actions .woocommerce-info a.wc-block-components-checkout-return-to-cart-button, .woocommerce-info .cart-drawer .drawer-actions a.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .woocommerce-message a.wc-block-components-checkout-return-to-cart-button,
+.woocommerce-message .cart-drawer .drawer-actions a.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions input.view-all-link[type=submit], .cart-drawer .drawer-actions input[type=submit].woocommerce-Button, .cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button.view-all-link[type=submit], .cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].woocommerce-Button, .wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button.view-all-link[type=submit], .wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].woocommerce-Button, .cart-drawer .drawer-actions .view-all-link.woocommerce-form-login__submit, .cart-drawer .drawer-actions .woocommerce-form-login__submit.woocommerce-Button, .cart-drawer .drawer-actions .woocommerce-info a.woocommerce-form-login__submit, .woocommerce-info .cart-drawer .drawer-actions a.woocommerce-form-login__submit,
+.cart-drawer .drawer-actions .woocommerce-message a.woocommerce-form-login__submit,
+.woocommerce-message .cart-drawer .drawer-actions a.woocommerce-form-login__submit, .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.view-all-link.button, .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.woocommerce-Button, .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.single_add_to_cart_button.woocommerce-Button, .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message .woocommerce-info a.button, .woocommerce-info .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button, .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message .woocommerce-info a.button.add_to_cart_button, .woocommerce-info .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message .woocommerce-info a.button.single_add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.single_add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.single_add_to_cart_button, .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.view-all-link.button, .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.woocommerce-Button, .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.add_to_cart_button.woocommerce-Button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.single_add_to_cart_button.woocommerce-Button, .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions .woocommerce-info a.button, .woocommerce-info .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button, .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions .woocommerce-info a.button.add_to_cart_button, .woocommerce-info .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.add_to_cart_button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.add_to_cart_button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions .woocommerce-info a.button.single_add_to_cart_button,
+.woocommerce-info .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.single_add_to_cart_button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.single_add_to_cart_button, .cart-drawer .drawer-actions .woocommerce-info a.view-all-link.button, .cart-drawer .drawer-actions .woocommerce-info a.button.woocommerce-Button, .cart-drawer .drawer-actions .woocommerce-info a.button,
+.cart-drawer .drawer-actions .woocommerce-info .woocommerce-message a.button,
+.woocommerce-message .cart-drawer .drawer-actions .woocommerce-info a.button, .woocommerce-info .cart-drawer .drawer-actions a.view-all-link.button, .woocommerce-info .cart-drawer .drawer-actions a.button.woocommerce-Button, .woocommerce-info .cart-drawer .drawer-actions a.button,
+.woocommerce-info .cart-drawer .drawer-actions .woocommerce-message a.button,
+.woocommerce-message .woocommerce-info .cart-drawer .drawer-actions a.button, .cart-drawer .drawer-actions .btn.wc-block-cart__submit-button, .cart-drawer .drawer-actions .wc-block-cart__submit-button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions input[type=submit].wc-block-cart__submit-button, .cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].wc-block-cart__submit-button, .wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].wc-block-cart__submit-button, .cart-drawer .drawer-actions .woocommerce-form-login__submit.wc-block-cart__submit-button, .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.wc-block-cart__submit-button, .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.wc-block-cart__submit-button, .cart-drawer .drawer-actions .woocommerce-info a.button.wc-block-cart__submit-button, .woocommerce-info .cart-drawer .drawer-actions a.button.wc-block-cart__submit-button,
+.cart-drawer .drawer-actions .btn.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .wc-block-components-checkout-place-order-button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions input[type=submit].wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].wc-block-components-checkout-place-order-button,
+.wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .woocommerce-form-login__submit.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.wc-block-components-checkout-place-order-button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .woocommerce-info a.button.wc-block-components-checkout-place-order-button,
+.woocommerce-info .cart-drawer .drawer-actions a.button.wc-block-components-checkout-place-order-button, .cart-drawer .drawer-actions .wc-block-checkout__actions_row .btn.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .cart-drawer .drawer-actions .btn.wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .cart-drawer .drawer-actions .wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .wc-block-checkout__actions_row input[type=submit].wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .cart-drawer .drawer-actions input[type=submit].wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .wc-block-components-totals-coupon__content .wc-block-checkout__actions_row button[type=submit].wc-block-components-checkout-return-to-cart-button, .wc-block-components-totals-coupon__content .wc-block-checkout__actions_row .cart-drawer .drawer-actions button[type=submit].wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .wc-block-checkout__actions_row .wc-block-components-totals-coupon__content button[type=submit].wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .wc-block-checkout__actions_row .woocommerce-form-login__submit.wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .cart-drawer .drawer-actions .woocommerce-form-login__submit.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message .wc-block-checkout__actions_row a.button.wc-block-components-checkout-return-to-cart-button, .woocommerce-notices-wrapper .woocommerce-message .wc-block-checkout__actions_row .cart-drawer .drawer-actions a.button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .wc-block-checkout__actions_row .woocommerce-notices-wrapper .woocommerce-message a.button.wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .woocommerce-info .wc-block-checkout__actions_row a.button.wc-block-components-checkout-return-to-cart-button, .woocommerce-info .wc-block-checkout__actions_row .cart-drawer .drawer-actions a.button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .wc-block-checkout__actions_row .woocommerce-info a.button.wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .woocommerce-info .cart-drawer .drawer-actions a.button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .btn.woocommerce-form-login__submit, .cart-drawer .drawer-actions .woocommerce-form-login__submit.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions input[type=submit].woocommerce-form-login__submit, .cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].woocommerce-form-login__submit, .wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].woocommerce-form-login__submit, .cart-drawer .drawer-actions .woocommerce-form-login__submit, .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.woocommerce-form-login__submit, .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.woocommerce-form-login__submit, .cart-drawer .drawer-actions .woocommerce-info a.button.woocommerce-form-login__submit, .woocommerce-info .cart-drawer .drawer-actions a.button.woocommerce-form-login__submit, .cart-drawer .drawer-actions .btn.add_to_cart_button.view-all-link, .cart-drawer .drawer-actions .btn.add_to_cart_button.woocommerce-Button, .cart-drawer .drawer-actions .woocommerce-info a.btn.add_to_cart_button, .woocommerce-info .cart-drawer .drawer-actions a.btn.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-message a.btn.add_to_cart_button,
+.woocommerce-message .cart-drawer .drawer-actions a.btn.add_to_cart_button, .cart-drawer .drawer-actions .add_to_cart_button.view-all-link.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .add_to_cart_button.wc-block-components-checkout-return-to-cart-button.woocommerce-Button, .cart-drawer .drawer-actions .woocommerce-info a.add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .woocommerce-info .cart-drawer .drawer-actions a.add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .woocommerce-message a.add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.woocommerce-message .cart-drawer .drawer-actions a.add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions input[type=submit].add_to_cart_button.view-all-link, .cart-drawer .drawer-actions input[type=submit].add_to_cart_button.woocommerce-Button, .cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].add_to_cart_button.view-all-link, .cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].add_to_cart_button.woocommerce-Button, .wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].add_to_cart_button.view-all-link, .wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].add_to_cart_button.woocommerce-Button, .cart-drawer .drawer-actions .woocommerce-form-login__submit.add_to_cart_button.view-all-link, .cart-drawer .drawer-actions .woocommerce-form-login__submit.add_to_cart_button.woocommerce-Button, .cart-drawer .drawer-actions .woocommerce-info a.woocommerce-form-login__submit.add_to_cart_button, .woocommerce-info .cart-drawer .drawer-actions a.woocommerce-form-login__submit.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-message a.woocommerce-form-login__submit.add_to_cart_button,
+.woocommerce-message .cart-drawer .drawer-actions a.woocommerce-form-login__submit.add_to_cart_button, .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.add_to_cart_button.view-all-link, .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.add_to_cart_button.woocommerce-Button, .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message .woocommerce-info a.button.add_to_cart_button, .woocommerce-info .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.add_to_cart_button, .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.add_to_cart_button.view-all-link, .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.add_to_cart_button.woocommerce-Button, .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions .woocommerce-info a.button.add_to_cart_button, .woocommerce-info .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.add_to_cart_button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.add_to_cart_button, .cart-drawer .drawer-actions .woocommerce-info a.button.add_to_cart_button.view-all-link, .cart-drawer .drawer-actions .woocommerce-info a.button.add_to_cart_button.woocommerce-Button, .cart-drawer .drawer-actions .woocommerce-info a.button.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-info .woocommerce-message a.button.add_to_cart_button,
+.woocommerce-message .cart-drawer .drawer-actions .woocommerce-info a.button.add_to_cart_button, .woocommerce-info .cart-drawer .drawer-actions a.button.add_to_cart_button.view-all-link, .woocommerce-info .cart-drawer .drawer-actions a.button.add_to_cart_button.woocommerce-Button, .woocommerce-info .cart-drawer .drawer-actions a.button.add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions .woocommerce-message a.button.add_to_cart_button,
+.woocommerce-message .woocommerce-info .cart-drawer .drawer-actions a.button.add_to_cart_button, .cart-drawer .drawer-actions .btn.add_to_cart_button.wc-block-cart__submit-button, .cart-drawer .drawer-actions .add_to_cart_button.wc-block-cart__submit-button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions input[type=submit].add_to_cart_button.wc-block-cart__submit-button, .cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].add_to_cart_button.wc-block-cart__submit-button, .wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].add_to_cart_button.wc-block-cart__submit-button, .cart-drawer .drawer-actions .woocommerce-form-login__submit.add_to_cart_button.wc-block-cart__submit-button, .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.add_to_cart_button.wc-block-cart__submit-button, .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.add_to_cart_button.wc-block-cart__submit-button, .cart-drawer .drawer-actions .woocommerce-info a.button.add_to_cart_button.wc-block-cart__submit-button, .woocommerce-info .cart-drawer .drawer-actions a.button.add_to_cart_button.wc-block-cart__submit-button,
+.cart-drawer .drawer-actions .btn.add_to_cart_button.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .add_to_cart_button.wc-block-components-checkout-place-order-button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions input[type=submit].add_to_cart_button.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].add_to_cart_button.wc-block-components-checkout-place-order-button,
+.wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].add_to_cart_button.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .woocommerce-form-login__submit.add_to_cart_button.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.add_to_cart_button.wc-block-components-checkout-place-order-button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.add_to_cart_button.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .woocommerce-info a.button.add_to_cart_button.wc-block-components-checkout-place-order-button,
+.woocommerce-info .cart-drawer .drawer-actions a.button.add_to_cart_button.wc-block-components-checkout-place-order-button, .cart-drawer .drawer-actions .wc-block-checkout__actions_row .add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .cart-drawer .drawer-actions .add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .wc-block-checkout__actions_row input[type=submit].add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .cart-drawer .drawer-actions input[type=submit].add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .wc-block-components-totals-coupon__content .wc-block-checkout__actions_row button[type=submit].add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .wc-block-components-totals-coupon__content .wc-block-checkout__actions_row .cart-drawer .drawer-actions button[type=submit].add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .wc-block-checkout__actions_row .wc-block-components-totals-coupon__content button[type=submit].add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .wc-block-checkout__actions_row .woocommerce-form-login__submit.add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .cart-drawer .drawer-actions .woocommerce-form-login__submit.add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message .wc-block-checkout__actions_row a.button.add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .woocommerce-notices-wrapper .woocommerce-message .wc-block-checkout__actions_row .cart-drawer .drawer-actions a.button.add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .wc-block-checkout__actions_row .woocommerce-notices-wrapper .woocommerce-message a.button.add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .woocommerce-info .wc-block-checkout__actions_row a.button.add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .woocommerce-info .wc-block-checkout__actions_row .cart-drawer .drawer-actions a.button.add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .wc-block-checkout__actions_row .woocommerce-info a.button.add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .woocommerce-info .cart-drawer .drawer-actions a.button.add_to_cart_button.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions .btn.add_to_cart_button.woocommerce-form-login__submit, .cart-drawer .drawer-actions .add_to_cart_button.woocommerce-form-login__submit.wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions input[type=submit].add_to_cart_button.woocommerce-form-login__submit, .cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].add_to_cart_button.woocommerce-form-login__submit, .wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].add_to_cart_button.woocommerce-form-login__submit, .cart-drawer .drawer-actions .woocommerce-form-login__submit.add_to_cart_button, .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.add_to_cart_button.woocommerce-form-login__submit, .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.add_to_cart_button.woocommerce-form-login__submit, .cart-drawer .drawer-actions .woocommerce-info a.button.add_to_cart_button.woocommerce-form-login__submit, .woocommerce-info .cart-drawer .drawer-actions a.button.add_to_cart_button.woocommerce-form-login__submit,
+.cart-drawer .drawer-actions .btn.single_add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions .btn.single_add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-info a.btn.single_add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions a.btn.single_add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-message a.btn.single_add_to_cart_button,
+.woocommerce-message .cart-drawer .drawer-actions a.btn.single_add_to_cart_button,
+.cart-drawer .drawer-actions .single_add_to_cart_button.view-all-link.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-info a.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.woocommerce-info .cart-drawer .drawer-actions a.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .woocommerce-message a.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.woocommerce-message .cart-drawer .drawer-actions a.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions input[type=submit].single_add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions input[type=submit].single_add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].single_add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].single_add_to_cart_button.woocommerce-Button,
+.wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].single_add_to_cart_button.view-all-link,
+.wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].single_add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-form-login__submit.single_add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions .woocommerce-form-login__submit.single_add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-info a.woocommerce-form-login__submit.single_add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions a.woocommerce-form-login__submit.single_add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-message a.woocommerce-form-login__submit.single_add_to_cart_button,
+.woocommerce-message .cart-drawer .drawer-actions a.woocommerce-form-login__submit.single_add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.single_add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.single_add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message .woocommerce-info a.button.single_add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.single_add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.single_add_to_cart_button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.single_add_to_cart_button.view-all-link,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.single_add_to_cart_button.woocommerce-Button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions .woocommerce-info a.button.single_add_to_cart_button,
+.woocommerce-info .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.single_add_to_cart_button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.single_add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-info a.button.single_add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions .woocommerce-info a.button.single_add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-info a.button.single_add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-info .woocommerce-message a.button.single_add_to_cart_button,
+.woocommerce-message .cart-drawer .drawer-actions .woocommerce-info a.button.single_add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions a.button.single_add_to_cart_button.view-all-link,
+.woocommerce-info .cart-drawer .drawer-actions a.button.single_add_to_cart_button.woocommerce-Button,
+.woocommerce-info .cart-drawer .drawer-actions a.button.single_add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions .woocommerce-message a.button.single_add_to_cart_button,
+.woocommerce-message .woocommerce-info .cart-drawer .drawer-actions a.button.single_add_to_cart_button,
+.cart-drawer .drawer-actions .btn.single_add_to_cart_button.wc-block-cart__submit-button,
+.cart-drawer .drawer-actions .single_add_to_cart_button.wc-block-cart__submit-button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions input[type=submit].single_add_to_cart_button.wc-block-cart__submit-button,
+.cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].single_add_to_cart_button.wc-block-cart__submit-button,
+.wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].single_add_to_cart_button.wc-block-cart__submit-button,
+.cart-drawer .drawer-actions .woocommerce-form-login__submit.single_add_to_cart_button.wc-block-cart__submit-button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.single_add_to_cart_button.wc-block-cart__submit-button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.single_add_to_cart_button.wc-block-cart__submit-button,
+.cart-drawer .drawer-actions .woocommerce-info a.button.single_add_to_cart_button.wc-block-cart__submit-button,
+.woocommerce-info .cart-drawer .drawer-actions a.button.single_add_to_cart_button.wc-block-cart__submit-button,
+.cart-drawer .drawer-actions .btn.single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .single_add_to_cart_button.wc-block-components-checkout-place-order-button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions input[type=submit].single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .woocommerce-form-login__submit.single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .woocommerce-info a.button.single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.woocommerce-info .cart-drawer .drawer-actions a.button.single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .wc-block-checkout__actions_row .single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .cart-drawer .drawer-actions .single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .wc-block-checkout__actions_row input[type=submit].single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .cart-drawer .drawer-actions input[type=submit].single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .wc-block-components-totals-coupon__content .wc-block-checkout__actions_row button[type=submit].single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-components-totals-coupon__content .wc-block-checkout__actions_row .cart-drawer .drawer-actions button[type=submit].single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .wc-block-checkout__actions_row .wc-block-components-totals-coupon__content button[type=submit].single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .wc-block-checkout__actions_row .woocommerce-form-login__submit.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .cart-drawer .drawer-actions .woocommerce-form-login__submit.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message .wc-block-checkout__actions_row a.button.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.woocommerce-notices-wrapper .woocommerce-message .wc-block-checkout__actions_row .cart-drawer .drawer-actions a.button.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .wc-block-checkout__actions_row .woocommerce-notices-wrapper .woocommerce-message a.button.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .woocommerce-info .wc-block-checkout__actions_row a.button.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.woocommerce-info .wc-block-checkout__actions_row .cart-drawer .drawer-actions a.button.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .wc-block-checkout__actions_row .woocommerce-info a.button.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .woocommerce-info .cart-drawer .drawer-actions a.button.single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .btn.single_add_to_cart_button.woocommerce-form-login__submit,
+.cart-drawer .drawer-actions .single_add_to_cart_button.woocommerce-form-login__submit.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions input[type=submit].single_add_to_cart_button.woocommerce-form-login__submit,
+.cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].single_add_to_cart_button.woocommerce-form-login__submit,
+.wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].single_add_to_cart_button.woocommerce-form-login__submit,
+.cart-drawer .drawer-actions .woocommerce-form-login__submit.single_add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.single_add_to_cart_button.woocommerce-form-login__submit,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.single_add_to_cart_button.woocommerce-form-login__submit,
+.cart-drawer .drawer-actions .woocommerce-info a.button.single_add_to_cart_button.woocommerce-form-login__submit,
+.woocommerce-info .cart-drawer .drawer-actions a.button.single_add_to_cart_button.woocommerce-form-login__submit,
+.cart-drawer .drawer-actions button.btn.add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions button.btn.add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions button.add_to_cart_button.view-all-link.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions button.add_to_cart_button.wc-block-components-checkout-return-to-cart-button.woocommerce-Button,
+.cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit].add_to_cart_button.woocommerce-Button,
+.wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].add_to_cart_button.view-all-link,
+.wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit].add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions button.woocommerce-form-login__submit.add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions button.woocommerce-form-login__submit.add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions a.btn.add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions a.btn.add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-info a.btn.add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions a.btn.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-message a.btn.add_to_cart_button,
+.woocommerce-message .cart-drawer .drawer-actions a.btn.add_to_cart_button,
+.cart-drawer .drawer-actions a.add_to_cart_button.view-all-link.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions a.add_to_cart_button.wc-block-components-checkout-return-to-cart-button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-info a.add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.woocommerce-info .cart-drawer .drawer-actions a.add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .woocommerce-message a.add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.woocommerce-message .cart-drawer .drawer-actions a.add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions a.woocommerce-form-login__submit.add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions a.woocommerce-form-login__submit.add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-info a.woocommerce-form-login__submit.add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions a.woocommerce-form-login__submit.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-message a.woocommerce-form-login__submit.add_to_cart_button,
+.woocommerce-message .cart-drawer .drawer-actions a.woocommerce-form-login__submit.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message .woocommerce-info a.button.add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button.add_to_cart_button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.add_to_cart_button.view-all-link,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.add_to_cart_button.woocommerce-Button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions .woocommerce-info a.button.add_to_cart_button,
+.woocommerce-info .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.add_to_cart_button,
+.woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-info a.button.add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions .woocommerce-info a.button.add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-info a.button.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-info .woocommerce-message a.button.add_to_cart_button,
+.woocommerce-message .cart-drawer .drawer-actions .woocommerce-info a.button.add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions a.button.add_to_cart_button.view-all-link,
+.woocommerce-info .cart-drawer .drawer-actions a.button.add_to_cart_button.woocommerce-Button,
+.woocommerce-info .cart-drawer .drawer-actions a.button.add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions .woocommerce-message a.button.add_to_cart_button,
+.woocommerce-message .woocommerce-info .cart-drawer .drawer-actions a.button.add_to_cart_button,
+.cart-drawer .drawer-actions .view-all-link,
+.cart-drawer .drawer-actions .woocommerce-Button,
+.cart-drawer .drawer-actions .add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .single_add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions button.add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions a.add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-info a,
+.woocommerce-info .cart-drawer .drawer-actions a,
+.cart-drawer .drawer-actions .woocommerce-message a,
+.woocommerce-message .cart-drawer .drawer-actions a,
+.cart-drawer .drawer-actions .woocommerce-info a.add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions a.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-message a.add_to_cart_button,
+.woocommerce-message .cart-drawer .drawer-actions a.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-info a.single_add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions a.single_add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-message a.single_add_to_cart_button,
+.woocommerce-message .cart-drawer .drawer-actions a.single_add_to_cart_button,
+.cart-drawer .drawer-actions .wc-block-cart__submit-button,
+.cart-drawer .drawer-actions .wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .cart-drawer .drawer-actions .wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .woocommerce-form-login__submit,
+.cart-drawer .drawer-actions .add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions .add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions button.add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions a.add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-info a.add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions a.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-message a.add_to_cart_button,
+.woocommerce-message .cart-drawer .drawer-actions a.add_to_cart_button,
+.cart-drawer .drawer-actions .add_to_cart_button.wc-block-cart__submit-button,
+.cart-drawer .drawer-actions .add_to_cart_button.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .wc-block-checkout__actions_row .add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .cart-drawer .drawer-actions .add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .add_to_cart_button.woocommerce-form-login__submit,
+.cart-drawer .drawer-actions .single_add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions .single_add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-info a.single_add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions a.single_add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-message a.single_add_to_cart_button,
+.woocommerce-message .cart-drawer .drawer-actions a.single_add_to_cart_button,
+.cart-drawer .drawer-actions .single_add_to_cart_button.wc-block-cart__submit-button,
+.cart-drawer .drawer-actions .single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+.cart-drawer .drawer-actions .wc-block-checkout__actions_row .single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.wc-block-checkout__actions_row .cart-drawer .drawer-actions .single_add_to_cart_button.wc-block-components-checkout-return-to-cart-button,
+.cart-drawer .drawer-actions .single_add_to_cart_button.woocommerce-form-login__submit,
+.cart-drawer .drawer-actions button.add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions button.add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions a.add_to_cart_button.view-all-link,
+.cart-drawer .drawer-actions a.add_to_cart_button.woocommerce-Button,
+.cart-drawer .drawer-actions .woocommerce-info a.add_to_cart_button,
+.woocommerce-info .cart-drawer .drawer-actions a.add_to_cart_button,
+.cart-drawer .drawer-actions .woocommerce-message a.add_to_cart_button,
+.woocommerce-message .cart-drawer .drawer-actions a.add_to_cart_button {
+  display: block !important;
+}
+
+/* =============================================
+   MASQUER LIENS INDÉSIRABLES GLOBALEMENT
+   ============================================= */
+.wc-forward:not(.btn):not(.wc-block-components-checkout-return-to-cart-button):not(input[type=submit]):not(.woocommerce-form-login__submit):not(.view-all-link):not(.woocommerce-Button):not(.add_to_cart_button.woocommerce-Button):not(.single_add_to_cart_button.woocommerce-Button):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.woocommerce-Button):not(.wc-block-cart__submit-button):not(.wc-block-components-checkout-place-order-button):not(.woocommerce-form-login__submit):not(.add_to_cart_button.view-all-link):not(.add_to_cart_button.woocommerce-Button):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.woocommerce-Button):not(.add_to_cart_button.wc-block-cart__submit-button):not(.add_to_cart_button.wc-block-components-checkout-place-order-button):not(.add_to_cart_button.woocommerce-form-login__submit):not(.single_add_to_cart_button.view-all-link):not(.single_add_to_cart_button.woocommerce-Button):not(.single_add_to_cart_button.wc-block-cart__submit-button):not(.single_add_to_cart_button.wc-block-components-checkout-place-order-button):not(.single_add_to_cart_button.woocommerce-form-login__submit):not(button.add_to_cart_button.view-all-link):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.view-all-link):not(a.add_to_cart_button.woocommerce-Button):not(.cart-toggle),
+.added_to_cart:not(.btn):not(.wc-block-components-checkout-return-to-cart-button):not(input[type=submit]):not(.woocommerce-form-login__submit):not(.view-all-link):not(.woocommerce-Button):not(.add_to_cart_button.woocommerce-Button):not(.single_add_to_cart_button.woocommerce-Button):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.woocommerce-Button):not(.wc-block-cart__submit-button):not(.wc-block-components-checkout-place-order-button):not(.woocommerce-form-login__submit):not(.add_to_cart_button.view-all-link):not(.add_to_cart_button.woocommerce-Button):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.woocommerce-Button):not(.add_to_cart_button.wc-block-cart__submit-button):not(.add_to_cart_button.wc-block-components-checkout-place-order-button):not(.add_to_cart_button.woocommerce-form-login__submit):not(.single_add_to_cart_button.view-all-link):not(.single_add_to_cart_button.woocommerce-Button):not(.single_add_to_cart_button.wc-block-cart__submit-button):not(.single_add_to_cart_button.wc-block-components-checkout-place-order-button):not(.single_add_to_cart_button.woocommerce-form-login__submit):not(button.add_to_cart_button.view-all-link):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.view-all-link):not(a.add_to_cart_button.woocommerce-Button):not(.cart-toggle),
+a.added_to_cart:not(.btn):not(.wc-block-components-checkout-return-to-cart-button):not(input[type=submit]):not(.woocommerce-form-login__submit):not(.view-all-link):not(.woocommerce-Button):not(.add_to_cart_button.woocommerce-Button):not(.single_add_to_cart_button.woocommerce-Button):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.woocommerce-Button):not(.wc-block-cart__submit-button):not(.wc-block-components-checkout-place-order-button):not(.woocommerce-form-login__submit):not(.add_to_cart_button.view-all-link):not(.add_to_cart_button.woocommerce-Button):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.woocommerce-Button):not(.add_to_cart_button.wc-block-cart__submit-button):not(.add_to_cart_button.wc-block-components-checkout-place-order-button):not(.add_to_cart_button.woocommerce-form-login__submit):not(.single_add_to_cart_button.view-all-link):not(.single_add_to_cart_button.woocommerce-Button):not(.single_add_to_cart_button.wc-block-cart__submit-button):not(.single_add_to_cart_button.wc-block-components-checkout-place-order-button):not(.single_add_to_cart_button.woocommerce-form-login__submit):not(button.add_to_cart_button.view-all-link):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.view-all-link):not(a.add_to_cart_button.woocommerce-Button):not(.cart-toggle),
+a[href*="/cart/"]:not(.btn):not(.wc-block-components-checkout-return-to-cart-button):not(input[type=submit]):not(.woocommerce-form-login__submit):not(.view-all-link):not(.woocommerce-Button):not(.add_to_cart_button.woocommerce-Button):not(.single_add_to_cart_button.woocommerce-Button):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.woocommerce-Button):not(.wc-block-cart__submit-button):not(.wc-block-components-checkout-place-order-button):not(.woocommerce-form-login__submit):not(.add_to_cart_button.view-all-link):not(.add_to_cart_button.woocommerce-Button):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.woocommerce-Button):not(.add_to_cart_button.wc-block-cart__submit-button):not(.add_to_cart_button.wc-block-components-checkout-place-order-button):not(.add_to_cart_button.woocommerce-form-login__submit):not(.single_add_to_cart_button.view-all-link):not(.single_add_to_cart_button.woocommerce-Button):not(.single_add_to_cart_button.wc-block-cart__submit-button):not(.single_add_to_cart_button.wc-block-components-checkout-place-order-button):not(.single_add_to_cart_button.woocommerce-form-login__submit):not(button.add_to_cart_button.view-all-link):not(button.add_to_cart_button.woocommerce-Button):not(a.add_to_cart_button.view-all-link):not(a.add_to_cart_button.woocommerce-Button):not(.cart-toggle) {
+  display: none !important;
+}
+
+.card.product_item .wc-forward,
+.card.product_item .added_to_cart,
+.card.product_item a.added_to_cart,
+.product-item .wc-forward,
+.product-item .added_to_cart,
+.product-item a.added_to_cart,
+.woocommerce ul.products li.product .wc-forward,
+.woocommerce ul.products li.product .added_to_cart,
+.woocommerce ul.products li.product a.added_to_cart {
+  display: none !important;
+}
+
+/* =============================================
+   FORCE VIEWPORT POSITIONING
+   ============================================= */
+body.scroll-locked .cart-drawer {
+  position: fixed !important;
+  top: 0 !important;
+  transform: translateY(0) !important;
+}
+
+/* =============================================
+   ANIMATIONS ET MESSAGES D'ERREUR
+   ============================================= */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+.shake {
+  animation: shake 0.6s ease;
+}
+
+.siklane-error-message {
+  font-size: 0.85rem;
+  border-radius: 6px;
+  border: 1px solid #f5c6cb;
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.5rem;
+}
+.siklane-error-message i {
+  color: #dc3545;
+}
+
 /* Barre de recherche avec effet de glissé fondu */
 .search-dropdown {
   position: fixed;
@@ -20476,8 +21080,21 @@ body.mobile-menu-open .mobile-search-toggle {
 /* Optimisation du bouton pour mobile uniquement */
 @media (max-width: 767.98px) {
   .view-all-link, .wc-block-cart__submit-button,
-  .wc-block-components-checkout-place-order-button, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button, .woocommerce-form-login__submit, .woocommerce-info a,
-  .woocommerce-message a, .woocommerce-Button {
+  .wc-block-components-checkout-place-order-button, .wc-block-checkout__actions_row .wc-block-components-checkout-return-to-cart-button, .woocommerce-form-login__submit, .add_to_cart_button.view-all-link, .add_to_cart_button.wc-block-cart__submit-button,
+  .add_to_cart_button.wc-block-components-checkout-place-order-button, .add_to_cart_button.woocommerce-form-login__submit,
+  .single_add_to_cart_button.view-all-link,
+  .single_add_to_cart_button.wc-block-cart__submit-button,
+  .single_add_to_cart_button.wc-block-components-checkout-place-order-button,
+  .single_add_to_cart_button.woocommerce-form-login__submit,
+  button.add_to_cart_button.view-all-link,
+  a.add_to_cart_button.view-all-link, .woocommerce-info a,
+  .woocommerce-message a, .woocommerce-info a.add_to_cart_button,
+  .woocommerce-message a.add_to_cart_button,
+  .woocommerce-info a.single_add_to_cart_button,
+  .woocommerce-message a.single_add_to_cart_button, .woocommerce-Button, .add_to_cart_button.woocommerce-Button,
+  .single_add_to_cart_button.woocommerce-Button,
+  button.add_to_cart_button.woocommerce-Button,
+  a.add_to_cart_button.woocommerce-Button {
     /* Rendre le texte "ajouter" plus visible */
   }
   .view-all-link .d-inline.d-md-none, .wc-block-cart__submit-button .d-inline.d-md-none,

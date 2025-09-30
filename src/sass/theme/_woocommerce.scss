@@ -1590,4 +1590,28 @@ a.cart-toggle,
 	}
 }
 
-// ...existing code...
+// Cart drawer styles moved to components/_cart-drawer.scss
+
+// Force view-all-link style on all add to cart buttons
+.add_to_cart_button.view-all-link,
+.single_add_to_cart_button.view-all-link,
+button.add_to_cart_button.view-all-link,
+a.add_to_cart_button.view-all-link {
+	@extend .view-all-link;
+	// Force important styles to override WooCommerce defaults
+	background-color: $black-main !important;
+	color: #fff !important;
+	border: 2px solid $black-main !important;
+	font-size: 0.75rem !important;
+	text-transform: uppercase !important;
+	letter-spacing: 1.5px !important;
+	font-weight: bold !important;
+	text-decoration: none !important;
+
+	&:hover,
+	&:focus {
+		background-color: $velvet !important;
+		border-color: $velvet !important;
+		color: #fff !important;
+	}
+}

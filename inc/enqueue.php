@@ -150,5 +150,17 @@ add_action( 'wp_enqueue_scripts', function() {
     $local_url  = get_template_directory_uri() . '/src/js/siklane-gallery-swiper.js';
     $version    = file_exists( $local_path ) ? filemtime( $local_path ) : false;
 
-    wp_enqueue_script( 'siklane-gallery', $local_url, array( 'siklane-swiper-js' ), $version, true );
-}, 20 );
+        wp_enqueue_script( 'siklane-gallery', $local_url, array( 'siklane-swiper-js' ), $version, true );
+
+    // Support AJAX WooCommerce pour ajout au panier
+    if ( class_exists( 'WooCommerce' ) ) {
+        wp_localize_script( 'jquery', 'wc_add_to_cart_params', array(
+            'ajax_url'                => admin_url( 'admin-ajax.php' ),
+            'wc_ajax_url'             => admin_url( 'admin-ajax.php' ) . '?wc-ajax=%%endpoint%%',
+            'i18n_view_cart'          => esc_attr__( 'View cart', 'woocommerce' ),
+            'cart_url'                => wc_get_cart_url(),
+            'is_cart'                 => is_cart(),
+            'cart_redirect_after_add' => get_option( 'woocommerce_cart_redirect_after_add' )
+        ) );
+    }
+} );

@@ -25,6 +25,19 @@ if ( ! function_exists( 'understrap_woocommerce_support' ) ) {
     }
 }
 
+// S'assurer que WooCommerce charge ses scripts AJAX
+add_action( 'wp_enqueue_scripts', function() {
+    if ( class_exists( 'WooCommerce' ) ) {
+        wp_enqueue_script( 'wc-add-to-cart' );
+    }
+} );
+
+// Activer l'AJAX pour l'ajout au panier
+add_filter( 'woocommerce_loop_add_to_cart_args', function( $args, $product ) {
+    $args['class'] = isset( $args['class'] ) ? $args['class'] . ' ajax_add_to_cart' : 'ajax_add_to_cart';
+    return $args;
+}, 10, 2 );
+
 // First unhook the WooCommerce content wrappers.
 remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10 );
 remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10 );
@@ -449,9 +462,7 @@ add_filter( 'woocommerce_add_to_cart_fragments', function( $fragments ) {
     $fragments['.cart-count'] = '<span class="cart-count">' . WC()->cart->get_cart_contents_count() . '</span>';
 
     return $fragments;
-} );
-
-/**
+} );/**
  * Désactiver la notification WooCommerce par défaut et l'ouverture auto du drawer
  */
 add_action( 'init', 'siklane_disable_wc_notifications_and_auto_drawer' );
@@ -472,19 +483,36 @@ if ( ! function_exists( 'siklane_prevent_auto_drawer_opening' ) ) {
     function siklane_prevent_auto_drawer_opening() {
         ?>
         <script>
-        // Empêcher l'ouverture automatique du cart drawer après ajout au panier
-        document.addEventListener('DOMContentLoaded', function() {
-            // Intercepter les événements d'ajout au panier AJAX
-            jQuery(document.body).on('added_to_cart', function(event, fragments, cart_hash, button) {
-                // Ne rien faire - pas d'ouverture automatique du drawer
-                console.log('SIKLANE: Produit ajouté au panier - drawer non ouvert automatiquement');
+        jQuery(document).ready(function($) {
+            console.log('Siklane Cart Handler Ready');
+
+            // Écouter l'événement WooCommerce natif après ajout au panier
+            $(document.body).on('added_to_cart', function(event, fragments, cart_hash, button) {
+                console.log('Product added to cart - opening mini cart');
+
+                // Ouvrir le mini panier pour TOUS les ajouts au panier
+                setTimeout(function() {
+                    var cartDrawer = document.getElementById('cartDrawer');
+                    if (cartDrawer) {
+                        // Force move to body to escape all containers
+                        if (cartDrawer.parentNode !== document.body) {
+                            document.body.appendChild(cartDrawer);
+                            console.log('Cart drawer moved to body');
+                        }
+
+                        cartDrawer.classList.add('active');
+                        cartDrawer.setAttribute('aria-hidden', 'false');
+                        console.log('Cart drawer opened successfully');
+                    } else {
+                        console.log('Cart drawer not found');
+                    }
+                }, 300);
             });
         });
         </script>
         <?php
     }
 }
-
 
 /**
  * Marque automatiquement le lien du menu qui pointe vers le panier

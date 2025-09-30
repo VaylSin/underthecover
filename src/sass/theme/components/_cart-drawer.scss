@@ -1,40 +1,86 @@
-/* Cart drawer (slide-in right) */
+/* =============================================
+   CART DRAWER - POSITIONED FROM VIEWPORT TOP
+   ESCAPE ALL CONTAINERS AND SMOOTH SCROLL
+   ============================================= */
 .cart-drawer {
-	position: fixed;
-	inset: 0;
-	z-index: 100000;
+	// Force escape from ALL containers including .site
+	position: fixed !important;
+	top: 0 !important;
+	left: 0 !important;
+	width: 100% !important;
+	height: 100vh !important;
+	z-index: 100000 !important;
 	pointer-events: none;
-	height: 100vh;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+		visibility 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+	// Override any parent container constraints
+	transform: none !important;
+	contain: layout !important;
+	isolation: isolate !important;
+
+	// Backdrop with elegant fade
 	.cart-drawer-backdrop {
 		position: absolute;
-		inset: 0;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 		background: rgba(0, 0, 0, 0.28);
 		opacity: 0;
-		transition: opacity 0.3s ease;
+		transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+		backdrop-filter: blur(2px);
 	}
+
+	// Panel sliding from right with smooth easing
 	.cart-drawer-panel {
 		position: absolute;
-		right: -100%;
 		top: 0;
-		height: 100%;
+		right: -100%;
 		width: 100vw;
 		max-width: 420px;
+		height: 100%;
 		background: #fff;
 		box-shadow: -2px 0 24px rgba(0, 0, 0, 0.12);
 		padding: 1.5rem;
 		display: flex;
 		flex-direction: column;
 		pointer-events: auto;
-		transition: right 0.36s cubic-bezier(0.2, 0.8, 0.2, 1);
+		transition: right 0.5s cubic-bezier(0.2, 0.8, 0.2, 1),
+			transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+		overflow: hidden;
+		transform: translateX(20px);
+		border-radius: 12px 0 0 12px;
 	}
+
+	// Active state - show everything with elegant transitions
 	&.active {
 		pointer-events: auto;
+		opacity: 1;
+		visibility: visible;
+
 		.cart-drawer-backdrop {
 			opacity: 1;
 		}
+
 		.cart-drawer-panel {
 			right: 0;
+			transform: translateX(0);
 		}
+	}
+
+	// Content fade-in effect
+	.drawer-content {
+		opacity: 0;
+		transform: translateY(10px);
+		transition: opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s;
+	}
+
+	&.active .drawer-content {
+		opacity: 1;
+		transform: translateY(0);
 	}
 	.cart-drawer-close {
 		background: none;
@@ -224,5 +270,109 @@ $black-main: #0b0b0b !default;
 	.widget_shopping_cart img {
 		width: 48px;
 		height: 48px;
+	}
+}
+
+/* =============================================
+   MASQUER LES LIENS INDÉSIRABLES
+   ============================================= */
+
+.cart-drawer {
+	// Masquer les boutons WooCommerce par défaut
+	.woocommerce-mini-cart__buttons,
+	.mini-cart-buttons {
+		display: none !important;
+	}
+
+	// Masquer le lien "Voir le panier" généré par WooCommerce
+	.wc-forward,
+	.mini-cart__view-cart,
+	a[href*="/cart/"]:not(.btn):not(.view-all-link),
+	.added_to_cart {
+		display: none !important;
+	}
+
+	// Garder seulement nos boutons personnalisés
+	.drawer-actions {
+		.btn.view-all-link,
+		.view-all-link {
+			display: block !important;
+		}
+	}
+}
+
+/* =============================================
+   MASQUER LIENS INDÉSIRABLES GLOBALEMENT
+   ============================================= */
+
+// Masquer le lien "Voir le panier" partout (notamment sous les cards)
+.wc-forward,
+.added_to_cart,
+a.added_to_cart,
+a[href*="/cart/"] {
+	&:not(.btn):not(.view-all-link):not(.cart-toggle) {
+		display: none !important;
+	}
+}
+
+// Spécifiquement dans les cards produit
+.card.product_item,
+.product-item,
+.woocommerce ul.products li.product {
+	.wc-forward,
+	.added_to_cart,
+	a.added_to_cart {
+		display: none !important;
+	}
+}
+
+/* =============================================
+   FORCE VIEWPORT POSITIONING
+   ============================================= */
+
+// S'assurer que le body reste en place quand le drawer est ouvert
+body.scroll-locked {
+	.cart-drawer {
+		// Force la position depuis le top de l'écran visible
+		position: fixed !important;
+		top: 0 !important;
+		transform: translateY(0) !important;
+	}
+}
+
+/* =============================================
+   ANIMATIONS ET MESSAGES D'ERREUR
+   ============================================= */
+
+// Animation de secousse pour les erreurs
+@keyframes shake {
+	0%,
+	100% {
+		transform: translateX(0);
+	}
+	25% {
+		transform: translateX(-4px);
+	}
+	75% {
+		transform: translateX(4px);
+	}
+}
+
+.shake {
+	animation: shake 0.6s ease;
+}
+
+// Messages d'erreur dans les cards
+.siklane-error-message {
+	font-size: 0.85rem;
+	border-radius: 6px;
+	border: 1px solid #f5c6cb;
+	background-color: #f8d7da;
+	color: #721c24;
+	padding: 0.5rem 0.75rem;
+	margin-top: 0.5rem;
+
+	i {
+		color: #dc3545;
 	}
 }
