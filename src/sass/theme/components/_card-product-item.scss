@@ -1,6 +1,23 @@
 // ==========================================================================
 // Composant: Cartes produits
 // ==========================================================================
+
+// Forcer la même hauteur pour toutes les cartes produits dans une rangée
+.row-products,
+.products .row {
+	> [class*="col-"] {
+		display: flex;
+		align-items: stretch;
+	}
+}
+
+// Ou cibler spécifiquement les colonnes contenant des cartes produits
+[class*="col-"] {
+	.product_item {
+		height: 100%;
+	}
+}
+
 .product_item {
 	&.card,
 	.card {
@@ -63,8 +80,54 @@
 	.button,
 	.view-all-link {
 		margin-top: auto;
+		margin-bottom: 0;
 		width: 100%;
-		display: block;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		// Assurer une hauteur uniforme pour tous les boutons
+		min-height: 36px;
+		box-sizing: border-box;
+	}
+
+	// Bouton en rupture de stock - garder les mêmes dimensions que view-all-link
+	.view-all-link:disabled,
+	button.view-all-link:disabled {
+		// Reset complet des styles de bouton pour être identique aux liens
+		margin: 0 !important;
+		border-radius: 0 !important;
+		text-decoration: none !important;
+		display: inline-flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+
+		// Hériter de tous les styles de view-all-link
+		background-color: #6c757d !important;
+		border: 2px solid #6c757d !important;
+		color: #fff !important;
+		font-size: 0.75rem !important;
+		text-transform: uppercase !important;
+		letter-spacing: 1.5px !important;
+		font-weight: bold !important;
+		padding: 0.625rem 1.25rem !important;
+		box-sizing: border-box !important;
+		width: 100% !important;
+
+		// État désactivé
+		opacity: 0.7;
+		cursor: not-allowed;
+
+		// Même transition que view-all-link
+		transition: all 0.3s ease;
+
+		&:hover,
+		&:focus {
+			background-color: #6c757d !important;
+			border-color: #6c757d !important;
+			color: #fff !important;
+			opacity: 0.7;
+			transform: none !important;
+		}
 	}
 
 	@include hover-focus {

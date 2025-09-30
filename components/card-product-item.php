@@ -32,8 +32,9 @@ if ( empty( $image_html ) ) {
                 </button>
             </div>
         </div>
+    </a>
 
-        <div class="card-body card_infos d-flex flex-column gap-2 ">
+    <div class="card-body card_infos d-flex flex-column gap-2 ">
             <h3 class="card-title h6 mb-0"><?php echo esc_html( get_the_title( $post_id ) ); ?></h3>
 
             <?php if ( $product && is_object( $product ) ) : ?>
@@ -74,8 +75,16 @@ if ( empty( $image_html ) ) {
                         <span class="d-inline d-xl-none">ajouter</span>
                         &nbsp;&nbsp;<i class="d-none d-xl-inline bi bi-bag-heart"></i>
                     </a>
+                <?php elseif ( $product ) : ?>
+                    <button type="button"
+                            class="button view-all-link d-flex justify-content-center align-items-center w-100"
+                            disabled
+                            aria-label="<?php echo esc_attr( sprintf( __( '« %s » en rupture de stock', 'woocommerce' ), $product->get_name() ) ); ?>">
+                        <span class="d-none d-xl-inline">en rupture</span>
+                        <span class="d-inline d-xl-none">rupture</span>
+                        &nbsp;&nbsp;<i class="d-none d-xl-inline bi bi-exclamation-triangle"></i>
+                    </button>
                 <?php endif; ?>
             <?php endif; ?>
         </div>
-    </a>
 </div>
