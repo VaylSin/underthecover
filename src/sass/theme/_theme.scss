@@ -78,6 +78,16 @@ iframe {
 		max-width: 100vw;
 		overflow-x: hidden;
 	}
+
+	// Force z-index sur toute la navigation
+	header,
+	.navbar,
+	#wrapper-navbar,
+	.navbar-nav,
+	.nav-item,
+	.dropdown-menu {
+		z-index: 1055 !important;
+	}
 }
 
 h1,
@@ -109,7 +119,7 @@ h6 {
 	top: 0;
 	left: 0;
 	width: 100%;
-	z-index: 100;
+	z-index: 1000001;
 	background: #fff;
 	@include transition(background);
 	.bi {
@@ -489,6 +499,7 @@ h6 {
 	min-height: 350px;
 	display: flex;
 	align-items: center;
+	z-index: 1;
 
 	.overlay {
 		position: absolute;
@@ -597,6 +608,33 @@ h6 {
 					transform: translateY(0);
 				}
 			}
+		}
+	}
+
+	// Overlay permanent sur mobile (comme l'effet hover desktop)
+	.category-overlay-mobile {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba($velvet, 0.5);
+		opacity: 1; // Toujours visible sur mobile
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem; // Ajout padding pour éviter que le texte touche les bords
+
+		.category-name {
+			color: white;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			text-align: center;
+			transform: translateY(0); // Pas d'animation sur mobile
+			font-weight: bold; // Texte en gras
+			font-size: 2rem; // Taille encore plus grande
+			line-height: 2; // Interlignage plus aéré
+			word-wrap: break-word; // Permet le passage à la ligne
 		}
 	}
 
@@ -957,17 +995,22 @@ header,
 .boutique-container {
 	position: relative;
 	display: inline-block;
+	z-index: 1050;
 }
 
 #submenu-boutique {
 	position: absolute;
-	top: calc(100% - 2px);
+	top: 100%; // Position directement sous le header
 	left: 0;
 	width: 100%;
 	box-sizing: border-box;
 	background: #fff;
-	z-index: 9999;
+	z-index: 1000000 !important;
 	overflow: visible;
+
+	@media (max-width: 991.98px) {
+		top: 80px; // Position mobile
+	}
 	display: block;
 	visibility: hidden;
 	opacity: 0;
@@ -1009,7 +1052,8 @@ header,
 }
 
 /* Montrer le sous-menu quand .boutique-container a la classe .open */
-.boutique-container.open + #submenu-boutique {
+.boutique-container.open ~ #submenu-boutique,
+#submenu-boutique.open {
 	visibility: visible !important;
 	opacity: 1 !important;
 	transform: translateY(0) !important;

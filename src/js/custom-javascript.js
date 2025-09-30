@@ -137,9 +137,7 @@
 		const container = link?.closest(".boutique-container");
 		const submenu = $("#submenu-boutique");
 
-		if (!link || !container || !submenu) return;
-
-		// Nettoyage des styles inline
+		if (!link || !container || !submenu) return; // Nettoyage des styles inline
 		submenu.removeAttribute("style");
 
 		// Observer pour empêcher la ré-application de styles
@@ -167,12 +165,14 @@
 		const openSubmenu = () => {
 			clearTimeout(closeTimer);
 			container.classList.add("open");
+			submenu.classList.add("open");
 			link.setAttribute("aria-expanded", "true");
 		};
 
 		const closeSubmenu = () => {
 			clearTimeout(closeTimer);
 			container.classList.remove("open");
+			submenu.classList.remove("open");
 			link.setAttribute("aria-expanded", "false");
 		};
 
@@ -692,9 +692,7 @@
 		initSearch();
 		initBoutiqueMenu();
 		initCategoriesCarousel();
-		initCartDrawer();
-
-		// Smooth scroll après un délai
+		initCartDrawer(); // Smooth scroll après un délai
 		const loader = $("#site-loader");
 		if (loader && isHomePage()) {
 			// Attendre que le loader se cache

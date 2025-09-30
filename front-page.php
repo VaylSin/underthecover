@@ -203,13 +203,13 @@ get_header();
                             <div class="category-item">
                                 <a href="<?php echo get_term_link($category); ?>" class="category-link">
                                     <div class="category-image" style="background-image: url('<?php echo esc_url($image); ?>')">
-                                        <!-- Nom visible sur mobile, overlay au survol sur desktop -->
+                                        <!-- Overlay hover sur desktop uniquement -->
                                         <div class="category-overlay d-none d-md-flex">
                                             <h4 class="category-name"><?php echo esc_html($category->name); ?></h4>
                                         </div>
-                                        <!-- Nom toujours visible sur mobile -->
-                                        <div class="category-name-mobile d-flex d-md-none position-absolute bottom-0 start-0 end-0 p-3 bg-velvet bg-opacity-75">
-                                            <h4 class="text-white fs-6 mb-0"><?php echo esc_html($category->name); ?></h4>
+                                        <!-- Overlay permanent sur mobile (comme l'effet hover desktop) -->
+                                        <div class="category-overlay-mobile d-flex d-md-none">
+                                            <h4 class="category-name"><?php echo esc_html($category->name); ?></h4>
                                         </div>
                                     </div>
                                 </a>

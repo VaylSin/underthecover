@@ -141,7 +141,7 @@ figure.woocommerce-product-gallery__wrapper {
 		}
 	}
 	.increment_container {
-		max-width: 7rem;
+		max-width: 9rem;
 		flex-basis: content;
 	}
 }
@@ -1240,6 +1240,7 @@ figure.woocommerce-product-gallery__wrapper {
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
+	z-index: 1;
 
 	.shop-banner-overlay {
 		position: absolute;
