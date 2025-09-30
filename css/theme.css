@@ -18068,6 +18068,12 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
     padding-right: 5rem !important;
   }
 }
+@media (max-width: 1024px) {
+  html,
+  :root {
+    scroll-behavior: auto !important;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

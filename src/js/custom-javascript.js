@@ -390,6 +390,9 @@
 	function initSmoothScroll() {
 		if ($(".smooth-scroll-wrapper")) return;
 
+		// Désactiver le smooth scroll sur mobile et tablette (jusqu'à 1024px)
+		if (window.innerWidth <= 1024) return;
+
 		// Éléments à préserver
 		const preserveSelectors = [
 			"#site-loader",
