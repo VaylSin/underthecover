@@ -58,7 +58,7 @@
 
         <?php do_action( 'woocommerce_widget_shopping_cart_after_buttons' ); ?> -->
       <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="btn view-all-link"><?php esc_html_e('Voir votre panier','siklane'); ?></a>
-      <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="view-all-link"><?php esc_html_e('Commander','siklane'); ?></a>
+      <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="btn view-all-link"><?php esc_html_e('Commander','siklane'); ?></a>
     </div>
   </aside>
 </div>

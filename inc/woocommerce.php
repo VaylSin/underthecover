@@ -451,15 +451,44 @@ add_action( 'wp_footer', function() {
  * Update cart drawer fragment on add/remove AJAX actions
  */
 add_filter( 'woocommerce_add_to_cart_fragments', function( $fragments ) {
+    // 1. Mettre à jour le contenu du mini panier
     ob_start();
-    // même structure que dans le partial : juste la zone drawer-content
     woocommerce_mini_cart();
     $mini = ob_get_clean();
-
-    // cible : .cart-drawer .drawer-content
     $fragments['.cart-drawer .drawer-content'] = '<div class="drawer-content">' . $mini . '</div>';
-    // aussi mettre à jour le compteur header si besoin (ex: .cart-count)
-    $fragments['.cart-count'] = '<span class="cart-count">' . WC()->cart->get_cart_contents_count() . '</span>';
+
+    // 2. Mettre à jour le compteur dans le header du drawer
+    $cart_count = WC()->cart->get_cart_contents_count();
+    $cart_count_label = sprintf(
+        _n( '%s article', '%s articles', $cart_count, 'siklane' ),
+        absint( $cart_count )
+    );
+    $fragments['.cart-drawer .cart-count'] = '<span class="cart-count small text-muted">' . esc_html( $cart_count_label ) . '</span>';
+
+    // 3. Mettre à jour les totaux dans les actions du drawer
+    ob_start();
+    ?>
+    <div class="drawer-actions mt-3 d-flex flex-column gap-2">
+        <?php
+        $subtotal_html = WC()->cart->get_cart_subtotal();
+        $total_html = WC()->cart->get_total();
+        ?>
+        <div class="cart-totals d-flex justify-content-between mb-2">
+            <span class="text-muted"><?php esc_html_e('Sous-total:', 'siklane'); ?></span>
+            <span class="fw-bold"><?php echo $subtotal_html; ?></span>
+        </div>
+        <div class="cart-total d-flex justify-content-between mb-3">
+            <span class="fw-bold"><?php esc_html_e('Total:', 'siklane'); ?></span>
+            <span class="fw-bold text-velvet"><?php echo $total_html; ?></span>
+        </div>
+        <a href="<?php echo esc_url( wc_get_cart_url() ); ?>" class="btn view-all-link"><?php esc_html_e('Voir votre panier','siklane'); ?></a>
+        <a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="btn view-all-link"><?php esc_html_e('Commander','siklane'); ?></a>
+    </div>
+    <?php
+    $fragments['.cart-drawer .drawer-actions'] = ob_get_clean();
+
+    // 4. Mettre à jour les compteurs dans les menus de navigation
+    $fragments['.cart-count-badge'] = $cart_count > 0 ? '<span class="cart-count-badge badge bg-velvet text-white rounded-pill ms-1">' . $cart_count . '</span>' : '';
 
     return $fragments;
 } );/**
@@ -490,6 +519,28 @@ if ( ! function_exists( 'siklane_prevent_auto_drawer_opening' ) ) {
             $(document.body).on('added_to_cart', function(event, fragments, cart_hash, button) {
                 console.log('Product added to cart - opening mini cart');
 
+                // Mettre à jour les fragments (prix, compteurs, etc.)
+                if (fragments) {
+                    console.log('Updating fragments:', fragments);
+                    $.each(fragments, function(key, value) {
+                        var $target = $(key);
+                        if ($target.length > 0) {
+                            console.log('Updating fragment:', key, 'Found elements:', $target.length);
+                            $target.replaceWith(value);
+                        } else {
+                            console.warn('Fragment target not found:', key);
+                        }
+                    });
+
+                    // Forcer le déclenchement des événements WooCommerce
+                    $(document.body).trigger('wc_fragments_refreshed');
+
+                    // Mettre à jour les attributs data-cart-count des liens panier
+                    var newCount = $('.cart-drawer .cart-count').text() || $('.cart-count').text() || '0';
+                    $('a.cart-toggle[data-cart-count]').attr('data-cart-count', newCount);
+                    console.log('Updated cart count to:', newCount);
+                }
+
                 // Ouvrir le mini panier pour TOUS les ajouts au panier
                 setTimeout(function() {
                     var cartDrawer = document.getElementById('cartDrawer');
@@ -507,6 +558,16 @@ if ( ! function_exists( 'siklane_prevent_auto_drawer_opening' ) ) {
                         console.log('Cart drawer not found');
                     }
                 }, 300);
+            });
+
+            // Écouter aussi les événements de mise à jour des fragments
+            $(document.body).on('wc_fragments_refreshed', function() {
+                console.log('WooCommerce fragments refreshed');
+            });
+
+            // Écouter les changements de quantité dans le panier
+            $(document.body).on('updated_wc_div', function() {
+                console.log('WooCommerce div updated');
             });
         });
         </script>

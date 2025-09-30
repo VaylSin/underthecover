@@ -296,7 +296,11 @@ $black-main: #0b0b0b !default;
 	.drawer-actions {
 		.btn.view-all-link,
 		.view-all-link {
-			display: block !important;
+			display: flex !important;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			width: 100%;
 		}
 	}
 }

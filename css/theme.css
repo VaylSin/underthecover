@@ -19751,7 +19751,11 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
 .woocommerce-info .cart-drawer .drawer-actions a.add_to_cart_button,
 .cart-drawer .drawer-actions .woocommerce-message a.add_to_cart_button,
 .woocommerce-message .cart-drawer .drawer-actions a.add_to_cart_button {
-  display: block !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
 }
 
 /* =============================================
