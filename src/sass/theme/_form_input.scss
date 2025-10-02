@@ -324,7 +324,9 @@ form.cart input[type="number"]::-webkit-inner-spin-button {
 
 	/* Boutons plus hauts également - SAUF le burger menu */
 	input[type="submit"],
-	button:not(.mobile-menu-burger):not(.view-all-link),
+	button:not(.mobile-menu-burger):not(.view-all-link):not(
+			.wc-block-cart-item__remove-link
+		):not(.wc-block-components-quantity-selector__button),
 	.wpcf7-submit {
 		min-height: 48px !important;
 		padding: 12px 20px !important;
@@ -347,7 +349,7 @@ form.cart input[type="number"]::-webkit-inner-spin-button {
 	input[type="search"],
 	input[type="url"],
 	input[type="password"],
-	input[type="number"],
+	input[type="number"]:not(.wc-block-components-quantity-selector__input),
 	select,
 	.wc-blocks-components-select__select,
 	.wpcf7-form-control:not(textarea) {
