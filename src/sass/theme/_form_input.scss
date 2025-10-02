@@ -373,3 +373,34 @@ form.cart input[type="number"]::-webkit-inner-spin-button {
 		font-weight: 600 !important;
 	}
 }
+
+// =============================================================================
+// STYLES SPÉCIFIQUES WOOCOMMERCE POUR LES SELECTS
+// =============================================================================
+
+/* Forcer le style des selects WooCommerce pour qu'ils ressemblent aux inputs */
+.woocommerce select,
+.woocommerce-page select,
+.woocommerce .woocommerce-billing-fields select,
+.woocommerce .woocommerce-shipping-fields select,
+.woocommerce-account select,
+.woocommerce-MyAccount-content select {
+	font-size: 0.9rem !important;
+	color: $black-main !important;
+	border: none !important;
+	border-radius: 2px !important;
+	background-color: rgba($bloom, 0.3) !important;
+	background-clip: padding-box;
+	box-shadow: none !important;
+	outline: none !important;
+	transition: background-color 0.15s ease, border-color 0.15s ease,
+		box-shadow 0.15s ease;
+	padding: 12px 16px !important;
+
+	&:focus {
+		background-color: rgba($bloom, 0.5) !important;
+		border-color: $velvet !important;
+		outline: none !important;
+		box-shadow: none !important;
+	}
+}

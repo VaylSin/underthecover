@@ -307,7 +307,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                             </a>
 
                             <!-- Panier -->
-                            <a href="<?php echo wc_get_cart_url(); ?>" class="mobile-cart-link" aria-label="Votre panier">
+                            <a href="#" class="mobile-cart-link cart-toggle" aria-label="Votre panier">
                                 <i class="bi bi-bag-heart fs-4"></i>
                                 <?php if (WC()->cart->get_cart_contents_count() > 0): ?>
                                     <span class="cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>

@@ -912,22 +912,3 @@ add_action( 'wp_footer', function() {
     }
 });
 
-/**
- * Forcer l'ajout du panier au menu même s'il existe déjà (pour debug)
- */
-add_filter( 'wp_nav_menu_items', function( $items, $args ) {
-    // Forcer pour tous les menus pour debug
-    if ( isset( $args->theme_location ) && ( 'right-menu' === $args->theme_location || 'primary' === $args->theme_location ) ) {
-        $cart_url = untrailingslashit( wc_get_cart_url() );
-        $count = ( function_exists( 'WC' ) && WC()->cart ) ? (int) WC()->cart->get_cart_contents_count() : 0;
-        $cart_link  = '<a href="' . esc_url( $cart_url ) . '" class="nav-link cart-toggle position-relative" data-cart-url="' . esc_url( $cart_url ) . '" data-cart-count="' . esc_attr( $count ) . '" aria-label="' . esc_attr__( 'Ouvrir votre panier', 'siklane' ) . '">';
-        $cart_link .= '<i class="bi bi-bag fs-4"></i>';
-        if ( $count > 0 ) {
-            $cart_link .= '<span class="cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill">' . $count . '</span>';
-        }
-        $cart_link .= '</a>';
-        $items .= '<li class="menu-item menu-item-cart debug-cart">' . $cart_link . '</li>';
-    }
-
-    return $items;
-}, 15, 2 ); // Priorité plus haute pour overrider

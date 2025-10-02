@@ -6396,19 +6396,15 @@
       // Fermeture avec Echap
       on(document, "keydown", e => {
         if (e.key === "Escape") {
-          forceCloseSearch();
+          closeSearch();
         }
       });
 
-      // Fermeture en cliquant à l'extérieur
+      // Fermeture en cliquant à l'extérieur (simplifié)
       on(document, "click", e => {
-        // Desktop
-        if (dropdown && toggle && dropdown.classList.contains("open") && !dropdown.contains(e.target) && !toggle.contains(e.target)) {
-          closeSearch();
-        }
-
-        // Mobile
-        if (mobileDropdown && mobileToggle && mobileDropdown.classList.contains("open") && !mobileDropdown.contains(e.target) && !mobileToggle.contains(e.target)) {
+        const isSearchToggle = e.target.closest('.search-toggle');
+        const isDropdown = e.target.closest('#searchDropdown, #mobileSearchDropdown');
+        if (!isSearchToggle && !isDropdown) {
           closeSearch();
         }
       });

@@ -24,8 +24,7 @@ if ( $related_products ) : ?>
 
         <?php endif; ?>
 
-        <!-- Bootstrap Grid pour les produits associés -->
-        <div class="container-fluid">
+		<div class="container-fluid px-0 px-md-3">
             <div class="row g-3">
                 <?php
                 // Duplicate the first related product 4 times for display (useful pour tests / layout)

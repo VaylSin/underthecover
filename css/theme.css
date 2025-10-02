@@ -12516,6 +12516,36 @@ form.cart input[type=number]::-webkit-inner-spin-button {
     font-weight: 600 !important;
   }
 }
+/* Forcer le style des selects WooCommerce pour qu'ils ressemblent aux inputs */
+.woocommerce select,
+.woocommerce-page select,
+.woocommerce .woocommerce-billing-fields select,
+.woocommerce .woocommerce-shipping-fields select,
+.woocommerce-account select,
+.woocommerce-MyAccount-content select {
+  font-size: 0.9rem !important;
+  color: #272727 !important;
+  border: none !important;
+  border-radius: 2px !important;
+  background-color: rgba(251, 210, 218, 0.3) !important;
+  background-clip: padding-box;
+  box-shadow: none !important;
+  outline: none !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  padding: 12px 16px !important;
+}
+.woocommerce select:focus,
+.woocommerce-page select:focus,
+.woocommerce .woocommerce-billing-fields select:focus,
+.woocommerce .woocommerce-shipping-fields select:focus,
+.woocommerce-account select:focus,
+.woocommerce-MyAccount-content select:focus {
+  background-color: rgba(251, 210, 218, 0.5) !important;
+  border-color: #bc3365 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 .woocommerce-input-wrapper {
   width: 100%;
 }
@@ -14379,6 +14409,330 @@ a.add_to_cart_button.view-all-link:focus {
     padding: 0 !important;
   }
 }
+@media (max-width: 768px) {
+  body.woocommerce-shop .content-area,
+  body.woocommerce-page.tax-product_cat .content-area,
+  body.woocommerce-page.tax-product_tag .content-area,
+  body.single-product .content-area {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  body.woocommerce-shop .container,
+  body.woocommerce-page.tax-product_cat .container,
+  body.woocommerce-page.tax-product_tag .container,
+  body.single-product .container {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    max-width: none !important;
+  }
+  body.woocommerce-shop .woocommerce ul.products,
+  body.woocommerce-page.tax-product_cat .woocommerce ul.products,
+  body.woocommerce-page.tax-product_tag .woocommerce ul.products,
+  body.single-product .related.products ul.products,
+  body.single-product .up-sells.upsells.products ul.products {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+}
+/* Forcer absolument les selects à ressembler aux inputs */
+body.woocommerce select,
+body.woocommerce-page select,
+body.woocommerce .woocommerce-billing-fields select,
+body.woocommerce .woocommerce-shipping-fields select,
+body.woocommerce-account select,
+body.woocommerce-MyAccount-content select,
+.woocommerce form select,
+.woocommerce-page form select {
+  font-size: 0.9rem !important;
+  color: #333 !important;
+  border: none !important;
+  border-radius: 2px !important;
+  background-color: rgba(255, 182, 193, 0.3) !important; /* bloom avec transparence */
+  background-clip: padding-box !important;
+  box-shadow: none !important;
+  outline: none !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+  padding: 12px 16px !important;
+  height: auto !important;
+}
+body.woocommerce select:focus, body.woocommerce select:active,
+body.woocommerce-page select:focus,
+body.woocommerce-page select:active,
+body.woocommerce .woocommerce-billing-fields select:focus,
+body.woocommerce .woocommerce-billing-fields select:active,
+body.woocommerce .woocommerce-shipping-fields select:focus,
+body.woocommerce .woocommerce-shipping-fields select:active,
+body.woocommerce-account select:focus,
+body.woocommerce-account select:active,
+body.woocommerce-MyAccount-content select:focus,
+body.woocommerce-MyAccount-content select:active,
+.woocommerce form select:focus,
+.woocommerce form select:active,
+.woocommerce-page form select:focus,
+.woocommerce-page form select:active {
+  background-color: rgba(255, 182, 193, 0.5) !important; /* bloom plus intense */
+  border-color: #bc3365 !important; /* velvet */
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Styler les éléments Select2 pour qu'ils ressemblent aux inputs */
+.woocommerce .select2-container .select2-selection--single,
+.woocommerce-page .select2-container .select2-selection--single,
+.woocommerce .select2-container .select2-selection--multiple,
+.woocommerce-page .select2-container .select2-selection--multiple {
+  font-size: 0.9rem !important;
+  color: #333 !important;
+  border: none !important;
+  border-radius: 2px !important;
+  background-color: rgba(255, 182, 193, 0.3) !important; /* bloom avec transparence */
+  background-clip: padding-box !important;
+  box-shadow: none !important;
+  outline: none !important;
+  transition: background-color 0.15s ease !important;
+  padding: 0 !important;
+  height: auto !important;
+  min-height: 44px !important;
+}
+.woocommerce .select2-container .select2-selection--single .select2-selection__rendered,
+.woocommerce-page .select2-container .select2-selection--single .select2-selection__rendered,
+.woocommerce .select2-container .select2-selection--multiple .select2-selection__rendered,
+.woocommerce-page .select2-container .select2-selection--multiple .select2-selection__rendered {
+  padding: 12px 16px !important;
+  line-height: 1.5 !important;
+  color: #333 !important;
+}
+.woocommerce .select2-container .select2-selection--single .select2-selection__arrow,
+.woocommerce-page .select2-container .select2-selection--single .select2-selection__arrow,
+.woocommerce .select2-container .select2-selection--multiple .select2-selection__arrow,
+.woocommerce-page .select2-container .select2-selection--multiple .select2-selection__arrow {
+  height: 44px !important;
+  right: 16px !important;
+}
+.woocommerce .select2-container .select2-selection--single.select2-container--focus, .woocommerce .select2-container .select2-selection--single:focus,
+.woocommerce-page .select2-container .select2-selection--single.select2-container--focus,
+.woocommerce-page .select2-container .select2-selection--single:focus,
+.woocommerce .select2-container .select2-selection--multiple.select2-container--focus,
+.woocommerce .select2-container .select2-selection--multiple:focus,
+.woocommerce-page .select2-container .select2-selection--multiple.select2-container--focus,
+.woocommerce-page .select2-container .select2-selection--multiple:focus {
+  background-color: rgba(255, 182, 193, 0.5) !important; /* bloom plus intense */
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Dropdown Select2 */
+.select2-dropdown {
+  border: none !important;
+  border-radius: 2px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+.select2-dropdown .select2-results__option {
+  padding: 8px 16px !important;
+}
+.select2-dropdown .select2-results__option--highlighted {
+  background-color: rgba(255, 182, 193, 0.5) !important;
+  color: #333 !important;
+}
+
+/* Styles unifiés pour les formulaires (EXCLURE admin WP et header) */
+main input[type=text],
+main input[type=email],
+main input[type=tel],
+main input[type=search],
+main input[type=url],
+main input[type=password],
+main input[type=number],
+main select,
+main textarea,
+.content-area input[type=text],
+.content-area input[type=email],
+.content-area input[type=tel],
+.content-area input[type=search],
+.content-area input[type=url],
+.content-area input[type=password],
+.content-area input[type=number],
+.content-area select,
+.content-area textarea,
+.wc-blocks-components-select__select,
+.wpcf7-form-control:not(.wpcf7-acceptance),
+.woocommerce input[type=text],
+.woocommerce input[type=email],
+.woocommerce input[type=tel],
+.woocommerce input[type=password],
+.woocommerce textarea,
+.woocommerce-page input[type=text],
+.woocommerce-page input[type=email],
+.woocommerce-page input[type=tel],
+.woocommerce-page input[type=password],
+.woocommerce-page textarea {
+  width: 100% !important;
+  font-size: 0.9rem !important;
+  color: #333 !important;
+  border: none !important;
+  border-radius: 2px !important;
+  background-color: rgba(255, 182, 193, 0.3) !important; /* bloom avec transparence */
+  background-clip: padding-box !important;
+  box-shadow: none !important;
+  outline: none !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+  padding: 14px 18px !important; /* Plus de padding */
+  min-height: 48px !important;
+}
+main input[type=text]:focus, main input[type=text]:active,
+main input[type=email]:focus,
+main input[type=email]:active,
+main input[type=tel]:focus,
+main input[type=tel]:active,
+main input[type=search]:focus,
+main input[type=search]:active,
+main input[type=url]:focus,
+main input[type=url]:active,
+main input[type=password]:focus,
+main input[type=password]:active,
+main input[type=number]:focus,
+main input[type=number]:active,
+main select:focus,
+main select:active,
+main textarea:focus,
+main textarea:active,
+.content-area input[type=text]:focus,
+.content-area input[type=text]:active,
+.content-area input[type=email]:focus,
+.content-area input[type=email]:active,
+.content-area input[type=tel]:focus,
+.content-area input[type=tel]:active,
+.content-area input[type=search]:focus,
+.content-area input[type=search]:active,
+.content-area input[type=url]:focus,
+.content-area input[type=url]:active,
+.content-area input[type=password]:focus,
+.content-area input[type=password]:active,
+.content-area input[type=number]:focus,
+.content-area input[type=number]:active,
+.content-area select:focus,
+.content-area select:active,
+.content-area textarea:focus,
+.content-area textarea:active,
+.wc-blocks-components-select__select:focus,
+.wc-blocks-components-select__select:active,
+.wpcf7-form-control:not(.wpcf7-acceptance):focus,
+.wpcf7-form-control:not(.wpcf7-acceptance):active,
+.woocommerce input[type=text]:focus,
+.woocommerce input[type=text]:active,
+.woocommerce input[type=email]:focus,
+.woocommerce input[type=email]:active,
+.woocommerce input[type=tel]:focus,
+.woocommerce input[type=tel]:active,
+.woocommerce input[type=password]:focus,
+.woocommerce input[type=password]:active,
+.woocommerce textarea:focus,
+.woocommerce textarea:active,
+.woocommerce-page input[type=text]:focus,
+.woocommerce-page input[type=text]:active,
+.woocommerce-page input[type=email]:focus,
+.woocommerce-page input[type=email]:active,
+.woocommerce-page input[type=tel]:focus,
+.woocommerce-page input[type=tel]:active,
+.woocommerce-page input[type=password]:focus,
+.woocommerce-page input[type=password]:active,
+.woocommerce-page textarea:focus,
+.woocommerce-page textarea:active {
+  background-color: rgba(255, 182, 193, 0.5) !important; /* bloom plus intense */
+  border-color: #bc3365 !important; /* velvet */
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* EXCLUSIONS SPÉCIFIQUES */
+/* Barre admin WordPress - NE PAS TOUCHER */
+#wpadminbar input,
+#wpadminbar select,
+#wpadminbar textarea,
+.wp-admin input,
+.wp-admin select,
+.wp-admin textarea {
+  background-color: initial !important;
+  border: initial !important;
+  padding: initial !important;
+  min-height: initial !important;
+  font-size: initial !important;
+  color: initial !important;
+}
+
+/* Header et navigation - NE PAS TOUCHER */
+header input,
+header select,
+header textarea,
+.navbar input,
+.navbar select,
+.navbar textarea,
+#masthead input,
+#masthead select,
+#masthead textarea {
+  background-color: initial !important;
+  border: initial !important;
+  padding: initial !important;
+  min-height: initial !important;
+  width: initial !important;
+}
+
+/* Cases d'acceptation Contact Form 7 - GARDER TRANSPARENTES */
+.wpcf7-acceptance input[type=checkbox],
+.wpcf7-form-control.wpcf7-acceptance {
+  background-color: transparent !important;
+  width: auto !important;
+  min-height: auto !important;
+  padding: 0 !important;
+}
+
+/* Textareas spécifiques */
+textarea,
+.woocommerce textarea,
+.woocommerce-page textarea,
+.wpcf7-form-control.wpcf7-textarea {
+  min-height: 120px !important;
+  resize: vertical !important;
+}
+
+/* Gestion des colonnes 50/50 */
+.form-row-first,
+.form-row-last,
+.woocommerce .form-row-first,
+.woocommerce .form-row-last,
+.woocommerce-page .form-row-first,
+.woocommerce-page .form-row-last {
+  width: calc(50% - 10px) !important;
+  display: inline-block !important;
+  vertical-align: top !important;
+}
+
+.form-row-first,
+.woocommerce .form-row-first,
+.woocommerce-page .form-row-first {
+  margin-right: 20px !important;
+}
+
+/* Gestion des lignes complètes */
+.form-row-wide,
+.woocommerce .form-row-wide,
+.woocommerce-page .form-row-wide,
+.woocommerce .form-row,
+.woocommerce-page .form-row {
+  width: 100% !important;
+  margin-bottom: 20px !important;
+}
+
+/* Contact Form 7 spécifique */
+.wpcf7-form .form-half {
+  width: calc(50% - 10px) !important;
+  display: inline-block !important;
+  vertical-align: top !important;
+}
+.wpcf7-form .form-half:first-child {
+  margin-right: 20px !important;
+}
+
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -21865,7 +22219,7 @@ body.mobile-menu-open .mobile-search-toggle {
     justify-content: flex-start !important;
     overflow-x: auto;
     flex-wrap: nowrap !important;
-    padding-bottom: 0.5rem;
+    padding-bottom: 1.5rem;
   }
   .shop-categories .btn, .shop-categories input[type=submit], .shop-categories .wc-block-components-totals-coupon__content button[type=submit], .wc-block-components-totals-coupon__content .shop-categories button[type=submit], .shop-categories .woocommerce-form-login__submit, .shop-categories .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-notices-wrapper .woocommerce-message .shop-categories a.button, .shop-categories .woocommerce-info a.button, .woocommerce-info .shop-categories a.button, .shop-categories .wc-block-components-checkout-return-to-cart-button {
     white-space: nowrap;
