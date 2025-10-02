@@ -1,6 +1,7 @@
 <?php
 get_header();
 ?>
+<div class="homepage-hero-container">
 <section class="slider_container">
 <?php if( have_rows('slider') ) : ?>
 <div id="main-slider" class="carousel slide carousel-fade fullscreen-slider" >  <!--data-bs-interval="5000" data-bs-ride="carousel" -->
@@ -98,6 +99,8 @@ get_header();
         </div>
     <?php endif; ?>
 </section>
+</div> <!-- /.homepage-hero-container -->
+
 <div class="spacer-10"></div>
 <section class="best_sellers container-xxl px-lg-5rem" data-aos="fade-up" data-aos-duration="1000" data-aos-ease="ease-in">
     <h3 class=" maj_title mb-4 logo_before"><span class=" logo_h3_content">Nos Best Sellers</span></h3>

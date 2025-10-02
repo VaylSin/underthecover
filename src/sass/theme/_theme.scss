@@ -16,6 +16,8 @@
 }
 
 // ==========================================================================
+// Variables CSS personnalisées pour la homepage
+// ==========================================================================
 // Styles de base et typographie
 // ==========================================================================
 html {
@@ -32,6 +34,34 @@ body {
 	font-family: "Plus Jakarta Sans", sans-serif;
 	overflow-x: hidden; /* Empêcher le scroll horizontal */
 	max-width: 100vw; /* Limiter à la largeur de l'écran */
+}
+
+// ==========================================================================
+// Container Hero Homepage (Slider + Banderole)
+// ==========================================================================
+.homepage-hero-container {
+	// Calculer la hauteur disponible : 100dvh - header - bannière promo
+	height: calc(100dvh - 100px - 40px); // Valeurs de base
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+
+	// Responsive adjustments
+	@media (max-width: 991.98px) {
+		height: calc(
+			100dvh - 80px - 35px
+		); // Header et bannière plus petits sur mobile
+	}
+
+	.slider_container {
+		flex: 1; // Prend l'espace restant après la banderole
+		min-height: 0; // Permet la flexibilité
+	}
+
+	.bandeau_deroulant {
+		flex-shrink: 0; // Ne se réduit pas
+		height: auto; // Hauteur naturelle
+	}
 }
 
 /* =============================================
@@ -214,20 +244,29 @@ h6 {
 	}
 }
 
-// ==========================================================================
-// Composant: Slider plein écran
-// ==========================================================================
+.homepage-hero-container .slider_container,
+.homepage-hero-container .fullscreen-slider,
+.homepage-hero-container .carousel-inner {
+	height: 100%; // Utilise toute la hauteur du container flex
+}
+
 .fullscreen-slider {
-	min-height: 70vh;
+	min-height: 70vh; // Fallback pour les autres pages
 	width: 100%;
 	overflow: hidden;
 	position: relative;
 
+	.carousel-inner {
+		height: 100%; // Hérite de fullscreen-slider
+	}
+
 	.carousel-item {
+		height: 100%; // Hérite de carousel-inner
+
 		img {
 			object-fit: cover;
 			width: 100%;
-			height: 70vh;
+			height: 100%; // Utilise toute la hauteur du carousel-item
 		}
 
 		> .container-xxl {

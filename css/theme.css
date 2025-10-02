@@ -17778,6 +17778,26 @@ body {
   max-width: 100vw; /* Limiter à la largeur de l'écran */
 }
 
+.homepage-hero-container {
+  height: calc(100dvh - 100px - 40px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 991.98px) {
+  .homepage-hero-container {
+    height: calc(100dvh - 80px - 35px);
+  }
+}
+.homepage-hero-container .slider_container {
+  flex: 1;
+  min-height: 0;
+}
+.homepage-hero-container .bandeau_deroulant {
+  flex-shrink: 0;
+  height: auto;
+}
+
 /* =============================================
    FIX DÉBORDEMENT HORIZONTAL MOBILE
    ============================================= */
@@ -17929,6 +17949,12 @@ h6,
   color: #bc3365;
 }
 
+.homepage-hero-container .slider_container,
+.homepage-hero-container .fullscreen-slider,
+.homepage-hero-container .carousel-inner {
+  height: 100%;
+}
+
 .fullscreen-slider {
   min-height: 70vh;
   width: 100%;
@@ -17939,11 +17965,17 @@ h6,
   /* Montrer avec un léger délai (stagger) quand le slide devient actif */
   /* reduced-motion */
 }
+.fullscreen-slider .carousel-inner {
+  height: 100%;
+}
+.fullscreen-slider .carousel-item {
+  height: 100%;
+}
 .fullscreen-slider .carousel-item img {
   -o-object-fit: cover;
   object-fit: cover;
   width: 100%;
-  height: 70vh;
+  height: 100%;
 }
 .fullscreen-slider .carousel-item > .container-xxl {
   z-index: 3;
