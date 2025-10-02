@@ -10,8 +10,13 @@
     );
     ?>
     <div class=" drawer-header d-flex justify-content-between align-items-center">
-      <h3 class="text-velvet"><?php esc_html_e('Votre panier','siklane'); ?></h3>
-      <span class="cart-count small text-muted"><?php echo esc_html( $cart_count_label ); ?></span>
+      <div class="d-flex align-items-center gap-2">
+        <h3 class="text-velvet mb-0"><?php esc_html_e('Votre panier','siklane'); ?></h3>
+        <span class="cart-count small text-muted"><?php echo esc_html( $cart_count_label ); ?></span>
+      </div>
+      <button class="cart-drawer-close btn p-0 border-0 bg-transparent" data-cart-drawer-close aria-label="<?php esc_attr_e('Fermer le panier','siklane'); ?>">
+        <i class="bi bi-x-lg text-velvet" style="font-size: 1.5rem;"></i>
+      </button>
     </div>
     <div class="drawer-content">
       <?php

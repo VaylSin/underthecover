@@ -1471,3 +1471,24 @@ h3.logo_before {
 		text-transform: uppercase;
 	}
 }
+
+// ==========================================================================
+// Compteur panier desktop
+// ==========================================================================
+.cart-count-desktop {
+	top: -0 !important;
+	right: -0 !important;
+	background-color: $velvet !important;
+	color: white !important;
+	border-radius: 50% !important;
+	width: 1.5rem !important;
+	height: 1.5rem !important;
+	font-size: 0.7rem !important;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	line-height: 1 !important;
+	min-width: 18px !important;
+	border: none !important;
+	font-weight: bold !important;
+}

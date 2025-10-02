@@ -90,7 +90,36 @@
 		box-sizing: border-box;
 	}
 
-	// Bouton en rupture de stock - garder les mêmes dimensions que view-all-link
+	// Bouton en rupture de stock - maintenant un lien avec cursor not-allowed
+	.view-all-link-disabled {
+		// Hériter de tous les styles de view-all-link mais avec état désactivé
+		background-color: $velvet !important;
+		color: #fff !important;
+		cursor: not-allowed !important;
+		opacity: 0.8;
+		pointer-events: none; // Empêcher les clics
+
+		// Supprimer les effets de hover
+		&:hover,
+		&:focus {
+			background-color: $velvet !important;
+			color: #fff !important;
+
+			transform: none !important;
+		}
+
+		// Supprimer l'animation de l'icône
+		svg {
+			transform: none !important;
+		}
+
+		.bi-exclamation-triangle {
+			opacity: 1 !important;
+			transform: none !important;
+		}
+	}
+
+	// Anciens styles pour compatibilité (au cas où des boutons disabled existent encore)
 	.view-all-link:disabled,
 	button.view-all-link:disabled {
 		// Reset complet des styles de bouton pour être identique aux liens

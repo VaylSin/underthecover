@@ -52,7 +52,6 @@
 			transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 		overflow: hidden;
 		transform: translateX(20px);
-		border-radius: 12px 0 0 12px;
 	}
 
 	// Active state - show everything with elegant transitions
@@ -87,6 +86,22 @@
 		border: 0;
 		font-size: 1.6rem;
 		line-height: 1;
+		color: $velvet;
+		transition: color 0.2s ease, transform 0.2s ease;
+
+		&:hover {
+			color: darken($velvet, 10%);
+			transform: scale(1.1);
+		}
+
+		&:focus {
+			outline: 2px solid rgba($velvet, 0.5);
+			outline-offset: 2px;
+		}
+
+		i {
+			font-size: 1.5rem;
+		}
 	}
 	.drawer-content {
 		overflow: auto;

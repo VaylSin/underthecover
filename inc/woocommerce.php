@@ -490,6 +490,9 @@ add_filter( 'woocommerce_add_to_cart_fragments', function( $fragments ) {
     // 4. Mettre à jour les compteurs dans les menus de navigation
     $fragments['.cart-count-badge'] = $cart_count > 0 ? '<span class="cart-count-badge badge bg-velvet text-white rounded-pill ms-1">' . $cart_count . '</span>' : '';
 
+    // 5. Mettre à jour le compteur desktop
+    $fragments['.cart-count-desktop'] = $cart_count > 0 ? '<span class="cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill">' . $cart_count . '</span>' : '';
+
     return $fragments;
 } );/**
  * Désactiver la notification WooCommerce par défaut et l'ouverture auto du drawer
@@ -513,22 +516,14 @@ if ( ! function_exists( 'siklane_prevent_auto_drawer_opening' ) ) {
         ?>
         <script>
         jQuery(document).ready(function($) {
-            console.log('Siklane Cart Handler Ready');
-
             // Écouter l'événement WooCommerce natif après ajout au panier
             $(document.body).on('added_to_cart', function(event, fragments, cart_hash, button) {
-                console.log('Product added to cart - opening mini cart');
-
                 // Mettre à jour les fragments (prix, compteurs, etc.)
                 if (fragments) {
-                    console.log('Updating fragments:', fragments);
                     $.each(fragments, function(key, value) {
                         var $target = $(key);
                         if ($target.length > 0) {
-                            console.log('Updating fragment:', key, 'Found elements:', $target.length);
                             $target.replaceWith(value);
-                        } else {
-                            console.warn('Fragment target not found:', key);
                         }
                     });
 
@@ -538,7 +533,6 @@ if ( ! function_exists( 'siklane_prevent_auto_drawer_opening' ) ) {
                     // Mettre à jour les attributs data-cart-count des liens panier
                     var newCount = $('.cart-drawer .cart-count').text() || $('.cart-count').text() || '0';
                     $('a.cart-toggle[data-cart-count]').attr('data-cart-count', newCount);
-                    console.log('Updated cart count to:', newCount);
                 }
 
                 // Ouvrir le mini panier pour TOUS les ajouts au panier
@@ -548,26 +542,12 @@ if ( ! function_exists( 'siklane_prevent_auto_drawer_opening' ) ) {
                         // Force move to body to escape all containers
                         if (cartDrawer.parentNode !== document.body) {
                             document.body.appendChild(cartDrawer);
-                            console.log('Cart drawer moved to body');
                         }
 
                         cartDrawer.classList.add('active');
                         cartDrawer.setAttribute('aria-hidden', 'false');
-                        console.log('Cart drawer opened successfully');
-                    } else {
-                        console.log('Cart drawer not found');
                     }
                 }, 300);
-            });
-
-            // Écouter aussi les événements de mise à jour des fragments
-            $(document.body).on('wc_fragments_refreshed', function() {
-                console.log('WooCommerce fragments refreshed');
-            });
-
-            // Écouter les changements de quantité dans le panier
-            $(document.body).on('updated_wc_div', function() {
-                console.log('WooCommerce div updated');
             });
         });
         </script>
@@ -605,8 +585,11 @@ add_filter( 'wp_nav_menu_items', function( $items, $args ) {
         $cart_url = untrailingslashit( wc_get_cart_url() );
         if ( false === strpos( $items, esc_url( $cart_url ) ) ) {
             $count = ( function_exists( 'WC' ) && WC()->cart ) ? (int) WC()->cart->get_cart_contents_count() : 0;
-            $cart_link  = '<a href="' . esc_url( $cart_url ) . '" class="nav-link cart-toggle" data-cart-url="' . esc_url( $cart_url ) . '" data-cart-count="' . esc_attr( $count ) . '" aria-label="' . esc_attr__( 'Ouvrir votre panier', 'siklane' ) . '">';
-            $cart_link .= '<i class="bi bi-bag"></i>';
+            $cart_link  = '<a href="' . esc_url( $cart_url ) . '" class="nav-link cart-toggle position-relative" data-cart-url="' . esc_url( $cart_url ) . '" data-cart-count="' . esc_attr( $count ) . '" aria-label="' . esc_attr__( 'Ouvrir votre panier', 'siklane' ) . '">';
+            $cart_link .= '<i class="bi bi-bag fs-4"></i>';
+            if ( $count > 0 ) {
+                $cart_link .= '<span class="cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill">' . $count . '</span>';
+            }
             $cart_link .= '</a>';
             $items .= '<li class="menu-item menu-item-cart">' . $cart_link . '</li>';
         }
@@ -898,3 +881,53 @@ if ( ! function_exists( 'siklane_add_bootstrap_classes_to_products' ) ) {
         return $classes;
     }
 }
+
+/**
+ * Ajouter la classe view-all-link aux boutons single add to cart via JavaScript
+ */
+add_action( 'wp_footer', function() {
+    if ( is_product() ) {
+        ?>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ajouter la classe view-all-link aux boutons de fiche produit
+            const singleButtons = document.querySelectorAll('.single_add_to_cart_button');
+            singleButtons.forEach(function(button) {
+                button.classList.add('view-all-link');
+                console.log('✅ Classe view-all-link ajoutée au bouton fiche produit:', button);
+            });
+
+            // Vérifier si le menu right-menu existe et afficher des infos debug
+            const rightMenu = document.querySelector('[data-theme-location="right-menu"]');
+            console.log('🔍 Menu right-menu trouvé:', rightMenu);
+
+            const cartIcon = document.querySelector('.cart-toggle, .menu-item-cart');
+            console.log('🛒 Icône panier trouvée:', cartIcon);
+
+            const cartCount = document.querySelector('.cart-count-desktop');
+            console.log('🔢 Compteur desktop trouvé:', cartCount);
+        });
+        </script>
+        <?php
+    }
+});
+
+/**
+ * Forcer l'ajout du panier au menu même s'il existe déjà (pour debug)
+ */
+add_filter( 'wp_nav_menu_items', function( $items, $args ) {
+    // Forcer pour tous les menus pour debug
+    if ( isset( $args->theme_location ) && ( 'right-menu' === $args->theme_location || 'primary' === $args->theme_location ) ) {
+        $cart_url = untrailingslashit( wc_get_cart_url() );
+        $count = ( function_exists( 'WC' ) && WC()->cart ) ? (int) WC()->cart->get_cart_contents_count() : 0;
+        $cart_link  = '<a href="' . esc_url( $cart_url ) . '" class="nav-link cart-toggle position-relative" data-cart-url="' . esc_url( $cart_url ) . '" data-cart-count="' . esc_attr( $count ) . '" aria-label="' . esc_attr__( 'Ouvrir votre panier', 'siklane' ) . '">';
+        $cart_link .= '<i class="bi bi-bag fs-4"></i>';
+        if ( $count > 0 ) {
+            $cart_link .= '<span class="cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill">' . $count . '</span>';
+        }
+        $cart_link .= '</a>';
+        $items .= '<li class="menu-item menu-item-cart debug-cart">' . $cart_link . '</li>';
+    }
+
+    return $items;
+}, 15, 2 ); // Priorité plus haute pour overrider

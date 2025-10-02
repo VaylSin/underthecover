@@ -228,8 +228,6 @@
 	// ==========================================================================
 
 	function initSearch() {
-		console.log("=== INIT SEARCH DEBUG ===");
-
 		// Desktop elements
 		const toggle = $("#searchToggle");
 		const dropdown = $("#searchDropdown") || $(".search-dropdown");
@@ -240,21 +238,16 @@
 		const mobileDropdown = $("#mobileSearchDropdown");
 		const mobileCloseBtn = $("#mobileCloseSearch");
 
-		console.log("Desktop:", { toggle, dropdown, closeBtn });
-		console.log("Mobile:", { mobileToggle, mobileDropdown, mobileCloseBtn });
-
 		// Au moins un système doit être présent
 		if (
 			(!toggle || !dropdown || !closeBtn) &&
 			(!mobileToggle || !mobileDropdown || !mobileCloseBtn)
 		) {
-			console.error("Aucun système de recherche trouvé !");
 			return;
 		}
+
 		const openSearch = (isMobile = false) => {
-			console.log(`=== OPEN SEARCH ${isMobile ? "MOBILE" : "DESKTOP"} ===`);
 			const targetDropdown = isMobile ? mobileDropdown : dropdown;
-			console.log("Target dropdown:", targetDropdown);
 
 			if (targetDropdown) {
 				// S'assurer que l'autre dropdown est fermé d'abord
@@ -262,18 +255,11 @@
 				if (mobileDropdown && isMobile) mobileDropdown.classList.remove("open");
 
 				targetDropdown.classList.add("open");
-				console.log("Classe 'open' ajoutée à:", targetDropdown);
-
-				// Force display block aussi au cas où
 				targetDropdown.style.display = "block";
-				console.log("Style display: block ajouté");
 
 				// Focus sur le champ de recherche
 				const input = targetDropdown.querySelector(".search-field");
-				console.log("Input trouvé:", input);
 				if (input) setTimeout(() => input.focus(), 300);
-			} else {
-				console.error("Pas de targetDropdown trouvé !");
 			}
 		};
 
@@ -293,41 +279,27 @@
 
 		// Événements Desktop
 		if (toggle && dropdown && closeBtn) {
-			console.log("Événements DESKTOP attachés");
 			on(toggle, "click", (e) => {
-				console.log("CLICK DESKTOP TOGGLE");
 				e.preventDefault();
 				openSearch(false);
 			});
 
 			on(closeBtn, "click", (e) => {
-				console.log("CLICK DESKTOP CLOSE");
 				e.preventDefault();
 				closeSearch(false);
 			});
-		} else {
-			console.log("Desktop non initialisé:", { toggle, dropdown, closeBtn });
 		}
 
 		// Événements Mobile
 		if (mobileToggle && mobileDropdown && mobileCloseBtn) {
-			console.log("Événements MOBILE attachés");
 			on(mobileToggle, "click", (e) => {
-				console.log("CLICK MOBILE TOGGLE");
 				e.preventDefault();
 				openSearch(true);
 			});
 
 			on(mobileCloseBtn, "click", (e) => {
-				console.log("CLICK MOBILE CLOSE");
 				e.preventDefault();
 				closeSearch(true);
-			});
-		} else {
-			console.log("Mobile non initialisé:", {
-				mobileToggle,
-				mobileDropdown,
-				mobileCloseBtn,
 			});
 		}
 
@@ -667,6 +639,87 @@
 	}
 
 	// ==========================================================================
+	// GESTION DES BOUTONS "AJOUTER AU PANIER"
+	// ==========================================================================
+
+	function initAddToCartButtons() {
+		const addToCartButtons = $$(
+			".add_to_cart_button, .ajax_add_to_cart, .single_add_to_cart_button"
+		);
+
+		addToCartButtons.forEach((button) => {
+			// Sauvegarder le texte original
+			const originalTextDesktop =
+				button.querySelector(".d-none.d-xl-inline")?.textContent || "";
+			const originalTextMobile =
+				button.querySelector(".d-inline.d-xl-none")?.textContent || "";
+
+			// Écouter les clics sur le bouton
+			on(button, "click", () => {
+				// JUSTE AJOUTER LA CLASSE LOADING - LE CSS FAIT LE RESTE !
+				button.classList.add("loading");
+				console.log(
+					"✅ Classe loading ajoutée - le spinner CSS devrait apparaître"
+				);
+			});
+		});
+
+		// Écouter l'événement global d'ajout au panier avec jQuery
+		if (typeof jQuery !== "undefined") {
+			jQuery(document.body).on("added_to_cart", function (e) {
+				console.log("🎯 EVENT added_to_cart reçu (jQuery) !");
+
+				// Retrouver le bouton qui a déclenché l'ajout
+				const clickedButton = document.querySelector(
+					".add_to_cart_button.loading, .ajax_add_to_cart.loading"
+				);
+
+				console.log("🔍 Bouton loading trouvé:", clickedButton);
+
+				if (clickedButton) {
+					// Supprimer la classe loading
+					setTimeout(() => {
+						clickedButton.classList.remove("loading");
+
+						// Ajouter la classe added et changer le texte
+						clickedButton.classList.add("added");
+
+						const desktopSpan = clickedButton.querySelector(
+							".d-none.d-xl-inline"
+						);
+						const mobileSpan = clickedButton.querySelector(
+							".d-inline.d-xl-none"
+						);
+
+						console.log("📱 Spans trouvés:", {
+							desktop: desktopSpan,
+							mobile: mobileSpan,
+						});
+
+						if (desktopSpan) {
+							desktopSpan.textContent = "ajouté";
+							console.log("✅ Desktop text changé:", desktopSpan.textContent);
+						}
+						if (mobileSpan) {
+							mobileSpan.textContent = "ajouté";
+							console.log("✅ Mobile text changé:", mobileSpan.textContent);
+						}
+
+						// Revenir à l'état normal après 3 secondes
+						setTimeout(() => {
+							clickedButton.classList.remove("added");
+							if (desktopSpan) desktopSpan.textContent = "ajouter au panier";
+							if (mobileSpan) mobileSpan.textContent = "ajouter";
+						}, 3000);
+					}, 100);
+				} else {
+					console.log("❌ Aucun bouton loading trouvé !");
+				}
+			});
+		}
+	}
+
+	// ==========================================================================
 	// INITIALISATION AOS
 	// ==========================================================================
 
@@ -695,7 +748,8 @@
 		initSearch();
 		initBoutiqueMenu();
 		initCategoriesCarousel();
-		initCartDrawer(); // Smooth scroll après un délai
+		initCartDrawer();
+		initAddToCartButtons(); // Gestion du texte "ajouté"
 		const loader = $("#site-loader");
 		if (loader && isHomePage()) {
 			// Attendre que le loader se cache

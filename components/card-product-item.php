@@ -76,14 +76,14 @@ if ( empty( $image_html ) ) {
                         &nbsp;&nbsp;<i class="d-none d-xl-inline bi bi-bag-heart"></i>
                     </a>
                 <?php elseif ( $product ) : ?>
-                    <button type="button"
-                            class="button view-all-link d-flex justify-content-center align-items-center w-100"
-                            disabled
-                            aria-label="<?php echo esc_attr( sprintf( __( '« %s » en rupture de stock', 'woocommerce' ), $product->get_name() ) ); ?>">
+                    <a href="#"
+                       class="button view-all-link view-all-link-disabled d-flex justify-content-center align-items-center w-100"
+                       onclick="return false;"
+                       aria-label="<?php echo esc_attr( sprintf( __( '« %s » en rupture de stock', 'woocommerce' ), $product->get_name() ) ); ?>">
                         <span class="d-none d-xl-inline">en rupture</span>
                         <span class="d-inline d-xl-none">rupture</span>
                         &nbsp;&nbsp;<i class="d-none d-xl-inline bi bi-exclamation-triangle"></i>
-                    </button>
+                    </a>
                 <?php endif; ?>
             <?php endif; ?>
         </div>

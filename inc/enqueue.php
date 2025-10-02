@@ -16,7 +16,7 @@ if ( ! function_exists( 'understrap_scripts' ) ) {
 		// Get the theme data.
 		$the_theme         = wp_get_theme();
 		$theme_version     = $the_theme->get( 'Version' );
-		$bootstrap_version = get_theme_mod( 'understrap_bootstrap_version', 'bootstrap4' );
+		$bootstrap_version = get_theme_mod( 'understrap_bootstrap_version', 'bootstrap5' );
 		$suffix            = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// Grab asset urls.
