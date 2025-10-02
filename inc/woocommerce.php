@@ -487,14 +487,34 @@ add_filter( 'woocommerce_add_to_cart_fragments', function( $fragments ) {
     <?php
     $fragments['.cart-drawer .drawer-actions'] = ob_get_clean();
 
-    // 4. Mettre à jour les compteurs mobile dans le header (pas dans le menu burger)
-    $fragments['.cart-count'] = $cart_count > 0 ? '<span class="cart-count">' . $cart_count . '</span>' : '';
+    // 4. Mettre à jour les compteurs mobile dans le header (toujours présent, caché si vide)
+    $cart_class = $cart_count > 0 ? 'cart-count' : 'cart-count d-none';
+    $fragments['.cart-count'] = '<span class="' . $cart_class . '">' . $cart_count . '</span>';
 
-    // 5. Mettre à jour le compteur desktop
-    $fragments['.cart-count-desktop'] = $cart_count > 0 ? '<span class="cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill">' . $cart_count . '</span>' : '';
+    // 5. Mettre à jour le compteur desktop (toujours présent, caché si vide)
+    $desktop_class = $cart_count > 0 ? 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill' : 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill d-none';
+    $fragments['.cart-count-desktop'] = '<span class="' . $desktop_class . '">' . $cart_count . '</span>';
 
     return $fragments;
-} );/**
+} );
+
+/**
+ * Aussi gérer les fragments lors des suppressions d'articles
+ */
+add_filter( 'woocommerce_remove_cart_item_from_session', function( $fragments ) {
+    if ( ! $fragments || ! is_array( $fragments ) ) {
+        $fragments = array();
+    }
+
+    // S'assurer que le compteur est aussi mis à jour lors des suppressions
+    $cart_count = WC()->cart ? WC()->cart->get_cart_contents_count() : 0;
+    $cart_class = $cart_count > 0 ? 'cart-count' : 'cart-count d-none';
+    $fragments['.cart-count'] = '<span class="' . $cart_class . '">' . $cart_count . '</span>';
+
+    return $fragments;
+}, 10, 1 );
+
+/**
  * Désactiver la notification WooCommerce par défaut et l'ouverture auto du drawer
  */
 add_action( 'init', 'siklane_disable_wc_notifications_and_auto_drawer' );
@@ -516,9 +536,99 @@ if ( ! function_exists( 'siklane_prevent_auto_drawer_opening' ) ) {
         ?>
         <script>
         jQuery(document).ready(function($) {
-            // Écouter l'événement WooCommerce natif après ajout au panier
+
+            // Fonction pour mettre à jour le compteur mobile
+            function updateMobileCartCount(count) {
+                var $cartCount = $('.cart-count');
+
+                if (count > 0) {
+                    $cartCount.text(count).removeClass('d-none');
+                    $('a.cart-toggle[data-cart-count]').attr('data-cart-count', count);
+                } else {
+                    $cartCount.addClass('d-none');
+                    $('a.cart-toggle[data-cart-count]').attr('data-cart-count', '0');
+                }
+            }            // Fonction pour forcer la mise à jour du mini panier
+            function refreshMiniCart() {
+                if (typeof wc_add_to_cart_params !== 'undefined') {
+                    var data = {
+                        action: 'woocommerce_get_refreshed_fragments'
+                    };
+
+                    $.post(wc_add_to_cart_params.ajax_url, data, function(response) {
+                        if (response && response.fragments) {
+                            $.each(response.fragments, function(key, value) {
+                                var $target = $(key);
+                                if ($target.length > 0) {
+                                    $target.replaceWith(value);
+                                }
+                            });
+
+                            // Recalculer le compteur après mise à jour
+                            setTimeout(initCartCount, 100);
+                        }
+                    }).fail(function() {
+                        // Fallback: recharger le fragment via l'API WooCommerce
+                        $(document.body).trigger('wc_fragment_refresh');
+                    });
+                }
+            }
+
+            // Initialisation du compteur
+            function initCartCount() {
+                var count = 0;
+
+                // Chercher dans plusieurs endroits possibles
+                var selectors = [
+                    '.cart-contents-count',
+                    '.woocommerce-mini-cart .count',
+                    '.cart-drawer .cart-count',
+                    '.widget_shopping_cart .count'
+                ];
+
+                selectors.forEach(function(selector) {
+                    var $elements = $(selector);
+
+                    $elements.each(function() {
+                        var text = $(this).text().trim();
+                        var num = parseInt(text) || 0;
+
+                        if (num > 0) {
+                            count = Math.max(count, num);
+                        }
+                    });
+                });
+
+                // Fallback: récupérer depuis l'attribut data si pas d'autres sources
+                if (count === 0) {
+                    var $cartToggle = $('a.cart-toggle[data-cart-count]');
+                    if ($cartToggle.length > 0) {
+                        var dataCount = parseInt($cartToggle.attr('data-cart-count')) || 0;
+                        if (dataCount > 0) {
+                            count = dataCount;
+                        }
+                    }
+                }
+
+                // Dernier fallback: utiliser le compteur existant s'il est visible
+                if (count === 0) {
+                    var $visibleCount = $('.cart-count:visible');
+                    if ($visibleCount.length > 0) {
+                        var existingCount = parseInt($visibleCount.first().text()) || 0;
+                        if (existingCount > 0) {
+                            count = existingCount;
+                        }
+                    }
+                }
+
+                updateMobileCartCount(count);
+            }            // Initialiser le compteur au chargement
+            setTimeout(initCartCount, 100);
+
+            // Écouter les ajouts au panier
             $(document.body).on('added_to_cart', function(event, fragments, cart_hash, button) {
-                // Mettre à jour les fragments (prix, compteurs, etc.)
+
+                // Mettre à jour les fragments WooCommerce
                 if (fragments) {
                     $.each(fragments, function(key, value) {
                         var $target = $(key);
@@ -535,20 +645,94 @@ if ( ! function_exists( 'siklane_prevent_auto_drawer_opening' ) ) {
                     $('a.cart-toggle[data-cart-count]').attr('data-cart-count', newCount);
                 }
 
-                // Ouvrir le mini panier pour TOUS les ajouts au panier
                 setTimeout(function() {
+                    // Recalculer le compteur
+                    initCartCount();
+
+                    // Ouvrir le mini panier
                     var cartDrawer = document.getElementById('cartDrawer');
                     if (cartDrawer) {
-                        // Force move to body to escape all containers
                         if (cartDrawer.parentNode !== document.body) {
                             document.body.appendChild(cartDrawer);
                         }
-
                         cartDrawer.classList.add('active');
                         cartDrawer.setAttribute('aria-hidden', 'false');
                     }
                 }, 300);
             });
+
+            // Écouter les mises à jour/suppressions
+            $(document.body).on('updated_wc_div removed_from_cart wc_fragments_refreshed wc_fragments_loaded', function(event, fragments) {
+                // Mettre à jour les fragments si disponibles
+                if (fragments) {
+                    $.each(fragments, function(key, value) {
+                        var $target = $(key);
+                        if ($target.length > 0) {
+                            $target.replaceWith(value);
+                        }
+                    });
+                }
+
+                setTimeout(function() {
+                    initCartCount();
+                }, 300);
+            });
+
+            // Écouter les mises à jour spécifiques du panier (page panier)
+            $(document.body).on('updated_cart_totals', function() {
+                setTimeout(function() {
+                    refreshMiniCart();
+                }, 500);
+            });
+
+            // Écouter spécifiquement les clics sur les boutons de suppression
+            $(document).on('click', '.woocommerce-mini-cart .remove, .cart-drawer .remove, .remove_from_cart_button', function(e) {
+                // Attendre que la suppression soit traitée côté serveur
+                setTimeout(function() {
+                    refreshMiniCart();
+                }, 1500);
+            });
+
+            // Écouter les changements de quantité dans le mini panier
+            $(document).on('change', '.cart-drawer input[type="number"], .woocommerce-mini-cart input[type="number"]', function() {
+                var $input = $(this);
+                var oldValue = $input.data('old-value') || $input.val();
+                var newValue = $input.val();
+
+                if (oldValue !== newValue) {
+                    setTimeout(function() {
+                        refreshMiniCart();
+                    }, 1000);
+                }
+
+                $input.data('old-value', newValue);
+            });
+
+            // Stocker les valeurs initiales des inputs de quantité
+            $(document).on('focus', '.cart-drawer input[type="number"], .woocommerce-mini-cart input[type="number"]', function() {
+                $(this).data('old-value', $(this).val());
+            });
+
+            // Fallback : vérification périodique simple (DÉSACTIVÉ car causait des problèmes)
+            // Le système principal fonctionne bien avec les événements WooCommerce
+            /*
+            setInterval(function() {
+                if (typeof wc_add_to_cart_params !== 'undefined') {
+                    var currentDisplayed = $('.cart-count:visible').length > 0 ? parseInt($('.cart-count').first().text()) || 0 : 0;
+                    var actual = 0;
+
+                    $('.cart-contents-count').each(function() {
+                        var count = parseInt($(this).text()) || 0;
+                        actual = Math.max(actual, count);
+                    });
+
+                    if (currentDisplayed !== actual) {
+                        console.log('Correction automatique compteur:', currentDisplayed, '->', actual);
+                        updateMobileCartCount(actual);
+                    }
+                }
+            }, 5000); // Vérifier toutes les 5 secondes
+            */
         });
         </script>
         <?php
@@ -894,18 +1078,7 @@ add_action( 'wp_footer', function() {
             const singleButtons = document.querySelectorAll('.single_add_to_cart_button');
             singleButtons.forEach(function(button) {
                 button.classList.add('view-all-link');
-                console.log('✅ Classe view-all-link ajoutée au bouton fiche produit:', button);
             });
-
-            // Vérifier si le menu right-menu existe et afficher des infos debug
-            const rightMenu = document.querySelector('[data-theme-location="right-menu"]');
-            console.log('🔍 Menu right-menu trouvé:', rightMenu);
-
-            const cartIcon = document.querySelector('.cart-toggle, .menu-item-cart');
-            console.log('🛒 Icône panier trouvée:', cartIcon);
-
-            const cartCount = document.querySelector('.cart-count-desktop');
-            console.log('🔢 Compteur desktop trouvé:', cartCount);
         });
         </script>
         <?php
