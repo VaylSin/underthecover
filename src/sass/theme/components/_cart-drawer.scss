@@ -172,8 +172,15 @@
 	margin-left: 0.5rem;
 }
 
-/* adapt mobile : réduire vignette et espacement */
+/* adapt mobile : réduire vignette et espacement + ajuster hauteur */
 @media (max-width: 575.98px) {
+	.cart-drawer .drawer-content {
+		max-height: calc(
+			100vh - 140px
+		) !important; /* Réduire l'espace réservé pour mobile */
+		overflow-y: auto;
+	}
+
 	.cart-drawer .drawer-content .cart_list li,
 	.widget_shopping_cart .cart_list li,
 	.woocommerce-mini-cart .cart_list li {
@@ -269,7 +276,7 @@
 	}
 }
 
-// responsive : adapter taille vignette et espacement
+// responsive : adapter taille vignette et espacement + assurer visibilité boutons
 @media (max-width: 576px) {
 	.product-title,
 	.product-name {
@@ -280,6 +287,28 @@
 	.widget_shopping_cart img {
 		width: 48px;
 		height: 48px;
+	}
+
+	// S'assurer que les boutons d'action restent visibles sur mobile
+	.cart-drawer {
+		.cart-drawer-panel {
+			padding: 1rem; /* Réduire le padding sur mobile */
+		}
+
+		.drawer-actions {
+			background: rgba(255, 255, 255, 0.98);
+			backdrop-filter: blur(8px);
+			border-top: 1px solid rgba($velvet, 0.2);
+			padding-top: 1rem;
+			margin-top: 0.5rem;
+		}
+
+		.drawer-content {
+			max-height: calc(
+				100vh - 200px
+			) !important; /* Plus d'espace pour les boutons */
+			padding-bottom: 0.5rem;
+		}
 	}
 }
 

@@ -6666,6 +6666,36 @@
     }
 
     // ==========================================================================
+    // ACCORDÉONS PERSONNALISÉS (Permettre fermeture sans ouvrir autre)
+    // ==========================================================================
+
+    function initAccordions() {
+      // Gérer les accordéons Bootstrap avec possibilité de fermeture
+      const accordions = $$(".siklane-accordion .accordion-button, .product-tabs-accordion .accordion-button");
+      accordions.forEach(button => {
+        on(button, "click", e => {
+          const target = button.getAttribute("data-bs-target");
+          const collapseElement = $(target);
+          if (!collapseElement) return;
+
+          // Si l'accordéon est actuellement ouvert, empêcher l'action Bootstrap et le fermer manuellement
+          if (collapseElement.classList.contains("show")) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Fermer manuellement sans ouvrir un autre
+            collapseElement.classList.remove("show");
+            button.classList.add("collapsed");
+            button.setAttribute("aria-expanded", "false");
+            return false;
+          }
+
+          // Sinon, laisser Bootstrap gérer l'ouverture normale (un seul à la fois)
+        });
+      });
+    }
+
+    // ==========================================================================
     // GESTION DES BOUTONS "AJOUTER AU PANIER"
     // ==========================================================================
 
@@ -6760,6 +6790,7 @@
       initBoutiqueMenu();
       initCategoriesCarousel();
       initCartDrawer();
+      initAccordions(); // Gestion des accordéons personnalisés
       initAddToCartButtons(); // Gestion du texte "ajouté"
       const loader = $("#site-loader");
       if (loader && isHomePage()) {

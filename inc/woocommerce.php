@@ -648,7 +648,7 @@ add_action( 'woocommerce_after_single_product_summary', function() {
                     echo '<div class="accordion-item siklane-accordion-item" id="item-' . $san_id . '">';
 
                     printf(
-                        '<h2 class="accordion-header" id="%1$s"><button class="%2$s siklane-accordion-summary" data-callapse="%2$s" type="button" data-bs-toggle="collapse" data-bs-target="#%3$s" aria-controls="%3$s"><span class="siklane-accordion-title">%5$s</span><i class="bi bi-arrow-down-circle siklane-accordion-icon" aria-hidden="true"></i></button></h2>',
+                        '<h2 class="accordion-header" id="%1$s"><button class="%2$s siklane-accordion-summary" data-callapse="%2$s" type="button" data-bs-toggle="collapse" data-bs-target="#%3$s" aria-expanded="%4$s" aria-controls="%3$s"><span class="siklane-accordion-title">%5$s</span><i class="bi bi-arrow-down-circle siklane-accordion-icon" aria-hidden="true"></i></button></h2>',
                         esc_attr( $heading_id ),
                         esc_attr( $button_class ),
                         esc_attr( $collapse_id ),
