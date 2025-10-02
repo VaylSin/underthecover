@@ -40,8 +40,10 @@ body {
 // Container Hero Homepage (Slider + Banderole)
 // ==========================================================================
 .homepage-hero-container {
-	// Calculer la hauteur disponible : 100dvh - header - bannière promo
-	height: calc(100dvh - 100px - 40px); // Valeurs de base
+	// Calculer la hauteur disponible : 100dvh - bannière promo - header - banderole défilante
+	height: calc(
+		100dvh - 30px - 55px - 40px
+	); // bannière promo + header + banderole
 	width: 100%;
 	display: flex;
 	flex-direction: column;
@@ -50,11 +52,10 @@ body {
 	// Responsive adjustments
 	@media (max-width: 991.98px) {
 		// Utiliser vh au lieu de dvh sur mobile pour éviter les problèmes de viewport
-		height: calc(
-			100vh - 70px - 30px
-		); // Hauteurs plus conservatrices sur mobile
+		// Hauteurs mobile : bannière promo (25px) + header (45px) + banderole (35px)
+		height: calc(100vh - 25px - 45px - 35px);
 		// Alternative: utiliser min-height au lieu de height pour plus de flexibilité
-		min-height: calc(100vh - 70px - 30px);
+		min-height: calc(100vh - 25px - 45px - 35px);
 		max-height: 100vh; // Limiter à la hauteur de l'écran
 	}
 
