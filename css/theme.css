@@ -20833,6 +20833,12 @@ body.scroll-locked .cart-drawer {
   background: #bc3365;
   color: #fff;
 }
+@media screen and (max-width: 991.98px) {
+  .about-damier-texte .about-damier-wysiwyg.velvet-bg {
+    color: #272727;
+    background: none;
+  }
+}
 .about-damier-texte .about-damier-wysiwyg .about-damier-inner-container {
   max-width: 600px;
   margin-left: auto;
@@ -21820,8 +21826,10 @@ body.mobile-menu-open .mobile-search-toggle {
   color: #bc3365 !important;
   background: transparent !important;
 }
-.shop-categories .btn:hover::after, .shop-categories input[type=submit]:hover::after, .shop-categories .wc-block-components-totals-coupon__content button[type=submit]:hover::after, .wc-block-components-totals-coupon__content .shop-categories button[type=submit]:hover::after, .shop-categories .woocommerce-form-login__submit:hover::after, .shop-categories .woocommerce-notices-wrapper .woocommerce-message a.button:hover::after, .woocommerce-notices-wrapper .woocommerce-message .shop-categories a.button:hover::after, .shop-categories .woocommerce-info a.button:hover::after, .woocommerce-info .shop-categories a.button:hover::after, .shop-categories .wc-block-components-checkout-return-to-cart-button:hover::after {
-  width: 100%;
+@media screen and (min-width: 991.98px) {
+  .shop-categories .btn:hover::after, .shop-categories input[type=submit]:hover::after, .shop-categories .wc-block-components-totals-coupon__content button[type=submit]:hover::after, .wc-block-components-totals-coupon__content .shop-categories button[type=submit]:hover::after, .shop-categories .woocommerce-form-login__submit:hover::after, .shop-categories .woocommerce-notices-wrapper .woocommerce-message a.button:hover::after, .woocommerce-notices-wrapper .woocommerce-message .shop-categories a.button:hover::after, .shop-categories .woocommerce-info a.button:hover::after, .woocommerce-info .shop-categories a.button:hover::after, .shop-categories .wc-block-components-checkout-return-to-cart-button:hover::after {
+    width: 100%;
+  }
 }
 .shop-categories .btn.active, .shop-categories input.active[type=submit], .shop-categories .wc-block-components-totals-coupon__content button.active[type=submit], .wc-block-components-totals-coupon__content .shop-categories button.active[type=submit], .shop-categories .active.woocommerce-form-login__submit, .shop-categories .woocommerce-notices-wrapper .woocommerce-message a.active.button, .woocommerce-notices-wrapper .woocommerce-message .shop-categories a.active.button, .shop-categories .woocommerce-info a.active.button, .woocommerce-info .shop-categories a.active.button, .shop-categories .active.wc-block-components-checkout-return-to-cart-button {
   color: #bc3365 !important;

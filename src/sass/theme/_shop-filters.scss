@@ -33,7 +33,9 @@
 			background: transparent !important;
 
 			&::after {
-				width: 100%;
+				@media screen and (min-width: 991.98px) {
+					width: 100%;
+				}
 			}
 		}
 

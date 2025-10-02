@@ -128,6 +128,10 @@
 		&.velvet-bg {
 			background: $velvet;
 			color: #fff;
+			@media screen and (max-width: 991.98px) {
+				color: $black-main;
+				background: none;
+			}
 		}
 
 		.about-damier-inner-container {

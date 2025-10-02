@@ -6331,69 +6331,53 @@
     // ==========================================================================
 
     function initSearch() {
-      // Desktop elements
-      const toggle = document.getElementById("searchToggle");
+      // Système unique pour tous les devices
+      const toggles = document.querySelectorAll(".search-toggle");
       const dropdown = document.getElementById("searchDropdown");
-      const closeBtn = document.getElementById("closeSearch");
-
-      // Mobile elements
-      const mobileToggle = document.getElementById("mobileSearchToggle");
       const mobileDropdown = document.getElementById("mobileSearchDropdown");
+      const closeBtn = document.getElementById("closeSearch");
       const mobileCloseBtn = document.getElementById("mobileCloseSearch");
-
-      // Au moins un système doit être présent
-      if ((!toggle || !dropdown || !closeBtn) && (!mobileToggle || !mobileDropdown || !mobileCloseBtn)) {
+      if (toggles.length === 0 || !dropdown && !mobileDropdown) {
+        console.log("Système de recherche: éléments manquants");
         return;
       }
-      const openSearch = (isMobile = false) => {
+      const openSearch = () => {
+        // Ouvrir le bon dropdown selon la taille d'écran
+        const isMobile = window.innerWidth < 992;
         const targetDropdown = isMobile ? mobileDropdown : dropdown;
         if (targetDropdown) {
-          // S'assurer que l'autre dropdown est fermé d'abord
-          if (dropdown && !isMobile) dropdown.classList.remove("open");
-          if (mobileDropdown && isMobile) mobileDropdown.classList.remove("open");
           targetDropdown.classList.add("open");
-          targetDropdown.style.display = "block";
+          if (!isMobile) targetDropdown.style.display = "block";
 
           // Focus sur le champ de recherche
           const input = targetDropdown.querySelector(".search-field");
           if (input) setTimeout(() => input.focus(), 300);
         }
       };
-      const closeSearch = (isMobile = false) => {
-        const targetDropdown = isMobile ? mobileDropdown : dropdown;
-        if (targetDropdown) {
-          targetDropdown.classList.remove("open");
-        }
-        // Pas besoin d'unlockScroll() puisqu'on ne lock plus
-      };
-
-      // Fonction de fermeture simple
-      const forceCloseSearch = () => {
+      const closeSearch = () => {
         if (dropdown) dropdown.classList.remove("open");
         if (mobileDropdown) mobileDropdown.classList.remove("open");
       };
 
-      // Événements Desktop
-      if (toggle && dropdown && closeBtn) {
+      // Événements pour toutes les icônes de recherche
+      toggles.forEach(toggle => {
         on(toggle, "click", e => {
           e.preventDefault();
-          openSearch(false);
+          openSearch();
         });
+      });
+
+      // Boutons de fermeture
+      if (closeBtn) {
         on(closeBtn, "click", e => {
           e.preventDefault();
-          closeSearch(false);
+          closeSearch();
         });
       }
-
-      // Événements Mobile
-      if (mobileToggle && mobileDropdown && mobileCloseBtn) {
-        on(mobileToggle, "click", e => {
-          e.preventDefault();
-          openSearch(true);
-        });
+      if (mobileCloseBtn) {
         on(mobileCloseBtn, "click", e => {
           e.preventDefault();
-          closeSearch(true);
+          closeSearch();
         });
       }
 
@@ -6408,12 +6392,12 @@
       on(document, "click", e => {
         // Desktop
         if (dropdown && toggle && dropdown.classList.contains("open") && !dropdown.contains(e.target) && !toggle.contains(e.target)) {
-          closeSearch(false);
+          closeSearch();
         }
 
         // Mobile
         if (mobileDropdown && mobileToggle && mobileDropdown.classList.contains("open") && !mobileDropdown.contains(e.target) && !mobileToggle.contains(e.target)) {
-          closeSearch(true);
+          closeSearch();
         }
       });
 

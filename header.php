@@ -121,7 +121,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                             <option value="es">ES</option>
                         </select>
 
-                        <a href="#" class="search-toggle" id="searchToggle" aria-label="Rechercher">
+                        <a href="#" class="search-toggle" aria-label="Rechercher">
                             <i class="bi bi-search-heart"></i>
                         </a>
 
@@ -261,7 +261,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                             </button>
 
                             <!-- Recherche -->
-                            <a href="#" class="search-toggle mobile-search-toggle" id="mobileSearchToggle" aria-label="Rechercher">
+                            <a href="#" class="search-toggle" aria-label="Rechercher">
                                 <i class="bi bi-search-heart fs-4"></i>
                             </a>
                         </div>
