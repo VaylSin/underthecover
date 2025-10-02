@@ -17787,9 +17787,9 @@ body {
 }
 @media (max-width: 991.98px) {
   .homepage-hero-container {
-    height: calc(100vh - 45px - 65px);
-    min-height: calc(100vh - 45px - 65px);
-    max-height: 100vh;
+    height: calc(100dvh - 45px - 65px);
+    min-height: calc(100dvh - 45px - 65px);
+    max-height: 100dvh;
   }
 }
 .homepage-hero-container .slider_container {
