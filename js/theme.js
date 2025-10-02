@@ -6337,15 +6337,25 @@
       const mobileDropdown = document.getElementById("mobileSearchDropdown");
       const closeBtn = document.getElementById("closeSearch");
       const mobileCloseBtn = document.getElementById("mobileCloseSearch");
+      console.log("Debug recherche:", {
+        toggles: toggles.length,
+        dropdown,
+        mobileDropdown,
+        closeBtn,
+        mobileCloseBtn
+      });
       if (toggles.length === 0 || !dropdown && !mobileDropdown) {
         console.log("Système de recherche: éléments manquants");
         return;
       }
       const openSearch = () => {
+        console.log("openSearch appelée");
         // Ouvrir le bon dropdown selon la taille d'écran
         const isMobile = window.innerWidth < 992;
         const targetDropdown = isMobile ? mobileDropdown : dropdown;
+        console.log("Mobile:", isMobile, "Target:", targetDropdown);
         if (targetDropdown) {
+          console.log("Ouverture du dropdown");
           targetDropdown.classList.add("open");
           if (!isMobile) targetDropdown.style.display = "block";
 
@@ -6361,7 +6371,9 @@
 
       // Événements pour toutes les icônes de recherche
       toggles.forEach(toggle => {
+        console.log("Ajout event sur toggle:", toggle);
         on(toggle, "click", e => {
+          console.log("CLIC sur recherche détecté!");
           e.preventDefault();
           openSearch();
         });

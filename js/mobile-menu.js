@@ -172,47 +172,8 @@
 	}
 
 	function initMobileSearchToggle() {
-		const mobileSearchToggle = document.getElementById("mobileSearchToggle");
-		const mobileSearchDropdown = document.getElementById(
-			"mobileSearchDropdown"
-		);
-
-		if (mobileSearchToggle && mobileSearchDropdown) {
-			// Méthode alternative : utiliser onclick directement pour éviter les conflits
-			mobileSearchToggle.onclick = function (e) {
-				console.log("=== CLIC SUR RECHERCHE MOBILE (onclick) ===", e);
-				e.preventDefault();
-				e.stopPropagation();
-				e.stopImmediatePropagation();
-
-				// Toggle du dropdown
-				if (mobileSearchDropdown.classList.contains("open")) {
-					console.log("Fermeture de la recherche mobile");
-					mobileSearchDropdown.classList.remove("open");
-					document.body.style.overflow = "";
-				} else {
-					console.log("Ouverture de la recherche mobile");
-					mobileSearchDropdown.classList.add("open");
-					document.body.style.overflow = "hidden";
-
-					// Focus sur le champ de recherche
-					setTimeout(() => {
-						const searchInput =
-							mobileSearchDropdown.querySelector(".search-field");
-						if (searchInput) {
-							console.log("Focus sur le champ de recherche mobile");
-							searchInput.focus();
-						}
-					}, 300);
-				}
-				return false;
-			};
-		} else {
-			console.error("Éléments de recherche mobile manquants:", {
-				mobileSearchToggle: !!mobileSearchToggle,
-				mobileSearchDropdown: !!mobileSearchDropdown,
-			});
-		}
+		// Recherche maintenant gérée de manière unifiée par custom-javascript.js
+		console.log("Recherche mobile désactivée dans mobile-menu.js");
 	}
 
 	function handleMobileSearchClick(e) {
