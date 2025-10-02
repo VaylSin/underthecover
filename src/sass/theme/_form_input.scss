@@ -60,6 +60,7 @@ input[type="tel"],
 input[type="search"],
 input[type="url"],
 input[type="password"],
+input[type="number"]:not(.qty):not([name="quantity"]),
 select,
 textarea,
 .wc-blocks-components-select__select,
@@ -76,6 +77,28 @@ textarea,
 	transition: background-color 0.15s ease, border-color 0.15s ease,
 		box-shadow 0.15s ease;
 }
+
+/* Force la non-application des styles sur le champ quantité de la fiche produit */
+input[type="number"][name="quantity"].form-control,
+input[type="number"][name="quantity"] {
+	background-color: transparent !important;
+	border: 0 !important;
+	padding: 0 !important;
+	border-radius: inherit !important;
+	font-size: inherit !important;
+	color: inherit !important;
+	box-shadow: none !important;
+	outline: none !important;
+}
+
+input[type="number"][name="quantity"].form-control:focus,
+input[type="number"][name="quantity"]:focus {
+	background-color: transparent !important;
+	border: 0 !important;
+	box-shadow: none !important;
+	outline: none !important;
+}
+
 .wpcf7-acceptance {
 	background-color: transparent !important;
 }
@@ -85,7 +108,7 @@ textarea {
 
 /* Focus : haute spécificité pour écraser Bootstrap */
 // cible inputs qui ont la classe .form-control (Bootstrap)
-input.form-control:focus,
+input.form-control:focus:not([name="quantity"]),
 textarea.form-control:focus,
 select.form-control:focus,
 input[type="text"]:focus,
@@ -93,6 +116,7 @@ input[type="email"]:focus,
 input[type="tel"]:focus,
 input[type="search"]:focus,
 input[type="url"]:focus,
+input[type="number"]:not(.qty):not([name="quantity"]):focus,
 select:focus,
 textarea:focus,
 .wpcf7-form-control:focus {
@@ -350,7 +374,9 @@ form.cart input[type="number"]::-webkit-inner-spin-button {
 	input[type="search"],
 	input[type="url"],
 	input[type="password"],
-	input[type="number"]:not(.wc-block-components-quantity-selector__input),
+	input[type="number"]:not(.wc-block-components-quantity-selector__input):not(
+			.qty
+		):not([name="quantity"]),
 	select,
 	.wc-blocks-components-select__select,
 	.wpcf7-form-control:not(textarea) {

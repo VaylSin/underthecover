@@ -6402,8 +6402,8 @@
 
       // Fermeture en cliquant à l'extérieur (simplifié)
       on(document, "click", e => {
-        const isSearchToggle = e.target.closest('.search-toggle');
-        const isDropdown = e.target.closest('#searchDropdown, #mobileSearchDropdown');
+        const isSearchToggle = e.target.closest(".search-toggle");
+        const isDropdown = e.target.closest("#searchDropdown, #mobileSearchDropdown");
         if (!isSearchToggle && !isDropdown) {
           closeSearch();
         }

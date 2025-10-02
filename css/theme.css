@@ -11949,6 +11949,7 @@ input[type=tel],
 input[type=search],
 input[type=url],
 input[type=password],
+input[type=number]:not(.qty):not([name=quantity]),
 select,
 textarea,
 .wc-blocks-components-select__select,
@@ -11964,6 +11965,27 @@ textarea,
   transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
+/* Force la non-application des styles sur le champ quantité de la fiche produit */
+input[type=number][name=quantity].form-control,
+input[type=number][name=quantity] {
+  background-color: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  border-radius: inherit !important;
+  font-size: inherit !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+input[type=number][name=quantity].form-control:focus,
+input[type=number][name=quantity]:focus {
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
 .wpcf7-acceptance {
   background-color: transparent !important;
 }
@@ -11973,9 +11995,9 @@ textarea {
 }
 
 /* Focus : haute spécificité pour écraser Bootstrap */
-input.form-control:focus,
-input[type=number]:focus,
-input[type=password]:focus,
+input.form-control:focus:not([name=quantity]),
+input[type=number]:focus:not([name=quantity]),
+input[type=password]:focus:not([name=quantity]),
 textarea.form-control:focus,
 select.form-control:focus,
 input[type=text]:focus,
@@ -11983,6 +12005,7 @@ input[type=email]:focus,
 input[type=tel]:focus,
 input[type=search]:focus,
 input[type=url]:focus,
+input[type=number]:not(.qty):not([name=quantity]):focus,
 select:focus,
 textarea:focus,
 .wpcf7-form-control:focus {
@@ -12495,7 +12518,7 @@ form.cart input[type=number]::-webkit-inner-spin-button {
   input[type=search],
   input[type=url],
   input[type=password],
-  input[type=number]:not(.wc-block-components-quantity-selector__input),
+  input[type=number]:not(.wc-block-components-quantity-selector__input):not(.qty):not([name=quantity]),
   select,
   .wc-blocks-components-select__select,
   .wpcf7-form-control:not(textarea) {
@@ -13038,6 +13061,7 @@ figure.woocommerce-product-gallery__wrapper {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
     padding-block: 1rem;
+    font-size: 0.8rem;
   }
 }
 /* Coloration des étoiles de rating */
@@ -13292,6 +13316,11 @@ figure.woocommerce-product-gallery__wrapper {
   .single-product .summary.entry-summary .quantity .qty {
     width: 80px;
     padding: 0.5rem;
+    background-color: #fff !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    font-size: 1rem !important;
+    text-align: center;
   }
 }
 /* Mobile très petit - optimisations extrêmes pour la fiche produit */
@@ -14542,7 +14571,7 @@ main input[type=tel],
 main input[type=search],
 main input[type=url],
 main input[type=password],
-main input[type=number],
+main input[type=number]:not([name=quantity]),
 main select,
 main textarea,
 .content-area input[type=text],
@@ -14551,7 +14580,7 @@ main textarea,
 .content-area input[type=search],
 .content-area input[type=url],
 .content-area input[type=password],
-.content-area input[type=number],
+.content-area input[type=number]:not([name=quantity]),
 .content-area select,
 .content-area textarea,
 .wc-blocks-components-select__select,
@@ -14590,8 +14619,8 @@ main input[type=url]:focus,
 main input[type=url]:active,
 main input[type=password]:focus,
 main input[type=password]:active,
-main input[type=number]:focus,
-main input[type=number]:active,
+main input[type=number]:not([name=quantity]):focus,
+main input[type=number]:not([name=quantity]):active,
 main select:focus,
 main select:active,
 main textarea:focus,
@@ -14608,8 +14637,8 @@ main textarea:active,
 .content-area input[type=url]:active,
 .content-area input[type=password]:focus,
 .content-area input[type=password]:active,
-.content-area input[type=number]:focus,
-.content-area input[type=number]:active,
+.content-area input[type=number]:not([name=quantity]):focus,
+.content-area input[type=number]:not([name=quantity]):active,
 .content-area select:focus,
 .content-area select:active,
 .content-area textarea:focus,

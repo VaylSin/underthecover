@@ -524,6 +524,7 @@ figure.woocommerce-product-gallery__wrapper {
 		grid-template-columns: repeat(2, 1fr);
 		gap: 0.5rem;
 		padding-block: 1rem;
+		font-size: 0.8rem;
 	}
 }
 
@@ -808,6 +809,11 @@ figure.woocommerce-product-gallery__wrapper {
 			.qty {
 				width: 80px;
 				padding: 0.5rem;
+				background-color: #fff !important;
+				border: 1px solid #ddd !important;
+				border-radius: 4px !important;
+				font-size: 1rem !important;
+				text-align: center;
 			}
 		}
 	}
@@ -2049,7 +2055,7 @@ main input[type="tel"],
 main input[type="search"],
 main input[type="url"],
 main input[type="password"],
-main input[type="number"],
+main input[type="number"]:not([name="quantity"]),
 main select,
 main textarea,
 .content-area input[type="text"],
@@ -2058,7 +2064,7 @@ main textarea,
 .content-area input[type="search"],
 .content-area input[type="url"],
 .content-area input[type="password"],
-.content-area input[type="number"],
+.content-area input[type="number"]:not([name="quantity"]),
 .content-area select,
 .content-area textarea,
 .wc-blocks-components-select__select,
