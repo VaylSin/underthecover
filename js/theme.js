@@ -6332,14 +6332,14 @@
 
     function initSearch() {
       // Desktop elements
-      const toggle = $("#searchToggle");
-      const dropdown = $("#searchDropdown") || $(".search-dropdown");
-      const closeBtn = $("#closeSearch");
+      const toggle = document.getElementById("searchToggle");
+      const dropdown = document.getElementById("searchDropdown");
+      const closeBtn = document.getElementById("closeSearch");
 
       // Mobile elements
-      const mobileToggle = $("#mobileSearchToggle");
-      const mobileDropdown = $("#mobileSearchDropdown");
-      const mobileCloseBtn = $("#mobileCloseSearch");
+      const mobileToggle = document.getElementById("mobileSearchToggle");
+      const mobileDropdown = document.getElementById("mobileSearchDropdown");
+      const mobileCloseBtn = document.getElementById("mobileCloseSearch");
 
       // Au moins un système doit être présent
       if ((!toggle || !dropdown || !closeBtn) && (!mobileToggle || !mobileDropdown || !mobileCloseBtn)) {

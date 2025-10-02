@@ -81,6 +81,10 @@ figure.woocommerce-product-gallery__wrapper {
 		@extend .btn;
 		@extend .btn-info;
 	}
+	@media screen and (max-width: 992px) {
+		flex-direction: column;
+		gap: 1.5rem;
+	}
 }
 
 /* Accessibility - update color for required class */
@@ -1876,5 +1880,13 @@ a.add_to_cart_button.view-all-link {
 				font-weight: bold;
 			}
 		}
+	}
+}
+@media (max-width: 992px) {
+	#my-account-menu,
+	#my-account-menu.position-right {
+		width: 100%;
+		float: none;
+		padding: 0 !important;
 	}
 }

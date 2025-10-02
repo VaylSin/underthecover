@@ -434,6 +434,7 @@ body.mobile-menu-open {
 		display: inline-block;
 
 		.mobile-logo-svg {
+			transform: scale(1.3);
 			height: 3.5rem;
 			width: auto;
 			max-width: 200px;
@@ -631,4 +632,23 @@ body.mobile-menu-open .mobile-search-toggle {
 	.mobile-search-dropdown {
 		display: none !important;
 	}
+}
+
+// =============================================================================
+// SUPPRESSION DE L'ENCART PANIER MOBILE
+// =============================================================================
+
+// Masquer uniquement l'encart panier DANS LE MENU MOBILE (pas dans le header)
+.mobile-menu .mobile-cart-link,
+.mobile-menu .cart-count-badge,
+.mobile-menu .mobile-action-btn.cart-toggle,
+.mobile-menu .mobile-action-btn[class*="cart"],
+.mobile-menu .cart-count,
+.mobile-menu-actions .cart-count,
+.mobile-menu .cart-toggle,
+.mobile-menu .cart-item,
+.mobile-menu .woocommerce-mini-cart,
+.mobile-menu-nav .cart-toggle {
+	display: none !important;
+	visibility: hidden !important;
 }

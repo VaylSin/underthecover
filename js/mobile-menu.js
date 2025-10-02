@@ -278,32 +278,8 @@
 	}
 
 	function initMobileCart() {
-		const cartButton = document.querySelector(".mobile-action-btn.cart-toggle");
-		if (cartButton) {
-			cartButton.addEventListener("click", function (e) {
-				e.preventDefault();
-
-				// Si le cart drawer existe, l'ouvrir
-				if (typeof window.initCartDrawer === "function") {
-					closeMobileMenu();
-					setTimeout(() => {
-						// Déclencher l'ouverture du cart drawer
-						const cartDrawer = document.getElementById("cartDrawer");
-						if (cartDrawer) {
-							cartDrawer.classList.add("active");
-							cartDrawer.setAttribute("aria-hidden", "false");
-							document.body.classList.add("cart-open");
-						}
-					}, 300);
-				} else {
-					// Rediriger vers la page panier
-					const cartUrl = this.getAttribute("data-cart-url");
-					if (cartUrl) {
-						window.location.href = cartUrl;
-					}
-				}
-			});
-		}
+		// Fonction désactivée - le panier n'est plus disponible dans le menu mobile
+		return;
 	}
 
 	// Gestion des touches du clavier

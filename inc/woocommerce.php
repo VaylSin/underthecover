@@ -487,8 +487,8 @@ add_filter( 'woocommerce_add_to_cart_fragments', function( $fragments ) {
     <?php
     $fragments['.cart-drawer .drawer-actions'] = ob_get_clean();
 
-    // 4. Mettre à jour les compteurs dans les menus de navigation
-    $fragments['.cart-count-badge'] = $cart_count > 0 ? '<span class="cart-count-badge badge bg-velvet text-white rounded-pill ms-1">' . $cart_count . '</span>' : '';
+    // 4. Mettre à jour les compteurs mobile dans le header (pas dans le menu burger)
+    $fragments['.cart-count'] = $cart_count > 0 ? '<span class="cart-count">' . $cart_count . '</span>' : '';
 
     // 5. Mettre à jour le compteur desktop
     $fragments['.cart-count-desktop'] = $cart_count > 0 ? '<span class="cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill">' . $cart_count . '</span>' : '';
