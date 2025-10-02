@@ -45,22 +45,51 @@ body {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
+	overflow: hidden; // Éviter le scroll interne
 
 	// Responsive adjustments
 	@media (max-width: 991.98px) {
+		// Utiliser vh au lieu de dvh sur mobile pour éviter les problèmes de viewport
 		height: calc(
-			100dvh - 80px - 35px
-		); // Header et bannière plus petits sur mobile
+			100vh - 70px - 30px
+		); // Hauteurs plus conservatrices sur mobile
+		// Alternative: utiliser min-height au lieu de height pour plus de flexibilité
+		min-height: calc(100vh - 70px - 30px);
+		max-height: 100vh; // Limiter à la hauteur de l'écran
 	}
 
 	.slider_container {
 		flex: 1; // Prend l'espace restant après la banderole
 		min-height: 0; // Permet la flexibilité
+		overflow: hidden; // Pas de scroll interne
 	}
 
 	.bandeau_deroulant {
 		flex-shrink: 0; // Ne se réduit pas
 		height: auto; // Hauteur naturelle
+		overflow: hidden; // Pas de débordement
+	}
+
+	// Assurer que le carousel Bootstrap respecte les contraintes
+	.carousel {
+		height: 100%;
+		overflow: hidden;
+
+		.carousel-inner {
+			height: 100%;
+
+			.carousel-item {
+				height: 100%;
+				overflow: hidden;
+
+				// S'assurer que les images ne dépassent pas
+				img {
+					object-fit: cover;
+					width: 100%;
+					height: 100%;
+				}
+			}
+		}
 	}
 }
 
