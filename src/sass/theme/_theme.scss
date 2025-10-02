@@ -53,9 +53,9 @@ body {
 	@media (max-width: 991.98px) {
 		// Utiliser vh au lieu de dvh sur mobile pour éviter les problèmes de viewport
 		// Hauteurs mobile : bannière promo (25px) + header (45px) + banderole (35px)
-		height: calc(100vh - 25px - 45px - 35px);
+		height: calc(100vh - 45px - 65px);
 		// Alternative: utiliser min-height au lieu de height pour plus de flexibilité
-		min-height: calc(100vh - 25px - 45px - 35px);
+		min-height: calc(100vh - 45px - 65px);
 		max-height: 100vh; // Limiter à la hauteur de l'écran
 	}
 
