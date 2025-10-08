@@ -14774,6 +14774,14 @@ textarea,
   background: #ffffff !important;
 }
 
+/* Boutons submit des formulaires de gestion de compte - 100% largeur sur mobile uniquement */
+@media (max-width: 767.98px) {
+  .woocommerce-account .woocommerce-form button[type=submit].view-all-link, .woocommerce-account .woocommerce-form button[type=submit].woocommerce-Button, .woocommerce-account .woocommerce-form button[type=submit].wc-block-cart__submit-button,
+  .woocommerce-account .woocommerce-form button[type=submit].wc-block-components-checkout-place-order-button, .woocommerce-account .woocommerce-form .wc-block-checkout__actions_row button[type=submit].wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .woocommerce-account .woocommerce-form button[type=submit].wc-block-components-checkout-return-to-cart-button, .woocommerce-account .woocommerce-form button[type=submit].woocommerce-form-login__submit, .woocommerce-account .woocommerce-form button[type=submit].single_add_to_cart_button {
+    width: 100% !important;
+  }
+}
+
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -17937,12 +17945,11 @@ h6,
   color: #bc3365 !important;
   text-decoration: none !important;
 }
-#wrapper-navbar .header-lang-select {
-  margin-right: 1rem;
-}
-#wrapper-navbar .header-lang-select select {
-  border: none;
-  background: #f8f8f8;
+#wrapper-navbar #lang-select {
+  border: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
   color: #222;
   font-size: 0.95rem;
   font-weight: 600;
@@ -17950,11 +17957,14 @@ h6,
   border-radius: 1.2rem;
   outline: none;
   cursor: pointer;
-  transition: background color 0.3s ease;
+  margin-right: 1rem;
 }
-#wrapper-navbar .header-lang-select select:hover, #wrapper-navbar .header-lang-select select:focus {
-  background: #bc3365;
-  color: #fff;
+#wrapper-navbar #lang-select:hover, #wrapper-navbar #lang-select:focus {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  color: #222;
+  outline: none;
 }
 
 .menu_container {
@@ -21834,7 +21844,7 @@ body.scroll-locked .cart-drawer {
   padding: 0.5rem 1rem;
   border: 1px solid #dee2e6;
   border-radius: 0.375rem;
-  background-color: white;
+  background-color: transparent;
   font-size: 0.9rem;
   cursor: pointer;
 }

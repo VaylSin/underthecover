@@ -2217,3 +2217,14 @@ textarea,
 	background-color: #ffffff !important;
 	background: #ffffff !important;
 }
+
+/* Boutons submit des formulaires de gestion de compte - 100% largeur sur mobile uniquement */
+.woocommerce-account {
+	.woocommerce-form {
+		button[type="submit"].view-all-link {
+			@include media-breakpoint-down(md) {
+				width: 100% !important;
+			}
+		}
+	}
+}

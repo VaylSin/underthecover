@@ -36,7 +36,7 @@ if ( is_user_logged_in() ) {
                     <div class="card-body p-3">
                         <h2 class="maj_title logo_h3_content justify-content-start card-title text-uppercase mb-3"><?php esc_html_e( 'Register', 'woocommerce' ); ?></h2>
 
-                        <form method="post" class="woocommerce-form my-5 px-0" <?php do_action( 'woocommerce_register_form_tag' ); ?>>
+                        <form method="post" class="woocommerce-form px-0" <?php do_action( 'woocommerce_register_form_tag' ); ?>>
 
                             <?php do_action( 'woocommerce_register_form_start' ); ?>
 
@@ -87,7 +87,7 @@ if ( is_user_logged_in() ) {
                     <div class="card-body p-3">
                         <h2 class="maj_title logo_h3_content justify-content-start card-title text-uppercase mb-3"><?php esc_html_e( 'Login', 'woocommerce' ); ?></h2>
 
-                        <form class="woocommerce-form my-5 px-0 " method="post" novalidate>
+                        <form class="woocommerce-form px-0 " method="post" novalidate>
                             <?php do_action( 'woocommerce_login_form_start' ); ?>
 
                             <p class=" mb-3 form-row-wide mb-3">

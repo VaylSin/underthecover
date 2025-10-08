@@ -218,25 +218,27 @@ h6 {
 	}
 
 	// Sélecteur de langue
-	.header-lang-select {
+	#lang-select {
+		border: none !important;
+		background: transparent !important;
+		background-color: transparent !important;
+		background-image: none !important;
+		color: #222;
+		font-size: 0.95rem;
+		font-weight: 600;
+		padding: 0.3rem 0.8rem;
+		border-radius: 1.2rem;
+		outline: none;
+		cursor: pointer;
 		margin-right: 1rem;
 
-		select {
-			border: none;
-			background: #f8f8f8;
+		&:hover,
+		&:focus {
+			background: transparent !important;
+			background-color: transparent !important;
+			background-image: none !important;
 			color: #222;
-			font-size: 0.95rem;
-			font-weight: 600;
-			padding: 0.3rem 0.8rem;
-			border-radius: 1.2rem;
 			outline: none;
-			cursor: pointer;
-			@include transition(background color);
-
-			@include hover-focus {
-				background: $velvet;
-				color: #fff;
-			}
 		}
 	}
 }
