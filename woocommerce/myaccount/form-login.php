@@ -33,7 +33,7 @@ if ( is_user_logged_in() ) {
         <div class="row justify-content-center">
             <div class="col-12 col-md-6 login_form_container">
                 <div class="">
-                    <div class="card-body">
+                    <div class="card-body p-3">
                         <h2 class="maj_title logo_h3_content justify-content-start card-title text-uppercase mb-3"><?php esc_html_e( 'Register', 'woocommerce' ); ?></h2>
 
                         <form method="post" class="woocommerce-form my-5 px-0" <?php do_action( 'woocommerce_register_form_tag' ); ?>>
@@ -63,18 +63,17 @@ if ( is_user_logged_in() ) {
 
                             <?php do_action( 'woocommerce_register_form' ); ?>
 
-                            <p class="form-row mt-3">
-                                <?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
-                                <button type="submit" class="view-all-link mb-4" name="register" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Register', 'woocommerce' ); ?></button>
-                            </p>
+                            <div class="mt-3">
+                                <div>
+                                    <?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
+                                    <button type="submit" class="view-all-link mb-4" name="register" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Register', 'woocommerce' ); ?></button>
+                                </div>
+                                <a class="small text-velvet text-decoration-underline" href="<?php echo esc_url( remove_query_arg( 'show_register', wc_get_page_permalink( 'myaccount' ) ) ); ?>"><?php esc_html_e( 'Se connecter', 'woocommerce' ); ?></a>
+                            </div>
 
                             <?php do_action( 'woocommerce_register_form_end' ); ?>
 
                         </form>
-
-                        <p class="mt-3 mb-0 small">
-                            <a class="text-velvet" href="<?php echo esc_url( remove_query_arg( 'show_register', wc_get_page_permalink( 'myaccount' ) ) ); ?>"><?php esc_html_e( 'Retour à la connexion', 'woocommerce' ); ?></a>
-                        </p>
                     </div>
                 </div>
             </div>
@@ -85,7 +84,7 @@ if ( is_user_logged_in() ) {
         <div class="row justify-content-center">
             <div class="col-12 col-md-6 login_form_container">
                 <div class="">
-                    <div class="card-body">
+                    <div class="card-body p-3">
                         <h2 class="maj_title logo_h3_content justify-content-start card-title text-uppercase mb-3"><?php esc_html_e( 'Login', 'woocommerce' ); ?></h2>
 
                         <form class="woocommerce-form my-5 px-0 " method="post" novalidate>

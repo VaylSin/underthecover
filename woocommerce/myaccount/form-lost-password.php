@@ -21,12 +21,13 @@ do_action( 'woocommerce_before_lost_password_form' );
 ?>
 
 <div class="row justify-content-center">
+	<div class="spacer-10"></div>
     <div class="col-12 col-md-8 col-lg-6">
-        <div class="card shadow-sm border-0">
-            <div class="card-body p-4 p-md-5">
+        <div class="login_form_container">
+            <div class="card-body p-3">
 
-                <div class="text-center mb-4">
-                    <h2 class="h3 fw-bold text-uppercase mb-3">Mot de passe oublié</h2>
+                <div class="text-start mb-4">
+                    <h2 class="fw-bold text-uppercase mb-3">Mot de passe oublié</h2>
                     <p class="text-muted mb-0">
                         <?php echo apply_filters( 'woocommerce_lost_password_message', esc_html__( 'Lost your password? Please enter your username or email address. You will receive a link to create a new password via email.', 'woocommerce' ) ); ?>
                     </p>
@@ -36,7 +37,7 @@ do_action( 'woocommerce_before_lost_password_form' );
 
                     <div class="mb-4">
                         <label for="user_login" class="form-label fw-semibold">
-                            <?php esc_html_e( 'Username or email', 'woocommerce' ); ?>
+                            <?php esc_html_e( "Identifiant", 'woocommerce' ); ?>
                             <span class="required text-danger ms-1" aria-hidden="true">*</span>
                             <span class="screen-reader-text"><?php esc_html_e( 'Required', 'woocommerce' ); ?></span>
                         </label>
@@ -48,23 +49,24 @@ do_action( 'woocommerce_before_lost_password_form' );
                             autocomplete="username"
                             required
                             aria-required="true"
-                            placeholder="<?php esc_attr_e( 'Enter your username or email', 'woocommerce' ); ?>"
+                            placeholder="<?php esc_attr_e( 'Nom d\'utilisateur ou email', 'woocommerce' ); ?>"
                         />
                     </div>
 
                     <?php do_action( 'woocommerce_lostpassword_form' ); ?>
 
-                    <div class="d-grid gap-2 mb-4">
-                        <input type="hidden" name="wc_reset_password" value="true" />
-                        <button type="submit" class="btn view-all-link fw-bold py-3 text-uppercase">
-                            <?php esc_html_e( 'Reset password', 'woocommerce' ); ?>
-                        </button>
+                    <div class="mt-3">
+                        <div>
+                            <input type="hidden" name="wc_reset_password" value="true" />
+                            <button type="submit" class="view-all-link mb-4">
+                                <?php esc_html_e( 'Réinitialiser', 'woocommerce' ); ?>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="text-center">
-                        <a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>" class="text-decoration-none">
-                            <i class="bi bi-arrow-left me-2"></i>
-                            <?php esc_html_e( 'Back to login', 'woocommerce' ); ?>
+                    <div>
+                        <a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>" class="small text-velvet text-decoration-underline">
+                            <?php esc_html_e( 'Se connecter', 'woocommerce' ); ?>
                         </a>
                     </div>
 
@@ -75,6 +77,8 @@ do_action( 'woocommerce_before_lost_password_form' );
             </div>
         </div>
     </div>
+	<div class="spacer-10"></div>
+
 </div>
 <?php
 do_action( 'woocommerce_after_lost_password_form' );
