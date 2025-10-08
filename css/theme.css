@@ -18642,6 +18642,12 @@ a.add_to_cart_button.single_add_to_cart_button {
 .footer .btn-bloom:hover, .footer .btn-bloom:focus {
   background: #94284f;
 }
+@media (max-width: 575.98px) {
+  .footer .input-group {
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+}
 .footer .input-group .form-control, .footer .input-group input[type=text],
 .footer .input-group input[type=search],
 .footer .input-group input[type=url],
@@ -18651,6 +18657,30 @@ a.add_to_cart_button.single_add_to_cart_button {
 .footer .input-group input[type=password],
 .footer .input-group textarea {
   border-radius: 0;
+}
+@media (max-width: 575.98px) {
+  .footer .input-group .form-control, .footer .input-group input[type=text],
+  .footer .input-group input[type=search],
+  .footer .input-group input[type=url],
+  .footer .input-group input[type=tel],
+  .footer .input-group input[type=number],
+  .footer .input-group input[type=email],
+  .footer .input-group input[type=password],
+  .footer .input-group textarea {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+}
+.footer .input-group .btn, .footer .input-group .wc-block-components-checkout-return-to-cart-button, .footer .input-group input[type=submit], .footer .input-group .wc-block-components-totals-coupon__content button[type=submit], .wc-block-components-totals-coupon__content .footer .input-group button[type=submit], .footer .input-group .woocommerce-form-login__submit, .footer .input-group .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-notices-wrapper .woocommerce-message .footer .input-group a.button, .footer .input-group .woocommerce-info a.button, .woocommerce-info .footer .input-group a.button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+@media (max-width: 575.98px) {
+  .footer .input-group .btn, .footer .input-group .wc-block-components-checkout-return-to-cart-button, .footer .input-group input[type=submit], .footer .input-group .wc-block-components-totals-coupon__content button[type=submit], .wc-block-components-totals-coupon__content .footer .input-group button[type=submit], .footer .input-group .woocommerce-form-login__submit, .footer .input-group .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-notices-wrapper .woocommerce-message .footer .input-group a.button, .footer .input-group .woocommerce-info a.button, .woocommerce-info .footer .input-group a.button {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    font-size: 0.875rem;
+  }
 }
 .footer .form-control:focus, .footer input[type=text]:focus,
 .footer input[type=search]:focus,

@@ -835,8 +835,33 @@ h6 {
 		}
 	}
 
-	.input-group .form-control {
-		border-radius: 0;
+	.input-group {
+		// Assurer que l'input et le bouton restent sur la même ligne sur mobile
+		@media (max-width: 575.98px) {
+			flex-wrap: nowrap;
+			min-width: 0;
+		}
+
+		.form-control {
+			border-radius: 0;
+			// Assurer une largeur minimale sur les très petits écrans
+			@media (max-width: 575.98px) {
+				min-width: 0;
+				flex: 1 1 auto;
+			}
+		}
+
+		.btn {
+			// Empêcher le bouton de se rétrécir
+			flex-shrink: 0;
+			white-space: nowrap;
+
+			@media (max-width: 575.98px) {
+				padding-left: 0.75rem;
+				padding-right: 0.75rem;
+				font-size: 0.875rem;
+			}
+		}
 	}
 
 	.form-control:focus {
