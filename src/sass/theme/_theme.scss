@@ -53,10 +53,13 @@ body {
 	@media (max-width: 991.98px) {
 		// Utiliser vh au lieu de dvh sur mobile pour éviter les problèmes de viewport
 		// Hauteurs mobile : bannière promo (25px) + header (45px) + banderole (35px)
-		height: calc(100dvh - 45px - 65px);
+		height: calc(100vh - 45px - 65px);
 		// Alternative: utiliser min-height au lieu de height pour plus de flexibilité
-		min-height: calc(100dvh - 45px - 65px);
-		max-height: 100dvh; // Limiter à la hauteur de l'écran
+		min-height: calc(100vh - 45px - 65px);
+		max-height: 100vh; // Limiter à la hauteur de l'écran
+		// Empêcher le comportement de zoom sur scroll mobile
+		transform: translateZ(0);
+		-webkit-transform: translateZ(0);
 	}
 
 	.slider_container {
@@ -285,6 +288,26 @@ h6 {
 .fullscreen-slider {
 	min-height: 70vh; // Fallback pour les autres pages
 	width: 100%;
+
+	// Stabiliser le slider sur mobile pour éviter le zoom pendant le scroll
+	@media (max-width: 991.98px) {
+		transform: translateZ(0);
+		-webkit-transform: translateZ(0);
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
+
+		.carousel-item {
+			transform: translateZ(0);
+			-webkit-transform: translateZ(0);
+		}
+
+		img {
+			transform: translateZ(0);
+			-webkit-transform: translateZ(0);
+			-webkit-backface-visibility: hidden;
+			backface-visibility: hidden;
+		}
+	}
 	overflow: hidden;
 	position: relative;
 
