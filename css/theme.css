@@ -21146,6 +21146,51 @@ body.scroll-locked .cart-drawer {
     padding: 1rem !important;
   }
 }
+/* Labels au-dessus des inputs pour les formulaires WooCommerce checkout */
+.wc-block-components-text-input {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.wc-block-components-text-input label {
+  order: -1 !important;
+  margin-bottom: 0 !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  color: #bc3365 !important;
+  position: static !important;
+}
+.wc-block-components-text-input input {
+  padding: 0.75rem 1rem !important;
+  min-height: 3rem !important;
+}
+
+/* Masquer le label du sélecteur de pays/région */
+label[for=billing-country].wc-blocks-components-select__label {
+  display: none !important;
+}
+
+.wc-block-components-form .wc-block-components-text-input input:-webkit-autofill + label,
+.wc-block-components-form .wc-block-components-text-input.is-active label,
+.wc-block-components-text-input input:-webkit-autofill + label,
+.wc-block-components-text-input.is-active label,
+.wc-block-components-form .wc-block-components-text-input label,
+.wc-block-components-text-input label {
+  top: 0;
+  transform: none !important;
+  margin-bottom: 0.2rem !important;
+}
+
+.wc-block-components-text-input,
+.wc-blocks-components-select__container {
+  margin-top: 0 !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.wc-block-components-address-form__address_2-toggle {
+  margin-top: 0 !important;
+  margin-bottom: 1.5rem !important;
+}
+
 .login_form_container {
   padding: 1.5rem;
   border-radius: 0.5rem;
