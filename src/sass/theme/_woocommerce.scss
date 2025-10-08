@@ -809,7 +809,8 @@ figure.woocommerce-product-gallery__wrapper {
 			.qty {
 				width: 80px;
 				padding: 0.5rem;
-				background-color: #fff !important;
+				background-color: transparent !important;
+				background: transparent !important;
 				border: 1px solid #ddd !important;
 				border-radius: 4px !important;
 				font-size: 1rem !important;
@@ -2063,7 +2064,7 @@ main input[type="tel"],
 main input[type="search"],
 main input[type="url"],
 main input[type="password"],
-main input[type="number"]:not([name="quantity"]),
+main input[type="number"]:not([name="quantity"]):not(.qty),
 main select,
 main textarea,
 .content-area input[type="text"],
@@ -2072,7 +2073,7 @@ main textarea,
 .content-area input[type="search"],
 .content-area input[type="url"],
 .content-area input[type="password"],
-.content-area input[type="number"]:not([name="quantity"]),
+.content-area input[type="number"]:not([name="quantity"]):not(.qty),
 .content-area select,
 .content-area textarea,
 .wc-blocks-components-select__select,
@@ -2081,11 +2082,13 @@ main textarea,
 .woocommerce input[type="email"],
 .woocommerce input[type="tel"],
 .woocommerce input[type="password"],
+.woocommerce input[type="number"]:not([name="quantity"]):not(.qty),
 .woocommerce textarea,
 .woocommerce-page input[type="text"],
 .woocommerce-page input[type="email"],
 .woocommerce-page input[type="tel"],
 .woocommerce-page input[type="password"],
+.woocommerce-page input[type="number"]:not([name="quantity"]):not(.qty),
 .woocommerce-page textarea {
 	width: 100% !important;
 	font-size: 0.9rem !important;
@@ -2212,10 +2215,10 @@ textarea,
 	}
 }
 
-/* Fix fond blanc pour les inputs de quantité du panier */
-.wc-block-components-quantity-selector__input {
-	background-color: #ffffff !important;
-	background: #ffffff !important;
+/* Background transparent pour les inputs de quantité */
+input.qty,
+.qty {
+	background: transparent !important;
 }
 
 /* Boutons submit des formulaires de gestion de compte - 100% largeur sur mobile uniquement */
@@ -2225,6 +2228,15 @@ textarea,
 			@include media-breakpoint-down(md) {
 				width: 100% !important;
 			}
+		}
+	}
+}
+
+/* Formulaire de réinitialisation de mot de passe */
+.woocommerce-ResetPassword {
+	button[type="submit"].view-all-link {
+		@include media-breakpoint-down(md) {
+			width: 100% !important;
 		}
 	}
 }

@@ -36,3 +36,11 @@
 .wc-block-components-checkout-return-to-cart-button {
 	@extend .btn, .btn-velvet, .text-white;
 }
+
+/* Réduction du padding pour mobile et tablette */
+@media (max-width: 991.98px) {
+	.wc-block-components-checkout-order-summary__title,
+	.wc-block-components-checkout-order-summary__content {
+		padding: 1rem !important;
+	}
+}

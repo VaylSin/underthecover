@@ -145,10 +145,14 @@ do_action( 'woocommerce_before_cart' ); ?>
 								'max_value'    => $max_quantity,
 								'min_value'    => $min_quantity,
 								'product_name' => $product_name,
+								'classes'      => array( 'input-text', 'qty', 'text', 'no-bg' ),
 							),
 							$_product,
 							false
 						);
+
+						// Force le background transparent avec str_replace
+						$product_quantity = str_replace('<input', '<input style="background: transparent !important; background-color: transparent !important;"', $product_quantity);
 
 						echo apply_filters( 'woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $cart_item ); // PHPCS: XSS ok.
 						?>

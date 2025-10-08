@@ -838,14 +838,14 @@ h6 {
 	}
 
 	.input-group {
-		// Assurer que l'input et le bouton restent sur la même ligne sur mobile
-		@media (max-width: 575.98px) {
-			flex-wrap: nowrap;
-			min-width: 0;
-		}
+		// Assurer que l'input et le bouton restent TOUJOURS sur la même ligne
+		flex-wrap: nowrap !important;
+		min-width: 0;
 
 		.form-control {
 			border-radius: 0;
+			background-color: #ffffff !important;
+			background: #ffffff !important;
 			// Assurer une largeur minimale sur les très petits écrans
 			@media (max-width: 575.98px) {
 				min-width: 0;

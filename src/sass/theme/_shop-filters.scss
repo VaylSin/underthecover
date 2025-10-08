@@ -14,17 +14,16 @@
 		position: relative;
 		transition: color 0.3s ease;
 
-		// Bordure bottom animée (initialement cachée)
+		// Bordure bottom animée de gauche à droite (initialement cachée)
 		&::after {
 			content: "";
 			position: absolute;
 			bottom: 0;
-			left: 50%;
+			left: 0;
 			width: 0;
 			height: 2px;
 			background-color: $velvet;
 			transition: all 0.3s ease;
-			transform: translateX(-50%);
 		}
 
 		// État hover - animation de la bordure

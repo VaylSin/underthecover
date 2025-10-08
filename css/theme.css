@@ -13316,7 +13316,8 @@ figure.woocommerce-product-gallery__wrapper {
   .single-product .summary.entry-summary .quantity .qty {
     width: 80px;
     padding: 0.5rem;
-    background-color: #fff !important;
+    background-color: transparent !important;
+    background: transparent !important;
     border: 1px solid #ddd !important;
     border-radius: 4px !important;
     font-size: 1rem !important;
@@ -14577,7 +14578,7 @@ main input[type=tel],
 main input[type=search],
 main input[type=url],
 main input[type=password],
-main input[type=number]:not([name=quantity]),
+main input[type=number]:not([name=quantity]):not(.qty),
 main select,
 main textarea,
 .content-area input[type=text],
@@ -14586,7 +14587,7 @@ main textarea,
 .content-area input[type=search],
 .content-area input[type=url],
 .content-area input[type=password],
-.content-area input[type=number]:not([name=quantity]),
+.content-area input[type=number]:not([name=quantity]):not(.qty),
 .content-area select,
 .content-area textarea,
 .wc-blocks-components-select__select,
@@ -14595,11 +14596,13 @@ main textarea,
 .woocommerce input[type=email],
 .woocommerce input[type=tel],
 .woocommerce input[type=password],
+.woocommerce input[type=number]:not([name=quantity]):not(.qty),
 .woocommerce textarea,
 .woocommerce-page input[type=text],
 .woocommerce-page input[type=email],
 .woocommerce-page input[type=tel],
 .woocommerce-page input[type=password],
+.woocommerce-page input[type=number]:not([name=quantity]):not(.qty),
 .woocommerce-page textarea {
   width: 100% !important;
   font-size: 0.9rem !important;
@@ -14625,8 +14628,8 @@ main input[type=url]:focus,
 main input[type=url]:active,
 main input[type=password]:focus,
 main input[type=password]:active,
-main input[type=number]:not([name=quantity]):focus,
-main input[type=number]:not([name=quantity]):active,
+main input[type=number]:not([name=quantity]):not(.qty):focus,
+main input[type=number]:not([name=quantity]):not(.qty):active,
 main select:focus,
 main select:active,
 main textarea:focus,
@@ -14643,8 +14646,8 @@ main textarea:active,
 .content-area input[type=url]:active,
 .content-area input[type=password]:focus,
 .content-area input[type=password]:active,
-.content-area input[type=number]:not([name=quantity]):focus,
-.content-area input[type=number]:not([name=quantity]):active,
+.content-area input[type=number]:not([name=quantity]):not(.qty):focus,
+.content-area input[type=number]:not([name=quantity]):not(.qty):active,
 .content-area select:focus,
 .content-area select:active,
 .content-area textarea:focus,
@@ -14661,6 +14664,8 @@ main textarea:active,
 .woocommerce input[type=tel]:active,
 .woocommerce input[type=password]:focus,
 .woocommerce input[type=password]:active,
+.woocommerce input[type=number]:not([name=quantity]):not(.qty):focus,
+.woocommerce input[type=number]:not([name=quantity]):not(.qty):active,
 .woocommerce textarea:focus,
 .woocommerce textarea:active,
 .woocommerce-page input[type=text]:focus,
@@ -14671,6 +14676,8 @@ main textarea:active,
 .woocommerce-page input[type=tel]:active,
 .woocommerce-page input[type=password]:focus,
 .woocommerce-page input[type=password]:active,
+.woocommerce-page input[type=number]:not([name=quantity]):not(.qty):focus,
+.woocommerce-page input[type=number]:not([name=quantity]):not(.qty):active,
 .woocommerce-page textarea:focus,
 .woocommerce-page textarea:active {
   background-color: rgba(255, 182, 193, 0.5) !important; /* bloom plus intense */
@@ -14768,16 +14775,24 @@ textarea,
   margin-right: 20px !important;
 }
 
-/* Fix fond blanc pour les inputs de quantité du panier */
-.wc-block-components-quantity-selector__input {
-  background-color: #ffffff !important;
-  background: #ffffff !important;
+/* Background transparent pour les inputs de quantité */
+input.qty,
+.qty {
+  background: transparent !important;
 }
 
 /* Boutons submit des formulaires de gestion de compte - 100% largeur sur mobile uniquement */
 @media (max-width: 767.98px) {
   .woocommerce-account .woocommerce-form button[type=submit].view-all-link, .woocommerce-account .woocommerce-form button[type=submit].woocommerce-Button, .woocommerce-account .woocommerce-form button[type=submit].wc-block-cart__submit-button,
   .woocommerce-account .woocommerce-form button[type=submit].wc-block-components-checkout-place-order-button, .woocommerce-account .woocommerce-form .wc-block-checkout__actions_row button[type=submit].wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .woocommerce-account .woocommerce-form button[type=submit].wc-block-components-checkout-return-to-cart-button, .woocommerce-account .woocommerce-form button[type=submit].woocommerce-form-login__submit, .woocommerce-account .woocommerce-form button[type=submit].single_add_to_cart_button {
+    width: 100% !important;
+  }
+}
+
+/* Formulaire de réinitialisation de mot de passe */
+@media (max-width: 767.98px) {
+  .woocommerce-ResetPassword button[type=submit].view-all-link, .woocommerce-ResetPassword button[type=submit].woocommerce-Button, .woocommerce-ResetPassword button[type=submit].wc-block-cart__submit-button,
+  .woocommerce-ResetPassword button[type=submit].wc-block-components-checkout-place-order-button, .woocommerce-ResetPassword .wc-block-checkout__actions_row button[type=submit].wc-block-components-checkout-return-to-cart-button, .wc-block-checkout__actions_row .woocommerce-ResetPassword button[type=submit].wc-block-components-checkout-return-to-cart-button, .woocommerce-ResetPassword button[type=submit].woocommerce-form-login__submit, .woocommerce-ResetPassword button[type=submit].single_add_to_cart_button {
     width: 100% !important;
   }
 }
@@ -18664,11 +18679,9 @@ a.add_to_cart_button.single_add_to_cart_button {
 .footer .btn-bloom:hover, .footer .btn-bloom:focus {
   background: #94284f;
 }
-@media (max-width: 575.98px) {
-  .footer .input-group {
-    flex-wrap: nowrap;
-    min-width: 0;
-  }
+.footer .input-group {
+  flex-wrap: nowrap !important;
+  min-width: 0;
 }
 .footer .input-group .form-control, .footer .input-group input[type=text],
 .footer .input-group input[type=search],
@@ -18679,6 +18692,8 @@ a.add_to_cart_button.single_add_to_cart_button {
 .footer .input-group input[type=password],
 .footer .input-group textarea {
   border-radius: 0;
+  background-color: #ffffff !important;
+  background: #ffffff !important;
 }
 @media (max-width: 575.98px) {
   .footer .input-group .form-control, .footer .input-group input[type=text],
@@ -21124,6 +21139,13 @@ body.scroll-locked .cart-drawer {
   box-shadow: 0 2px 8px 0 rgba(188, 51, 101, 0.08) !important;
 }
 
+/* Réduction du padding pour mobile et tablette */
+@media (max-width: 991.98px) {
+  .wc-block-components-checkout-order-summary__title,
+  .wc-block-components-checkout-order-summary__content {
+    padding: 1rem !important;
+  }
+}
 .login_form_container {
   padding: 1.5rem;
   border-radius: 0.5rem;
@@ -22342,12 +22364,11 @@ body.mobile-menu-open .mobile-search-toggle {
   content: "";
   position: absolute;
   bottom: 0;
-  left: 50%;
+  left: 0;
   width: 0;
   height: 2px;
   background-color: #bc3365;
   transition: all 0.3s ease;
-  transform: translateX(-50%);
 }
 .shop-categories .btn:hover, .shop-categories input[type=submit]:hover, .shop-categories .wc-block-components-totals-coupon__content button[type=submit]:hover, .wc-block-components-totals-coupon__content .shop-categories button[type=submit]:hover, .shop-categories .woocommerce-form-login__submit:hover, .shop-categories .woocommerce-notices-wrapper .woocommerce-message a.button:hover, .woocommerce-notices-wrapper .woocommerce-message .shop-categories a.button:hover, .shop-categories .woocommerce-info a.button:hover, .woocommerce-info .shop-categories a.button:hover, .shop-categories .wc-block-components-checkout-return-to-cart-button:hover {
   color: #bc3365 !important;
