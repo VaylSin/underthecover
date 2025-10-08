@@ -187,6 +187,24 @@
 				}
 			}
 
+			.mobile-all-products-link {
+				display: block;
+				padding: 12px 20px;
+				border-bottom: 1px solid #e5e5e5;
+				text-decoration: none;
+				color: $velvet;
+
+				span {
+					font-weight: 600;
+					font-size: 1rem;
+				}
+
+				&:hover {
+					text-decoration: none;
+					color: $velvet;
+				}
+			}
+
 			.mobile-category-trigger {
 				width: 100%;
 				display: flex;

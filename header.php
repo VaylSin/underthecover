@@ -340,6 +340,15 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                 </button>
                 <div class="mobile-submenu" id="boutique-submenu">
                     <?php
+                    // Lien "Tous les produits" en premier
+                    $shop_id = wc_get_page_id( 'shop' );
+                    $shop_url = $shop_id ? get_permalink( $shop_id ) : home_url( '/' );
+                    ?>
+                    <a href="<?php echo esc_url( $shop_url ); ?>" class="mobile-all-products-link">
+                        <span>Tous les produits</span>
+                    </a>
+
+                    <?php
                     // Récupérer les catégories de produits
                     $product_categories = get_terms( array(
                         'taxonomy'   => 'product_cat',

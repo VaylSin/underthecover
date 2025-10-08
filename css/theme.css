@@ -13594,9 +13594,15 @@ figure.woocommerce-product-gallery__wrapper {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 @media (max-width: 1024px) {
+  .siklane-reviews .carousel-control-prev,
+  .siklane-reviews .carousel-control-next {
+    width: auto;
+  }
   .siklane-reviews .carousel-control-prev-icon,
   .siklane-reviews .carousel-control-next-icon {
     border-radius: 0 !important;
+    width: 2rem;
+    height: 2rem;
   }
 }
 .siklane-reviews .carousel-control-prev-icon::after,
@@ -14760,6 +14766,12 @@ textarea,
 }
 .wpcf7-form .form-half:first-child {
   margin-right: 20px !important;
+}
+
+/* Fix fond blanc pour les inputs de quantité du panier */
+.wc-block-components-quantity-selector__input {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
 }
 
 /*!
@@ -21673,6 +21685,21 @@ body.scroll-locked .cart-drawer {
 }
 .mobile-menu .mobile-menu-content .mobile-submenu .mobile-category:last-child {
   border-bottom: none;
+}
+.mobile-menu .mobile-menu-content .mobile-submenu .mobile-all-products-link {
+  display: block;
+  padding: 12px 20px;
+  border-bottom: 1px solid #e5e5e5;
+  text-decoration: none;
+  color: #bc3365;
+}
+.mobile-menu .mobile-menu-content .mobile-submenu .mobile-all-products-link span {
+  font-weight: 600;
+  font-size: 1rem;
+}
+.mobile-menu .mobile-menu-content .mobile-submenu .mobile-all-products-link:hover {
+  text-decoration: none;
+  color: #bc3365;
 }
 .mobile-menu .mobile-menu-content .mobile-submenu .mobile-category-trigger {
   width: 100%;

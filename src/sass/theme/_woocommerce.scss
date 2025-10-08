@@ -1119,10 +1119,18 @@ figure.woocommerce-product-gallery__wrapper {
 	}
 
 	// Supprimer le border-radius sur mobile et tablette pour éviter les boutons ovales
+	// Et ajuster les contrôles sur mobile
 	@media (max-width: 1024px) {
+		.carousel-control-prev,
+		.carousel-control-next {
+			width: auto;
+		}
+
 		.carousel-control-prev-icon,
 		.carousel-control-next-icon {
 			border-radius: 0 !important;
+			width: 2rem;
+			height: 2rem; // Même hauteur
 		}
 	}
 	/* use simple chevrons (CSS content) so they are always visible */
@@ -2202,4 +2210,10 @@ textarea,
 			margin-right: 20px !important;
 		}
 	}
+}
+
+/* Fix fond blanc pour les inputs de quantité du panier */
+.wc-block-components-quantity-selector__input {
+	background-color: #ffffff !important;
+	background: #ffffff !important;
 }
