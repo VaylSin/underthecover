@@ -51,15 +51,27 @@ body {
 
 	// Responsive adjustments
 	@media (max-width: 991.98px) {
-		// Utiliser vh au lieu de dvh sur mobile pour éviter les problèmes de viewport
+		// Utiliser svh (small viewport height) pour éviter les problèmes de barre d'outils mobile
+		// svh reste constant même quand la barre d'outils apparaît/disparaît
 		// Hauteurs mobile : bannière promo (25px) + header (45px) + banderole (35px)
-		height: calc(100vh - 45px - 65px);
-		// Alternative: utiliser min-height au lieu de height pour plus de flexibilité
-		min-height: calc(100vh - 45px - 65px);
-		max-height: 100vh; // Limiter à la hauteur de l'écran
-		// Empêcher le comportement de zoom sur scroll mobile
+		height: calc(100svh - 45px - 65px);
+		min-height: calc(100svh - 45px - 65px);
+		max-height: 100svh;
+
+		// Fallback pour navigateurs qui ne supportent pas svh
+		@supports not (height: 100svh) {
+			height: calc(100vh - 45px - 65px);
+			min-height: calc(100vh - 45px - 65px);
+			max-height: 100vh;
+			// Forcer la taille fixe sur ces navigateurs
+			position: relative;
+			overflow: hidden;
+		}
+
+		// Empêcher les transformations automatiques du navigateur
 		transform: translateZ(0);
 		-webkit-transform: translateZ(0);
+		will-change: auto;
 	}
 
 	.slider_container {
@@ -291,14 +303,29 @@ h6 {
 
 	// Stabiliser le slider sur mobile pour éviter le zoom pendant le scroll
 	@media (max-width: 991.98px) {
+		// Empêcher toute transformation automatique
 		transform: translateZ(0);
 		-webkit-transform: translateZ(0);
 		-webkit-backface-visibility: hidden;
 		backface-visibility: hidden;
+		will-change: auto;
+
+		// Forcer la taille fixe
+		min-height: calc(100svh - 110px) !important;
+		max-height: calc(100svh - 110px) !important;
+		height: calc(100svh - 110px) !important;
+
+		// Fallback pour navigateurs sans support svh
+		@supports not (height: 100svh) {
+			min-height: calc(100vh - 110px) !important;
+			max-height: calc(100vh - 110px) !important;
+			height: calc(100vh - 110px) !important;
+		}
 
 		.carousel-item {
 			transform: translateZ(0);
 			-webkit-transform: translateZ(0);
+			will-change: auto;
 		}
 
 		img {
@@ -306,6 +333,17 @@ h6 {
 			-webkit-transform: translateZ(0);
 			-webkit-backface-visibility: hidden;
 			backface-visibility: hidden;
+			will-change: auto;
+			// Empêcher le zoom des images
+			max-width: 100% !important;
+			height: auto !important;
+		}
+
+		// Stabiliser également les captions
+		.carousel-caption {
+			transform: translateZ(0);
+			-webkit-transform: translateZ(0);
+			will-change: auto;
 		}
 	}
 	overflow: hidden;
