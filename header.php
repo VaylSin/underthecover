@@ -132,6 +132,21 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                             'container'      => false,
                         ) );
                         ?>
+                        
+                        <!-- Icône panier desktop avec compteur -->
+                        <?php
+                        $cart_count = ( function_exists( 'WC' ) && WC()->cart ) ? WC()->cart->get_cart_contents_count() : 0;
+                        $cart_url = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : '#';
+                        $desktop_counter_class = $cart_count > 0 ? 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill' : 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill d-none';
+                        ?>
+                        <a href="<?php echo esc_url( $cart_url ); ?>" 
+                           class="nav-link cart-toggle position-relative ms-2" 
+                           data-cart-url="<?php echo esc_url( $cart_url ); ?>" 
+                           data-cart-count="<?php echo esc_attr( $cart_count ); ?>" 
+                           aria-label="<?php esc_attr_e( 'Ouvrir votre panier', 'siklane' ); ?>">
+                            <i class="bi bi-bag-heart fs-4"></i>
+                            <span class="<?php echo esc_attr( $desktop_counter_class ); ?>"><?php echo esc_html( $cart_count ); ?></span>
+                        </a>
                     </nav>
                 </div>
             </div>

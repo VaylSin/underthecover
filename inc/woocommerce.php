@@ -680,15 +680,15 @@ if ( ! function_exists( 'siklane_prevent_auto_drawer_opening' ) ) {
                 // Force la mise à jour des compteurs desktop spécifiquement
                 setTimeout(function() {
                     initCartCount();
-                    
+
                     // Vérifier et forcer la mise à jour du compteur desktop si nécessaire
                     var $desktopCounter = $('.cart-count-desktop');
                     var $mobileCounter = $('.cart-count');
-                    
+
                     if ($desktopCounter.length > 0 && $mobileCounter.length > 0) {
                         var mobileCount = parseInt($mobileCounter.text()) || 0;
                         var desktopCount = parseInt($desktopCounter.text()) || 0;
-                        
+
                         // Si les compteurs ne sont pas synchronisés, force la synchronisation
                         if (mobileCount !== desktopCount) {
                             if (mobileCount > 0) {
@@ -784,8 +784,10 @@ add_filter( 'nav_menu_link_attributes', function( $atts, $item, $args ) {
 }, 10, 3 );
 
 /**
+ * DÉSACTIVÉ - Panier ajouté directement dans header.php maintenant
  * Si le menu (right-menu) ne contient pas de lien vers le panier, on l'ajoute en fin.
  */
+/* 
 add_filter( 'wp_nav_menu_items', function( $items, $args ) {
     // n'ajoute que pour l'emplacement right-menu ; adapte si besoin
     if ( isset( $args->theme_location ) && 'right-menu' === $args->theme_location ) {
@@ -804,6 +806,7 @@ add_filter( 'wp_nav_menu_items', function( $items, $args ) {
 
     return $items;
 }, 10, 2 );
+*/
 
 
 /* Integrated: accordion + full-width reviews slider (safely close/reopen theme wrappers) */
