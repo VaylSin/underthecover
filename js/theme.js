@@ -6379,7 +6379,7 @@
 
         // Fermer les deux dropdowns (au cas où)
         [desktopDropdown, mobileDropdown].forEach(dropdown => {
-          if (dropdown && dropdown.classList.contains('open')) {
+          if (dropdown && dropdown.classList.contains("open")) {
             // D'abord retirer la classe open pour déclencher la transition
             dropdown.classList.remove("open");
 
@@ -6444,7 +6444,7 @@
           desktopBtn.dataset.iconified = "1";
         }
 
-        // Mobile  
+        // Mobile
         const mobileBtn = mobileDropdown == null ? void 0 : mobileDropdown.querySelector('form button[type="submit"]');
         if (mobileBtn && !mobileBtn.dataset.iconified) {
           mobileBtn.innerHTML = '<i class="bi bi-search" aria-hidden="true"></i><span class="visually-hidden">Rechercher</span>';
