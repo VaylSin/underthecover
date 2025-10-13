@@ -374,7 +374,7 @@
 		gap: 0.5rem;
 		margin-bottom: 1rem;
 
-		// Input pour le code promo
+		// Input pour le code promo - UNIQUEMENT dans le contexte du panier
 		#coupon_code,
 		input[name="coupon_code"],
 		.wc-block-components-text-input input {
@@ -394,6 +394,7 @@
 			&:focus {
 				border-color: $velvet !important;
 				outline: none !important;
+				box-shadow: none !important; // Éviter les box-shadow par défaut
 			}
 		}
 
@@ -483,6 +484,44 @@
 				background-color: $black-main;
 				color: #fff;
 			}
+		}
+	}
+}
+
+/* =============================================
+   PRÉSERVER LES STYLES DES FORMULAIRES UTILISATEUR
+   ============================================= */
+
+// S'assurer que les formulaires de connexion/inscription conservent leurs styles
+.woocommerce-account,
+.woocommerce-form-login,
+.woocommerce-form-register,
+.woocommerce-ResetPassword,
+.woocommerce-lost-password {
+	input[type="text"],
+	input[type="email"],
+	input[type="password"],
+	input[type="tel"],
+	textarea,
+	select {
+		background-color: rgba($bloom, 0.3) !important;
+		border-color: rgba($bloom, 0.5) !important;
+
+		&:focus,
+		&:active {
+			background-color: rgba($bloom, 0.3) !important;
+			border-color: $bloom !important;
+			box-shadow: 0 0 0 2px rgba($bloom, 0.2) !important;
+		}
+
+		// Forcer les styles même en cas d'autofill/autocomplete
+		&:-webkit-autofill,
+		&:-webkit-autofill:hover,
+		&:-webkit-autofill:focus,
+		&:-webkit-autofill:active {
+			-webkit-box-shadow: 0 0 0 1000px rgba($bloom, 0.3) inset !important;
+			-webkit-text-fill-color: inherit !important;
+			background-color: rgba($bloom, 0.3) !important;
 		}
 	}
 }

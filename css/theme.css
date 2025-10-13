@@ -20699,6 +20699,7 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
 .woocommerce-checkout .wc-block-components-totals-coupon__content .wc-block-components-text-input input:focus {
   border-color: #bc3365 !important;
   outline: none !important;
+  box-shadow: none !important;
 }
 .cart-drawer .coupon button[name=apply_coupon],
 .cart-drawer .coupon button[type=submit],
@@ -21371,6 +21372,227 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
 .woocommerce-checkout .cart-totals a[href*=cart]:not([href*=checkout]):hover {
   background-color: #272727;
   color: #fff;
+}
+
+/* =============================================
+   PRÉSERVER LES STYLES DES FORMULAIRES UTILISATEUR
+   ============================================= */
+.woocommerce-account input[type=text],
+.woocommerce-account input[type=email],
+.woocommerce-account input[type=password],
+.woocommerce-account input[type=tel],
+.woocommerce-account textarea,
+.woocommerce-account select,
+.woocommerce-form-login input[type=text],
+.woocommerce-form-login input[type=email],
+.woocommerce-form-login input[type=password],
+.woocommerce-form-login input[type=tel],
+.woocommerce-form-login textarea,
+.woocommerce-form-login select,
+.woocommerce-form-register input[type=text],
+.woocommerce-form-register input[type=email],
+.woocommerce-form-register input[type=password],
+.woocommerce-form-register input[type=tel],
+.woocommerce-form-register textarea,
+.woocommerce-form-register select,
+.woocommerce-ResetPassword input[type=text],
+.woocommerce-ResetPassword input[type=email],
+.woocommerce-ResetPassword input[type=password],
+.woocommerce-ResetPassword input[type=tel],
+.woocommerce-ResetPassword textarea,
+.woocommerce-ResetPassword select,
+.woocommerce-lost-password input[type=text],
+.woocommerce-lost-password input[type=email],
+.woocommerce-lost-password input[type=password],
+.woocommerce-lost-password input[type=tel],
+.woocommerce-lost-password textarea,
+.woocommerce-lost-password select {
+  background-color: rgba(251, 210, 218, 0.3) !important;
+  border-color: rgba(251, 210, 218, 0.5) !important;
+}
+.woocommerce-account input[type=text]:focus, .woocommerce-account input[type=text]:active,
+.woocommerce-account input[type=email]:focus,
+.woocommerce-account input[type=email]:active,
+.woocommerce-account input[type=password]:focus,
+.woocommerce-account input[type=password]:active,
+.woocommerce-account input[type=tel]:focus,
+.woocommerce-account input[type=tel]:active,
+.woocommerce-account textarea:focus,
+.woocommerce-account textarea:active,
+.woocommerce-account select:focus,
+.woocommerce-account select:active,
+.woocommerce-form-login input[type=text]:focus,
+.woocommerce-form-login input[type=text]:active,
+.woocommerce-form-login input[type=email]:focus,
+.woocommerce-form-login input[type=email]:active,
+.woocommerce-form-login input[type=password]:focus,
+.woocommerce-form-login input[type=password]:active,
+.woocommerce-form-login input[type=tel]:focus,
+.woocommerce-form-login input[type=tel]:active,
+.woocommerce-form-login textarea:focus,
+.woocommerce-form-login textarea:active,
+.woocommerce-form-login select:focus,
+.woocommerce-form-login select:active,
+.woocommerce-form-register input[type=text]:focus,
+.woocommerce-form-register input[type=text]:active,
+.woocommerce-form-register input[type=email]:focus,
+.woocommerce-form-register input[type=email]:active,
+.woocommerce-form-register input[type=password]:focus,
+.woocommerce-form-register input[type=password]:active,
+.woocommerce-form-register input[type=tel]:focus,
+.woocommerce-form-register input[type=tel]:active,
+.woocommerce-form-register textarea:focus,
+.woocommerce-form-register textarea:active,
+.woocommerce-form-register select:focus,
+.woocommerce-form-register select:active,
+.woocommerce-ResetPassword input[type=text]:focus,
+.woocommerce-ResetPassword input[type=text]:active,
+.woocommerce-ResetPassword input[type=email]:focus,
+.woocommerce-ResetPassword input[type=email]:active,
+.woocommerce-ResetPassword input[type=password]:focus,
+.woocommerce-ResetPassword input[type=password]:active,
+.woocommerce-ResetPassword input[type=tel]:focus,
+.woocommerce-ResetPassword input[type=tel]:active,
+.woocommerce-ResetPassword textarea:focus,
+.woocommerce-ResetPassword textarea:active,
+.woocommerce-ResetPassword select:focus,
+.woocommerce-ResetPassword select:active,
+.woocommerce-lost-password input[type=text]:focus,
+.woocommerce-lost-password input[type=text]:active,
+.woocommerce-lost-password input[type=email]:focus,
+.woocommerce-lost-password input[type=email]:active,
+.woocommerce-lost-password input[type=password]:focus,
+.woocommerce-lost-password input[type=password]:active,
+.woocommerce-lost-password input[type=tel]:focus,
+.woocommerce-lost-password input[type=tel]:active,
+.woocommerce-lost-password textarea:focus,
+.woocommerce-lost-password textarea:active,
+.woocommerce-lost-password select:focus,
+.woocommerce-lost-password select:active {
+  background-color: rgba(251, 210, 218, 0.3) !important;
+  border-color: #fbd2da !important;
+  box-shadow: 0 0 0 2px rgba(251, 210, 218, 0.2) !important;
+}
+.woocommerce-account input[type=text]:-webkit-autofill, .woocommerce-account input[type=text]:-webkit-autofill:hover, .woocommerce-account input[type=text]:-webkit-autofill:focus, .woocommerce-account input[type=text]:-webkit-autofill:active,
+.woocommerce-account input[type=email]:-webkit-autofill,
+.woocommerce-account input[type=email]:-webkit-autofill:hover,
+.woocommerce-account input[type=email]:-webkit-autofill:focus,
+.woocommerce-account input[type=email]:-webkit-autofill:active,
+.woocommerce-account input[type=password]:-webkit-autofill,
+.woocommerce-account input[type=password]:-webkit-autofill:hover,
+.woocommerce-account input[type=password]:-webkit-autofill:focus,
+.woocommerce-account input[type=password]:-webkit-autofill:active,
+.woocommerce-account input[type=tel]:-webkit-autofill,
+.woocommerce-account input[type=tel]:-webkit-autofill:hover,
+.woocommerce-account input[type=tel]:-webkit-autofill:focus,
+.woocommerce-account input[type=tel]:-webkit-autofill:active,
+.woocommerce-account textarea:-webkit-autofill,
+.woocommerce-account textarea:-webkit-autofill:hover,
+.woocommerce-account textarea:-webkit-autofill:focus,
+.woocommerce-account textarea:-webkit-autofill:active,
+.woocommerce-account select:-webkit-autofill,
+.woocommerce-account select:-webkit-autofill:hover,
+.woocommerce-account select:-webkit-autofill:focus,
+.woocommerce-account select:-webkit-autofill:active,
+.woocommerce-form-login input[type=text]:-webkit-autofill,
+.woocommerce-form-login input[type=text]:-webkit-autofill:hover,
+.woocommerce-form-login input[type=text]:-webkit-autofill:focus,
+.woocommerce-form-login input[type=text]:-webkit-autofill:active,
+.woocommerce-form-login input[type=email]:-webkit-autofill,
+.woocommerce-form-login input[type=email]:-webkit-autofill:hover,
+.woocommerce-form-login input[type=email]:-webkit-autofill:focus,
+.woocommerce-form-login input[type=email]:-webkit-autofill:active,
+.woocommerce-form-login input[type=password]:-webkit-autofill,
+.woocommerce-form-login input[type=password]:-webkit-autofill:hover,
+.woocommerce-form-login input[type=password]:-webkit-autofill:focus,
+.woocommerce-form-login input[type=password]:-webkit-autofill:active,
+.woocommerce-form-login input[type=tel]:-webkit-autofill,
+.woocommerce-form-login input[type=tel]:-webkit-autofill:hover,
+.woocommerce-form-login input[type=tel]:-webkit-autofill:focus,
+.woocommerce-form-login input[type=tel]:-webkit-autofill:active,
+.woocommerce-form-login textarea:-webkit-autofill,
+.woocommerce-form-login textarea:-webkit-autofill:hover,
+.woocommerce-form-login textarea:-webkit-autofill:focus,
+.woocommerce-form-login textarea:-webkit-autofill:active,
+.woocommerce-form-login select:-webkit-autofill,
+.woocommerce-form-login select:-webkit-autofill:hover,
+.woocommerce-form-login select:-webkit-autofill:focus,
+.woocommerce-form-login select:-webkit-autofill:active,
+.woocommerce-form-register input[type=text]:-webkit-autofill,
+.woocommerce-form-register input[type=text]:-webkit-autofill:hover,
+.woocommerce-form-register input[type=text]:-webkit-autofill:focus,
+.woocommerce-form-register input[type=text]:-webkit-autofill:active,
+.woocommerce-form-register input[type=email]:-webkit-autofill,
+.woocommerce-form-register input[type=email]:-webkit-autofill:hover,
+.woocommerce-form-register input[type=email]:-webkit-autofill:focus,
+.woocommerce-form-register input[type=email]:-webkit-autofill:active,
+.woocommerce-form-register input[type=password]:-webkit-autofill,
+.woocommerce-form-register input[type=password]:-webkit-autofill:hover,
+.woocommerce-form-register input[type=password]:-webkit-autofill:focus,
+.woocommerce-form-register input[type=password]:-webkit-autofill:active,
+.woocommerce-form-register input[type=tel]:-webkit-autofill,
+.woocommerce-form-register input[type=tel]:-webkit-autofill:hover,
+.woocommerce-form-register input[type=tel]:-webkit-autofill:focus,
+.woocommerce-form-register input[type=tel]:-webkit-autofill:active,
+.woocommerce-form-register textarea:-webkit-autofill,
+.woocommerce-form-register textarea:-webkit-autofill:hover,
+.woocommerce-form-register textarea:-webkit-autofill:focus,
+.woocommerce-form-register textarea:-webkit-autofill:active,
+.woocommerce-form-register select:-webkit-autofill,
+.woocommerce-form-register select:-webkit-autofill:hover,
+.woocommerce-form-register select:-webkit-autofill:focus,
+.woocommerce-form-register select:-webkit-autofill:active,
+.woocommerce-ResetPassword input[type=text]:-webkit-autofill,
+.woocommerce-ResetPassword input[type=text]:-webkit-autofill:hover,
+.woocommerce-ResetPassword input[type=text]:-webkit-autofill:focus,
+.woocommerce-ResetPassword input[type=text]:-webkit-autofill:active,
+.woocommerce-ResetPassword input[type=email]:-webkit-autofill,
+.woocommerce-ResetPassword input[type=email]:-webkit-autofill:hover,
+.woocommerce-ResetPassword input[type=email]:-webkit-autofill:focus,
+.woocommerce-ResetPassword input[type=email]:-webkit-autofill:active,
+.woocommerce-ResetPassword input[type=password]:-webkit-autofill,
+.woocommerce-ResetPassword input[type=password]:-webkit-autofill:hover,
+.woocommerce-ResetPassword input[type=password]:-webkit-autofill:focus,
+.woocommerce-ResetPassword input[type=password]:-webkit-autofill:active,
+.woocommerce-ResetPassword input[type=tel]:-webkit-autofill,
+.woocommerce-ResetPassword input[type=tel]:-webkit-autofill:hover,
+.woocommerce-ResetPassword input[type=tel]:-webkit-autofill:focus,
+.woocommerce-ResetPassword input[type=tel]:-webkit-autofill:active,
+.woocommerce-ResetPassword textarea:-webkit-autofill,
+.woocommerce-ResetPassword textarea:-webkit-autofill:hover,
+.woocommerce-ResetPassword textarea:-webkit-autofill:focus,
+.woocommerce-ResetPassword textarea:-webkit-autofill:active,
+.woocommerce-ResetPassword select:-webkit-autofill,
+.woocommerce-ResetPassword select:-webkit-autofill:hover,
+.woocommerce-ResetPassword select:-webkit-autofill:focus,
+.woocommerce-ResetPassword select:-webkit-autofill:active,
+.woocommerce-lost-password input[type=text]:-webkit-autofill,
+.woocommerce-lost-password input[type=text]:-webkit-autofill:hover,
+.woocommerce-lost-password input[type=text]:-webkit-autofill:focus,
+.woocommerce-lost-password input[type=text]:-webkit-autofill:active,
+.woocommerce-lost-password input[type=email]:-webkit-autofill,
+.woocommerce-lost-password input[type=email]:-webkit-autofill:hover,
+.woocommerce-lost-password input[type=email]:-webkit-autofill:focus,
+.woocommerce-lost-password input[type=email]:-webkit-autofill:active,
+.woocommerce-lost-password input[type=password]:-webkit-autofill,
+.woocommerce-lost-password input[type=password]:-webkit-autofill:hover,
+.woocommerce-lost-password input[type=password]:-webkit-autofill:focus,
+.woocommerce-lost-password input[type=password]:-webkit-autofill:active,
+.woocommerce-lost-password input[type=tel]:-webkit-autofill,
+.woocommerce-lost-password input[type=tel]:-webkit-autofill:hover,
+.woocommerce-lost-password input[type=tel]:-webkit-autofill:focus,
+.woocommerce-lost-password input[type=tel]:-webkit-autofill:active,
+.woocommerce-lost-password textarea:-webkit-autofill,
+.woocommerce-lost-password textarea:-webkit-autofill:hover,
+.woocommerce-lost-password textarea:-webkit-autofill:focus,
+.woocommerce-lost-password textarea:-webkit-autofill:active,
+.woocommerce-lost-password select:-webkit-autofill,
+.woocommerce-lost-password select:-webkit-autofill:hover,
+.woocommerce-lost-password select:-webkit-autofill:focus,
+.woocommerce-lost-password select:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgba(251, 210, 218, 0.3) inset !important;
+  -webkit-text-fill-color: inherit !important;
+  background-color: rgba(251, 210, 218, 0.3) !important;
 }
 
 /* =============================================
@@ -22065,6 +22287,12 @@ label[for=billing-country].wc-blocks-components-select__label {
   position: initial;
   color: #bc3365;
 }
+@media (max-width: 991.98px) {
+  .woocommerce-info,
+  .woocommerce-message {
+    text-align: center;
+  }
+}
 
 .woocommerce-message {
   justify-content: space-between;
@@ -22143,6 +22371,11 @@ label[for=billing-country].wc-blocks-components-select__label {
     border: 1px solid rgba(188, 51, 101, 0.1) !important;
     padding: 1rem !important;
     border-radius: 0.3125rem;
+  }
+}
+@media screen and (max-width: 991.98px) {
+  .woocommerce-MyAccount-content {
+    margin-block: 2.5rem !important;
   }
 }
 .about-banner {

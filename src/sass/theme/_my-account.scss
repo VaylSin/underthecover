@@ -32,6 +32,9 @@
 		position: initial;
 		color: $velvet;
 	}
+	@media (max-width: 991.98px) {
+		text-align: center;
+	}
 }
 .woocommerce-message {
 	justify-content: space-between;
@@ -116,5 +119,10 @@
 
 		padding: 1rem !important;
 		border-radius: 0.3125rem;
+	}
+}
+@media screen and (max-width: 991.98px) {
+	.woocommerce-MyAccount-content {
+		margin-block: 2.5rem !important;
 	}
 }
