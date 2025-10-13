@@ -170,7 +170,7 @@
 .widget_shopping_cart .mini-cart-row,
 .woocommerce-mini-cart .mini-cart-row {
 	display: flex !important;
-	align-items: flex-start;
+	align-items: center;
 	gap: 0.75rem;
 }
 
@@ -250,6 +250,33 @@
 	.widget_shopping_cart .mini-cart-thumb,
 	.woocommerce-mini-cart .mini-cart-thumb {
 		flex: 0 0 48px;
+	}
+
+	// Bouton de suppression simple
+	.cart-drawer .mini-cart-remove,
+	.widget_shopping_cart .mini-cart-remove,
+	.woocommerce-mini-cart .mini-cart-remove {
+		width: 16px;
+		height: 16px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		a {
+			color: $velvet;
+			text-decoration: none;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			&:hover {
+				color: $black-main;
+			}
+
+			i {
+				font-size: 0.75rem;
+			}
+		}
 	}
 }
 

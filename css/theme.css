@@ -20547,6 +20547,34 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   .woocommerce-mini-cart .mini-cart-thumb {
     flex: 0 0 48px;
   }
+  .cart-drawer .mini-cart-remove,
+  .widget_shopping_cart .mini-cart-remove,
+  .woocommerce-mini-cart .mini-cart-remove {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cart-drawer .mini-cart-remove a,
+  .widget_shopping_cart .mini-cart-remove a,
+  .woocommerce-mini-cart .mini-cart-remove a {
+    color: #bc3365;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cart-drawer .mini-cart-remove a:hover,
+  .widget_shopping_cart .mini-cart-remove a:hover,
+  .woocommerce-mini-cart .mini-cart-remove a:hover {
+    color: #272727;
+  }
+  .cart-drawer .mini-cart-remove a i,
+  .widget_shopping_cart .mini-cart-remove a i,
+  .woocommerce-mini-cart .mini-cart-remove a i {
+    font-size: 0.75rem;
+  }
 }
 .cart-drawer .cart_list li,
 .woocommerce-mini-cart .cart_list li,
