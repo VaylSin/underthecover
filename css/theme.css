@@ -18031,9 +18031,7 @@ h6,
   width: 100%;
   overflow: hidden;
   position: relative;
-  /* Fade + stagger pour le bloc texte (colonnes) de chaque slide */
-  /* état fermé (pas de delay pour la disparition) */
-  /* Montrer avec un léger délai (stagger) quand le slide devient actif */
+  /* Animation de contenu du slider - bloc unifié + zoom image */
   /* reduced-motion */
 }
 @media (max-width: 991.98px) {
@@ -18080,12 +18078,6 @@ h6,
 .fullscreen-slider .carousel-item {
   height: 100%;
 }
-.fullscreen-slider .carousel-item img {
-  -o-object-fit: cover;
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-}
 .fullscreen-slider .carousel-item > .container-xxl {
   z-index: 3;
   position: absolute;
@@ -18095,9 +18087,6 @@ h6,
 }
 .fullscreen-slider .carousel-item > .container-xxl [class^=col-] {
   pointer-events: auto;
-  opacity: 0;
-  transform: translateX(30px);
-  transition: opacity transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .fullscreen-slider .carousel-item > .container-xxl [class^=col-] h2, .fullscreen-slider .carousel-item > .container-xxl [class^=col-] .h2 {
   margin: 0.5rem 0 2rem 0;
@@ -18121,129 +18110,33 @@ h6,
     margin: 0 !important;
   }
 }
-.fullscreen-slider .carousel-item.active .container-xxl [class^=col-] {
-  opacity: 1;
-  transform: translateX(0);
+.fullscreen-slider .carousel-item img {
+  -o-object-fit: cover;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  transform: scale(1.05);
+  transition: transform 12s ease-out;
+  animation: slideZoom 12s ease-out infinite;
 }
-.fullscreen-slider .carousel-item.active .container-xxl [class^=col-]:nth-child(1) {
-  transition-delay: 120ms;
-}
-.fullscreen-slider .carousel-item.active .container-xxl [class^=col-]:nth-child(2) {
-  transition-delay: 240ms;
-}
-.fullscreen-slider .carousel-item.active .container-xxl [class^=col-]:nth-child(3) {
-  transition-delay: 360ms;
-}
-.fullscreen-slider .carousel-item.active .container-xxl [class^=col-]:nth-child(4) {
-  transition-delay: 480ms;
-}
-.fullscreen-slider .carousel-item > .container-xxl [class^=col-] {
+.fullscreen-slider .carousel-item .slide-content {
   opacity: 0;
-  transform: translateY(50px);
-  pointer-events: none;
-  will-change: opacity, transform;
-  transition: opacity 1500ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 1500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: translateX(50px);
+  transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
   transition-delay: 0s;
 }
-.fullscreen-slider .carousel-item.active > .container-xxl [class^=col-]:nth-child(1),
-.fullscreen-slider .carousel-item.carousel-item-start > .container-xxl [class^=col-]:nth-child(1),
-.fullscreen-slider .carousel-item.carousel-item-end > .container-xxl [class^=col-]:nth-child(1),
-.fullscreen-slider .carousel-item.carousel-item-next > .container-xxl [class^=col-]:nth-child(1),
-.fullscreen-slider .carousel-item.carousel-item-prev > .container-xxl [class^=col-]:nth-child(1) {
+.fullscreen-slider .carousel-item.active .slide-content {
   opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  transition-delay: 0.06s;
-}
-.fullscreen-slider .carousel-item.active > .container-xxl [class^=col-]:nth-child(2),
-.fullscreen-slider .carousel-item.carousel-item-start > .container-xxl [class^=col-]:nth-child(2),
-.fullscreen-slider .carousel-item.carousel-item-end > .container-xxl [class^=col-]:nth-child(2),
-.fullscreen-slider .carousel-item.carousel-item-next > .container-xxl [class^=col-]:nth-child(2),
-.fullscreen-slider .carousel-item.carousel-item-prev > .container-xxl [class^=col-]:nth-child(2) {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  transition-delay: 0.12s;
-}
-.fullscreen-slider .carousel-item.active > .container-xxl [class^=col-]:nth-child(3),
-.fullscreen-slider .carousel-item.carousel-item-start > .container-xxl [class^=col-]:nth-child(3),
-.fullscreen-slider .carousel-item.carousel-item-end > .container-xxl [class^=col-]:nth-child(3),
-.fullscreen-slider .carousel-item.carousel-item-next > .container-xxl [class^=col-]:nth-child(3),
-.fullscreen-slider .carousel-item.carousel-item-prev > .container-xxl [class^=col-]:nth-child(3) {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  transition-delay: 0.18s;
-}
-.fullscreen-slider .carousel-item.active > .container-xxl [class^=col-]:nth-child(4),
-.fullscreen-slider .carousel-item.carousel-item-start > .container-xxl [class^=col-]:nth-child(4),
-.fullscreen-slider .carousel-item.carousel-item-end > .container-xxl [class^=col-]:nth-child(4),
-.fullscreen-slider .carousel-item.carousel-item-next > .container-xxl [class^=col-]:nth-child(4),
-.fullscreen-slider .carousel-item.carousel-item-prev > .container-xxl [class^=col-]:nth-child(4) {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  transition-delay: 0.24s;
-}
-.fullscreen-slider .carousel-item.active > .container-xxl [class^=col-]:nth-child(5),
-.fullscreen-slider .carousel-item.carousel-item-start > .container-xxl [class^=col-]:nth-child(5),
-.fullscreen-slider .carousel-item.carousel-item-end > .container-xxl [class^=col-]:nth-child(5),
-.fullscreen-slider .carousel-item.carousel-item-next > .container-xxl [class^=col-]:nth-child(5),
-.fullscreen-slider .carousel-item.carousel-item-prev > .container-xxl [class^=col-]:nth-child(5) {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
+  transform: translateX(0);
   transition-delay: 0.3s;
 }
-.fullscreen-slider .carousel-item.active > .container-xxl [class^=col-]:nth-child(6),
-.fullscreen-slider .carousel-item.carousel-item-start > .container-xxl [class^=col-]:nth-child(6),
-.fullscreen-slider .carousel-item.carousel-item-end > .container-xxl [class^=col-]:nth-child(6),
-.fullscreen-slider .carousel-item.carousel-item-next > .container-xxl [class^=col-]:nth-child(6),
-.fullscreen-slider .carousel-item.carousel-item-prev > .container-xxl [class^=col-]:nth-child(6) {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  transition-delay: 0.36s;
-}
-.fullscreen-slider .carousel-item.active > .container-xxl [class^=col-]:nth-child(7),
-.fullscreen-slider .carousel-item.carousel-item-start > .container-xxl [class^=col-]:nth-child(7),
-.fullscreen-slider .carousel-item.carousel-item-end > .container-xxl [class^=col-]:nth-child(7),
-.fullscreen-slider .carousel-item.carousel-item-next > .container-xxl [class^=col-]:nth-child(7),
-.fullscreen-slider .carousel-item.carousel-item-prev > .container-xxl [class^=col-]:nth-child(7) {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  transition-delay: 0.42s;
-}
-.fullscreen-slider .carousel-item.active > .container-xxl [class^=col-]:nth-child(8),
-.fullscreen-slider .carousel-item.carousel-item-start > .container-xxl [class^=col-]:nth-child(8),
-.fullscreen-slider .carousel-item.carousel-item-end > .container-xxl [class^=col-]:nth-child(8),
-.fullscreen-slider .carousel-item.carousel-item-next > .container-xxl [class^=col-]:nth-child(8),
-.fullscreen-slider .carousel-item.carousel-item-prev > .container-xxl [class^=col-]:nth-child(8) {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  transition-delay: 0.48s;
-}
-.fullscreen-slider .carousel-item.active > .container-xxl [class^=col-]:nth-child(9),
-.fullscreen-slider .carousel-item.carousel-item-start > .container-xxl [class^=col-]:nth-child(9),
-.fullscreen-slider .carousel-item.carousel-item-end > .container-xxl [class^=col-]:nth-child(9),
-.fullscreen-slider .carousel-item.carousel-item-next > .container-xxl [class^=col-]:nth-child(9),
-.fullscreen-slider .carousel-item.carousel-item-prev > .container-xxl [class^=col-]:nth-child(9) {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  transition-delay: 0.54s;
-}
-.fullscreen-slider .carousel-item.active > .container-xxl [class^=col-]:nth-child(10),
-.fullscreen-slider .carousel-item.carousel-item-start > .container-xxl [class^=col-]:nth-child(10),
-.fullscreen-slider .carousel-item.carousel-item-end > .container-xxl [class^=col-]:nth-child(10),
-.fullscreen-slider .carousel-item.carousel-item-next > .container-xxl [class^=col-]:nth-child(10),
-.fullscreen-slider .carousel-item.carousel-item-prev > .container-xxl [class^=col-]:nth-child(10) {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  transition-delay: 0.6s;
+@keyframes slideZoom {
+  0% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1.08);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .fullscreen-slider .carousel-item > .container-xxl [class^=col-] {

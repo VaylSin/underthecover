@@ -4,7 +4,7 @@ get_header();
 <div class="homepage-hero-container">
 <section class="slider_container">
 <?php if( have_rows('slider') ) : ?>
-<div id="main-slider" class="carousel slide carousel-fade fullscreen-slider" >  <!--data-bs-interval="5000" data-bs-ride="carousel" -->
+<div id="main-slider" class="carousel slide carousel-fade fullscreen-slider" data-bs-interval="5000" data-bs-ride="carousel" >  <!-- -->
     <div class="carousel-inner">
         <?php $i = 0; while( have_rows('slider') ) : the_row();
             $image = get_sub_field('image');
@@ -27,23 +27,25 @@ get_header();
             <div class="container-xxl px-lg-5rem h-100">
                 <div class="row h-100 align-items-center justify-content-center justify-content-md-start">
                     <div class="col-8 col-md-6 col-xxl-4 offset-md-2 text-start text-white">
-                        <?php if($phrase): ?>
-                            <h5 class="fw-bold text-uppercase fs-6 fs-md-5"><?php echo esc_html($phrase); ?></h5>
-                        <?php endif; ?>
-                        <?php if($titre_slide): ?>
-                            <h2 class="maj_title fw-bold text-uppercase fs-5 fs-md-3 fs-lg-2"><?php echo esc_html($titre_slide); ?></h2>
-                        <?php endif; ?>
-                        <?php if($description_produit): ?>
-                            <p class="mb-4 fs-6 fs-md-5"><?php echo esc_html($description_produit); ?></p>
-                        <?php endif; ?>
-                        <?php if($lien && $texte_bouton): ?>
-                            <a href="<?php echo esc_url($url); ?>" class="btn view-all-link fw-bold px-3 px-md-4 py-2 text-uppercase mt-3 fs-6">
-                                <?php echo esc_html($texte_bouton); ?>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                                </svg>
-                            </a>
-                        <?php endif; ?>
+                        <div class="slide-content">
+                            <?php if($phrase): ?>
+                                <h5 class="fw-bold text-uppercase fs-6 fs-md-5"><?php echo esc_html($phrase); ?></h5>
+                            <?php endif; ?>
+                            <?php if($titre_slide): ?>
+                                <h2 class="maj_title fw-bold text-uppercase fs-5 fs-md-3 fs-lg-2"><?php echo esc_html($titre_slide); ?></h2>
+                            <?php endif; ?>
+                            <?php if($description_produit): ?>
+                                <p class="mb-4 fs-6 fs-md-5"><?php echo esc_html($description_produit); ?></p>
+                            <?php endif; ?>
+                            <?php if($lien && $texte_bouton): ?>
+                                <a href="<?php echo esc_url($url); ?>" class="btn view-all-link fw-bold px-3 px-md-4 py-2 text-uppercase mt-3 fs-6">
+                                    <?php echo esc_html($texte_bouton); ?>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                                    </svg>
+                                </a>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             </div>

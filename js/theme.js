@@ -6557,6 +6557,70 @@
     }
 
     // ==========================================================================
+    // SLIDER PRINCIPAL (Front-page)
+    // ==========================================================================
+
+    function initMainSlider() {
+      const slider = $("#main-slider");
+      if (!slider) return;
+
+      // Fonction pour réinitialiser toutes les animations
+      const resetAllAnimations = () => {
+        const allSlides = $$(".carousel-item", slider);
+        allSlides.forEach(slide => {
+          const content = slide.querySelector(".slide-content");
+          if (content) {
+            content.style.opacity = "0";
+            content.style.transform = "translateX(50px)";
+          }
+        });
+      };
+
+      // Fonction pour animer le slide actif - bloc unifié
+      const animateActiveSlide = () => {
+        const activeSlide = $(".carousel-item.active", slider);
+        if (!activeSlide) return;
+        const content = activeSlide.querySelector(".slide-content");
+        if (!content) return;
+
+        // Animer tout le contenu d'un coup
+        setTimeout(() => {
+          content.style.opacity = "1";
+          content.style.transform = "translateX(0)";
+        }, 300);
+      };
+
+      // Écouter les événements Bootstrap du carousel
+      slider.addEventListener("slide.bs.carousel", () => {
+        resetAllAnimations();
+      });
+      slider.addEventListener("slid.bs.carousel", () => {
+        animateActiveSlide();
+      });
+
+      // Initialiser l'animation du premier slide
+      setTimeout(() => {
+        animateActiveSlide();
+      }, 100);
+
+      // Gestion des dots personnalisés
+      const dots = $$(".slider-dot");
+      dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+          const carousel = new bootstrap.Carousel(slider);
+          carousel.to(index);
+        });
+      });
+
+      // Mettre à jour les dots actifs
+      slider.addEventListener("slid.bs.carousel", e => {
+        dots.forEach((dot, index) => {
+          dot.classList.toggle("active", index === e.to);
+        });
+      });
+    }
+
+    // ==========================================================================
     // CARROUSEL CATÉGORIES
     // ==========================================================================
 
@@ -6793,6 +6857,7 @@
       // Fonctionnalités principales
       initSearch();
       initBoutiqueMenu();
+      initMainSlider(); // Animation du slider principal
       initCategoriesCarousel();
       initCartDrawer();
       initAccordions(); // Gestion des accordéons personnalisés
