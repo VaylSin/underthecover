@@ -21953,12 +21953,12 @@ body.scroll-locked .cart-drawer {
   background: none;
   border: none;
   font-size: 2rem;
-  color: #bc3365;
+  color: #dc3545; /* Rouge comme demandé */
   cursor: pointer;
   transition: color 0.3s ease;
 }
 .search-dropdown .close-search:hover {
-  color: #94284f;
+  color: #bd2130;
 }
 .search-dropdown .search-form-container {
   width: 100%;
@@ -22099,9 +22099,10 @@ body.scroll-locked .cart-drawer {
   #searchDropdown {
     /* Ajuster l'alignement vertical : moins centré, plus haut */
     align-items: flex-start !important;
-    padding: 20vh 0 2rem !important; /* Padding haut réduit + padding bottom pour scroll */
+    padding: 15vh 0 2rem !important; /* Padding haut réduit + padding bottom pour scroll */
     overflow-y: auto !important; /* Forcer le scroll vertical */
     -webkit-overflow-scrolling: touch !important; /* Scroll fluide sur iOS */
+    /* Produits populaires masqués sur mobile via Bootstrap classes */
   }
   .search-dropdown .close-search,
   #searchDropdown .close-search {
@@ -22116,27 +22117,45 @@ body.scroll-locked .cart-drawer {
     background: rgba(255, 255, 255, 0.9) !important; /* Fond léger pour visibilité */
     border-radius: 50% !important;
     font-size: 1.8rem !important;
+    color: #dc3545 !important; /* Rouge sur mobile aussi */
   }
   .search-dropdown .search-form-container,
   #searchDropdown .search-form-container {
     margin-top: 0 !important; /* Pas de marge supplémentaire */
+    padding: 0 1rem !important; /* Padding latéral pour mobile */
+  }
+  .search-dropdown .search-form-container .widget_product_search form,
+  #searchDropdown .search-form-container .widget_product_search form {
+    max-width: 100% !important; /* Pleine largeur sur mobile */
   }
   .search-dropdown .search-form-container .search-field,
   #searchDropdown .search-form-container .search-field {
-    font-size: 1.5rem !important; /* Légèrement plus petit en mobile */
-    height: 3.5rem !important;
+    font-size: 1.6rem !important;
+    height: 4rem !important;
+    padding: 1rem 4rem 1rem 1.5rem !important; /* Plus de padding pour mobile */
+    width: 100% !important;
+    max-width: 100% !important;
   }
   .search-dropdown .search-form-container .search-field::-moz-placeholder, #searchDropdown .search-form-container .search-field::-moz-placeholder {
-    font-size: 1.5rem !important;
+    font-size: 1.6rem !important;
   }
   .search-dropdown .search-form-container .search-field::placeholder,
   #searchDropdown .search-form-container .search-field::placeholder {
-    font-size: 1.5rem !important;
+    font-size: 1.6rem !important;
+  }
+  .search-dropdown .search-form-container button[type=submit],
+  #searchDropdown .search-form-container button[type=submit] {
+    right: 1rem !important; /* Plus proche du bord sur mobile */
+    width: 44px !important; /* Zone de touch plus grande */
+    height: 44px !important;
+  }
+  .search-dropdown .search-form-container button[type=submit] i.bi,
+  #searchDropdown .search-form-container button[type=submit] i.bi {
+    font-size: 1.6rem !important; /* Icône plus grande sur mobile */
   }
   .search-dropdown .popular-products,
   #searchDropdown .popular-products {
-    margin-top: 1.5rem !important; /* Moins d'espace au-dessus des produits */
-    padding-bottom: 2rem !important; /* Espace en bas pour que tous les boutons soient accessibles */
+    display: none !important; /* Sécurité supplémentaire */
   }
 }
 .wc-block-components-product-name {

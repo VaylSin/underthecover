@@ -132,17 +132,17 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                             'container'      => false,
                         ) );
                         ?>
-                        
+
                         <!-- Icône panier desktop avec compteur -->
                         <?php
                         $cart_count = ( function_exists( 'WC' ) && WC()->cart ) ? WC()->cart->get_cart_contents_count() : 0;
                         $cart_url = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : '#';
                         $desktop_counter_class = $cart_count > 0 ? 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill' : 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill d-none';
                         ?>
-                        <a href="<?php echo esc_url( $cart_url ); ?>" 
-                           class="nav-link cart-toggle position-relative ms-2" 
-                           data-cart-url="<?php echo esc_url( $cart_url ); ?>" 
-                           data-cart-count="<?php echo esc_attr( $cart_count ); ?>" 
+                        <a href="<?php echo esc_url( $cart_url ); ?>"
+                           class="nav-link cart-toggle position-relative ms-2"
+                           data-cart-url="<?php echo esc_url( $cart_url ); ?>"
+                           data-cart-count="<?php echo esc_attr( $cart_count ); ?>"
                            aria-label="<?php esc_attr_e( 'Ouvrir votre panier', 'siklane' ); ?>">
                             <i class="bi bi-bag-heart fs-4"></i>
                             <span class="<?php echo esc_attr( $desktop_counter_class ); ?>"><?php echo esc_html( $cart_count ); ?></span>
@@ -203,19 +203,6 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
             <div class="search-form-container container mb-4">
                 <?php the_widget('WC_Widget_Product_Search'); ?>
             </div>
-			<!-- Recherche Mobile cachée -->
-			<div id="mobileSearchDropdown" class="mobile-search-dropdown">
-				<div class="container">
-					<div class="d-flex align-items-center justify-content-between">
-						<div class="search-form-container flex-grow-1">
-							<?php the_widget('WC_Widget_Product_Search'); ?>
-						</div>
-						<button type="button" class="mobile-close-search" id="mobileCloseSearch" aria-label="Fermer">
-							&times;
-						</button>
-					</div>
-				</div>
-			</div>
             <?php
             // Récupérer les 4 produits les plus recherchés (par popularité WooCommerce)
             $args = array(
@@ -228,7 +215,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
             );
             $popular_products = new WP_Query($args);
             if ( $popular_products->have_posts() ) : ?>
-                <div class="popular-products col col-md-8  mt-4">
+                <div class="popular-products col col-md-8 mt-4 d-none d-md-block">
 					<h4 class="h3 logo_h3_content maj_title my-4">Nos recherches les plus populaires</h4>
                     <div class="row popular-products-row g-3">
                         <?php while ( $popular_products->have_posts() ) : $popular_products->the_post(); global $product;
@@ -258,6 +245,9 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
             <?php endif; ?>
         </div>
         </div>
+
+
+
         </div>
         <!-- Fin Desktop Header -->
 

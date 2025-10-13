@@ -20,7 +20,16 @@ if ( is_array( $banner ) && isset( $banner['url'] ) ) {
 	$banner_url = get_site_url() . '/wp-content/uploads/woocommerce-placeholder-350x350.webp';
 }
 
-if ( is_product_category() ) {
+if ( is_search() ) {
+    // Page de résultats de recherche
+    $search_query = get_search_query();
+    if ( $search_query ) {
+        $cat_title = 'Résultat de la recherche pour "' . esc_html( $search_query ) . '"';
+    } else {
+        $cat_title = 'Résultats de recherche';
+    }
+    $cat_desc = '';
+} elseif ( is_product_category() ) {
     $current_cat = get_queried_object();
     $cat_title = single_cat_title( '', false );
     $cat_desc  = term_description();

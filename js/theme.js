@@ -6334,17 +6334,13 @@
       // Système unique pour tous les devices
       const toggles = document.querySelectorAll(".search-toggle");
       const dropdown = document.getElementById("searchDropdown");
-      const mobileDropdown = document.getElementById("mobileSearchDropdown");
       const closeBtn = document.getElementById("closeSearch");
-      const mobileCloseBtn = document.getElementById("mobileCloseSearch");
       console.log("Debug recherche:", {
         toggles: toggles.length,
         dropdown,
-        mobileDropdown,
-        closeBtn,
-        mobileCloseBtn
+        closeBtn
       });
-      if (toggles.length === 0 || !dropdown && !mobileDropdown) {
+      if (toggles.length === 0 || !dropdown) {
         console.log("Système de recherche: éléments manquants");
         return;
       }
@@ -6353,25 +6349,25 @@
         // Verrouiller le scroll du site
         lockScroll();
 
-        // Ouvrir le bon dropdown selon la taille d'écran
-        const isMobile = window.innerWidth < 992;
-        const targetDropdown = isMobile ? mobileDropdown : dropdown;
-        console.log("Mobile:", isMobile, "Target:", targetDropdown);
-        if (targetDropdown) {
+        // Utiliser toujours le même dropdown responsive
+        if (dropdown) {
           console.log("Ouverture du dropdown");
-          targetDropdown.classList.add("open");
-          if (!isMobile) targetDropdown.style.display = "block";
+          dropdown.classList.add("open");
+          // Assurer que l'élément est visible
+          dropdown.style.display = "flex";
 
           // Focus sur le champ de recherche
-          const input = targetDropdown.querySelector(".search-field");
+          const input = dropdown.querySelector(".search-field");
           if (input) setTimeout(() => input.focus(), 300);
         }
       };
       const closeSearch = () => {
         // Déverrouiller le scroll du site
         unlockScroll();
-        if (dropdown) dropdown.classList.remove("open");
-        if (mobileDropdown) mobileDropdown.classList.remove("open");
+        if (dropdown) {
+          dropdown.classList.remove("open");
+          dropdown.style.display = "none";
+        }
       };
 
       // Événements pour toutes les icônes de recherche
@@ -6384,15 +6380,9 @@
         });
       });
 
-      // Boutons de fermeture
+      // Bouton de fermeture
       if (closeBtn) {
         on(closeBtn, "click", e => {
-          e.preventDefault();
-          closeSearch();
-        });
-      }
-      if (mobileCloseBtn) {
-        on(mobileCloseBtn, "click", e => {
           e.preventDefault();
           closeSearch();
         });
@@ -6408,7 +6398,7 @@
       // Fermeture en cliquant à l'extérieur (simplifié)
       on(document, "click", e => {
         const isSearchToggle = e.target.closest(".search-toggle");
-        const isDropdown = e.target.closest("#searchDropdown, #mobileSearchDropdown");
+        const isDropdown = e.target.closest("#searchDropdown");
         if (!isSearchToggle && !isDropdown) {
           closeSearch();
         }
@@ -6416,19 +6406,24 @@
 
       // Version simplifiée sans lockScroll - pas de timer nécessaire
 
-      // Remplacer le bouton submit par une icône
+      // Remplacer le bouton submit par une icône (responsive)
       const replaceSubmitIcon = () => {
-        const btn = dropdown.querySelector('form button[type="submit"]');
-        if (!btn || btn.dataset.iconified) return;
-        btn.innerHTML = '<i class="bi bi-search" aria-hidden="true"></i><span class="visually-hidden">Rechercher</span>';
-        btn.setAttribute("aria-label", "Rechercher");
-        btn.dataset.iconified = "1";
+        const btn = dropdown == null ? void 0 : dropdown.querySelector('form button[type="submit"]');
+        if (btn && !btn.dataset.iconified) {
+          btn.innerHTML = '<i class="bi bi-search" aria-hidden="true"></i><span class="visually-hidden">Rechercher</span>';
+          btn.setAttribute("aria-label", "Rechercher");
+          btn.dataset.iconified = "1";
+        }
       };
       replaceSubmitIcon();
-      new MutationObserver(replaceSubmitIcon).observe(dropdown, {
-        childList: true,
-        subtree: true
-      });
+
+      // Observer pour le dropdown unique
+      if (dropdown) {
+        new MutationObserver(replaceSubmitIcon).observe(dropdown, {
+          childList: true,
+          subtree: true
+        });
+      }
     }
 
     // ==========================================================================

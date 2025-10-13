@@ -33,11 +33,15 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 							<h1 class="page-title">
 								<?php
-								printf(
-									/* translators: %s: query term */
-									esc_html__( 'Search Results for: %s', 'understrap' ),
-									'<span>' . get_search_query() . '</span>'
-								);
+								$search_query = get_search_query();
+								if ( $search_query ) {
+									printf(
+										'Résultat de la recherche pour "%s"',
+										'<span>' . esc_html( $search_query ) . '</span>'
+									);
+								} else {
+									echo 'Résultats de recherche';
+								}
 								?>
 							</h1>
 
