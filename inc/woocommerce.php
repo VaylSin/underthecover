@@ -677,8 +677,27 @@ if ( ! function_exists( 'siklane_prevent_auto_drawer_opening' ) ) {
                     });
                 }
 
+                // Force la mise à jour des compteurs desktop spécifiquement
                 setTimeout(function() {
                     initCartCount();
+                    
+                    // Vérifier et forcer la mise à jour du compteur desktop si nécessaire
+                    var $desktopCounter = $('.cart-count-desktop');
+                    var $mobileCounter = $('.cart-count');
+                    
+                    if ($desktopCounter.length > 0 && $mobileCounter.length > 0) {
+                        var mobileCount = parseInt($mobileCounter.text()) || 0;
+                        var desktopCount = parseInt($desktopCounter.text()) || 0;
+                        
+                        // Si les compteurs ne sont pas synchronisés, force la synchronisation
+                        if (mobileCount !== desktopCount) {
+                            if (mobileCount > 0) {
+                                $desktopCounter.removeClass('d-none').text(mobileCount);
+                            } else {
+                                $desktopCounter.addClass('d-none').text('0');
+                            }
+                        }
+                    }
                 }, 300);
             });
 
@@ -775,9 +794,9 @@ add_filter( 'wp_nav_menu_items', function( $items, $args ) {
             $count = ( function_exists( 'WC' ) && WC()->cart ) ? (int) WC()->cart->get_cart_contents_count() : 0;
             $cart_link  = '<a href="' . esc_url( $cart_url ) . '" class="nav-link cart-toggle position-relative" data-cart-url="' . esc_url( $cart_url ) . '" data-cart-count="' . esc_attr( $count ) . '" aria-label="' . esc_attr__( 'Ouvrir votre panier', 'siklane' ) . '">';
             $cart_link .= '<i class="bi bi-bag-heart fs-4"></i>';
-            if ( $count > 0 ) {
-                $cart_link .= '<span class="cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill">' . $count . '</span>';
-            }
+            // Toujours inclure le compteur desktop (caché si vide avec d-none)
+            $desktop_counter_class = $count > 0 ? 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill' : 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill d-none';
+            $cart_link .= '<span class="' . $desktop_counter_class . '">' . $count . '</span>';
             $cart_link .= '</a>';
             $items .= '<li class="menu-item menu-item-cart">' . $cart_link . '</li>';
         }
