@@ -511,6 +511,10 @@ add_filter( 'woocommerce_remove_cart_item_from_session', function( $fragments ) 
     $cart_class = $cart_count > 0 ? 'cart-count' : 'cart-count d-none';
     $fragments['.cart-count'] = '<span class="' . $cart_class . '">' . $cart_count . '</span>';
 
+    // Aussi mettre à jour le compteur desktop lors des suppressions
+    $desktop_class = $cart_count > 0 ? 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill' : 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill d-none';
+    $fragments['.cart-count-desktop'] = '<span class="' . $desktop_class . '">' . $cart_count . '</span>';
+
     return $fragments;
 }, 10, 1 );
 
@@ -770,7 +774,7 @@ add_filter( 'wp_nav_menu_items', function( $items, $args ) {
         if ( false === strpos( $items, esc_url( $cart_url ) ) ) {
             $count = ( function_exists( 'WC' ) && WC()->cart ) ? (int) WC()->cart->get_cart_contents_count() : 0;
             $cart_link  = '<a href="' . esc_url( $cart_url ) . '" class="nav-link cart-toggle position-relative" data-cart-url="' . esc_url( $cart_url ) . '" data-cart-count="' . esc_attr( $count ) . '" aria-label="' . esc_attr__( 'Ouvrir votre panier', 'siklane' ) . '">';
-            $cart_link .= '<i class="bi bi-bag fs-4"></i>';
+            $cart_link .= '<i class="bi bi-bag-heart fs-4"></i>';
             if ( $count > 0 ) {
                 $cart_link .= '<span class="cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill">' . $count . '</span>';
             }
