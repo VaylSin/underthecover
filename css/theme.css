@@ -19548,6 +19548,63 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   font-weight: bold !important;
 }
 
+.search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+  display: none;
+}
+
+.suggestion-item {
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+.suggestion-item:hover {
+  background-color: #f8f9fa;
+}
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-image {
+  width: 40px;
+  height: 40px;
+  -o-object-fit: cover;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.suggestion-content {
+  flex-grow: 1;
+}
+
+.suggestion-title {
+  font-weight: 600;
+  color: #272727;
+  font-size: 0.9rem;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.suggestion-price {
+  color: #bc3365;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
 .spacer-0 {
   margin-bottom: 0rem;
 }
@@ -20470,7 +20527,7 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
 .widget_shopping_cart .mini-cart-row,
 .woocommerce-mini-cart .mini-cart-row {
   display: flex !important;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.75rem;
 }
 

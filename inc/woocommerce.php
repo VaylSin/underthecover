@@ -787,7 +787,7 @@ add_filter( 'nav_menu_link_attributes', function( $atts, $item, $args ) {
  * DÉSACTIVÉ - Panier ajouté directement dans header.php maintenant
  * Si le menu (right-menu) ne contient pas de lien vers le panier, on l'ajoute en fin.
  */
-/* 
+/*
 add_filter( 'wp_nav_menu_items', function( $items, $args ) {
     // n'ajoute que pour l'emplacement right-menu ; adapte si besoin
     if ( isset( $args->theme_location ) && 'right-menu' === $args->theme_location ) {
@@ -1110,4 +1110,146 @@ add_action( 'wp_footer', function() {
         <?php
     }
 });
+
+/**
+ * Autocomplétion produits WooCommerce
+ */
+
+// 1. Désactiver l'autocomplétion navigateur sur les champs de recherche WooCommerce
+add_filter( 'get_product_search_form', 'siklane_disable_browser_autocomplete' );
+function siklane_disable_browser_autocomplete( $form ) {
+    $form = str_replace( '<input type="search"', '<input type="search" autocomplete="off"', $form );
+    return $form;
+}
+
+// 2. Endpoint AJAX pour la recherche de produits
+add_action( 'wp_ajax_product_search', 'siklane_ajax_product_search' );
+add_action( 'wp_ajax_nopriv_product_search', 'siklane_ajax_product_search' );
+
+function siklane_ajax_product_search() {
+    $term = sanitize_text_field( $_GET['term'] );
+
+    if ( strlen( $term ) < 2 ) {
+        wp_die();
+    }
+
+    // Recherche séquentielle STRICTE : caractères consécutifs uniquement
+    global $wpdb;
+
+    $product_ids = $wpdb->get_col( $wpdb->prepare(
+        "SELECT DISTINCT p.ID
+         FROM {$wpdb->posts} p
+         WHERE p.post_type = 'product'
+         AND p.post_status = 'publish'
+         AND LOWER(p.post_title) LIKE LOWER(%s)
+         ORDER BY
+             CASE WHEN LOWER(p.post_title) LIKE LOWER(%s) THEN 1 ELSE 2 END,
+             CHAR_LENGTH(p.post_title) ASC,
+             p.post_title ASC
+         LIMIT 8",
+        '%' . $wpdb->esc_like( $term ) . '%',
+        $wpdb->esc_like( $term ) . '%'
+    ) );
+
+    // Debug : vérifier les résultats pour le terme recherché
+    if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+        error_log( "Recherche pour '$term' - Produits trouvés : " . count( $product_ids ) );
+        foreach ( $product_ids as $id ) {
+            $title = get_the_title( $id );
+            error_log( "- ID $id : '$title'" );
+        }
+    }
+
+    $products = $product_ids;    $results = array();
+
+    foreach ( $products as $product_id ) {
+        $product = wc_get_product( $product_id );
+        $results[] = array(
+            'id'    => $product_id,
+            'title' => $product->get_name(),
+            'url'   => get_permalink( $product_id ),
+            'price' => $product->get_price_html(),
+            'image' => wp_get_attachment_image_url( $product->get_image_id(), 'thumbnail' ),
+        );
+    }
+
+    wp_send_json( $results );
+}
+
+// 3. Enqueue script d'autocomplétion
+add_action( 'wp_enqueue_scripts', 'siklane_enqueue_search_autocomplete' );
+function siklane_enqueue_search_autocomplete() {
+    if ( class_exists( 'WooCommerce' ) ) {
+        wp_add_inline_script( 'jquery', "
+        jQuery(document).ready(function($) {
+            // Autocomplétion pour tous les champs de recherche produits
+            $('input[name=\"s\"], .woocommerce-product-search input[type=\"search\"]').each(function() {
+                var \$input = $(this);
+                var \$form = \$input.closest('form');
+                var \$container = \$form.parent();
+
+                // Créer le conteneur de suggestions si il n'existe pas
+                var \$suggestions = \$container.find('.search-suggestions');
+                if (\$suggestions.length === 0) {
+                    \$suggestions = $('<div class=\"search-suggestions\"></div>');
+                    \$container.css('position', 'relative');
+                    \$form.after(\$suggestions);
+                }
+
+                \$input.on('input', function() {
+                    var term = $(this).val();
+
+                    if (term.length < 2) {
+                        \$suggestions.hide().empty();
+                        return;
+                    }
+
+                    $.ajax({
+                        url: '" . admin_url( 'admin-ajax.php' ) . "',
+                        data: {
+                            action: 'product_search',
+                            term: term
+                        },
+                        success: function(data) {
+                            \$suggestions.empty();
+
+                            if (data.length > 0) {
+                                $.each(data, function(index, product) {
+                                    var \$item = $('<div class=\"suggestion-item\">');
+                                    \$item.html(
+                                        '<div class=\"d-flex align-items-center\">' +
+                                        '<img src=\"' + (product.image || '') + '\" class=\"suggestion-image\" width=\"40\" height=\"40\">' +
+                                        '<div class=\"suggestion-content\">' +
+                                        '<div class=\"suggestion-title\">' + product.title + '</div>' +
+                                        '<div class=\"suggestion-price\">' + product.price + '</div>' +
+                                        '</div>' +
+                                        '</div>'
+                                    );
+
+                                    \$item.on('click', function() {
+                                        window.location.href = product.url;
+                                    });
+
+                                    \$suggestions.append(\$item);
+                                });
+
+                                \$suggestions.show();
+                            } else {
+                                \$suggestions.hide();
+                            }
+                        }
+                    });
+                });
+
+                // Cacher les suggestions quand on clique ailleurs
+                $(document).on('click', function(e) {
+                    if (!$(e.target).closest(\$container).length) {
+                        \$suggestions.hide();
+                    }
+                });
+            });
+        });
+        " );
+    }
+}
 

@@ -6350,6 +6350,9 @@
       }
       const openSearch = () => {
         console.log("openSearch appelée");
+        // Verrouiller le scroll du site
+        lockScroll();
+
         // Ouvrir le bon dropdown selon la taille d'écran
         const isMobile = window.innerWidth < 992;
         const targetDropdown = isMobile ? mobileDropdown : dropdown;
@@ -6365,6 +6368,8 @@
         }
       };
       const closeSearch = () => {
+        // Déverrouiller le scroll du site
+        unlockScroll();
         if (dropdown) dropdown.classList.remove("open");
         if (mobileDropdown) mobileDropdown.classList.remove("open");
       };
