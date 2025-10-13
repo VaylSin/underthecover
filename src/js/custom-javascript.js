@@ -228,18 +228,22 @@
 	// ==========================================================================
 
 	function initSearch() {
-		// Système unique pour tous les devices
+		// Système avec deux dropdowns (desktop + mobile) via composants
 		const toggles = document.querySelectorAll(".search-toggle");
-		const dropdown = document.getElementById("searchDropdown");
-		const closeBtn = document.getElementById("closeSearch");
+		const desktopDropdown = document.getElementById("searchDropdown");
+		const mobileDropdown = document.getElementById("mobileSearchDropdown");
+		const desktopCloseBtn = document.getElementById("closeSearch");
+		const mobileCloseBtn = document.getElementById("mobileCloseSearch");
 
 		console.log("Debug recherche:", {
 			toggles: toggles.length,
-			dropdown,
-			closeBtn,
+			desktopDropdown,
+			mobileDropdown,
+			desktopCloseBtn,
+			mobileCloseBtn,
 		});
 
-		if (toggles.length === 0 || !dropdown) {
+		if (toggles.length === 0 || (!desktopDropdown && !mobileDropdown)) {
 			console.log("Système de recherche: éléments manquants");
 			return;
 		}
@@ -249,15 +253,25 @@
 			// Verrouiller le scroll du site
 			lockScroll();
 
-			// Utiliser toujours le même dropdown responsive
-			if (dropdown) {
+			// Choisir le bon dropdown selon la taille d'écran
+			const isMobile = window.innerWidth < 992; // Bootstrap lg breakpoint
+			const targetDropdown = isMobile ? mobileDropdown : desktopDropdown;
+
+			console.log("Mobile:", isMobile, "Target dropdown:", targetDropdown?.id);
+
+			if (targetDropdown) {
 				console.log("Ouverture du dropdown");
-				dropdown.classList.add("open");
-				// Assurer que l'élément est visible
-				dropdown.style.display = "flex";
+
+				// D'abord montrer l'élément
+				targetDropdown.style.display = "flex";
+
+				// Puis ajouter la classe open après un micro-délai pour les transitions
+				setTimeout(() => {
+					targetDropdown.classList.add("open");
+				}, 10);
 
 				// Focus sur le champ de recherche
-				const input = dropdown.querySelector(".search-field");
+				const input = targetDropdown.querySelector(".search-field");
 				if (input) setTimeout(() => input.focus(), 300);
 			}
 		};
@@ -266,10 +280,18 @@
 			// Déverrouiller le scroll du site
 			unlockScroll();
 
-			if (dropdown) {
-				dropdown.classList.remove("open");
-				dropdown.style.display = "none";
-			}
+			// Fermer les deux dropdowns (au cas où)
+			[desktopDropdown, mobileDropdown].forEach((dropdown) => {
+				if (dropdown && dropdown.classList.contains("open")) {
+					// D'abord retirer la classe open pour déclencher la transition
+					dropdown.classList.remove("open");
+
+					// Puis cacher l'élément après la transition (400ms selon le CSS)
+					setTimeout(() => {
+						dropdown.style.display = "none";
+					}, 400);
+				}
+			});
 		};
 
 		// Événements pour toutes les icônes de recherche
@@ -282,9 +304,16 @@
 			});
 		});
 
-		// Bouton de fermeture
-		if (closeBtn) {
-			on(closeBtn, "click", (e) => {
+		// Boutons de fermeture (desktop et mobile)
+		if (desktopCloseBtn) {
+			on(desktopCloseBtn, "click", (e) => {
+				e.preventDefault();
+				closeSearch();
+			});
+		}
+
+		if (mobileCloseBtn) {
+			on(mobileCloseBtn, "click", (e) => {
 				e.preventDefault();
 				closeSearch();
 			});
@@ -297,34 +326,56 @@
 			}
 		});
 
-		// Fermeture en cliquant à l'extérieur (simplifié)
+		// Fermeture en cliquant à l'extérieur (pour les deux dropdowns)
 		on(document, "click", (e) => {
 			const isSearchToggle = e.target.closest(".search-toggle");
-			const isDropdown = e.target.closest("#searchDropdown");
+			const isDesktopDropdown = e.target.closest("#searchDropdown");
+			const isMobileDropdown = e.target.closest("#mobileSearchDropdown");
 
-			if (!isSearchToggle && !isDropdown) {
+			if (!isSearchToggle && !isDesktopDropdown && !isMobileDropdown) {
 				closeSearch();
 			}
 		});
 
 		// Version simplifiée sans lockScroll - pas de timer nécessaire
 
-		// Remplacer le bouton submit par une icône (responsive)
+		// Remplacer le bouton submit par une icône (desktop et mobile)
 		const replaceSubmitIcon = () => {
-			const btn = dropdown?.querySelector('form button[type="submit"]');
-			if (btn && !btn.dataset.iconified) {
-				btn.innerHTML =
+			// Desktop
+			const desktopBtn = desktopDropdown?.querySelector(
+				'form button[type="submit"]'
+			);
+			if (desktopBtn && !desktopBtn.dataset.iconified) {
+				desktopBtn.innerHTML =
 					'<i class="bi bi-search" aria-hidden="true"></i><span class="visually-hidden">Rechercher</span>';
-				btn.setAttribute("aria-label", "Rechercher");
-				btn.dataset.iconified = "1";
+				desktopBtn.setAttribute("aria-label", "Rechercher");
+				desktopBtn.dataset.iconified = "1";
+			}
+
+			// Mobile
+			const mobileBtn = mobileDropdown?.querySelector(
+				'form button[type="submit"]'
+			);
+			if (mobileBtn && !mobileBtn.dataset.iconified) {
+				mobileBtn.innerHTML =
+					'<i class="bi bi-search" aria-hidden="true"></i><span class="visually-hidden">Rechercher</span>';
+				mobileBtn.setAttribute("aria-label", "Rechercher");
+				mobileBtn.dataset.iconified = "1";
 			}
 		};
 
 		replaceSubmitIcon();
 
-		// Observer pour le dropdown unique
-		if (dropdown) {
-			new MutationObserver(replaceSubmitIcon).observe(dropdown, {
+		// Observers pour les deux dropdowns
+		if (desktopDropdown) {
+			new MutationObserver(replaceSubmitIcon).observe(desktopDropdown, {
+				childList: true,
+				subtree: true,
+			});
+		}
+
+		if (mobileDropdown) {
+			new MutationObserver(replaceSubmitIcon).observe(mobileDropdown, {
 				childList: true,
 				subtree: true,
 			});

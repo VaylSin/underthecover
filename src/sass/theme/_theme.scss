@@ -402,6 +402,12 @@ h6 {
 			transform: scale(1.05);
 			transition: transform 12s ease-out;
 			animation: slideZoom 12s ease-out infinite;
+
+			// Forcer 100% de largeur sur mobile
+			@media screen and (max-width: 767.98px) {
+				width: 100% !important;
+				max-width: 100% !important;
+			}
 		}
 
 		// Animation du contenu textuel - arrivée par la droite
@@ -1635,7 +1641,7 @@ h3.logo_before {
 	top: 100%;
 	left: 0;
 	right: 0;
-	background: white;
+	background: $bloom;
 	border: 1px solid #ddd;
 	border-top: none;
 	border-radius: 0 0 4px 4px;

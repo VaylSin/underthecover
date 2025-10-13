@@ -195,59 +195,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
             </div>
         </div>
 
-        <!-- Barre de recherche cachée sous le header -->
-        <div id="searchDropdown" class="search-dropdown d-flex align-items-center">
-            <button type="button" class="close-search" id="closeSearch" aria-label="Fermer">
-                &times;
-            </button>
-            <div class="search-form-container container mb-4">
-                <?php the_widget('WC_Widget_Product_Search'); ?>
-            </div>
-            <?php
-            // Récupérer les 4 produits les plus recherchés (par popularité WooCommerce)
-            $args = array(
-                'post_type'      => 'product',
-                'posts_per_page' => 4,
-                'meta_key'       => 'total_sales',
-                'orderby'        => 'meta_value_num',
-                'order'          => 'DESC',
-                'post_status'    => 'publish',
-            );
-            $popular_products = new WP_Query($args);
-            if ( $popular_products->have_posts() ) : ?>
-                <div class="popular-products col col-md-8 mt-4 d-none d-md-block">
-					<h4 class="h3 logo_h3_content maj_title my-4">Nos recherches les plus populaires</h4>
-                    <div class="row popular-products-row g-3">
-                        <?php while ( $popular_products->have_posts() ) : $popular_products->the_post(); global $product;
-                            // Préparer les $args pour le composant
-                            if ( has_post_thumbnail() ) {
-                                $image_html = woocommerce_get_product_thumbnail();
-                            } else {
-                                $image_html = '<img src="' . esc_url( get_site_url() . '/wp-content/uploads/woocommerce-placeholder-350x350.webp' ) . '" alt="' . esc_attr__( 'Image produit par défaut', 'siklane' ) . '" class="img-fluid" />';
-                            }
-                            $args = array(
-                                'product_id'    => $product->get_id(),
-                                'product'       => $product,
-                                'title'         => get_the_title(),
-                                'price_html'    => $product->get_price_html(),
-                                'permalink'     => get_permalink(),
-                                'image_html'    => $image_html,
-                                'is_on_sale'    => $product->is_on_sale(),
-                                'is_in_stock'   => $product->is_in_stock(),
-                            );
-                        ?>
-                            <div class="col-6 col-md-3">
-                                <?php get_template_part( 'components/card-product-item', null, $args ); ?>
-                            </div>
-                        <?php endwhile; wp_reset_postdata(); ?>
-                    </div>
-                </div>
-            <?php endif; ?>
         </div>
-        </div>
-
-
-
         </div>
         <!-- Fin Desktop Header -->
 
@@ -450,6 +398,24 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
             </div>
         </div>
     </nav>
+
+    <!-- Dropdowns de recherche universels (en dehors des headers pour accessibilité) -->
+
+    <!-- Dropdown Desktop avec produits populaires -->
+    <?php get_template_part( 'components/search-dropdown', null, array(
+        'id'              => 'searchDropdown',
+        'close_btn_id'    => 'closeSearch',
+        'show_popular'    => true,
+        'container_class' => 'd-none d-lg-block'
+    ) ); ?>
+
+    <!-- Dropdown Mobile sans produits populaires -->
+    <?php get_template_part( 'components/search-dropdown', null, array(
+        'id'              => 'mobileSearchDropdown',
+        'close_btn_id'    => 'mobileCloseSearch',
+        'show_popular'    => false,
+        'container_class' => 'd-lg-none'
+    ) ); ?>
 
 
 

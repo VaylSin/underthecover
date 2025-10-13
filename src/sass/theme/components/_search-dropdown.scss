@@ -7,10 +7,11 @@
 	height: 100%;
 	background: rgba(255, 255, 255, 0.97);
 	z-index: 1050;
-	display: flex;
+	display: none; /* Caché par défaut */
 	flex-direction: column;
 	align-items: center;
-	justify-content: center; /* centre verticalement et horizontalement */
+	justify-content: flex-start; /* Alignement en haut au lieu du centre */
+	padding-top: 5rem; /* Position de l'input à 5rem du haut */
 	opacity: 0;
 	transform: translateY(-20px);
 	visibility: hidden;
@@ -18,6 +19,7 @@
 	transition: opacity 0.4s ease, transform 0.4s ease;
 
 	&.open {
+		display: flex; /* Afficher le dropdown quand ouvert */
 		opacity: 1;
 		transform: translateY(0);
 		visibility: visible;
@@ -189,7 +191,8 @@
 	#searchDropdown {
 		/* Ajuster l'alignement vertical : moins centré, plus haut */
 		align-items: flex-start !important;
-		padding: 15vh 0 2rem !important; /* Padding haut réduit + padding bottom pour scroll */
+		justify-content: start !important;
+		padding: 15vh 0 4rem !important; /* Padding haut réduit + padding bottom pour scroll */
 		overflow-y: auto !important; /* Forcer le scroll vertical */
 		-webkit-overflow-scrolling: touch !important; /* Scroll fluide sur iOS */
 

@@ -18119,6 +18119,12 @@ h6,
   transition: transform 12s ease-out;
   animation: slideZoom 12s ease-out infinite;
 }
+@media screen and (max-width: 767.98px) {
+  .fullscreen-slider .carousel-item img {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
 .fullscreen-slider .carousel-item .slide-content {
   opacity: 0;
   transform: translateX(50px);
@@ -19446,7 +19452,7 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   top: 100%;
   left: 0;
   right: 0;
-  background: white;
+  background: #fbd2da;
   border: 1px solid #ddd;
   border-top: none;
   border-radius: 0 0 4px 4px;
@@ -21930,10 +21936,11 @@ body.scroll-locked .cart-drawer {
   height: 100%;
   background: rgba(255, 255, 255, 0.97);
   z-index: 1050;
-  display: flex;
+  display: none; /* Caché par défaut */
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* centre verticalement et horizontalement */
+  justify-content: flex-start; /* Alignement en haut au lieu du centre */
+  padding-top: 5rem; /* Position de l'input à 5rem du haut */
   opacity: 0;
   transform: translateY(-20px);
   visibility: hidden;
@@ -21941,6 +21948,7 @@ body.scroll-locked .cart-drawer {
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 .search-dropdown.open {
+  display: flex; /* Afficher le dropdown quand ouvert */
   opacity: 1;
   transform: translateY(0);
   visibility: visible;
@@ -22099,7 +22107,8 @@ body.scroll-locked .cart-drawer {
   #searchDropdown {
     /* Ajuster l'alignement vertical : moins centré, plus haut */
     align-items: flex-start !important;
-    padding: 15vh 0 2rem !important; /* Padding haut réduit + padding bottom pour scroll */
+    justify-content: start !important;
+    padding: 15vh 0 4rem !important; /* Padding haut réduit + padding bottom pour scroll */
     overflow-y: auto !important; /* Forcer le scroll vertical */
     -webkit-overflow-scrolling: touch !important; /* Scroll fluide sur iOS */
     /* Produits populaires masqués sur mobile via Bootstrap classes */
