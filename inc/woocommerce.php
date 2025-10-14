@@ -487,11 +487,11 @@ add_filter( 'woocommerce_add_to_cart_fragments', function( $fragments ) {
     <?php
     $fragments['.cart-drawer .drawer-actions'] = ob_get_clean();
 
-    // 4. Mettre à jour les compteurs mobile dans le header (toujours présent, caché si vide)
+    // 4. Mettre à jour SEULEMENT le compteur mobile (pas desktop pour éviter duplication)
     $cart_class = $cart_count > 0 ? 'cart-count' : 'cart-count d-none';
-    $fragments['.cart-count'] = '<span class="' . $cart_class . '">' . $cart_count . '</span>';
+    $fragments['.navbar .cart-count:not(.cart-count-desktop)'] = '<span class="' . $cart_class . '">' . $cart_count . '</span>';
 
-    // 5. Mettre à jour le compteur desktop (toujours présent, caché si vide)
+    // 5. Mettre à jour SEULEMENT le compteur desktop
     $desktop_class = $cart_count > 0 ? 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill' : 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill d-none';
     $fragments['.cart-count-desktop'] = '<span class="' . $desktop_class . '">' . $cart_count . '</span>';
 
@@ -509,7 +509,7 @@ add_filter( 'woocommerce_remove_cart_item_from_session', function( $fragments ) 
     // S'assurer que le compteur est aussi mis à jour lors des suppressions
     $cart_count = WC()->cart ? WC()->cart->get_cart_contents_count() : 0;
     $cart_class = $cart_count > 0 ? 'cart-count' : 'cart-count d-none';
-    $fragments['.cart-count'] = '<span class="' . $cart_class . '">' . $cart_count . '</span>';
+    $fragments['.navbar .cart-count:not(.cart-count-desktop)'] = '<span class="' . $cart_class . '">' . $cart_count . '</span>';
 
     // Aussi mettre à jour le compteur desktop lors des suppressions
     $desktop_class = $cart_count > 0 ? 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill' : 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill d-none';
@@ -541,9 +541,9 @@ if ( ! function_exists( 'siklane_prevent_auto_drawer_opening' ) ) {
         <script>
         jQuery(document).ready(function($) {
 
-            // Fonction pour mettre à jour le compteur mobile
+            // Fonction pour mettre à jour le compteur mobile (pas desktop pour éviter duplication)
             function updateMobileCartCount(count) {
-                var $cartCount = $('.cart-count');
+                var $cartCount = $('.navbar .cart-count:not(.cart-count-desktop)');
 
                 if (count > 0) {
                     $cartCount.text(count).removeClass('d-none');
