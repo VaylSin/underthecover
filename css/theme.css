@@ -19436,7 +19436,8 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   text-transform: uppercase;
 }
 
-.cart-count-desktop {
+.cart-count-desktop,
+.desktop-counter {
   top: 0 !important;
   right: 0 !important;
   background-color: #bc3365 !important;

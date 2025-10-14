@@ -1615,7 +1615,8 @@ h3.logo_before {
 // ==========================================================================
 // Compteur panier desktop
 // ==========================================================================
-.cart-count-desktop {
+.cart-count-desktop,
+.desktop-counter {
 	top: -0 !important;
 	right: -0 !important;
 	background-color: $velvet !important;

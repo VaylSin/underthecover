@@ -137,7 +137,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                         <?php
                         $cart_count = ( function_exists( 'WC' ) && WC()->cart ) ? WC()->cart->get_cart_contents_count() : 0;
                         $cart_url = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : '#';
-                        $desktop_counter_class = $cart_count > 0 ? 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill' : 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill d-none';
+                        $desktop_counter_class = $cart_count > 0 ? 'cart-count desktop-counter position-absolute badge bg-velvet text-white rounded-pill' : 'cart-count desktop-counter position-absolute badge bg-velvet text-white rounded-pill d-none';
                         ?>
                         <a href="<?php echo esc_url( $cart_url ); ?>"
                            class="nav-link cart-toggle position-relative ms-2"
@@ -262,7 +262,7 @@ $navbar_type       = get_theme_mod( 'understrap_navbar_type', 'collapse' );
                             <!-- Panier -->
                             <a href="#" class="mobile-cart-link cart-toggle" aria-label="Votre panier">
                                 <i class="bi bi-bag-heart fs-4"></i>
-                                <span class="cart-count<?php echo (WC()->cart->get_cart_contents_count() > 0) ? '' : ' d-none'; ?>"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+                                <span class="cart-count mobile-counter<?php echo (WC()->cart->get_cart_contents_count() > 0) ? '' : ' d-none'; ?>"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
                             </a>
                         </div>
                     </div>

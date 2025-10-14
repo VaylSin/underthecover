@@ -487,13 +487,9 @@ add_filter( 'woocommerce_add_to_cart_fragments', function( $fragments ) {
     <?php
     $fragments['.cart-drawer .drawer-actions'] = ob_get_clean();
 
-    // 4. Mettre à jour SEULEMENT le compteur mobile (pas desktop pour éviter duplication)
-    $cart_class = $cart_count > 0 ? 'cart-count' : 'cart-count d-none';
-    $fragments['.navbar .cart-count:not(.cart-count-desktop)'] = '<span class="' . $cart_class . '">' . $cart_count . '</span>';
-
-    // 5. Mettre à jour SEULEMENT le compteur desktop
-    $desktop_class = $cart_count > 0 ? 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill' : 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill d-none';
-    $fragments['.cart-count-desktop'] = '<span class="' . $desktop_class . '">' . $cart_count . '</span>';
+    // 4. Mettre à jour TOUS les compteurs avec la même classe
+    $fragments['.cart-count.mobile-counter'] = '<span class="cart-count mobile-counter' . ($cart_count > 0 ? '' : ' d-none') . '">' . $cart_count . '</span>';
+    $fragments['.cart-count.desktop-counter'] = '<span class="cart-count desktop-counter position-absolute badge bg-velvet text-white rounded-pill' . ($cart_count > 0 ? '' : ' d-none') . '">' . $cart_count . '</span>';
 
     return $fragments;
 } );
@@ -506,14 +502,10 @@ add_filter( 'woocommerce_remove_cart_item_from_session', function( $fragments ) 
         $fragments = array();
     }
 
-    // S'assurer que le compteur est aussi mis à jour lors des suppressions
+    // S'assurer que les compteurs sont aussi mis à jour lors des suppressions
     $cart_count = WC()->cart ? WC()->cart->get_cart_contents_count() : 0;
-    $cart_class = $cart_count > 0 ? 'cart-count' : 'cart-count d-none';
-    $fragments['.navbar .cart-count:not(.cart-count-desktop)'] = '<span class="' . $cart_class . '">' . $cart_count . '</span>';
-
-    // Aussi mettre à jour le compteur desktop lors des suppressions
-    $desktop_class = $cart_count > 0 ? 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill' : 'cart-count-desktop position-absolute badge bg-velvet text-white rounded-pill d-none';
-    $fragments['.cart-count-desktop'] = '<span class="' . $desktop_class . '">' . $cart_count . '</span>';
+    $fragments['.cart-count.mobile-counter'] = '<span class="cart-count mobile-counter' . ($cart_count > 0 ? '' : ' d-none') . '">' . $cart_count . '</span>';
+    $fragments['.cart-count.desktop-counter'] = '<span class="cart-count desktop-counter position-absolute badge bg-velvet text-white rounded-pill' . ($cart_count > 0 ? '' : ' d-none') . '">' . $cart_count . '</span>';
 
     return $fragments;
 }, 10, 1 );
