@@ -853,12 +853,12 @@ add_action( 'woocommerce_after_single_product_summary', function() {
                     $button_class   = $is_first ? 'accordion-button' : 'accordion-button collapsed';
                     $aria_expanded  = $is_first ? 'true' : 'false';
                     // le premier panneau doit avoir la classe "show" si aria-expanded="true"
-                    $collapse_classes = $is_first ? 'accordion-collapse collapse' : 'accordion-collapse collapse';
+                    $collapse_classes = $is_first ? 'accordion-collapse collapse show' : 'accordion-collapse collapse';
 
                     echo '<div class="accordion-item siklane-accordion-item" id="item-' . $san_id . '">';
 
                     printf(
-                        '<h2 class="accordion-header" id="%1$s"><button class="%2$s siklane-accordion-summary" data-callapse="%2$s" type="button" data-bs-toggle="collapse" data-bs-target="#%3$s" aria-expanded="%4$s" aria-controls="%3$s"><span class="siklane-accordion-title">%5$s</span><i class="bi bi-arrow-down-circle siklane-accordion-icon" aria-hidden="true"></i></button></h2>',
+                        '<h2 class="accordion-header" id="%1$s"><button class="%2$s siklane-accordion-summary" type="button" data-bs-target="#%3$s" aria-expanded="%4$s" aria-controls="%3$s"><span class="siklane-accordion-title">%5$s</span><i class="bi bi-arrow-down-circle siklane-accordion-icon" aria-hidden="true"></i></button></h2>',
                         esc_attr( $heading_id ),
                         esc_attr( $button_class ),
                         esc_attr( $collapse_id ),
@@ -867,11 +867,10 @@ add_action( 'woocommerce_after_single_product_summary', function() {
                     );
 
                     printf(
-                        '<div id="%1$s" class="%2$s" aria-labelledby="%3$s" data-bs-parent="#%4$s"><div class="accordion-body siklane-accordion-body">%5$s</div></div>',
+                        '<div id="%1$s" class="%2$s" aria-labelledby="%3$s"><div class="accordion-body siklane-accordion-body">%4$s</div></div>',
                         esc_attr( $collapse_id ),
                         esc_attr( $collapse_classes ),
                         esc_attr( $heading_id ),
-                        esc_attr( $accordion_id ),
                         wp_kses_post( wpautop( $it['content'] ) )
                     );
 

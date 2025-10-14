@@ -732,38 +732,101 @@
 	}
 
 	// ==========================================================================
-	// ACCORDÉONS PERSONNALISÉS (Permettre fermeture sans ouvrir autre)
+	// ACCORDÉONS SIKLANE - Solution simple pour fermeture
 	// ==========================================================================
 
 	function initAccordions() {
-		// Gérer les accordéons Bootstrap avec possibilité de fermeture
-		const accordions = $$(
-			".siklane-accordion .accordion-button, .product-tabs-accordion .accordion-button"
-		);
+		// ACCORDÉON 100% MAISON - AUCUN BOOTSTRAP
+		const accordionContainer = $(".siklane-accordion");
+		if (!accordionContainer) return;
 
-		accordions.forEach((button) => {
-			on(button, "click", (e) => {
-				const target = button.getAttribute("data-bs-target");
-				const collapseElement = $(target);
+		const buttons = accordionContainer.querySelectorAll(".accordion-button");
+		const contents = accordionContainer.querySelectorAll(".accordion-collapse");
 
-				if (!collapseElement) return;
+		buttons.forEach((button, index) => {
+			const targetId = button.getAttribute("data-bs-target");
+			const content = $(targetId);
 
-				// Si l'accordéon est actuellement ouvert, empêcher l'action Bootstrap et le fermer manuellement
-				if (collapseElement.classList.contains("show")) {
-					e.preventDefault();
-					e.stopPropagation();
+			if (!content) return;
 
-					// Fermer manuellement sans ouvrir un autre
-					collapseElement.classList.remove("show");
-					button.classList.add("collapsed");
-					button.setAttribute("aria-expanded", "false");
+			// Supprimer TOUS les attributs Bootstrap
+			button.removeAttribute("data-bs-toggle");
+			button.removeAttribute("data-bs-target");
+			content.removeAttribute("data-bs-parent");
 
-					return false;
+			// État initial : premier ouvert, autres fermés
+			const isFirst = index === 0;
+			if (isFirst) {
+				button.classList.remove("collapsed");
+				button.setAttribute("aria-expanded", "true");
+				content.classList.add("show");
+				content.style.height = "auto";
+			} else {
+				button.classList.add("collapsed");
+				button.setAttribute("aria-expanded", "false");
+				content.classList.remove("show");
+				content.style.height = "0px";
+				content.style.overflow = "hidden";
+			}
+
+			// Gestionnaire de clic 100% maison
+			button.addEventListener("click", function (e) {
+				e.preventDefault();
+
+				const isOpen = content.classList.contains("show");
+
+				if (isOpen) {
+					// FERMER
+					closeAccordion(content, button);
+				} else {
+					// OUVRIR (et fermer les autres)
+					contents.forEach((otherContent, otherIndex) => {
+						const otherButton = buttons[otherIndex];
+						if (
+							otherContent !== content &&
+							otherContent.classList.contains("show")
+						) {
+							closeAccordion(otherContent, otherButton);
+						}
+					});
+					openAccordion(content, button);
 				}
-
-				// Sinon, laisser Bootstrap gérer l'ouverture normale (un seul à la fois)
 			});
 		});
+
+		// Fonctions d'animation maison
+		function openAccordion(content, button) {
+			content.style.height = "0px";
+			content.style.overflow = "hidden";
+			content.classList.add("show");
+
+			const height = content.scrollHeight + "px";
+			content.style.height = height;
+
+			button.classList.remove("collapsed");
+			button.setAttribute("aria-expanded", "true");
+
+			setTimeout(() => {
+				content.style.height = "auto";
+				content.style.overflow = "visible";
+			}, 350);
+		}
+
+		function closeAccordion(content, button) {
+			content.style.height = content.scrollHeight + "px";
+			content.style.overflow = "hidden";
+
+			requestAnimationFrame(() => {
+				content.style.height = "0px";
+			});
+
+			button.classList.add("collapsed");
+			button.setAttribute("aria-expanded", "false");
+
+			setTimeout(() => {
+				content.classList.remove("show");
+			}, 350);
+		}
 	}
 
 	// ==========================================================================
@@ -878,7 +941,7 @@
 		initMainSlider(); // Animation du slider principal
 		initCategoriesCarousel();
 		initCartDrawer();
-		initAccordions(); // Gestion des accordéons personnalisés
+		initAccordions(); // Permettre fermeture accordéons
 		initAddToCartButtons(); // Gestion du texte "ajouté"
 		const loader = $("#site-loader");
 		if (loader && isHomePage()) {

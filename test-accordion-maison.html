@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Test Accordéon 100% Maison</title>
+		<!-- Bootstrap Icons seulement -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+		/>
+		<!-- Styles personnalisés -->
+		<link rel="stylesheet" href="css/theme.min.css" />
+		<style>
+			body {
+				padding: 2rem;
+				background: #f8f9fa;
+				font-family: Arial, sans-serif;
+			}
+			.container {
+				max-width: 800px;
+				margin: 0 auto;
+			}
+			.test-info {
+				background: #e3f2fd;
+				padding: 1rem;
+				border-radius: 5px;
+				margin-bottom: 2rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1>🏠 Accordéon 100% Maison</h1>
+			<div class="test-info">
+				<h3>✅ Plus de Bootstrap !</h3>
+				<ul>
+					<li><strong>Premier accordéon ouvert par défaut</strong></li>
+					<li><strong>Clic sur un ouvert → il se ferme</strong></li>
+					<li>
+						<strong
+							>Clic sur un fermé → il s'ouvre (et ferme les autres)</strong
+						>
+					</li>
+					<li><strong>Animations fluides 350ms</strong></li>
+					<li><strong>Design original préservé</strong></li>
+				</ul>
+			</div>
+
+			<!-- Accordéon Siklane 100% Maison -->
+			<div class="siklane-accordion-container">
+				<h3 class="maj_title logo_h3_content mb-3">En savoir plus</h3>
+				<div class="accordion siklane-accordion" id="siklane-accordion">
+					<!-- Description - OUVERT par défaut -->
+					<div
+						class="accordion-item siklane-accordion-item"
+						id="item-siklane_desc"
+					>
+						<h2 class="accordion-header" id="siklaneHeading-siklane_desc">
+							<button
+								class="accordion-button siklane-accordion-summary"
+								type="button"
+								data-bs-target="#siklaneCollapse-siklane_desc"
+								aria-expanded="true"
+								aria-controls="siklaneCollapse-siklane_desc"
+							>
+								<span class="siklane-accordion-title">Description</span>
+								<i
+									class="bi bi-arrow-down-circle siklane-accordion-icon"
+									aria-hidden="true"
+								></i>
+							</button>
+						</h2>
+						<div
+							id="siklaneCollapse-siklane_desc"
+							class="accordion-collapse collapse show"
+							aria-labelledby="siklaneHeading-siklane_desc"
+						>
+							<div class="accordion-body siklane-accordion-body">
+								<p>
+									<strong>🎉 Accordéon 100% maison sans Bootstrap !</strong>
+								</p>
+								<p>
+									Cet accordéon est ouvert par défaut. Cliquez sur le bouton
+									pour le fermer.
+								</p>
+								<p>Plus de conflits, plus de bugs, plus de lag !</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Ingrédients - FERMÉ par défaut -->
+					<div
+						class="accordion-item siklane-accordion-item"
+						id="item-siklane_ingredients"
+					>
+						<h2
+							class="accordion-header"
+							id="siklaneHeading-siklane_ingredients"
+						>
+							<button
+								class="accordion-button collapsed siklane-accordion-summary"
+								type="button"
+								data-bs-target="#siklaneCollapse-siklane_ingredients"
+								aria-expanded="false"
+								aria-controls="siklaneCollapse-siklane_ingredients"
+							>
+								<span class="siklane-accordion-title">Ingrédients</span>
+								<i
+									class="bi bi-arrow-down-circle siklane-accordion-icon"
+									aria-hidden="true"
+								></i>
+							</button>
+						</h2>
+						<div
+							id="siklaneCollapse-siklane_ingredients"
+							class="accordion-collapse collapse"
+							aria-labelledby="siklaneHeading-siklane_ingredients"
+						>
+							<div class="accordion-body siklane-accordion-body">
+								<p>Liste des ingrédients :</p>
+								<ul>
+									<li>JavaScript pur 100% maison</li>
+									<li>CSS personnalisé</li>
+									<li>Animation fluide 350ms</li>
+									<li>Zéro Bootstrap pour l'accordéon</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<!-- Utilisation - FERMÉ par défaut -->
+					<div
+						class="accordion-item siklane-accordion-item"
+						id="item-siklane_usage"
+					>
+						<h2 class="accordion-header" id="siklaneHeading-siklane_usage">
+							<button
+								class="accordion-button collapsed siklane-accordion-summary"
+								type="button"
+								data-bs-target="#siklaneCollapse-siklane_usage"
+								aria-expanded="false"
+								aria-controls="siklaneCollapse-siklane_usage"
+							>
+								<span class="siklane-accordion-title">Comment s'en servir</span>
+								<i
+									class="bi bi-arrow-down-circle siklane-accordion-icon"
+									aria-hidden="true"
+								></i>
+							</button>
+						</h2>
+						<div
+							id="siklaneCollapse-siklane_usage"
+							class="accordion-collapse collapse"
+							aria-labelledby="siklaneHeading-siklane_usage"
+						>
+							<div class="accordion-body siklane-accordion-body">
+								<p>Instructions d'utilisation :</p>
+								<ol>
+									<li>
+										<strong>Cliquer sur un accordéon fermé</strong> → Il s'ouvre
+									</li>
+									<li>
+										<strong>Cliquer sur un accordéon ouvert</strong> → Il se
+										ferme
+									</li>
+									<li>
+										<strong>Ouvrir un autre</strong> → Le précédent se ferme
+										automatiquement
+									</li>
+									<li><strong>Profiter</strong> → Aucun bug, aucun lag !</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Notre JavaScript maison -->
+		<script src="js/theme.min.js"></script>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				console.log("🏠 Accordéon 100% maison chargé !");
+				console.log("✅ Pas de Bootstrap pour accordéon");
+
+				const buttons = document.querySelectorAll(
+					".siklane-accordion .accordion-button"
+				);
+				console.log("🎯 Boutons trouvés:", buttons.length);
+
+				buttons.forEach((button, index) => {
+					const isOpen = !button.classList.contains("collapsed");
+					console.log(`Accordéon ${index + 1}: ${isOpen ? "OUVERT" : "fermé"}`);
+				});
+			});
+		</script>
+	</body>
+</html>

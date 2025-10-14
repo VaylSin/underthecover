@@ -957,6 +957,15 @@ figure.woocommerce-product-gallery__wrapper {
 		color: #333;
 	}
 
+	// Animations accordéon 100% maison
+	.accordion-collapse {
+		transition: height 0.35s ease;
+		overflow: hidden;
+
+		&:not(.show) {
+			height: 0;
+		}
+	}
 	.siklane-accordion-body p {
 		margin: 0.5rem 0;
 		font-size: 0.9rem;

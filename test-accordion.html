@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Test Accordéon - Silk Lane</title>
+		<!-- Bootstrap CSS -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+		/>
+		<!-- Bootstrap Icons -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+		/>
+		<!-- Styles personnalisés -->
+		<link rel="stylesheet" href="css/theme.min.css" />
+		<style>
+			body {
+				padding: 2rem;
+				background: #f8f9fa;
+			}
+			.container {
+				max-width: 800px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1>Test Accordéon Silk Lane</h1>
+			<p class="text-muted mb-4">
+				Cliquez sur un onglet ouvert pour le fermer sans ouvrir un autre.
+			</p>
+
+			<!-- Accordéon Siklane -->
+			<div class="siklane-accordion-container">
+				<h3 class="maj_title logo_h3_content mb-3">En savoir plus</h3>
+				<div class="accordion siklane-accordion" id="siklane-accordion">
+					<!-- Première section - Description -->
+					<div
+						class="accordion-item siklane-accordion-item"
+						id="item-siklane_desc"
+					>
+						<h2 class="accordion-header" id="siklaneHeading-siklane_desc">
+							<button
+								class="accordion-button siklane-accordion-summary"
+								type="button"
+								data-bs-toggle="collapse"
+								data-bs-target="#siklaneCollapse-siklane_desc"
+								aria-expanded="true"
+								aria-controls="siklaneCollapse-siklane_desc"
+							>
+								<span class="siklane-accordion-title">Description</span>
+								<i
+									class="bi bi-arrow-down-circle siklane-accordion-icon"
+									aria-hidden="true"
+								></i>
+							</button>
+						</h2>
+						<div
+							id="siklaneCollapse-siklane_desc"
+							class="accordion-collapse collapse show"
+							aria-labelledby="siklaneHeading-siklane_desc"
+							data-bs-parent="#siklane-accordion"
+						>
+							<div class="accordion-body siklane-accordion-body">
+								<p>
+									Voici une description détaillée du produit. Cette section
+									contient toutes les informations importantes concernant les
+									caractéristiques et les bénéfices.
+								</p>
+								<p>
+									Vous devriez pouvoir fermer cet onglet en cliquant dessus une
+									seconde fois.
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Deuxième section - Ingrédients -->
+					<div
+						class="accordion-item siklane-accordion-item"
+						id="item-siklane_ingredients"
+					>
+						<h2
+							class="accordion-header"
+							id="siklaneHeading-siklane_ingredients"
+						>
+							<button
+								class="accordion-button collapsed siklane-accordion-summary"
+								type="button"
+								data-bs-toggle="collapse"
+								data-bs-target="#siklaneCollapse-siklane_ingredients"
+								aria-expanded="false"
+								aria-controls="siklaneCollapse-siklane_ingredients"
+							>
+								<span class="siklane-accordion-title">Ingrédients</span>
+								<i
+									class="bi bi-arrow-down-circle siklane-accordion-icon"
+									aria-hidden="true"
+								></i>
+							</button>
+						</h2>
+						<div
+							id="siklaneCollapse-siklane_ingredients"
+							class="accordion-collapse collapse"
+							aria-labelledby="siklaneHeading-siklane_ingredients"
+							data-bs-parent="#siklane-accordion"
+						>
+							<div class="accordion-body siklane-accordion-body">
+								<p>Liste des ingrédients utilisés dans ce produit :</p>
+								<ul>
+									<li>Ingrédient naturel 1</li>
+									<li>Ingrédient naturel 2</li>
+									<li>Extrait végétal 3</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<!-- Troisième section - Utilisation -->
+					<div
+						class="accordion-item siklane-accordion-item"
+						id="item-siklane_usage"
+					>
+						<h2 class="accordion-header" id="siklaneHeading-siklane_usage">
+							<button
+								class="accordion-button collapsed siklane-accordion-summary"
+								type="button"
+								data-bs-toggle="collapse"
+								data-bs-target="#siklaneCollapse-siklane_usage"
+								aria-expanded="false"
+								aria-controls="siklaneCollapse-siklane_usage"
+							>
+								<span class="siklane-accordion-title">Comment s'en servir</span>
+								<i
+									class="bi bi-arrow-down-circle siklane-accordion-icon"
+									aria-hidden="true"
+								></i>
+							</button>
+						</h2>
+						<div
+							id="siklaneCollapse-siklane_usage"
+							class="accordion-collapse collapse"
+							aria-labelledby="siklaneHeading-siklane_usage"
+							data-bs-parent="#siklane-accordion"
+						>
+							<div class="accordion-body siklane-accordion-body">
+								<p>Instructions d'utilisation :</p>
+								<ol>
+									<li>Appliquer sur peau propre</li>
+									<li>Masser délicatement</li>
+									<li>Laisser agir selon les recommandations</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Bootstrap JS -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		<!-- Script personnalisé -->
+		<script src="js/theme.min.js"></script>
+
+		<!-- Script de test pour debug -->
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				console.log("Accordéon test chargé");
+				console.log(
+					"Bootstrap disponible:",
+					typeof window.bootstrap !== "undefined"
+				);
+
+				// Test de nos boutons d'accordéon
+				const buttons = document.querySelectorAll(
+					".siklane-accordion .accordion-button"
+				);
+				console.log("Boutons d'accordéon trouvés:", buttons.length);
+
+				// Ajouter des listeners de debug
+				buttons.forEach((button, index) => {
+					button.addEventListener("click", function () {
+						const target = this.getAttribute("data-bs-target");
+						const collapseElement = document.querySelector(target);
+						const isOpen = collapseElement.classList.contains("show");
+						console.log(
+							`Accordéon ${index + 1} cliqué - État: ${
+								isOpen ? "ouvert" : "fermé"
+							}`
+						);
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

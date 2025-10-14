@@ -13438,6 +13438,13 @@ figure.woocommerce-product-gallery__wrapper {
   padding-top: 0.6rem;
   color: #333;
 }
+.siklane-accordion .accordion-collapse {
+  transition: height 0.35s ease;
+  overflow: hidden;
+}
+.siklane-accordion .accordion-collapse:not(.show) {
+  height: 0;
+}
 .siklane-accordion .siklane-accordion-body p {
   margin: 0.5rem 0;
   font-size: 0.9rem;
