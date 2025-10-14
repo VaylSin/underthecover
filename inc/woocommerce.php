@@ -843,17 +843,15 @@ add_action( 'woocommerce_after_single_product_summary', function() {
               echo '<h3 class="maj_title logo_h3_content mb-3">' . esc_html__( 'En savoir plus', 'siklane' ) . '</h3>';
               echo '<div class="accordion siklane-accordion" id="' . esc_attr( $accordion_id ) . '">';
 
-                $idx = 0;
                 foreach ( $items as $it ) {
                     $san_id      = esc_attr( $it['id'] );
                     $collapse_id = 'siklaneCollapse-' . $san_id;
                     $heading_id  = 'siklaneHeading-' . $san_id;
 
-                    $is_first = ( $idx === 0 );
-                    $button_class   = $is_first ? 'accordion-button' : 'accordion-button collapsed';
-                    $aria_expanded  = $is_first ? 'true' : 'false';
-                    // le premier panneau doit avoir la classe "show" si aria-expanded="true"
-                    $collapse_classes = $is_first ? 'accordion-collapse collapse show' : 'accordion-collapse collapse';
+                    // TOUS les accordéons fermés par défaut
+                    $button_class   = 'accordion-button collapsed';
+                    $aria_expanded  = 'false';
+                    $collapse_classes = 'accordion-collapse collapse';
 
                     echo '<div class="accordion-item siklane-accordion-item" id="item-' . $san_id . '">';
 
@@ -875,8 +873,6 @@ add_action( 'woocommerce_after_single_product_summary', function() {
                     );
 
                     echo '</div>';
-
-                    $idx++;
                 }
 
                 echo '</div>'; // .accordion

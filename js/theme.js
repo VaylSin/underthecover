@@ -6792,20 +6792,12 @@
         button.removeAttribute("data-bs-target");
         content.removeAttribute("data-bs-parent");
 
-        // État initial : premier ouvert, autres fermés
-        const isFirst = index === 0;
-        if (isFirst) {
-          button.classList.remove("collapsed");
-          button.setAttribute("aria-expanded", "true");
-          content.classList.add("show");
-          content.style.height = "auto";
-        } else {
-          button.classList.add("collapsed");
-          button.setAttribute("aria-expanded", "false");
-          content.classList.remove("show");
-          content.style.height = "0px";
-          content.style.overflow = "hidden";
-        }
+        // État initial : TOUS fermés par défaut
+        button.classList.add("collapsed");
+        button.setAttribute("aria-expanded", "false");
+        content.classList.remove("show");
+        content.style.height = "0px";
+        content.style.overflow = "hidden";
 
         // Gestionnaire de clic 100% maison
         button.addEventListener("click", function (e) {
