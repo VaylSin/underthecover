@@ -1596,7 +1596,7 @@ h3.logo_before {
 	}
 }
 
-// Site content - masqué au chargement
+// Site content - masqué au chargement seulement sur l'accueil
 .site {
 	opacity: 0;
 	transition: opacity 0.8s ease;
@@ -1604,6 +1604,13 @@ h3.logo_before {
 	&.loaded {
 		opacity: 1;
 	}
+}
+
+// Sécurité : toutes les pages sauf accueil sont visibles par défaut
+body:not(.home):not(.front-page) .site,
+body.search .site,
+body.search-results .site {
+	opacity: 1;
 }
 .page-header-banner-content {
 	z-index: 9;

@@ -19429,6 +19429,12 @@ h3.logo_before .logo_h3_content::before, .logo_before.h3 .logo_h3_content::befor
   opacity: 1;
 }
 
+body:not(.home):not(.front-page) .site,
+body.search .site,
+body.search-results .site {
+  opacity: 1;
+}
+
 .page-header-banner-content {
   z-index: 9;
 }

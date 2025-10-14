@@ -14,11 +14,23 @@
 	const on = (el, ev, fn, opts = false) =>
 		el && el.addEventListener(ev, fn, opts);
 
-	const isHomePage = () =>
-		document.body.classList.contains("home") ||
-		document.body.classList.contains("front-page") ||
-		location.pathname === "/" ||
-		location.pathname === "/index.html";
+	const isHomePage = () => {
+		// Si c'est explicitement une page de recherche, ce n'est pas l'accueil
+		if (
+			document.body.classList.contains("search") ||
+			document.body.classList.contains("search-results") ||
+			location.search.includes("s=")
+		) {
+			return false;
+		}
+
+		return (
+			document.body.classList.contains("home") ||
+			document.body.classList.contains("front-page") ||
+			location.pathname === "/" ||
+			location.pathname === "/index.html"
+		);
+	};
 
 	// ==========================================================================
 	// GESTION DU SCROLL (Lock/Unlock)
@@ -919,13 +931,7 @@
 	function initialize() {
 		// Initialisation de base
 		initAOS();
-		initLoader();
-
-		// Assurer que le site a la classe loaded
-		const site = $(".site");
-		if (site && !isHomePage()) {
-			site.classList.add("loaded");
-		}
+		initLoader(); // Gère déjà la classe loaded
 
 		// Fonctionnalités principales
 		initSearch();
