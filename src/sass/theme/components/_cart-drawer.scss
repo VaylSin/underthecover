@@ -263,18 +263,30 @@
 		justify-content: center;
 
 		a {
-			color: $velvet;
+			color: $velvet !important;
 			text-decoration: none;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 
-			&:hover {
-				color: $black-main;
+			// Forcer l'absence d'effet hover
+			&:hover,
+			&:focus,
+			&:active {
+				color: $velvet !important;
+				text-decoration: none !important;
 			}
 
 			i {
-				font-size: 0.75rem;
+				font-size: 0.65rem; // Croix plus petite
+				color: inherit !important;
+
+				// Aussi pour l'icône
+				&:hover,
+				&:focus,
+				&:active {
+					color: $velvet !important;
+				}
 			}
 		}
 	}
@@ -458,6 +470,29 @@
 			&:focus {
 				outline: none;
 				box-shadow: 0 0 0 2px rgba($velvet, 0.3);
+			}
+		}
+
+		// Correction mobile : réinitialiser tous les styles problématiques
+		@media (max-width: 767px) {
+			flex-wrap: nowrap;
+			align-items: center;
+
+			button[name="apply_coupon"],
+			button[type="submit"] {
+				// Forcer le reset de tous les styles Bootstrap potentiellement problématiques
+				border: 1px solid $velvet !important;
+				padding: 0 !important;
+				margin: 0 !important;
+				line-height: normal !important;
+				font-size: 0.8rem !important;
+				vertical-align: top !important;
+				box-sizing: border-box !important;
+
+				// Même hauteur que l'input
+				height: auto !important;
+				min-height: auto !important;
+				max-height: none !important;
 			}
 		}
 	}

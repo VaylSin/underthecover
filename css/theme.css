@@ -14804,6 +14804,10 @@ input.qty,
   }
 }
 
+.woocommerce a.remove:hover {
+  background: none !important;
+}
+
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
@@ -20529,21 +20533,36 @@ body.search-results .site {
   .cart-drawer .mini-cart-remove a,
   .widget_shopping_cart .mini-cart-remove a,
   .woocommerce-mini-cart .mini-cart-remove a {
-    color: #bc3365;
+    color: #bc3365 !important;
     text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .cart-drawer .mini-cart-remove a:hover,
+  .cart-drawer .mini-cart-remove a:hover, .cart-drawer .mini-cart-remove a:focus, .cart-drawer .mini-cart-remove a:active,
   .widget_shopping_cart .mini-cart-remove a:hover,
-  .woocommerce-mini-cart .mini-cart-remove a:hover {
-    color: #272727;
+  .widget_shopping_cart .mini-cart-remove a:focus,
+  .widget_shopping_cart .mini-cart-remove a:active,
+  .woocommerce-mini-cart .mini-cart-remove a:hover,
+  .woocommerce-mini-cart .mini-cart-remove a:focus,
+  .woocommerce-mini-cart .mini-cart-remove a:active {
+    color: #bc3365 !important;
+    text-decoration: none !important;
   }
   .cart-drawer .mini-cart-remove a i,
   .widget_shopping_cart .mini-cart-remove a i,
   .woocommerce-mini-cart .mini-cart-remove a i {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
+    color: inherit !important;
+  }
+  .cart-drawer .mini-cart-remove a i:hover, .cart-drawer .mini-cart-remove a i:focus, .cart-drawer .mini-cart-remove a i:active,
+  .widget_shopping_cart .mini-cart-remove a i:hover,
+  .widget_shopping_cart .mini-cart-remove a i:focus,
+  .widget_shopping_cart .mini-cart-remove a i:active,
+  .woocommerce-mini-cart .mini-cart-remove a i:hover,
+  .woocommerce-mini-cart .mini-cart-remove a i:focus,
+  .woocommerce-mini-cart .mini-cart-remove a i:active {
+    color: #bc3365 !important;
   }
 }
 .cart-drawer .cart_list li,
@@ -20763,6 +20782,40 @@ body.search-results .site {
 .woocommerce-checkout .wc-block-components-totals-coupon__content button[type=submit]:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(188, 51, 101, 0.3);
+}
+@media (max-width: 767px) {
+  .cart-drawer .coupon,
+  .cart-drawer .wc-block-components-totals-coupon__content,
+  .woocommerce-cart .coupon,
+  .woocommerce-cart .wc-block-components-totals-coupon__content,
+  .woocommerce-checkout .coupon,
+  .woocommerce-checkout .wc-block-components-totals-coupon__content {
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+  .cart-drawer .coupon button[name=apply_coupon],
+  .cart-drawer .coupon button[type=submit],
+  .cart-drawer .wc-block-components-totals-coupon__content button[name=apply_coupon],
+  .cart-drawer .wc-block-components-totals-coupon__content button[type=submit],
+  .woocommerce-cart .coupon button[name=apply_coupon],
+  .woocommerce-cart .coupon button[type=submit],
+  .woocommerce-cart .wc-block-components-totals-coupon__content button[name=apply_coupon],
+  .woocommerce-cart .wc-block-components-totals-coupon__content button[type=submit],
+  .woocommerce-checkout .coupon button[name=apply_coupon],
+  .woocommerce-checkout .coupon button[type=submit],
+  .woocommerce-checkout .wc-block-components-totals-coupon__content button[name=apply_coupon],
+  .woocommerce-checkout .wc-block-components-totals-coupon__content button[type=submit] {
+    border: 1px solid #bc3365 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: normal !important;
+    font-size: 0.8rem !important;
+    vertical-align: top !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+  }
 }
 .cart-drawer .drawer-actions .btn, .cart-drawer .drawer-actions .wc-block-components-checkout-return-to-cart-button, .cart-drawer .drawer-actions input[type=submit], .cart-drawer .drawer-actions .wc-block-components-totals-coupon__content button[type=submit], .wc-block-components-totals-coupon__content .cart-drawer .drawer-actions button[type=submit], .cart-drawer .drawer-actions .woocommerce-form-login__submit, .cart-drawer .drawer-actions .woocommerce-notices-wrapper .woocommerce-message a.button, .woocommerce-notices-wrapper .woocommerce-message .cart-drawer .drawer-actions a.button, .cart-drawer .drawer-actions .woocommerce-info a.button, .woocommerce-info .cart-drawer .drawer-actions a.button,
 .cart-drawer .drawer-actions .view-all-link,

@@ -1240,3 +1240,119 @@ function siklane_enqueue_search_autocomplete() {
     }
 }
 
+// ==========================================================================
+// HOOK POUR LES BLOCS WOOCOMMERCE - Utiliser le composant card-product-item
+// ==========================================================================
+
+/**
+ * Hook pour personnaliser l'affichage des produits dans les blocs WooCommerce
+ */
+add_filter( 'render_block', 'siklane_custom_woocommerce_blocks_render', 10, 2 );
+
+if ( ! function_exists( 'siklane_custom_woocommerce_blocks_render' ) ) {
+    function siklane_custom_woocommerce_blocks_render( $block_content, $block ) {
+        // Vérifier si c'est un bloc de produits WooCommerce
+        if ( isset( $block['blockName'] ) && in_array( $block['blockName'], [
+            'woocommerce/product-new',
+            'woocommerce/product-best-sellers',
+            'woocommerce/product-featured',
+            'woocommerce/products'
+        ] ) ) {
+
+            // Extraire les paramètres du bloc
+            $columns = isset( $block['attrs']['columns'] ) ? intval( $block['attrs']['columns'] ) : 4;
+            $rows = isset( $block['attrs']['rows'] ) ? intval( $block['attrs']['rows'] ) : 1;
+            $limit = $columns * $rows;
+
+            // Déterminer le type de produits à récupérer
+            $query_args = array(
+                'post_type'      => 'product',
+                'posts_per_page' => $limit,
+                'post_status'    => 'publish',
+                'meta_query'     => WC()->query->get_meta_query(),
+                'tax_query'      => WC()->query->get_tax_query(),
+            );
+
+            switch ( $block['blockName'] ) {
+                case 'woocommerce/product-new':
+                    $query_args['orderby'] = 'date';
+                    $query_args['order'] = 'DESC';
+                    break;
+                case 'woocommerce/product-best-sellers':
+                    $query_args['meta_key'] = 'total_sales';
+                    $query_args['orderby'] = 'meta_value_num';
+                    $query_args['order'] = 'DESC';
+                    break;
+                case 'woocommerce/product-featured':
+                    $query_args['tax_query'][] = array(
+                        'taxonomy' => 'product_visibility',
+                        'field'    => 'name',
+                        'terms'    => 'featured',
+                    );
+                    break;
+            }
+
+            $products_query = new WP_Query( $query_args );
+
+            if ( $products_query->have_posts() ) {
+                ob_start();
+
+                // Container responsive comme sur la homepage
+                echo '<div class="row g-3 g-md-4">';
+
+                while ( $products_query->have_posts() ) {
+                    $products_query->the_post();
+                    global $product;
+
+                    // Classes Bootstrap responsive pour les colonnes
+                    $col_classes = 'col-6 col-md-4 col-lg-3';
+                    if ( $columns == 3 ) {
+                        $col_classes = 'col-6 col-md-4';
+                    } elseif ( $columns == 2 ) {
+                        $col_classes = 'col-6 col-md-6';
+                    } elseif ( $columns == 5 ) {
+                        $col_classes = 'col-6 col-md-4 col-lg-2';
+                    } elseif ( $columns == 6 ) {
+                        $col_classes = 'col-6 col-md-3 col-lg-2';
+                    }
+
+                    echo '<div class="' . esc_attr( $col_classes ) . '">';
+
+                    // Utiliser votre composant personnalisé
+                    get_template_part( 'components/card-product-item', null, array(
+                        'product'   => $product,
+                        'post_id'   => get_the_ID(),
+                        'permalink' => get_permalink(),
+                        'thumbnail' => get_the_post_thumbnail( get_the_ID(), 'large', array(
+                            'class' => 'card-img-top object-fit-cover',
+                            'style' => 'aspect-ratio:1/1;object-fit:cover;width:100%;'
+                        ) ),
+                        'price_html'   => $product->get_price_html(),
+                        'avg_rating'   => $product->get_average_rating(),
+                        'rating_count' => $product->get_rating_count(),
+                    ) );
+
+                    echo '</div>';
+                }
+
+                echo '</div>';
+
+                // Lien "tous les produits" après le listing
+                echo '<div class="text-center my-4">';
+                echo '<a href="' . esc_url( get_permalink( wc_get_page_id( 'shop' ) ) ) . '" class="view-all-link">';
+                echo 'Retour à la boutique ';
+                echo '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">';
+                echo '<path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"></path>';
+                echo '</svg>';
+                echo '</a>';
+                echo '</div>';
+
+                wp_reset_postdata();
+                return ob_get_clean();
+            }
+        }
+
+        return $block_content;
+    }
+}
+

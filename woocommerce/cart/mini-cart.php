@@ -81,7 +81,7 @@ do_action( 'woocommerce_before_mini_cart' ); ?>
                 <?php
                 echo apply_filters( 'woocommerce_cart_item_remove_link', sprintf(
                     '<a href="%s" class="remove" aria-label="%s" data-product_id="%s" data-cart_item_key="%s">
-                        <i class="text-velvet bi bi-x-lg"></i>
+                        <i class="text-velvet bi bi-x"></i>
                     </a>',
                     esc_url( wc_get_cart_remove_url( $cart_item_key ) ),
                     esc_attr( sprintf( __( 'Supprimer %s du panier', 'woocommerce' ), wp_strip_all_tags( $product_name ) ) ),
