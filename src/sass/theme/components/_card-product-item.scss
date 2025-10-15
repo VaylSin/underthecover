@@ -96,21 +96,28 @@
 		background-color: $velvet !important;
 		color: #fff !important;
 		cursor: not-allowed !important;
-		opacity: 0.8;
-		pointer-events: none; // Empêcher les clics
+		opacity: 0.8 !important;
+		pointer-events: none !important; // Empêcher les clics
+		transition: none !important; // Supprimer toutes les transitions
 
-		// Supprimer les effets de hover
+		// Supprimer TOUS les effets de hover/focus/active
 		&:hover,
-		&:focus {
+		&:focus,
+		&:active,
+		&:focus-visible {
 			background-color: $velvet !important;
 			color: #fff !important;
-
+			opacity: 0.8 !important;
 			transform: none !important;
+			box-shadow: none !important;
 		}
 
-		// Supprimer l'animation de l'icône
-		svg {
+		// Supprimer l'animation de l'icône et du contenu
+		svg,
+		i,
+		span {
 			transform: none !important;
+			transition: none !important;
 		}
 
 		.bi-exclamation-triangle {

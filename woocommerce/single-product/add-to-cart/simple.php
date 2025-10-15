@@ -17,7 +17,7 @@ if ( ! $product->is_purchasable() ) {
     return;
 }
 
-echo wc_get_stock_html( $product ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+// Ne pas afficher le message de stock automatique : echo wc_get_stock_html( $product );
 
 if ( $product->is_in_stock() ) : ?>
 
@@ -171,4 +171,18 @@ if ( $product->is_in_stock() ) : ?>
 
     })();
     </script>
+
+<?php else : ?>
+    <!-- Produit en rupture de stock - Bouton disabled comme dans card-product-item -->
+    <div class="mb-2 d-flex justify-content-center">
+        <button type="button"
+                class="view-all-link view-all-link-disabled w-100 d-flex align-items-center justify-content-center"
+                disabled
+                style="gap:.5rem; pointer-events: none; cursor: not-allowed; opacity: 0.8;"
+                aria-label="<?php echo esc_attr( sprintf( __( '« %s » en rupture de stock', 'woocommerce' ), $product->get_name() ) ); ?>">
+            <span class="d-none d-xl-inline">en rupture de stock</span>
+            <span class="d-inline d-xl-none">rupture</span>
+            &nbsp;&nbsp;<i class="d-none d-xl-inline bi bi-exclamation-triangle"></i>
+        </button>
+    </div>
 <?php endif;

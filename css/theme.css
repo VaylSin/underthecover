@@ -19989,16 +19989,22 @@ body.search-results .site {
   background-color: #bc3365 !important;
   color: #fff !important;
   cursor: not-allowed !important;
-  opacity: 0.8;
-  pointer-events: none;
+  opacity: 0.8 !important;
+  pointer-events: none !important;
+  transition: none !important;
 }
-.product_item .view-all-link-disabled:hover, .product_item .view-all-link-disabled:focus {
+.product_item .view-all-link-disabled:hover, .product_item .view-all-link-disabled:focus, .product_item .view-all-link-disabled:active, .product_item .view-all-link-disabled:focus-visible {
   background-color: #bc3365 !important;
   color: #fff !important;
+  opacity: 0.8 !important;
   transform: none !important;
+  box-shadow: none !important;
 }
-.product_item .view-all-link-disabled svg {
+.product_item .view-all-link-disabled svg,
+.product_item .view-all-link-disabled i,
+.product_item .view-all-link-disabled span {
   transform: none !important;
+  transition: none !important;
 }
 .product_item .view-all-link-disabled .bi-exclamation-triangle {
   opacity: 1 !important;
